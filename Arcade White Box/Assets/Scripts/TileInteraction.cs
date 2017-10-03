@@ -9,13 +9,14 @@ public class TileInteraction : MonoBehaviour
     [SerializeField] private GameObject[] tempObjects;
 
     private Transform highlighterTransform;
+    private PlayerManager _playerLink;
 
 
     void Start()
     { 
         highlighterTransform = tileHighlighter.GetComponent<Transform>();
-  
 
+        _playerLink = GameObject.Find("Game Manager").GetComponent<PlayerManager>();
         tileHighlighter.SetActive(false);
     }
 
