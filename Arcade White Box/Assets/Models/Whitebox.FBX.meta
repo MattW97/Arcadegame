@@ -1,0 +1,299 @@
+fileFormatVersion: 2
+guid: ff036897af1876440af2c0389d8467c9
+timeCreated: 1506946777
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Air Hockey
+    100002: Air Hockey001
+    100004: Arcade Cabinet
+    100006: Arcade Cabinet Alt
+    100008: Arcade Cabinet Alt001
+    100010: Arcade Cabinet Alt002
+    100012: Arcade Cabinet004
+    100014: Arcade Cabinet005
+    100016: Arcade Cabinet006
+    100018: Arcade Cabinet007
+    100020: Arcade Cabinet008
+    100022: Arcade Cabinet009
+    100024: Arcade Cabinet010
+    100026: Chair
+    100028: Counter
+    100030: Door
+    100032: Door2
+    100034: Floor
+    100036: Floor001
+    100038: Front Desk
+    100040: Kitchen
+    100042: Railing
+    100044: Railing001
+    100046: Railing002
+    100048: Railing003
+    100050: Railing004
+    100052: Railing005
+    100054: Seat
+    100056: Seat001
+    100058: Seat002
+    100060: Seat003
+    100062: Seat004
+    100064: Seat005
+    100066: Seat006
+    100068: Seat007
+    100070: Small wall
+    100072: Stairs
+    100074: Stairs001
+    100076: Table
+    100078: Table001
+    100080: Vending Machine
+    100082: Vending Machine001
+    100084: Vending Machine002
+    100086: Vending Machine003
+    100088: //RootNode
+    400000: Air Hockey
+    400002: Air Hockey001
+    400004: Arcade Cabinet
+    400006: Arcade Cabinet Alt
+    400008: Arcade Cabinet Alt001
+    400010: Arcade Cabinet Alt002
+    400012: Arcade Cabinet004
+    400014: Arcade Cabinet005
+    400016: Arcade Cabinet006
+    400018: Arcade Cabinet007
+    400020: Arcade Cabinet008
+    400022: Arcade Cabinet009
+    400024: Arcade Cabinet010
+    400026: Chair
+    400028: Counter
+    400030: Door
+    400032: Door2
+    400034: Floor
+    400036: Floor001
+    400038: Front Desk
+    400040: Kitchen
+    400042: Railing
+    400044: Railing001
+    400046: Railing002
+    400048: Railing003
+    400050: Railing004
+    400052: Railing005
+    400054: Seat
+    400056: Seat001
+    400058: Seat002
+    400060: Seat003
+    400062: Seat004
+    400064: Seat005
+    400066: Seat006
+    400068: Seat007
+    400070: Small wall
+    400072: Stairs
+    400074: Stairs001
+    400076: Table
+    400078: Table001
+    400080: Vending Machine
+    400082: Vending Machine001
+    400084: Vending Machine002
+    400086: Vending Machine003
+    400088: //RootNode
+    2300000: Air Hockey
+    2300002: Air Hockey001
+    2300004: Arcade Cabinet
+    2300006: Arcade Cabinet Alt
+    2300008: Arcade Cabinet Alt001
+    2300010: Arcade Cabinet Alt002
+    2300012: Arcade Cabinet004
+    2300014: Arcade Cabinet005
+    2300016: Arcade Cabinet006
+    2300018: Arcade Cabinet007
+    2300020: Arcade Cabinet008
+    2300022: Arcade Cabinet009
+    2300024: Arcade Cabinet010
+    2300026: Chair
+    2300028: Counter
+    2300030: Door
+    2300032: Door2
+    2300034: Floor
+    2300036: Floor001
+    2300038: Front Desk
+    2300040: Kitchen
+    2300042: Railing
+    2300044: Railing001
+    2300046: Railing002
+    2300048: Railing003
+    2300050: Railing004
+    2300052: Railing005
+    2300054: Seat
+    2300056: Seat001
+    2300058: Seat002
+    2300060: Seat003
+    2300062: Seat004
+    2300064: Seat005
+    2300066: Seat006
+    2300068: Seat007
+    2300070: Small wall
+    2300072: Stairs
+    2300074: Stairs001
+    2300076: Table
+    2300078: Table001
+    2300080: Vending Machine
+    2300082: Vending Machine001
+    2300084: Vending Machine002
+    2300086: Vending Machine003
+    3300000: Air Hockey
+    3300002: Air Hockey001
+    3300004: Arcade Cabinet
+    3300006: Arcade Cabinet Alt
+    3300008: Arcade Cabinet Alt001
+    3300010: Arcade Cabinet Alt002
+    3300012: Arcade Cabinet004
+    3300014: Arcade Cabinet005
+    3300016: Arcade Cabinet006
+    3300018: Arcade Cabinet007
+    3300020: Arcade Cabinet008
+    3300022: Arcade Cabinet009
+    3300024: Arcade Cabinet010
+    3300026: Chair
+    3300028: Counter
+    3300030: Door
+    3300032: Door2
+    3300034: Floor
+    3300036: Floor001
+    3300038: Front Desk
+    3300040: Kitchen
+    3300042: Railing
+    3300044: Railing001
+    3300046: Railing002
+    3300048: Railing003
+    3300050: Railing004
+    3300052: Railing005
+    3300054: Seat
+    3300056: Seat001
+    3300058: Seat002
+    3300060: Seat003
+    3300062: Seat004
+    3300064: Seat005
+    3300066: Seat006
+    3300068: Seat007
+    3300070: Small wall
+    3300072: Stairs
+    3300074: Stairs001
+    3300076: Table
+    3300078: Table001
+    3300080: Vending Machine
+    3300082: Vending Machine001
+    3300084: Vending Machine002
+    3300086: Vending Machine003
+    4300000: Arcade Cabinet
+    4300002: Floor
+    4300004: Door
+    4300006: Door2
+    4300008: Arcade Cabinet004
+    4300010: Arcade Cabinet005
+    4300012: Arcade Cabinet006
+    4300014: Arcade Cabinet007
+    4300016: Arcade Cabinet008
+    4300018: Arcade Cabinet009
+    4300020: Arcade Cabinet010
+    4300022: Front Desk
+    4300024: Chair
+    4300026: Air Hockey
+    4300028: Arcade Cabinet Alt
+    4300030: Arcade Cabinet Alt001
+    4300032: Air Hockey001
+    4300034: Arcade Cabinet Alt002
+    4300036: Floor001
+    4300038: Small wall
+    4300040: Stairs
+    4300042: Kitchen
+    4300044: Counter
+    4300046: Table
+    4300048: Table001
+    4300050: Seat
+    4300052: Seat001
+    4300054: Seat002
+    4300056: Seat003
+    4300058: Seat004
+    4300060: Seat005
+    4300062: Seat006
+    4300064: Seat007
+    4300066: Vending Machine
+    4300068: Vending Machine001
+    4300070: Vending Machine002
+    4300072: Vending Machine003
+    4300074: Railing
+    4300076: Railing001
+    4300078: Railing002
+    4300080: Railing003
+    4300082: Railing004
+    4300084: Railing005
+    4300086: Stairs001
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
