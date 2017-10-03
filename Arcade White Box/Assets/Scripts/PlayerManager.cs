@@ -83,7 +83,7 @@ public class PlayerManager : MonoBehaviour {
 
     public bool CheckCanAfford(float price)
     {
-        if (CurrentCash - price > 0)
+        if (CurrentCash - price > -1)
             return true;
 
         else
@@ -92,7 +92,7 @@ public class PlayerManager : MonoBehaviour {
 
     public void OnPurchase(GameObject purchase)
     {
-       BasicObject actualItem = purchase.gameObject.GetComponent<BasicObject>();
+        BasicObject actualItem = purchase.gameObject.GetComponent<BasicObject>();
         CurrentCash -= actualItem.GameCost;
         CurrentExpenses += actualItem.RunningCost;
     }

@@ -75,6 +75,10 @@ public class TimeAndCalendar : MonoBehaviour {
         {
             StartTimerX3();
         }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            StartTimerX10();
+        }
 
     }
 
@@ -165,6 +169,12 @@ public class TimeAndCalendar : MonoBehaviour {
     {
         StopTimer();
         InvokeRepeating("MinuteIncrement", 0, 0.33f);
+    }
+
+    private void StartTimerX10()
+    {
+        StopTimer();
+        InvokeRepeating("MinuteIncrement", 0, 0.01f);
     }
 
     private string LeadingZero(int n)

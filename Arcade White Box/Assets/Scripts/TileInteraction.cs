@@ -12,6 +12,8 @@ public class TileInteraction : MonoBehaviour
     private Transform highlighterTransform;
     private BasicObject currentSelectedObject;
 
+    private PlayerManager _playerLink;
+
     void Start()
     { 
         highlighterTransform = tileHighlighter.GetComponent<Transform>();
@@ -19,6 +21,8 @@ public class TileInteraction : MonoBehaviour
         currentSelectedObject = null;
 
         tileHighlighter.SetActive(false);
+
+        _playerLink = this.gameObject.GetComponent<PlayerManager>();
     }
 
     void Update()
@@ -48,9 +52,19 @@ public class TileInteraction : MonoBehaviour
                     {
                         NullSelectedObject();
 
-                        GameObject newObject = Instantiate(tempObjects[0], hitInfo.collider.gameObject.transform.position, tempObjects[0].transform.rotation);
-                        newObject.GetComponent<BasicObject>().PlacedOnTile = hitInfo.collider.gameObject.GetComponent<Tile>();
-                        hitInfo.collider.gameObject.GetComponent<Tile>().SetTileType(Tile.TileType.Object);
+                        if (_playerLink.CheckCanAfford(2000.0f))
+                            {
+
+                            GameObject newObject = Instantiate(tempObjects[0], hitInfo.collider.gameObject.transform.position, tempObjects[0].transform.rotation);
+                            _playerLink.OnPurchase(newObject);
+                            newObject.GetComponent<BasicObject>().PlacedOnTile = hitInfo.collider.gameObject.GetComponent<Tile>();
+                            hitInfo.collider.gameObject.GetComponent<Tile>().SetTileType(Tile.TileType.Object);
+                        }
+                        else
+                        {
+                            print("cant afford");
+                            //put something here to tell the player they are poor
+                        }
                     }
                 }
                 else if (hitInfo.collider.gameObject.GetComponent<Tile>().GetTileType() == Tile.TileType.Impassable)
@@ -92,6 +106,9 @@ public class TileInteraction : MonoBehaviour
             {
                 currentSelectedObject.PlacedOnTile.SetTileType(Tile.TileType.Passable);
                 Destroy(currentSelectedObject.gameObject);
+
+                _playerLink.CurrentExpenses -= currentSelectedObject.GetComponent<BasicObject>().RunningCost;
+
                 currentSelectedObject = null;
             }
 
