@@ -5,16 +5,18 @@ using UnityEngine;
 public class TileInteraction : MonoBehaviour
 {
     [SerializeField] private GameObject tileHighlighter;
-    [SerializeField] private Material canPlace, cantPlace, testerMat;
+    [SerializeField] private Material canPlace, cantPlace;
     [SerializeField] private GameObject[] tempObjects;
 
+    private bool rotatingObject;
     private Transform highlighterTransform;
-
+    private BasicObject currentSelectedObject;
 
     void Start()
     { 
         highlighterTransform = tileHighlighter.GetComponent<Transform>();
-  
+
+        currentSelectedObject = null;
 
         tileHighlighter.SetActive(false);
     }
@@ -22,6 +24,7 @@ public class TileInteraction : MonoBehaviour
     void Update()
     {
         TileSelection();
+        ObjectInteraction();
     }
 
     private void TileSelection()
@@ -30,8 +33,6 @@ public class TileInteraction : MonoBehaviour
 
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
         { 
-
-            // tile
             if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Tile") == 0)
             {
                 if (tileHighlighter.activeSelf == false)
@@ -45,9 +46,10 @@ public class TileInteraction : MonoBehaviour
 
                     if (Input.GetMouseButtonDown(0))
                     {
-                       GameObject newObject = Instantiate(tempObjects[0], hitInfo.collider.gameObject.transform.position, tempObjects[0].transform.rotation);
-                        newObject.GetComponent<BasicObject>().setTile(hitInfo.collider.gameObject.GetComponent<Tile>());
-                        //set tile as occupied
+                        NullSelectedObject();
+
+                        GameObject newObject = Instantiate(tempObjects[0], hitInfo.collider.gameObject.transform.position, tempObjects[0].transform.rotation);
+                        newObject.GetComponent<BasicObject>().PlacedOnTile = hitInfo.collider.gameObject.GetComponent<Tile>();
                         hitInfo.collider.gameObject.GetComponent<Tile>().SetTileType(Tile.TileType.Object);
                     }
                 }
@@ -59,20 +61,19 @@ public class TileInteraction : MonoBehaviour
                 Vector3 highlighterPosition = hitInfo.collider.transform.position;
                 highlighterPosition.y = highlighterPosition.y + 0.5f;
                 highlighterTransform.position = highlighterPosition;
-
-               
             }
-
-            // object
-            if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Object") == 0)
+            else if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Object") == 0)
             {
-                if (Input.GetMouseButton(1))
+                tileHighlighter.SetActive(false);
+
+                if(Input.GetMouseButtonDown(0))
                 {
-                    hitInfo.collider.gameObject.GetComponent<BasicObject>().Cleanup();
-                    Destroy(hitInfo.collider.gameObject);
+                    NullSelectedObject();
+
+                    currentSelectedObject = hitInfo.collider.gameObject.GetComponent<BasicObject>();
+                    currentSelectedObject.Selected = true;
                 }
             }
-
         }
         else
         {
@@ -83,20 +84,34 @@ public class TileInteraction : MonoBehaviour
         }
     }
 
-    private void switchModel(GameObject currentlySelectedObject)
+    private void ObjectInteraction()
     {
-
-        if (tileHighlighter.transform.childCount > 0)
+        if(currentSelectedObject)
         {
-            for (int i = 0; i < tileHighlighter.transform.childCount; i++)
+            if(Input.GetKeyDown(KeyCode.Delete))
             {
-                Destroy(tileHighlighter.transform.GetChild(i));
+                currentSelectedObject.PlacedOnTile.SetTileType(Tile.TileType.Passable);
+                Destroy(currentSelectedObject.gameObject);
+                currentSelectedObject = null;
+            }
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, 0.0f, 90.0f);
+            }
+            else if(Input.GetKeyDown(KeyCode.Q))
+            {
+                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, 0.0f, -90.0f);
             }
         }
+    }
 
-        GameObject childObject = Instantiate(currentlySelectedObject);
-        childObject.transform.parent = tileHighlighter.transform;
-        childObject.GetComponent<Renderer>().material = testerMat;
-        
+    private void NullSelectedObject()
+    {
+        if (currentSelectedObject)
+        {
+            currentSelectedObject.Selected = false;
+            currentSelectedObject = null;
+        }
     }
 }

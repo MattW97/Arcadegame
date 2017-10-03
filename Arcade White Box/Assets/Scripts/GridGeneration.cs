@@ -12,7 +12,7 @@ public class GridGeneration : MonoBehaviour
 
     void Start()
     {
-        tileHolder = new GameObject("Tile Holder");
+        tileHolder = new GameObject("Grid Tiles");
 
         gridTiles = new List<Tile>();
 
@@ -60,16 +60,6 @@ public class GridGeneration : MonoBehaviour
         Tile newTile = tileGameObject.GetComponent<Tile>();
 
         newTile.SetCoordinates(coordinates);
-
-        if(Random.Range(0, 2) == 0)
-        {
-            newTile.SetTileType(Tile.TileType.Passable);
-        }
-        else
-        {
-            newTile.SetTileType(Tile.TileType.Impassable);
-        }
-
-        
+        newTile.SetTileType(Tile.TileType.Passable);
     }
 }

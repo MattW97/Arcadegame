@@ -2,16 +2,55 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BasicObject : MonoBehaviour {
-
-    private Tile placedOnTile;
-
+public class BasicObject : MonoBehaviour
+{
     [SerializeField] private string gameName, description;
-    [SerializeField] private float gameCost, machineCost, runningCost, machineMaintenenceCost;
-    [SerializeField] private int minNumberOfPlaysBeforeBreak, maxNumberOfPlaysBeforeBreak;
+    [SerializeField] private float gameCost, machineCost, runningCost, maintenenceCost;
+    [SerializeField] private int minDurability, maxDurability;
+    [SerializeField] private GameObject selectionMesh;
 
-
+    private bool selected;
     private int numOfPlays;
+    private Tile placedOnTile;
+    private Transform selectionTransform;
+
+    void Awake()
+    {
+        selectionTransform = selectionMesh.GetComponent<Transform>();
+        selectionMesh.SetActive(false);
+        Selected = false;
+    }
+
+    void Update()
+    {
+        if(Selected)
+        {
+            PulseScale();
+        }
+    }
+
+    void OnMouseOver()
+    {
+        selectionMesh.SetActive(true);
+    }
+
+    void OnMouseExit()
+    {   
+        if(!Selected)
+        {
+            selectionMesh.SetActive(false);
+        }
+    }
+
+    private void PulseScale()
+    {
+        selectionTransform.localScale = new Vector3(Mathf.PingPong(Time.time, 0.2f) + 1.0f, Mathf.PingPong(Time.time, 0.2f) + 1.0f, Mathf.PingPong(Time.time, 0.2f) + 1.0f);
+    }
+
+    public void IncrementPlays()
+    {
+        numOfPlays++;
+    }
 
     public string GameName
     {
@@ -78,65 +117,74 @@ public class BasicObject : MonoBehaviour {
         }
     }
 
-    public float MachineMaintenenceCost
+    public float MaintenenceCost
     {
         get
         {
-            return machineMaintenenceCost;
+            return maintenenceCost;
         }
 
         set
         {
-            machineMaintenenceCost = value;
+            maintenenceCost = value;
         }
     }
 
-    public int MinNumberOfPlaysBeforeBreak
+    public int MinDurability
     {
         get
         {
-            return minNumberOfPlaysBeforeBreak;
+            return minDurability;
         }
 
         set
         {
-            minNumberOfPlaysBeforeBreak = value;
+            minDurability = value;
         }
     }
 
-    public int MaxNumberOfPlaysBeforeBreak
+    public int MaxDurability
     {
         get
         {
-            return maxNumberOfPlaysBeforeBreak;
+            return MaxDurability;
         }
 
         set
         {
-            maxNumberOfPlaysBeforeBreak = value;
+            MaxDurability = value;
         }
     }
 
-    // Use this for initialization
-    void Start() {
-
-    }
-
-    // Update is called once per frame
-    void Update() {
-
-    }
-
-    //call this BEFORE destroying the object this script is attached to.
-    public void Cleanup()
+    public bool Selected
     {
-        placedOnTile.SetTileType(Tile.TileType.Passable);
+        get
+        {
+            return selected;
+        }
+
+        set
+        {
+            selected = value;
+
+            if(!selected)
+            {
+                selectionTransform.localScale = new Vector3(1, 1, 1);
+                selectionMesh.SetActive(false);
+            }
+        }
     }
 
-    public void setTile(Tile newTile)
+    public Tile PlacedOnTile
     {
-        placedOnTile = newTile;
-    }
+        get
+        {
+            return placedOnTile;
+        }
 
-    
+        set
+        {
+            placedOnTile = value;
+        }
+    }
 }
