@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseAI : MonoBehaviour {
+public class BaseAI : Entity {
     [SerializeField] private float hireCost, wageCost;
 
     public float HireCost
