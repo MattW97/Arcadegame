@@ -7,8 +7,8 @@ public class LevelManager : MonoBehaviour {
     public enum ArcadeOpeningStatus { Open, Closed }
     private ArcadeOpeningStatus arcadeStatus = ArcadeOpeningStatus.Closed;
 
-    private List<BasicObject> allObjectsInLevel;
-    private List<BasicObject> allMachineObjects; //change to type machineObject
+    private List<PlaceableObject> allObjectsInLevel;
+    private List<Machine> allMachineObjects; //change to type machineObject
 
     private List<BaseAI> allStaff;
 
@@ -58,7 +58,7 @@ public class LevelManager : MonoBehaviour {
     private float TotalExpenses()
     {
         float cost = 0 + rentCost;
-        foreach(BasicObject obj in allMachineObjects)
+        foreach(Machine obj in allMachineObjects)
         {
             cost += obj.RunningCost;
         }

@@ -90,11 +90,16 @@ public class PlayerManager : MonoBehaviour {
             return false;
     }
 
-    public void OnPurchase(GameObject purchase)
+    // when a machine has been purchased;
+    public void OnMachinePurchase(Machine purchase)
     {
-        BasicObject actualItem = purchase.gameObject.GetComponent<BasicObject>();
-        CurrentCash -= actualItem.GameCost;
-        CurrentExpenses += actualItem.RunningCost;
+        CurrentCash -= purchase.BuyCost;
+        currentExpenses += purchase.RunningCost;
+    }
+
+    public void OnBuildingPartPurchase(PlaceableObject purchase)
+    {
+        CurrentCash -= purchase.BuyCost;
     }
 
     public void ClosingTime()
