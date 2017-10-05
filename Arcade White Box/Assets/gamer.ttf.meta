@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: f6b1e5398f366cc498507df07702f45d
+timeCreated: 1507035134
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Heavy Weight Gamer
+  fontNames:
+  - Heavy Weight Gamer
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

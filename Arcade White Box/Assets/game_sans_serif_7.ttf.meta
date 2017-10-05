@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 06d6a672e4685b94396d13be25bb767f
+timeCreated: 1507035406
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Game Sans Serif 7
+  fontNames:
+  - Game Sans Serif 7
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
