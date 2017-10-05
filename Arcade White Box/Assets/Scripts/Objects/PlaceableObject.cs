@@ -43,7 +43,6 @@ public class PlaceableObject : Entity {
     protected void PulseScale()
     {
         selectionTransform.localScale = new Vector3(Mathf.PingPong(Time.time, 0.2f) + 1.0f, Mathf.PingPong(Time.time, 0.2f) + 1.0f, Mathf.PingPong(Time.time, 0.2f) + 1.0f);
-        print("hello");
     }
 
     public bool Selected
