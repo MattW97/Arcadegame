@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/GEORGE'S SCENE.unity
+- path: Assets/Matt New Scene.unity
   isLoaded: 1
   isActive: 1
