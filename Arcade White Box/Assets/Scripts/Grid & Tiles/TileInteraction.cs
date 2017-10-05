@@ -6,7 +6,7 @@ public class TileInteraction : MonoBehaviour
 {
     [SerializeField] private GameObject tileHighlighter;
     [SerializeField] private Material canPlace, cantPlace;
-    [SerializeField] private GameObject[] tempObjects;
+    [SerializeField] private PlaceableObject[] tempObjects;
     [SerializeField] private PlaceableObject tempPlaceObject;
 
     private bool rotatingObject;
@@ -14,6 +14,8 @@ public class TileInteraction : MonoBehaviour
     private PlaceableObject currentSelectedObject;
 
     private PlayerManager _playerLink;
+
+    private int objectSwitchVariable = 0;
 
     void Start()
     { 
@@ -30,6 +32,11 @@ public class TileInteraction : MonoBehaviour
     {
         TileSelection();
         ObjectInteraction();
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            switchCurrentObject();
+        }
     }
 
     private void TileSelection()
@@ -57,7 +64,7 @@ public class TileInteraction : MonoBehaviour
                         if (_playerLink.CheckCanAfford(tempPlaceObject.BuyCost))
                             {
 
-                            GameObject newObject = Instantiate(tempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, tempObjects[0].transform.rotation);
+                            GameObject newObject = Instantiate(tempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, tempPlaceObject.transform.rotation);
                             if (CheckIfMachineOrPlaceable(tempPlaceObject))
                             {
                                 _playerLink.OnMachinePurchase(tempPlaceObject as Machine);
@@ -126,11 +133,11 @@ public class TileInteraction : MonoBehaviour
                 if (CheckIfMachineOrPlaceable(currentSelectedObject))
                 {
                     _playerLink.CurrentCash += currentSelectedObject.returnAmount();
+                    _playerLink.CurrentExpenses -= currentSelectedObject.GetComponent<Machine>().RunningCost;
                 }
                 else if (!CheckIfMachineOrPlaceable(currentSelectedObject))
                 {
                     _playerLink.CurrentCash += currentSelectedObject.returnAmount();
-                    _playerLink.CurrentExpenses -= currentSelectedObject.GetComponent<Machine>().RunningCost;
                 }
 
 
@@ -139,11 +146,11 @@ public class TileInteraction : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, 0.0f, 90.0f);
+                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, 90.0f, 0.0f);
             }
             else if(Input.GetKeyDown(KeyCode.Q))
             {
-                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, 0.0f, -90.0f);
+                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, -90.0f, 0.0f);
             }
         }
     }
@@ -172,5 +179,17 @@ public class TileInteraction : MonoBehaviour
             return false;
         }
 
+    }
+
+    private void switchCurrentObject()
+    {
+
+        if (objectSwitchVariable == tempObjects.Length - 1)
+        {
+            objectSwitchVariable = 0;
+        }
+        else
+            objectSwitchVariable++;
+        tempPlaceObject = tempObjects[objectSwitchVariable];
     }
 }
