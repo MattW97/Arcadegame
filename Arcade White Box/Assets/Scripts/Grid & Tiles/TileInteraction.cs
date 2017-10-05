@@ -1,12 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TileInteraction : MonoBehaviour
 {
     [SerializeField] private GameObject tileHighlighter;
     [SerializeField] private Material canPlace, cantPlace;
-    [SerializeField] private GameObject[] tempObjects;
+    [SerializeField] private PlaceableObject[] tempObjects;
     [SerializeField] private PlaceableObject tempPlaceObject;
 
     private bool rotatingObject;
@@ -14,6 +15,21 @@ public class TileInteraction : MonoBehaviour
     private PlaceableObject currentSelectedObject;
 
     private PlayerManager _playerLink;
+
+    private int objectSwitchVariable = 0;
+
+    public PlaceableObject TempPlaceObject
+    {
+        get
+        {
+            return tempPlaceObject;
+        }
+
+        set
+        {
+            tempPlaceObject = value;
+        }
+    }
 
     void Start()
     { 
@@ -30,6 +46,11 @@ public class TileInteraction : MonoBehaviour
     {
         TileSelection();
         ObjectInteraction();
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            switchCurrentObject();
+        }
     }
 
     private void TileSelection()
@@ -37,71 +58,74 @@ public class TileInteraction : MonoBehaviour
         RaycastHit hitInfo;
         // raycast
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
-        { 
-            if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Tile") == 0)
+        {
+            if (!OverUI())
             {
-                // tileHighlighter activation
-                if (tileHighlighter.activeSelf == false)
+                if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Tile") == 0)
                 {
-                    tileHighlighter.SetActive(true);
+                    // tileHighlighter activation
+                    if (tileHighlighter.activeSelf == false)
+                    {
+                        tileHighlighter.SetActive(true);
+                    }
+                    // placing objects check
+                    if (hitInfo.collider.gameObject.GetComponent<Tile>().GetTileType() == Tile.TileType.Passable)
+                    {
+                        tileHighlighter.GetComponent<Renderer>().material = canPlace;
+
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            NullSelectedObject();
+
+                            if (_playerLink.CheckCanAfford(TempPlaceObject.BuyCost))
+                            {
+
+                                GameObject newObject = Instantiate(TempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, TempPlaceObject.transform.rotation);
+                                if (CheckIfMachineOrPlaceable(TempPlaceObject))
+                                {
+                                    _playerLink.OnMachinePurchase(TempPlaceObject as Machine);
+                                }
+                                else if (!CheckIfMachineOrPlaceable(TempPlaceObject))
+                                {
+                                    _playerLink.OnBuildingPartPurchase(TempPlaceObject);
+                                }
+                                else
+                                {
+                                    print("you done fucked up son");
+                                }
+
+                                newObject.GetComponent<PlaceableObject>().PlacedOnTile = hitInfo.collider.gameObject.GetComponent<Tile>();
+                                hitInfo.collider.gameObject.GetComponent<Tile>().SetTileType(Tile.TileType.Object);
+                            }
+                            else
+                            {
+                                print("cant afford");
+                                //put something here to tell the player they are poor
+                            }
+                        }
+                    }
+
+                    else if (hitInfo.collider.gameObject.GetComponent<Tile>().GetTileType() == Tile.TileType.Impassable)
+                    {
+                        tileHighlighter.GetComponent<Renderer>().material = cantPlace;
+                    }
+
+                    Vector3 highlighterPosition = hitInfo.collider.transform.position;
+                    highlighterPosition.y = highlighterPosition.y + 0.5f;
+                    highlighterTransform.position = highlighterPosition;
                 }
-                // placing objects check
-                if (hitInfo.collider.gameObject.GetComponent<Tile>().GetTileType() == Tile.TileType.Passable)
+                // selecting object
+                else if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Object") == 0)
                 {
-                    tileHighlighter.GetComponent<Renderer>().material = canPlace;
+                    tileHighlighter.SetActive(false);
 
                     if (Input.GetMouseButtonDown(0))
                     {
                         NullSelectedObject();
 
-                        if (_playerLink.CheckCanAfford(tempPlaceObject.BuyCost))
-                            {
-
-                            GameObject newObject = Instantiate(tempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, tempObjects[0].transform.rotation);
-                            if (CheckIfMachineOrPlaceable(tempPlaceObject))
-                            {
-                                _playerLink.OnMachinePurchase(tempPlaceObject as Machine);
-                            }
-                            else if (!CheckIfMachineOrPlaceable(tempPlaceObject))
-                            {
-                                _playerLink.OnBuildingPartPurchase(tempPlaceObject);
-                            }
-                            else
-                            {
-                                print("you done fucked up son");
-                            }
-
-                            newObject.GetComponent<PlaceableObject>().PlacedOnTile = hitInfo.collider.gameObject.GetComponent<Tile>();
-                            hitInfo.collider.gameObject.GetComponent<Tile>().SetTileType(Tile.TileType.Object);
-                        }
-                        else
-                        {
-                            print("cant afford");
-                            //put something here to tell the player they are poor
-                        }
+                        currentSelectedObject = hitInfo.collider.gameObject.GetComponent<PlaceableObject>();
+                        currentSelectedObject.Selected = true;
                     }
-                }
-
-                else if (hitInfo.collider.gameObject.GetComponent<Tile>().GetTileType() == Tile.TileType.Impassable)
-                {
-                    tileHighlighter.GetComponent<Renderer>().material = cantPlace;
-                }
-
-                Vector3 highlighterPosition = hitInfo.collider.transform.position;
-                highlighterPosition.y = highlighterPosition.y + 0.5f;
-                highlighterTransform.position = highlighterPosition;
-            }
-            // selecting object
-            else if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Object") == 0)
-            {
-                tileHighlighter.SetActive(false);
-
-                if(Input.GetMouseButtonDown(0))
-                {
-                    NullSelectedObject();
-
-                    currentSelectedObject = hitInfo.collider.gameObject.GetComponent<PlaceableObject>();
-                    currentSelectedObject.Selected = true;
                 }
             }
         }
@@ -126,11 +150,11 @@ public class TileInteraction : MonoBehaviour
                 if (CheckIfMachineOrPlaceable(currentSelectedObject))
                 {
                     _playerLink.CurrentCash += currentSelectedObject.returnAmount();
+                    _playerLink.CurrentExpenses -= currentSelectedObject.GetComponent<Machine>().RunningCost;
                 }
                 else if (!CheckIfMachineOrPlaceable(currentSelectedObject))
                 {
                     _playerLink.CurrentCash += currentSelectedObject.returnAmount();
-                    _playerLink.CurrentExpenses -= currentSelectedObject.GetComponent<Machine>().RunningCost;
                 }
 
 
@@ -139,11 +163,11 @@ public class TileInteraction : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, 0.0f, 90.0f);
+                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, 90.0f, 0.0f);
             }
             else if(Input.GetKeyDown(KeyCode.Q))
             {
-                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, 0.0f, -90.0f);
+                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, -90.0f, 0.0f);
             }
         }
     }
@@ -172,5 +196,29 @@ public class TileInteraction : MonoBehaviour
             return false;
         }
 
+    }
+
+    private void switchCurrentObject()
+    {
+
+        if (objectSwitchVariable == tempObjects.Length - 1)
+        {
+            objectSwitchVariable = 0;
+        }
+        else
+            objectSwitchVariable++;
+        TempPlaceObject = tempObjects[objectSwitchVariable];
+    }
+
+    private bool OverUI()
+    {
+        if(EventSystem.current.IsPointerOverGameObject())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

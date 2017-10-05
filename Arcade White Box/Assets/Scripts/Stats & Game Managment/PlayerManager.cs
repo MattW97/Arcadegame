@@ -51,6 +51,31 @@ public class PlayerManager : MonoBehaviour {
         }
     }
 
+    public string PlayerName
+    {
+        get
+        {
+            return playerName;
+        }
+
+        set
+        {
+            playerName = value;
+        }
+    }
+
+    public string ArcadeName
+    {
+        get
+        {
+            return arcadeName;
+        }
+
+        set
+        {
+            arcadeName = value;
+        }
+    }
 
     void Start () {
 
