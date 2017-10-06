@@ -8,11 +8,13 @@ public class GridGeneration : MonoBehaviour
     [SerializeField] private Vector2 gridSize;
 
     private List<Tile> gridTiles;
+    private PathingGrid pathingGrid;
     private GameObject tileHolder;
 
     void Start()
     {
         tileHolder = new GameObject("Grid Tiles");
+        pathingGrid = GetComponent<PathingGrid>();
 
         gridTiles = new List<Tile>();
 
@@ -50,6 +52,10 @@ public class GridGeneration : MonoBehaviour
             startPoint.z = (-(gridSize.y / 2)) + lengthOffset;
             startPoint.x++;
         }
+
+        pathingGrid.SetGridSize(gridSize);
+        pathingGrid.SetupGrid();
+        pathingGrid.CreateGrid();
     }
 
     private void NewTile(Vector3 tilePosition, Vector2 coordinates)

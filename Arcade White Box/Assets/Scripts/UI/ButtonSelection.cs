@@ -38,7 +38,7 @@ public class ButtonSelection : MonoBehaviour {
             if (buttonList[i] == theButton)
             {
                 _tileInteractionLink.TempPlaceObject = theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton;
-                print("assigned");
+                print(_tileInteractionLink.TempPlaceObject.name);
             }
         }
         this.gameObject.SetActive(false);

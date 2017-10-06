@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TileInteraction : MonoBehaviour
 {
@@ -14,6 +15,19 @@ public class TileInteraction : MonoBehaviour
     private PlaceableObject currentSelectedObject;
 
     private PlayerManager _playerLink;
+
+    public PlaceableObject TempPlaceObject
+    {
+        get
+        {
+            return tempPlaceObject;
+        }
+
+        set
+        {
+            tempPlaceObject = value;
+        }
+    }
 
     void Start()
     { 
@@ -36,7 +50,7 @@ public class TileInteraction : MonoBehaviour
     {
         RaycastHit hitInfo;
         // raycast
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo))
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitInfo) && !OverUI())
         { 
             if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Tile") == 0)
             {
@@ -54,17 +68,18 @@ public class TileInteraction : MonoBehaviour
                     {
                         NullSelectedObject();
 
-                        if (_playerLink.CheckCanAfford(tempPlaceObject.BuyCost))
+                        if (_playerLink.CheckCanAfford(TempPlaceObject.BuyCost))
                             {
 
-                            GameObject newObject = Instantiate(tempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, tempObjects[0].transform.rotation);
-                            if (CheckIfMachineOrPlaceable(tempPlaceObject))
+                            GameObject newObject = Instantiate(TempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, tempObjects[0].transform.rotation);
+
+                            if (CheckIfMachineOrPlaceable(TempPlaceObject))
                             {
-                                _playerLink.OnMachinePurchase(tempPlaceObject as Machine);
+                                _playerLink.OnMachinePurchase(TempPlaceObject as Machine);
                             }
-                            else if (!CheckIfMachineOrPlaceable(tempPlaceObject))
+                            else if (!CheckIfMachineOrPlaceable(TempPlaceObject))
                             {
-                                _playerLink.OnBuildingPartPurchase(tempPlaceObject);
+                                _playerLink.OnBuildingPartPurchase(TempPlaceObject);
                             }
                             else
                             {
@@ -172,5 +187,17 @@ public class TileInteraction : MonoBehaviour
             return false;
         }
 
+    }
+
+    private bool OverUI()
+    {
+        if(EventSystem.current.IsPointerOverGameObject())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

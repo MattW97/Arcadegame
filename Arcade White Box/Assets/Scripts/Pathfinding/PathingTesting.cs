@@ -25,8 +25,11 @@ public class PathingTesting : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             grid.CreateGrid();
+            print("Grid Created");
             testUnit.SetTarget(target);
+            print("Target Set");
             testUnit.GetNewPath();
+            print("New Path Given");
         }
     }
 }

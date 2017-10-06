@@ -4,15 +4,15 @@ using System.Collections.Generic;
 
 public class PathingGrid : MonoBehaviour 
 {	
-	public Vector2 gridWorldSize;
 	public float nodeRadius;
 	public LayerMask unwalkableMask;
 
 	private float nodeDiameter;
 	private int gridSizeX, gridSizeY;
 	private Node[,] grid;
+    private Vector2 gridWorldSize;
 
-	public void SetupGrid()
+    public void SetupGrid()
 	{
 		nodeDiameter = nodeRadius * 2;
 		gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
