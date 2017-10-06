@@ -148,30 +148,30 @@ public class TimeAndCalendar : MonoBehaviour {
         print("Current time is " + CurrentHour + ":" + CurrentMinute + ".");
     }
 
-    public void StartTimer()
+    private void StartTimer()
     {
         StopTimer();
         InvokeRepeating("MinuteIncrement", 0, 1.0f);
     }
 
-    public void StopTimer()
+    private void StopTimer()
     {
         CancelInvoke();
     }
 
-    public void StartTimerX2()
+    private void StartTimerX2()
     {
         StopTimer();
         InvokeRepeating("MinuteIncrement", 0, 0.5f);
     }
 
-    public void StartTimerX3()
+    private void StartTimerX3()
     {
         StopTimer();
         InvokeRepeating("MinuteIncrement", 0, 0.33f);
     }
 
-    public void StartTimerX10()
+    private void StartTimerX10()
     {
         StopTimer();
         InvokeRepeating("MinuteIncrement", 0, 0.01f);

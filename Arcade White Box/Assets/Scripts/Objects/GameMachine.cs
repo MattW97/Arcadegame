@@ -4,11 +4,22 @@ using UnityEngine;
 
 public class GameMachine : Machine {
 
-    [SerializeField] private float gameLength; //how long it takes to complete a game
+    [SerializeField] private int gameLength; //how long it takes to complete a game
     [SerializeField] private int gameReplayabilityPercent; //how likely a user is to play the game again IN PERCENT
     [SerializeField] private float playCost; //how much it costs a user to play the game
 
+    public int GameLength
+    {
+        get
+        {
+            return gameLength;
+        }
 
+        set
+        {
+            gameLength = value;
+        }
+    }
 
     public int GameReplayabilityPercent
     {
@@ -35,6 +46,6 @@ public class GameMachine : Machine {
 
     private void OnInteraction()
     {
-        _playerLink.CurrentCash += playCost;   
+        
     }
 }

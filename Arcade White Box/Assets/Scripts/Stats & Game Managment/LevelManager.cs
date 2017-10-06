@@ -64,8 +64,11 @@ public class LevelManager : MonoBehaviour {
         }
 
         foreach (BaseAI ai in allStaff)
-        {
-            cost += ai.WageCost;
+        {   
+            if(ai is Staff)
+            {
+                cost += (ai as Staff).WageCost;
+            }
         }
         return cost;
     }

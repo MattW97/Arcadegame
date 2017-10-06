@@ -11,14 +11,12 @@ public class PlaceableObject : Entity {
     protected bool selected;
     protected Tile placedOnTile;
     protected Transform selectionTransform;
-    protected PlayerManager _playerLink;
 
     protected virtual void Awake()
     {
         selectionTransform = selectionMesh.GetComponent<Transform>();
         selectionMesh.SetActive(false);
         Selected = false;
-        _playerLink = GameObject.Find("Game Manager").GetComponent<PlayerManager>();
     }
 
     protected virtual void Update()
@@ -94,8 +92,6 @@ public class PlaceableObject : Entity {
 
     public float returnAmount()
     {
-        float onePercent = BuyCost / 100;
-        return onePercent * percentReturnedUponSold;
-
+        return (BuyCost / percentReturnedUponSold);
     }
 }
