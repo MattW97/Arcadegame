@@ -4,26 +4,20 @@ using System.Collections.Generic;
 
 public class PathingGrid : MonoBehaviour 
 {	
-	[SerializeField] private float nodeRadius;
-    [SerializeField] private LayerMask unwalkableMask;
-    [SerializeField] private bool drawGrid;
+	public Vector2 gridWorldSize;
+	public float nodeRadius;
+	public LayerMask unwalkableMask;
 
 	private float nodeDiameter;
 	private int gridSizeX, gridSizeY;
-    private Vector2 gridWorldSize;
 	private Node[,] grid;
 
-    void Update()
-    {
-        
-    }
-
-    public void SetupGrid()
-    {
-        nodeDiameter = nodeRadius * 2;
-        gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
-        gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
-    }
+	public void SetupGrid()
+	{
+		nodeDiameter = nodeRadius * 2;
+		gridSizeX = Mathf.RoundToInt(gridWorldSize.x / nodeDiameter);
+		gridSizeY = Mathf.RoundToInt(gridWorldSize.y / nodeDiameter);
+	}
 
 	public void CreateGrid()
 	{	
@@ -97,19 +91,4 @@ public class PathingGrid : MonoBehaviour
 	{
 		this.gridWorldSize = gridWorldSize;
 	}
-
-    void OnDrawGizmos()
-    {
-        Gizmos.color = new Color(0.0f, 1.0f, 0.0f, 1.0f);
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
-
-        if (grid != null && drawGrid)
-        {
-            foreach (Node n in grid)
-            {
-                Gizmos.color = (n.GetWalkable() ? new Color(1, 1, 1, 0.2f) : new Color(1, 0, 0, 0.2f));
-                Gizmos.DrawWireCube(n.GetWorldPosition(), Vector3.one * (nodeDiameter - 0.1f));
-            }
-        }
-    }
 }
