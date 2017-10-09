@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class TimeAndCalendar : MonoBehaviour {
 
-    [SerializeField] private int startHour, startMinute;
-    [SerializeField] private int startYear, startMonth, startDay;
+    public int startHour, startMinute;
+    public int startYear, startMonth, startDay;
 
     [SerializeField] private List<string> dayNames, monthNames;
 
@@ -59,26 +59,6 @@ public class TimeAndCalendar : MonoBehaviour {
         UpdateTime();
         UpdateDate();
 
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            StopTimer();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            StartTimer();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            StartTimerX2();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            StartTimerX3();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            StartTimerX10();
-        }
 
     }
 

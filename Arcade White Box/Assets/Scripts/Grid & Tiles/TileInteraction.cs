@@ -37,7 +37,9 @@ public class TileInteraction : MonoBehaviour
 
         tileHighlighter.SetActive(false);
 
-        _playerLink = this.gameObject.GetComponent<PlayerManager>();
+       // _playerLink = this.gameObject.GetComponent<PlayerManager>();
+        //_playerLink = GameObject.Find("Game Manager").GetComponent<PlayerManager>();
+        _playerLink = GameManager.Instance.GetComponent<PlayerManager>(); 
     }
 
     void Update()
@@ -71,7 +73,7 @@ public class TileInteraction : MonoBehaviour
                         if (_playerLink.CheckCanAfford(TempPlaceObject.BuyCost))
                             {
 
-                            GameObject newObject = Instantiate(TempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, tempObjects[0].transform.rotation);
+                            GameObject newObject = Instantiate(TempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, TempPlaceObject.transform.rotation);
 
                             if (CheckIfMachineOrPlaceable(TempPlaceObject))
                             {
