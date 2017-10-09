@@ -62,6 +62,7 @@ public class Unit : MonoBehaviour
 			}
 
 			unitTransform.position = Vector3.MoveTowards(unitTransform.position, currentWaypoint, speed * Time.deltaTime);
+            unitTransform.LookAt(currentWaypoint);
 			yield return null;
 		}
 	}

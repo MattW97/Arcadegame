@@ -2,19 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Staff : BaseAI {
-
+public class Staff : BaseAI
+{
     public enum StaffType { Engineer, Builder, Vendor, Janitor, InspectionGuy, Entertainment}
 
-    [SerializeField] private StaffType staffType; // which type of staff
+    [SerializeField] private StaffType staffType;
+    [SerializeField] private float hireCost, wageCost;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public float HireCost
+    {
+        get
+        {
+            return hireCost;
+        }
+
+        set
+        {
+            hireCost = value;
+        }
+    }
+
+    public float WageCost
+    {
+        get
+        {
+            return wageCost;
+        }
+
+        set
+        {
+            wageCost = value;
+        }
+    }
+
 }
