@@ -12,6 +12,8 @@ public class PlayerManager : MonoBehaviour {
 
     private float currentCash, currentlyEarnedToday, currentExpenses;
 
+    private MainMenu Main;
+
     public float CurrentCash
     {
         get
@@ -68,12 +70,14 @@ public class PlayerManager : MonoBehaviour {
     {
         get
         {
-            return arcadeName;
+            return Main.newName;
+            //return arcadeName;
         }
 
         set
         {
-            arcadeName = value;
+            Main.newName = value;
+            //arcadeName = value;
         }
     }
 
