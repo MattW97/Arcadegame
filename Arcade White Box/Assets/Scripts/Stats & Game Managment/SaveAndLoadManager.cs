@@ -282,7 +282,12 @@ public class SaveAndLoadManager : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        _timeAndCalendarLink = GameManager.Instance.LevelManagerLink.GetComponent<TimeAndCalendar>();
+      //  _timeAndCalendarLink = GameManager.Instance.SceneManagerLink.GetComponent<TimeAndCalendar>();
+      // _playerManagerLink = GameManager.Instance.GetComponent<PlayerManager>();
+    }
+
+    void Start()
+    {
         _playerManagerLink = GameManager.Instance.GetComponent<PlayerManager>();
     }
 

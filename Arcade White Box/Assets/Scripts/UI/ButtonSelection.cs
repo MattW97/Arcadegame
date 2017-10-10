@@ -12,7 +12,7 @@ public class ButtonSelection : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        _tileInteractionLink = GameObject.Find("Level Manager").GetComponent<TileInteraction>();
+        _tileInteractionLink = GameManager.Instance.SceneManagerLink.GetComponent<TileInteraction>();
         setupButtons();
 	}
 	

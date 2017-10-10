@@ -5,12 +5,13 @@ using UnityEngine.EventSystems;
 
 public class TileInteraction : MonoBehaviour
 {
-    [SerializeField] private GameObject tileHighlighter;
+    [SerializeField] private GameObject tileHighlighterPrefab;
     [SerializeField] private Material canPlace, cantPlace;
     [SerializeField] private GameObject[] tempObjects;
     [SerializeField] private PlaceableObject tempPlaceObject;
 
     private bool rotatingObject;
+    private GameObject tileHighlighter;
     private Transform highlighterTransform;
     private PlaceableObject currentSelectedObject;
 
@@ -30,16 +31,18 @@ public class TileInteraction : MonoBehaviour
     }
 
     void Start()
-    { 
+    {
+        tileHighlighter = Instantiate(tileHighlighterPrefab, Vector3.zero, Quaternion.identity);
+
         highlighterTransform = tileHighlighter.GetComponent<Transform>();
 
         currentSelectedObject = null;
 
         tileHighlighter.SetActive(false);
 
-       // _playerLink = this.gameObject.GetComponent<PlayerManager>();
+        // _playerLink = this.gameObject.GetComponent<PlayerManager>();
         //_playerLink = GameObject.Find("Game Manager").GetComponent<PlayerManager>();
-        _playerLink = GameManager.Instance.GetComponent<PlayerManager>(); 
+        _playerLink = GameManager.Instance.SceneManagerLink.GetComponent<PlayerManager>();
     }
 
     void Update()

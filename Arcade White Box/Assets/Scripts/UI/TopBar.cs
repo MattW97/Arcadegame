@@ -10,10 +10,11 @@ public class TopBar : MonoBehaviour {
     private PlayerManager _playerLink;
 
 	// Use this for initialization
-	void Start () {
-
-        _playerLink = GameObject.Find("Game Manager").GetComponent<PlayerManager>();
-        arcadeName.text = _playerLink.ArcadeName;
+	void Start ()
+    {
+        print("TOP BAR");
+        _playerLink = GameManager.Instance.SceneManagerLink.GetComponent<PlayerManager>();
+        //arcadeName.text = _playerLink.ArcadeName;
         
 	}
 	

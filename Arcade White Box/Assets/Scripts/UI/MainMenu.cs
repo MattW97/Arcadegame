@@ -54,7 +54,7 @@ public class MainMenu : MonoBehaviour {
     }
     public void SandboxBuild()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("New Main Scene");
     }
 
     public void ReturnToMain()

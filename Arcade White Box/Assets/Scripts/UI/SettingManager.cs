@@ -4,10 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 
-public class SettingManager : MonoBehaviour {
-
-    
-
+public class SettingManager : MonoBehaviour
+{
     public Toggle fullscreenToggle;
     public Dropdown resolutionDropDown;
     public Slider musicVolumeSlider;
@@ -33,7 +31,7 @@ public class SettingManager : MonoBehaviour {
             resolutionDropDown.options.Add(new Dropdown.OptionData(resolution.ToString()));
         }
 
-        LoadSettings();
+        //LoadSettings();
                        
     }
 

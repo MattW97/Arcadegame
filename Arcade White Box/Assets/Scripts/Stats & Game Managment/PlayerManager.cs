@@ -83,15 +83,15 @@ public class PlayerManager : MonoBehaviour {
 
     void Start () {
 
+        print("PLAYER MANAGER");
         CurrentCash = startingCash;
- 
 		
 	}
 	
 	void Update () {
-        UpdateCashText();
-        UpdateEarningsText();
-        UpdateExpensesText();
+        //UpdateCashText();
+        //UpdateEarningsText();
+       // UpdateExpensesText();
 		
 	}
 

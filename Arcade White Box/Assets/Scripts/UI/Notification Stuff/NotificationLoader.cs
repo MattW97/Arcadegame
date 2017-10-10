@@ -70,7 +70,7 @@ public class NotificationLoader : MonoBehaviour {
     private string[] splitStrings(string stringToSplit, string[] array)
     {
         array = stringToSplit.Split('\n');
-        PrintAllNotifications(array);
+        //PrintAllNotifications(array);
         return array;
     }
 
