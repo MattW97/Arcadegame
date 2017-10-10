@@ -54,28 +54,28 @@ public class NotificationLoader : MonoBehaviour {
     void Start()
     {
         string posText = positiveNotifications.text;
-        splitStrings(posText, PosArray);
+        posArray = splitStrings(posText, PosArray);
 
         string negText = negativeNotifications.text;
-        splitStrings(negText, NegArray);
+        negArray = splitStrings(negText, NegArray);
 
         string specText = specialNotifications.text;
-        splitStrings(specText, SpecArray);
+        specArray = splitStrings(specText, SpecArray);
     }
 
     void Update()
     {
-        
     }
 
-    private void splitStrings(string stringToSplit, string[] array)
+    private string[] splitStrings(string stringToSplit, string[] array)
     {
         array = stringToSplit.Split('\n');
-        //printAllNotifications(array);
+        PrintAllNotifications(array);
+        return array;
     }
 
    
-    private void printAllNotifications(string[] array)
+    private void PrintAllNotifications(string[] array)
     {
         foreach (string str in array)
         {

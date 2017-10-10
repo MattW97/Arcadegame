@@ -11,8 +11,13 @@ public class NotificationAssignment : MonoBehaviour {
     [SerializeField]
     private GameObject notificationBanner;
 
+    private bool notificationOpen, animationOpen;
+    private Animator anim;
+
     [SerializeField]
     private Text displayTextField;
+
+
 
    // [SerializeField]
    // private Image displayImageField;
@@ -22,15 +27,23 @@ public class NotificationAssignment : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        posArray = this.GetComponent<NotificationLoader>().PosArray;
+        posArray = this.gameObject.GetComponent<NotificationLoader>().PosArray;
         negArray = this.GetComponent<NotificationLoader>().NegArray;
         specArray = this.GetComponent<NotificationLoader>().SpecArray;
+        anim = this.GetComponent<Animator>();
+        animationOpen = false;
+        notificationOpen = false;
+
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            randomSpecNotification();
+        }
 	}
 
     private void randomImage()
@@ -38,22 +51,85 @@ public class NotificationAssignment : MonoBehaviour {
         // displayImageField = allIconImages[Random.Range(0, allIconImages.Count)];
     }
 
-    public void positiveNotificationTrigger()
+    private IEnumerator PositiveNotificationTrigger()
     {
         displayTextField.text = posArray[Random.Range(0, posArray.Length)];
-        //randomImage();
+        PlayAnimation();
+        yield return new WaitForSeconds(lengthOfNotification);
+        PlayAnimation();
+        notificationOpen = false;
+
     }
 
-    public void negativeNotificationTrigger()
+    private IEnumerator NegativeNotificationTrigger()
     {
-        displayTextField.text = negArray[Random.Range(0, negArray.Length)];
-       // randomImage();
+        displayTextField.text = negArray[Random.Range(0, posArray.Length)];
+        PlayAnimation();
+        yield return new WaitForSeconds(lengthOfNotification);
+        PlayAnimation();
+        notificationOpen = false;
     }
 
-    public void specialNotificationTrigger()
+    private IEnumerator SpecialNotificationTrigger()
     {
-        // might to specific messages here. Will have to figure out a way of numbering them. Possibly just use the array ordering?
-        displayTextField.text = specArray[Random.Range(0, specArray.Length)];
-        // maybe a special image here? warning image/event based?
+        displayTextField.text = specArray[Random.Range(0, posArray.Length)];
+        PlayAnimation();
+        yield return new WaitForSeconds(lengthOfNotification);
+        PlayAnimation();
+        notificationOpen = false;
     }
+
+    private void PlayAnimation()
+    {
+        if (animationOpen)
+        {
+            anim.SetTrigger("Open");
+            animationOpen = false;
+        }
+        else
+        {
+            anim.SetTrigger("Open");
+            animationOpen = true;
+        }
+    }
+
+    public bool randomPosNotification()
+    {
+        if (!notificationOpen)
+        {
+            StartCoroutine(PositiveNotificationTrigger());
+            notificationOpen = true;
+            return true;
+        }
+        else
+            return false;
+
+    }
+
+    public bool randomNegNotification()
+    {
+        if (!notificationOpen)
+        {
+            StartCoroutine(NegativeNotificationTrigger());
+            notificationOpen = true;
+            return true;
+        }
+        else
+            return false;
+
+    }
+
+    public bool randomSpecNotification()
+    {
+        if (!notificationOpen)
+        {
+            StartCoroutine(SpecialNotificationTrigger());
+            notificationOpen = true;
+            return true;
+        }
+        else
+            return false;
+
+    }
+
 }
