@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseAI : Entity
+public class CustomerManager : MonoBehaviour
 {
+    private List<Customer> customers;
 }
