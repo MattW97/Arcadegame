@@ -71,7 +71,7 @@ public class TileInteraction : MonoBehaviour
                         if (_playerLink.CheckCanAfford(TempPlaceObject.BuyCost))
                             {
 
-                            GameObject newObject = Instantiate(TempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, tempObjects[0].transform.rotation);
+                            GameObject newObject = Instantiate(TempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, TempPlaceObject.transform.rotation);
 
                             if (CheckIfMachineOrPlaceable(TempPlaceObject))
                             {
