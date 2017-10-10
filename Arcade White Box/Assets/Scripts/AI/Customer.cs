@@ -6,27 +6,50 @@ public class Customer : BaseAI
 {   
     public enum CustomerState { Idle, GetFood, UseToilet, Wander, Leaving }
 
-    private CustomerState currentState;
-    private int age;
-    private float excitementLvl, angerLvl;
+    [SerializeField] private float needsTickRate;
+    [SerializeField] private Transform[] testFacilities;
+
+    private float needsCounter;
+    private float foodSensitivity, toiletSensitivity, excitmentSensitivity;
     private CustomerNeed[] customerNeeds;
     private Unit unitController;
     private CustomerText customerText;
+    private Transform customerTransform;
 
     void Start()
     {   
         unitController = GetComponent<Unit>();
         customerText = GetComponent<CustomerText>();
+        customerTransform = GetComponent<Transform>();
 
         // -- CREATING & ADDING NEEDS TO ARRAY --
         customerNeeds = new CustomerNeed[3];
 
-        customerNeeds[0] = new CustomerNeed(CustomerNeed.NeedType.Food, Random.Range(0.0f, 50.0f));
-        customerNeeds[1] = new CustomerNeed(CustomerNeed.NeedType.Toilet, Random.Range(0.0f, 50.0f));
-        customerNeeds[2] = new CustomerNeed(CustomerNeed.NeedType.Excitement, Random.Range(0.0f, 50.0f));
+        customerNeeds[0] = new CustomerNeed(CustomerNeed.NeedType.Food, Random.Range(0.0f, 30.0f));
+        customerNeeds[1] = new CustomerNeed(CustomerNeed.NeedType.Toilet, Random.Range(0.0f, 30.0f));
+        customerNeeds[2] = new CustomerNeed(CustomerNeed.NeedType.Excitement, Random.Range(0.0f, 30.0f));
         // --------------------------------------
 
+        // ----- SETTING SENSITIVITY VALUES -----
+        foodSensitivity = Random.Range(1.0f, 10.0f);
+        toiletSensitivity = Random.Range(1.0f, 10.0f);
+        excitmentSensitivity = Random.Range(1.0f, 10.0f);
+        // --------------------------------------
+
+        needsCounter = needsTickRate;
+
         GetNextState();
+    }
+
+    void Update()
+    {
+        NeedsTick();
+
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            unitController.SetTarget(FindNearestFacility(testFacilities));
+            unitController.GetNewPath();
+        }
     }
 
     private CustomerState GetNextState()
@@ -73,65 +96,42 @@ public class Customer : BaseAI
         return greatestNeed;
     }
 
-    private void HungerIncrease()
+    private void NeedsTick()
     {
-
-    }
-
-    private void ToiletIncrease()
-    {
-
-    }
-
-    public CustomerState CurrentState
-    {
-        get
+        needsCounter -= Time.deltaTime;
+        
+        if(needsCounter <= 0.0f)
         {
-            return currentState;
-        }
+            // FOOD
+            customerNeeds[0].NeedValue += foodSensitivity * 1.1f;
+            print("FOOD LVLS - " + customerNeeds[0].NeedValue);
 
-        set
-        {
-            currentState = value;
-        }
-    }
+            // TOILET
+            customerNeeds[1].NeedValue += toiletSensitivity * 1.1f;
+            print("TOILET LVLS - " + customerNeeds[1].NeedValue);
 
-    public int Age
-    {
-        get
-        {
-            return age;
-        }
+            // EXCITEMENT
+            customerNeeds[2].NeedValue += excitmentSensitivity * 1.1f;
+            print("EXCITEMENT LVLS - " + customerNeeds[2].NeedValue);
 
-        set
-        {
-            age = value;
+            GetNextState();
+            needsCounter = needsTickRate;
         }
     }
 
-    public float ExcitementLvl
+    private Transform FindNearestFacility(Transform[] facilities)
     {
-        get
+        Transform nearest = facilities[0];
+
+        foreach(Transform facility in facilities)
         {
-            return excitementLvl;
+            if(Vector3.Distance(customerTransform.position, facility.position) <= (Vector3.Distance(customerTransform.position, nearest.position)))
+            {
+                nearest = facility;
+            }
         }
 
-        set
-        {
-            excitementLvl = value;
-        }
-    }
-
-    public float AngerLvl
-    {
-        get
-        {
-            return angerLvl;
-        }
-
-        set
-        {
-            angerLvl = value;
-        }
+        print(nearest.name);
+        return nearest;
     }
 }

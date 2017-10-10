@@ -18,15 +18,6 @@ public class PathingTesting : MonoBehaviour
 
         pathfinding.SetGrid(grid);
         pathfinding.SetPathManager(manager);
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            grid.CreateGrid();
-            testUnit.SetTarget(target);
-            testUnit.GetNewPath();
-        }
+        grid.CreateGrid();
     }
 }
