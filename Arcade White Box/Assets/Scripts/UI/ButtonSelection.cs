@@ -26,7 +26,7 @@ public class ButtonSelection : MonoBehaviour {
         for (int i = 0; i < buttonList.Count; i++)
         {
             Button currentButton = buttonList[i];
-            //currentButton.image = placeableObjectsList[i].Icon;
+            currentButton.GetComponent<Image>().sprite = placeableObjectsList[i].Icon;
             currentButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton = placeableObjectsList[i];
         }
     }

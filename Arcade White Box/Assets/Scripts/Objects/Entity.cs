@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class Entity : MonoBehaviour {
 
-    [SerializeField] private Image icon;
+    [SerializeField] private Sprite icon;
     [SerializeField] private string Name;
 
 
-    public Image Icon
+    public Sprite Icon
     {
         get
         {

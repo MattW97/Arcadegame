@@ -100,6 +100,5 @@ public class GameManager : MonoBehaviour {
         GridManagerLink = Instantiate(gridManager);
         PathManagerLink = Instantiate(pathfindingManager);
 
-        print("HELLO");
     }
 }

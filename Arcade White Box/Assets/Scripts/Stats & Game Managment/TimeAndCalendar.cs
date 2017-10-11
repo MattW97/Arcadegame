@@ -59,8 +59,7 @@ public class TimeAndCalendar : MonoBehaviour {
 	void Update () {
 
         UpdateTime();
-       // UpdateDate();
-
+        // UpdateDate();
 
     }
 
@@ -142,7 +141,7 @@ public class TimeAndCalendar : MonoBehaviour {
     }
 
     public void StartTimerX2()
-    {
+    {   
         StopTimer();
         InvokeRepeating("MinuteIncrement", 0, 0.5f);
     }

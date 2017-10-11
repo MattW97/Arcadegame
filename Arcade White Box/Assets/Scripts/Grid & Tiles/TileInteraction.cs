@@ -40,8 +40,6 @@ public class TileInteraction : MonoBehaviour
 
         tileHighlighter.SetActive(false);
 
-        // _playerLink = this.gameObject.GetComponent<PlayerManager>();
-        //_playerLink = GameObject.Find("Game Manager").GetComponent<PlayerManager>();
         _playerLink = GameManager.Instance.SceneManagerLink.GetComponent<PlayerManager>();
     }
 

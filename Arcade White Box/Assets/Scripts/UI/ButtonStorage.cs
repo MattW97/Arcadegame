@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonStorage : MonoBehaviour {
 
@@ -21,6 +22,7 @@ public class ButtonStorage : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
 		
 	}
 	

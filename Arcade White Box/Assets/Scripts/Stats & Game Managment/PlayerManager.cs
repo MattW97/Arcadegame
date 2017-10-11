@@ -8,7 +8,6 @@ public class PlayerManager : MonoBehaviour {
     [SerializeField] private string playerName, arcadeName;
     [SerializeField] private float startingCash;
 
-    [SerializeField] private Text cashText, earningsText, expensesText;
 
     private float currentCash, currentlyEarnedToday, currentExpenses;
 
@@ -70,45 +69,27 @@ public class PlayerManager : MonoBehaviour {
     {
         get
         {
-            return Main.newName;
-            //return arcadeName;
+            //return Main.newName;
+            return arcadeName;
         }
 
         set
         {
-            Main.newName = value;
-            //arcadeName = value;
+            //Main.newName = value;
+            arcadeName = value;
         }
     }
 
     void Start () {
 
-        print("PLAYER MANAGER");
         CurrentCash = startingCash;
 		
 	}
 	
 	void Update () {
-        //UpdateCashText();
-        //UpdateEarningsText();
-       // UpdateExpensesText();
+
 		
 	}
-
-    private void UpdateCashText()
-    {
-        cashText.text = CurrentCash.ToString();
-    }
-
-    private void UpdateEarningsText()
-    {
-        earningsText.text = CurrentlyEarnedToday.ToString();
-    }
-
-    private void UpdateExpensesText()
-    {
-        expensesText.text = CurrentExpenses.ToString();
-    }
 
     public bool CheckCanAfford(float price)
     {
