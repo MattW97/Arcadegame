@@ -8,7 +8,7 @@ public class TestUI : MonoBehaviour {
     private GameObject buildMenu, editMenu, staffMenu, statsMenu, optionsMenu;
 
     [SerializeField]
-    private GameObject joystickMenu, friesMenu, stoolMenu, weirdThingAtTheBottomMenu;
+    private GameObject joystickMenu, friesMenu, stoolMenu, weirdThingAtTheBottomMenu, advisorMenu;
 
     // Use this for initialization
     void Start () {
@@ -125,6 +125,18 @@ public class TestUI : MonoBehaviour {
         else
         {
             weirdThingAtTheBottomMenu.SetActive(true);
+        }
+    }
+
+    public void AdvisorMenu()
+    {
+        if (advisorMenu.activeInHierarchy)
+        {
+            advisorMenu.SetActive(false);
+        }
+        else
+        {
+            advisorMenu.SetActive(true);
         }
     }
 }
