@@ -3,19 +3,21 @@ using System.Collections;
 
 public class Unit : MonoBehaviour 
 {	
-	public float speed;
+	[SerializeField] private float speed;
 
+    private bool reachedTarget;
 	private Vector3 originalPos;
-	private Transform target;
-	private Transform unitTransform;
+	private Transform target, unitTransform;
 	private Vector3[] path;
-	int targetIndex;
+	private int targetIndex;
 
-	void Awake()
+    void Awake()
 	{	
 		unitTransform = transform;
-		originalPos = unitTransform.position;		
-	}
+		originalPos = unitTransform.position;
+
+        ReachedTarget = false;
+    }
 
 	void OnEnable()
 	{
@@ -53,8 +55,9 @@ public class Unit : MonoBehaviour
 			{
 				targetIndex++;
 				if(targetIndex >= path.Length)
-				{	
-					unitTransform.position = originalPos;
+				{
+                    //unitTransform.position = originalPos;
+                    ReachedTarget = true;
 					yield break;
 				}
 
@@ -66,4 +69,17 @@ public class Unit : MonoBehaviour
 			yield return null;
 		}
 	}
+
+    public bool ReachedTarget
+    {
+        get
+        {
+            return reachedTarget;
+        }
+
+        set
+        {
+            reachedTarget = value;
+        }
+    }
 }
