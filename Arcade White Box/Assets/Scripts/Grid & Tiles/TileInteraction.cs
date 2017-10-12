@@ -74,7 +74,7 @@ public class TileInteraction : MonoBehaviour
                         if (_playerLink.CheckCanAfford(TempPlaceObject.BuyCost))
                             {
 
-                            GameObject newObject = Instantiate(TempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, TempPlaceObject.transform.rotation);
+                            GameObject newObject = Instantiate(TempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, tileHighlighter.transform.rotation);
 
                             if (CheckIfMachineOrPlaceable(TempPlaceObject))
                             {
@@ -157,11 +157,24 @@ public class TileInteraction : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, 0.0f, 90.0f);
+                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, 90.0f, 0.0f);
+                
             }
             else if(Input.GetKeyDown(KeyCode.Q))
             {
-                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, 0.0f, -90.0f);
+                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, -90.0f, 0.0f);
+            }
+        }
+        if (!currentSelectedObject)
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                tileHighlighter.transform.eulerAngles += new Vector3(0.0f, 90.0f, 0.0f);
+
+            }
+            else if (Input.GetKeyDown(KeyCode.Q))
+            {
+                tileHighlighter.transform.eulerAngles += new Vector3(0.0f, -90.0f, 0.0f);
             }
         }
     }
@@ -202,5 +215,11 @@ public class TileInteraction : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void switchTileHighlighterMesh(PlaceableObject objectToDrawMeshFrom)
+    {
+        Mesh newMesh = objectToDrawMeshFrom.GetComponentInChildren<MeshFilter>().sharedMesh;
+        tileHighlighter.GetComponent<MeshFilter>().sharedMesh = newMesh;
     }
 }

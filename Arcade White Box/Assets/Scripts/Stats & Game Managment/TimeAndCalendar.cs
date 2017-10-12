@@ -50,7 +50,7 @@ public class TimeAndCalendar : MonoBehaviour {
         currentMonth = startMonth;
         currentDay = startDay;
 
-        timeText = GameObject.Find("UI Canvas/Top Banner/Time").GetComponent<Text>();
+        timeText = GameObject.Find("UI Canvas/Top Banner/Time Panel/Time Text").GetComponent<Text>();
 
         StartTimer();
 	}
@@ -122,6 +122,7 @@ public class TimeAndCalendar : MonoBehaviour {
     {
         //do year stuff
         currentYear++;
+        this.gameObject.GetComponent<PlayerManager>().BeenBankrupt = false;
     }
 
     public void PrintTime()

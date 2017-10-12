@@ -9,6 +9,8 @@ public class MainMenu : MonoBehaviour {
     [SerializeField]
     private GameObject startMenu, gameModeMenu, careerMenu, sandboxMenu, loadMenu, optionsMenu, arcadeName;
 
+    public Object sceneToSwitchTo;
+
     private SettingManager settings;
 
     public string newName;
@@ -62,7 +64,7 @@ public class MainMenu : MonoBehaviour {
     }
     public void SandboxBuild()
     {
-        SceneManager.LoadScene("New Main With Options");
+        SceneManager.LoadScene(sceneToSwitchTo.name);
     }
 
     public void ReturnToMain()

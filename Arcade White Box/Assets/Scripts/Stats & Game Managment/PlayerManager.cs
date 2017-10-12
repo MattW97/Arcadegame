@@ -6,10 +6,14 @@ using UnityEngine.UI;
 public class PlayerManager : MonoBehaviour {
 
     [SerializeField] private string playerName, arcadeName;
-    [SerializeField] private float startingCash;
+    [SerializeField] private float startingCash, bankLoanAmount;
+    [SerializeField] private int bankInterestPercentage;
+
+    private bool beenBankrupt;
 
 
     private float currentCash, currentlyEarnedToday, currentExpenses;
+    private float amountOwedBank;
 
     private MainMenu Main;
 
@@ -80,14 +84,32 @@ public class PlayerManager : MonoBehaviour {
         }
     }
 
+    public bool BeenBankrupt
+    {
+        get
+        {
+            return beenBankrupt;
+        }
+
+        set
+        {
+            beenBankrupt = value;
+        }
+    }
+
     void Start () {
 
         CurrentCash = startingCash;
+        BeenBankrupt = false;
 		
 	}
 	
 	void Update () {
 
+        if (CurrentCash < 0)
+        {
+            Bankruptcy();
+        }
 		
 	}
 
@@ -116,6 +138,28 @@ public class PlayerManager : MonoBehaviour {
     {
         CurrentCash -= CurrentExpenses;
         CurrentlyEarnedToday = 0;
+    }
+
+    private void Bankruptcy()
+    {
+        if (BeenBankrupt)
+        {
+            //game over
+        }
+        else
+        {
+            // set advisor note about bank giving you a loan 
+            print("The bank has bailed you out. They will not do so again this year, if you go bankrupt again, you will lose your arcade!");
+            amountOwedBank = CurrentCash;
+            print("The bank has covered your expenses of " + -CurrentCash + " They have also credited you with " + bankLoanAmount + " ");
+            amountOwedBank = -amountOwedBank;
+            amountOwedBank += bankLoanAmount;
+            print("You must pay the bank " + amountOwedBank);
+            CurrentCash = 0;
+            CurrentCash += bankLoanAmount;
+            BeenBankrupt = true;
+        }
+
     }
  
     

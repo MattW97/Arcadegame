@@ -42,8 +42,6 @@ public class GameManager : MonoBehaviour {
         SceneManagerLink = Instantiate(sceneManager);
         GridManagerLink = Instantiate(gridManager);
         PathManagerLink = Instantiate(pathfindingManager);
-
-        print("HELLO");
     }
 
     public GameObject SceneManagerLink
