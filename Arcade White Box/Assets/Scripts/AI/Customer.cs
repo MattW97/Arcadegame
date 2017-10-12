@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Customer : BaseAI
 {   
-    public enum CustomerState { Idle, GetFood, UseToilet, Wander, Leaving }
-
     [SerializeField] private float needsTickRate;
     [SerializeField] private Transform[] testFacilities;
 
+    private bool usingFacility;
     private float needsCounter;
     private float foodSensitivity, toiletSensitivity, excitmentSensitivity;
     private CustomerNeed[] customerNeeds;
     private Unit unitController;
     private CustomerText customerText;
     private Transform customerTransform;
+    private IEnumerator usingFacilityWait; 
 
     void Start()
     {   
@@ -37,13 +37,19 @@ public class Customer : BaseAI
         // --------------------------------------
 
         needsCounter = needsTickRate;
-
-        GetNextState();
     }
 
     void Update()
     {
-        NeedsTick();
+        if(!usingFacility)
+        {
+            NeedsTick();
+
+            if(GetHightestNeed().NeedValue >= 120.0f)
+            {
+                GetNextState();
+            }
+        }
 
         if(Input.GetKeyDown(KeyCode.K))
         {
@@ -52,7 +58,7 @@ public class Customer : BaseAI
         }
     }
 
-    private CustomerState GetNextState()
+    private void GetNextState()
     {
         CustomerNeed need = GetHightestNeed();
 
@@ -60,24 +66,27 @@ public class Customer : BaseAI
         {
             print("Customer - " + Name1 + "s' current highest need is FOOD - " + need.NeedValue);
             customerText.ShowFoodText();
-            return CustomerState.GetFood;
+            unitController.SetTarget(FindNearestFacility(testFacilities));
+            unitController.GetNewPath();
+
         }
         else if((int)need.Need == (int)CustomerNeed.NeedType.Toilet)
         {
             print("Customer - " + Name1 + "s' current highest need is TOILET - " + need.NeedValue);
             customerText.ShowToiletText();
-            return CustomerState.UseToilet;
+            unitController.SetTarget(FindNearestFacility(testFacilities));
+            unitController.GetNewPath();
         }
         else if((int)need.Need == (int)CustomerNeed.NeedType.Excitement)
         {
             print("Customer - " + Name1 + "s' current highest need is EXCITEMENT - " + need.NeedValue);
             customerText.ShowExcitementText();
-            return CustomerState.UseToilet;
+            unitController.SetTarget(FindNearestFacility(testFacilities));
+            unitController.GetNewPath();
         }
         else
         {
             print("NO NEED COULD BE FOUND FOR: " + Name1);
-            return CustomerState.Idle;
         }
     }
 
@@ -102,19 +111,15 @@ public class Customer : BaseAI
         
         if(needsCounter <= 0.0f)
         {
-            // FOOD
             customerNeeds[0].NeedValue += foodSensitivity * 1.1f;
             print("FOOD LVLS - " + customerNeeds[0].NeedValue);
 
-            // TOILET
             customerNeeds[1].NeedValue += toiletSensitivity * 1.1f;
             print("TOILET LVLS - " + customerNeeds[1].NeedValue);
 
-            // EXCITEMENT
             customerNeeds[2].NeedValue += excitmentSensitivity * 1.1f;
             print("EXCITEMENT LVLS - " + customerNeeds[2].NeedValue);
 
-            GetNextState();
             needsCounter = needsTickRate;
         }
     }
@@ -133,5 +138,12 @@ public class Customer : BaseAI
 
         print(nearest.name);
         return nearest;
+    }
+
+    private IEnumerator UsingFacilitiesWait(float waitTime)
+    {
+        usingFacility = true;
+        yield return new WaitForSeconds(waitTime);
+        usingFacility = false;
     }
 }
