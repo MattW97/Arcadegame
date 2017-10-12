@@ -9,12 +9,42 @@ public class GameManager : MonoBehaviour {
     public static GameManager Instance;
 
     [SerializeField] private GameObject sceneManager, gridManager, pathfindingManager;
-
     [SerializeField] Scene mainScene;
 
     private GameObject sceneManagerLink, gridManagerLink, pathManagerLink;
-
+    private SettingManager settingManager;
     private string sceneName;
+
+
+    void Awake()
+    {
+        Instance = this;
+
+        SettingManager = GetComponent<SettingManager>();
+    }
+
+    void OnEnable()
+    { 
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene mainScene, LoadSceneMode mode)
+    {
+        // MAIN SCENE LOADING
+        if (mainScene.name == "New Main Scene")
+        {
+            Initialise();
+        }
+    }
+
+    private void Initialise()
+    {
+        SceneManagerLink = Instantiate(sceneManager);
+        GridManagerLink = Instantiate(gridManager);
+        PathManagerLink = Instantiate(pathfindingManager);
+
+        print("HELLO");
+    }
 
     public GameObject SceneManagerLink
     {
@@ -68,38 +98,16 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    // Use this for initialization
-    void Awake()
+    public SettingManager SettingManager
     {
-        Instance = this;
-
-    }
-
-    void OnEnable()
-    { 
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    void OnSceneLoaded(Scene mainScene, LoadSceneMode mode)
-    {
-        // MAIN SCENE LOADING
-        if (mainScene.name == "New Main Scene")
+        get
         {
-            Initialise();
+            return settingManager;
         }
-    }
 
-    void Start()
-    {
-        
-    }
-
-    private void Initialise()
-    {
-        SceneManagerLink = Instantiate(sceneManager);
-        GridManagerLink = Instantiate(gridManager);
-        PathManagerLink = Instantiate(pathfindingManager);
-
-        print("HELLO");
+        set
+        {
+            settingManager = value;
+        }
     }
 }
