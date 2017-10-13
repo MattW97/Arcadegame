@@ -7,13 +7,13 @@ public class PlayerManager : MonoBehaviour {
 
     [SerializeField] private string playerName, arcadeName;
     [SerializeField] private float startingCash, bankLoanAmount;
-    [SerializeField] private int bankInterestPercentage;
+    [SerializeField] private int bankRepaymentPercentage;
 
     private bool beenBankrupt;
 
 
     private float currentCash, currentlyEarnedToday, currentExpenses;
-    private float amountOwedBank;
+    private float amountOwedBank, dailyBankRepayment;
 
     private MainMenu Main;
 
@@ -137,6 +137,7 @@ public class PlayerManager : MonoBehaviour {
     public void ClosingTime()
     {
         CurrentCash -= CurrentExpenses;
+        CurrentCash -= dailyBankRepayment;
         CurrentlyEarnedToday = 0;
     }
 
@@ -145,6 +146,8 @@ public class PlayerManager : MonoBehaviour {
         if (BeenBankrupt)
         {
             //game over
+            // switch to cutscene scene showing out of business 
+            // explain to the player why they have failed
         }
         else
         {
@@ -159,6 +162,12 @@ public class PlayerManager : MonoBehaviour {
             CurrentCash += bankLoanAmount;
             BeenBankrupt = true;
         }
+
+    }
+
+    private void DeductBankPayment()
+    {
+        dailyBankRepayment = amountOwedBank / bankRepaymentPercentage;
 
     }
  

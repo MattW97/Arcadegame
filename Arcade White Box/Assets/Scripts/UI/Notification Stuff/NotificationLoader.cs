@@ -1,9 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Text;
-using System.IO;
-using System;
+
 
 public class NotificationLoader : MonoBehaviour {
 
@@ -51,25 +49,25 @@ public class NotificationLoader : MonoBehaviour {
         }
     }
 
-    void Start()
+    void Awake()
     {
         string posText = positiveNotifications.text;
-        posArray = splitStrings(posText, PosArray);
+        posArray = splitStrings(posText);
 
         string negText = negativeNotifications.text;
-        negArray = splitStrings(negText, NegArray);
+        negArray = splitStrings(negText);
 
         string specText = specialNotifications.text;
-        specArray = splitStrings(specText, SpecArray);
+        specArray = splitStrings(specText);
     }
 
     void Update()
     {
     }
 
-    private string[] splitStrings(string stringToSplit, string[] array)
+    private string[] splitStrings(string stringToSplit)
     {
-        array = stringToSplit.Split('\n');
+       string[] array = stringToSplit.Split('\n');
         //PrintAllNotifications(array);
         return array;
     }
@@ -81,6 +79,11 @@ public class NotificationLoader : MonoBehaviour {
         {
             print(str);
         }
+    }
+
+    public string[] getSpecArray()
+    {
+        return specArray;
     }
 
     

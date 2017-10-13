@@ -28,13 +28,11 @@ public class NotificationAssignment : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         posArray = this.gameObject.GetComponent<NotificationLoader>().PosArray;
-        negArray = this.GetComponent<NotificationLoader>().NegArray;
-        specArray = this.GetComponent<NotificationLoader>().SpecArray;
+        negArray = this.gameObject.GetComponent<NotificationLoader>().NegArray;
+        specArray = this.gameObject.GetComponent<NotificationLoader>().SpecArray;
         anim = this.GetComponent<Animator>();
         animationOpen = false;
         notificationOpen = false;
-
-		
 	}
 	
 	// Update is called once per frame
@@ -42,7 +40,7 @@ public class NotificationAssignment : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.J))
         {
-            randomSpecNotification();
+            randomPosNotification();
         }
 	}
 
@@ -63,7 +61,7 @@ public class NotificationAssignment : MonoBehaviour {
 
     private IEnumerator NegativeNotificationTrigger()
     {
-        displayTextField.text = negArray[Random.Range(0, posArray.Length)];
+        displayTextField.text = negArray[Random.Range(0, negArray.Length)];
         PlayAnimation();
         yield return new WaitForSeconds(lengthOfNotification);
         PlayAnimation();
@@ -72,7 +70,7 @@ public class NotificationAssignment : MonoBehaviour {
 
     private IEnumerator SpecialNotificationTrigger()
     {
-        displayTextField.text = specArray[Random.Range(0, posArray.Length)];
+        displayTextField.text = specArray[Random.Range(0, specArray.Length)];
         PlayAnimation();
         yield return new WaitForSeconds(lengthOfNotification);
         PlayAnimation();

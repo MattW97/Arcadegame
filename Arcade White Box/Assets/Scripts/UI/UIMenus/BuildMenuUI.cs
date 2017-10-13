@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestUI : MonoBehaviour {
+public class BuildMenuUI : MonoBehaviour {
 
     [SerializeField]
     private GameObject buildMenu, editMenu, staffMenu, statsMenu, optionsMenu;
@@ -138,5 +138,26 @@ public class TestUI : MonoBehaviour {
         {
             advisorMenu.SetActive(true);
         }
+    }
+
+    public void DeactivateAllBuildSubMenus()
+    {
+        joystickMenu.SetActive(false);
+        friesMenu.SetActive(false);
+        stoolMenu.SetActive(false);
+        weirdThingAtTheBottomMenu.SetActive(false);
+
+    }
+
+    public void DeactivateAllMenus()
+    {
+        buildMenu.SetActive(false);
+        editMenu.SetActive(false);
+        staffMenu.SetActive(false);
+        statsMenu.SetActive(false);
+        optionsMenu.SetActive(false);
+        DeactivateAllBuildSubMenus();
+        this.GetComponent<StaffMenuUI>().DeactivateAllStaffSubMenus();
+        
     }
 }
