@@ -13,10 +13,9 @@ public class SettingManager : MonoBehaviour
     { 
         gameSettings = new GameSettings();
 
-        LoadSettings();
-
         resolutions = Screen.resolutions;
 
+        LoadSettings();
     }
 
     public void SaveSettings()
@@ -37,6 +36,8 @@ public class SettingManager : MonoBehaviour
         return resolutions;
     }
 
+    /////////////////////// - Sets - ////////////////////////////////
+
     public void SetMusicVolume(float newMusicVolume)
     {
         gameSettings.musicVolume = newMusicVolume;
@@ -47,11 +48,26 @@ public class SettingManager : MonoBehaviour
         gameSettings.resolutionIndex = newResolution;
     }
 
+    public void SetTextureQuality(int textureQuality)
+    {
+        gameSettings.textureQuality = textureQuality;
+    }
+
+    public void SetAntialiasing(int antialiasing)
+    {
+        gameSettings.antialiasing = antialiasing;
+    }
+    public void SetVSync(int vSync)
+    {
+        gameSettings.vSync = vSync;
+    }
     public void SetFullscreen(bool ifFullscreen)
     {
         gameSettings.fullscreen = ifFullscreen;
     }
 
+    /////////////////////// - Gets - ////////////////////////////////
+    
     public float GetMusicVolume()
     {
         return gameSettings.musicVolume;
@@ -60,6 +76,21 @@ public class SettingManager : MonoBehaviour
     public int GetResolutionIndex()
     {
         return gameSettings.resolutionIndex;
+    }
+
+    public int GetTextureQuality()
+    {
+        return gameSettings.textureQuality;
+    }
+
+    public int GetAnitaliasing()
+    {
+        return gameSettings.antialiasing;
+    }
+
+    public int GetVSync()
+    {
+        return gameSettings.vSync;
     }
 
     public bool GetIfFullscreen()
