@@ -7,10 +7,12 @@ public class StatsMenuUI : MonoBehaviour {
     [SerializeField]
     private GameObject menu1, menu2, menu3, menu4;
 
+    private PlayerManager _playerLink;
+
     // Use this for initialization
     void Start () {
-		
-	}
+        _playerLink = GameManager.Instance.SceneManagerLink.GetComponent<PlayerManager>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -72,4 +74,5 @@ public class StatsMenuUI : MonoBehaviour {
             menu4.SetActive(true);
         }
     }
+
 }

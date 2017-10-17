@@ -8,7 +8,7 @@ public class LevelManager : MonoBehaviour {
     private ArcadeOpeningStatus arcadeStatus = ArcadeOpeningStatus.Closed;
 
     private List<PlaceableObject> allObjectsInLevel;
-    private List<Machine> allMachineObjects; //change to type machineObject
+    private List<Machine> allMachineObjects; 
 
     private List<BaseAI> allStaff;
 
@@ -22,8 +22,11 @@ public class LevelManager : MonoBehaviour {
     private int numOfCustomers, MAXNUMBEROFCUSTOMERS;
     private bool openOnce, closedOnce;
 
-	// Use this for initialization
-	void Start () {
+    private float profitEntranceFees, profitGamesMachines, profitFoodStalls, profitOther;
+    private float expensesTodaysPurchases, expensesStaffWages, expensesGamesMachineDailyCost, expensesGamesMachineMaintenance, expensesFoodStallsDailyCost, expensesFoodStallsMaintenance, expensesServiceMachineDailyCost, expensesServiceMachineMaintenanceCost;
+
+    // Use this for initialization
+    void Start () {
 
         _timeLink = this.gameObject.GetComponent<TimeAndCalendar>();
         _playerLink = this.gameObject.GetComponent<PlayerManager>();
@@ -81,5 +84,94 @@ public class LevelManager : MonoBehaviour {
     private void ClosingTime()
     {
         _playerLink.ClosingTime();
+        expensesServiceMachineMaintenanceCost = 0;
+        expensesGamesMachineMaintenance = 0;
+        expensesFoodStallsMaintenance = 0;
     }
+
+    public List<float> GetExpensesArray()
+    {
+        List<float> expensesArray = new List<float>();
+        expensesArray.Add(rentCost);
+        expensesArray.Add(expensesTodaysPurchases);
+        expensesArray.Add(expensesStaffWages);
+        expensesArray.Add(expensesGamesMachineDailyCost);
+        expensesArray.Add(expensesGamesMachineMaintenance);
+        expensesArray.Add(expensesFoodStallsDailyCost);
+        expensesArray.Add(expensesFoodStallsMaintenance);
+        expensesArray.Add(expensesServiceMachineDailyCost);
+        expensesArray.Add(expensesServiceMachineMaintenanceCost);
+
+        return expensesArray;
+    }
+
+    public void OnStaffHire(Staff staffMember)
+    {
+        expensesStaffWages += staffMember.WageCost;
+    }
+
+    public void OnStaffFire(Staff staffMember)
+    {
+        expensesStaffWages -= staffMember.WageCost;
+    }
+
+    public void OnMachineBreakdown(Machine brokenMachine)
+    {
+        if (brokenMachine is GameMachine)
+        {
+            expensesGamesMachineMaintenance += brokenMachine.MaintenanceCost;
+        }
+
+        else if (brokenMachine is ServiceMachine)
+        {
+            expensesServiceMachineMaintenanceCost += brokenMachine.MaintenanceCost;
+        }
+
+        else if (brokenMachine is FoodMachine)
+        {
+            expensesFoodStallsMaintenance += brokenMachine.MaintenanceCost;
+        }
+    }
+
+    public void OnMachinePurchase(Machine purchase)
+    {
+        _playerLink.CurrentCash -= purchase.BuyCost;
+        expensesTodaysPurchases += purchase.BuyCost;
+        if (purchase is GameMachine)
+        {
+            expensesGamesMachineDailyCost += purchase.RunningCost;
+        }
+        else if (purchase is ServiceMachine)
+        {
+            expensesServiceMachineDailyCost += purchase.RunningCost;
+        }
+        else if (purchase is FoodMachine)
+        {
+            expensesFoodStallsDailyCost += purchase.RunningCost;
+        }
+    }
+
+    public void OnBuildingPartPurchase(PlaceableObject purchase)
+    {
+        _playerLink.CurrentCash -= purchase.BuyCost;
+        expensesTodaysPurchases += purchase.BuyCost;
+    }
+
+    public float GetTotalExpenses()
+    {
+        float exp = 0.0f;
+        exp += rentCost;
+        exp += expensesTodaysPurchases;
+        exp += expensesStaffWages;
+        exp += expensesFoodStallsDailyCost;
+        exp += expensesFoodStallsMaintenance;
+        exp += expensesGamesMachineDailyCost;
+        exp += expensesGamesMachineMaintenance;
+        exp += expensesServiceMachineDailyCost;
+        exp += expensesServiceMachineMaintenanceCost;
+
+        return exp;
+
+    }
+
 }

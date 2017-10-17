@@ -78,11 +78,11 @@ public class TileInteraction : MonoBehaviour
 
                             if (CheckIfMachineOrPlaceable(TempPlaceObject))
                             {
-                                _playerLink.OnMachinePurchase(TempPlaceObject as Machine);
+                                GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().OnMachinePurchase(TempPlaceObject as Machine);
                             }
                             else if (!CheckIfMachineOrPlaceable(TempPlaceObject))
                             {
-                                _playerLink.OnBuildingPartPurchase(TempPlaceObject);
+                                GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().OnBuildingPartPurchase(TempPlaceObject);
                             }
                             else
                             {

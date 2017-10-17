@@ -12,6 +12,7 @@ public class PlayerManager : MonoBehaviour {
     private bool beenBankrupt;
 
 
+
     private float currentCash, currentlyEarnedToday, currentExpenses;
     private float amountOwedBank, dailyBankRepayment;
 
@@ -126,13 +127,9 @@ public class PlayerManager : MonoBehaviour {
     public void OnMachinePurchase(Machine purchase)
     {
         CurrentCash -= purchase.BuyCost;
-        currentExpenses += purchase.RunningCost;
+      //  expensesGamesMachineDailyCost += purchase.RunningCost;
     }
 
-    public void OnBuildingPartPurchase(PlaceableObject purchase)
-    {
-        CurrentCash -= purchase.BuyCost;
-    }
 
     public void ClosingTime()
     {
@@ -170,6 +167,8 @@ public class PlayerManager : MonoBehaviour {
         dailyBankRepayment = amountOwedBank / bankRepaymentPercentage;
 
     }
+
+
  
     
 }
