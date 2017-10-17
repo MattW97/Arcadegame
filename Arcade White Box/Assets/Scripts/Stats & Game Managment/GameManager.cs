@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
 
     private GameObject sceneManagerLink, gridManagerLink, pathManagerLink;
     private SettingManager settingManager;
+    private SoundManager soundManager;
     private string sceneName;
 
 
@@ -21,6 +22,8 @@ public class GameManager : MonoBehaviour {
         Instance = this;
 
         SettingManager = GetComponent<SettingManager>();
+
+        SoundManager = GetComponent<SoundManager>();
     }
 
     void OnEnable()
@@ -106,6 +109,19 @@ public class GameManager : MonoBehaviour {
         set
         {
             settingManager = value;
+        }
+    }
+
+    public SoundManager SoundManager
+    {
+        get
+        {
+            return soundManager;
+        }
+
+        set
+        {
+            soundManager = value;
         }
     }
 }
