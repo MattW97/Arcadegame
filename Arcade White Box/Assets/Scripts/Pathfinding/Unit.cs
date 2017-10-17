@@ -5,24 +5,17 @@ public class Unit : MonoBehaviour
 {	
 	[SerializeField] private float speed;
 
-    private bool reachedTarget;
-	private Vector3 originalPos;
+    private bool reachedTarget, followingPath;
 	private Transform target, unitTransform;
 	private Vector3[] path;
 	private int targetIndex;
 
     void Awake()
-	{	
-		unitTransform = transform;
-		originalPos = unitTransform.position;
+	{
+        unitTransform = GetComponent<Transform>();
 
         ReachedTarget = false;
     }
-
-	void OnEnable()
-	{
-		originalPos = unitTransform.position;
-	}
 
 	public void SetTarget(Transform target)
 	{
@@ -31,7 +24,9 @@ public class Unit : MonoBehaviour
 
 	public void GetNewPath()
 	{
-		PathManager.RequestPath(unitTransform.position, target.position, OnPathFound);
+        ReachedTarget = false;
+
+        PathManager.RequestPath(unitTransform.position, target.position, OnPathFound);
 	}
 
 	public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
@@ -45,8 +40,10 @@ public class Unit : MonoBehaviour
 		}
 	}
 
-	IEnumerator FollowPath()
+	private IEnumerator FollowPath()
 	{
+        FollowingPath = true;
+
 		Vector3 currentWaypoint = path[0];
 
 		while(true)
@@ -55,10 +52,10 @@ public class Unit : MonoBehaviour
 			{
 				targetIndex++;
 				if(targetIndex >= path.Length)
-				{
-                    //unitTransform.position = originalPos;
+                {
                     ReachedTarget = true;
-					yield break;
+                    FollowingPath = false;
+                    yield break;
 				}
 
 				currentWaypoint = path[targetIndex];
@@ -68,18 +65,31 @@ public class Unit : MonoBehaviour
             unitTransform.LookAt(currentWaypoint);
 			yield return null;
 		}
-	}
+    }
 
     public bool ReachedTarget
     {
         get
         {
-            return reachedTarget;
+            return ReachedTarget;
         }
 
         set
         {
-            reachedTarget = value;
+            ReachedTarget = value;
+        }
+    }
+
+    public bool FollowingPath
+    {
+        get
+        {
+            return followingPath;
+        }
+
+        set
+        {
+            followingPath = value;
         }
     }
 }

@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class Staff : BaseAI
 {
-    public enum StaffType { Engineer, Builder, Vendor, Janitor, InspectionGuy, Entertainment}
+    public enum StaffType { Tech, Janitor, Worker, Chef}
 
     [SerializeField] private StaffType staffType;
     [SerializeField] private float hireCost, wageCost;
+
+    private Unit unitController;
+
+    void Awake()
+    {
+        unitController = GetComponent<Unit>();
+    }
 
     public float HireCost
     {

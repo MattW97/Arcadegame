@@ -5,14 +5,17 @@ using UnityEngine;
 public class FaceCamera : MonoBehaviour
 {
     private Transform transformToFace;
+    private Transform cameraTransform;
 
     void Start()
     {
         transformToFace = GetComponent<Transform>();
+        cameraTransform = Camera.main.GetComponent<Transform>();
+
     }
 
     void Update()
     {
-        transformToFace.LookAt(Camera.main.transform.position, Vector3.forward);
+        transformToFace.LookAt(cameraTransform.position, Vector3.forward);
     }
 }
