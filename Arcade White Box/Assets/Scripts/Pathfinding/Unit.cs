@@ -71,12 +71,12 @@ public class Unit : MonoBehaviour
     {
         get
         {
-            return ReachedTarget;
+            return reachedTarget;
         }
 
         set
         {
-            ReachedTarget = value;
+            reachedTarget = value;
         }
     }
 
