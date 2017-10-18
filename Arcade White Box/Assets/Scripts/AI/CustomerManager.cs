@@ -44,9 +44,9 @@ public class CustomerManager : MonoBehaviour
 
     public void MassLeave()
     {
-        foreach(Customer currentCustomer in currentCustomers)
-        {   
-            currentCustomer.LeaveArcade();
+        for(int i = 0; i < currentCustomers.Count; i++)
+        {
+            currentCustomers[i].LeaveArcade();
         }
 
         currentCustomers.Clear();
