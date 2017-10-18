@@ -6,8 +6,9 @@ public class Customer : BaseAI
 {   
     [SerializeField] private float needsTickAmount, needsTickRate, needLimit;
 
-    private enum CustomerState { Idle, Moving, UsingFacility, TimesUp }
+    private enum CustomerState { Idle, Moving, UsingFacility, Leaving }
 
+    private bool usingFacility;
     private float needsCounter;
     private CustomerState currentState;
     private CustomerNeed[] customerNeeds;
@@ -33,6 +34,7 @@ public class Customer : BaseAI
         customerNeeds[Random.Range(0, customerNeeds.Length)].NeedValue = needLimit;
 
         needsCounter = needsTickAmount;
+        usingFacility = false;
         currentState = CustomerState.Idle;
     }
 
@@ -71,13 +73,29 @@ public class Customer : BaseAI
                 StartCoroutine(usingFacilityWait);
             }
         }
+        else if(currentState == CustomerState.Leaving)
+        {
+            if (unitController.ReachedTarget)
+            {   
+                Destroy(gameObject);
+            }
+        }
 
          NeedsTick();
     }
 
     public void LeaveArcade()
-    {
-        currentState = CustomerState.TimesUp;
+    {   
+        if(usingFacility)
+        {
+            StopCoroutine(usingFacilityWait);
+        }
+
+        unitController.StopCurrentPathing();
+        unitController.SetTarget(spawnLocation);
+        unitController.GetNewPath();
+
+        currentState = CustomerState.Leaving;
     }
 
     public void SetSpawnLocation(Transform spawnLocation)
@@ -132,9 +150,11 @@ public class Customer : BaseAI
 
     private IEnumerator UsingFacilitiesWait(float waitTime)
     {
+        usingFacility = true;
         highestNeed.NeedValue = 0.0f;
         currentState = CustomerState.UsingFacility;
         yield return new WaitForSeconds(waitTime);
         currentState = CustomerState.Idle;
+        usingFacility = false;
     }
 }

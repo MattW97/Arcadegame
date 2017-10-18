@@ -2,10 +2,11 @@
 using System.Collections;
 
 public class Unit : MonoBehaviour 
-{	
-	[SerializeField] private float speed;
+{
+    [SerializeField] [MinMaxRange(1.0f, 20.0f)] private MinMaxRange movementSpeed;
 
     private bool reachedTarget, followingPath;
+    private float setSpeed;
 	private Transform target, unitTransform;
 	private Vector3[] path;
 	private int targetIndex;
@@ -15,6 +16,7 @@ public class Unit : MonoBehaviour
         unitTransform = GetComponent<Transform>();
 
         ReachedTarget = false;
+        setSpeed = movementSpeed.GetRandomValue();
     }
 
 	public void SetTarget(Transform target)
@@ -40,6 +42,16 @@ public class Unit : MonoBehaviour
 		}
 	}
 
+    public void StopCurrentPathing()
+    {
+        if(FollowingPath)
+        {
+            StopCoroutine("FollowPath");
+            FollowingPath = false;
+            ReachedTarget = false;
+        }
+    }
+
 	private IEnumerator FollowPath()
 	{
         FollowingPath = true;
@@ -61,7 +73,7 @@ public class Unit : MonoBehaviour
 				currentWaypoint = path[targetIndex];
 			}
 
-			unitTransform.position = Vector3.MoveTowards(unitTransform.position, currentWaypoint, speed * Time.deltaTime);
+			unitTransform.position = Vector3.MoveTowards(unitTransform.position, currentWaypoint, setSpeed * Time.deltaTime);
             unitTransform.LookAt(currentWaypoint);
 			yield return null;
 		}
