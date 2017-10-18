@@ -30,13 +30,26 @@ public class TileInteraction : MonoBehaviour
         }
     }
 
+    public PlaceableObject CurrentSelectedObject
+    {
+        get
+        {
+            return currentSelectedObject;
+        }
+
+        set
+        {
+            currentSelectedObject = value;
+        }
+    }
+
     void Start()
     {
         tileHighlighter = Instantiate(tileHighlighterPrefab, Vector3.zero, Quaternion.identity);
 
         highlighterTransform = tileHighlighter.GetComponent<Transform>();
 
-        currentSelectedObject = null;
+        CurrentSelectedObject = null;
 
         tileHighlighter.SetActive(false);
 
@@ -118,8 +131,8 @@ public class TileInteraction : MonoBehaviour
                 {
                     NullSelectedObject();
 
-                    currentSelectedObject = hitInfo.collider.gameObject.GetComponent<PlaceableObject>();
-                    currentSelectedObject.Selected = true;
+                    CurrentSelectedObject = hitInfo.collider.gameObject.GetComponent<PlaceableObject>();
+                    CurrentSelectedObject.Selected = true;
                 }
             }
         }
@@ -134,38 +147,25 @@ public class TileInteraction : MonoBehaviour
 
     private void ObjectInteraction()
     {
-        if(currentSelectedObject)
+        if(CurrentSelectedObject)
         {
+            // remove this in full version or modify for hotkey
             if(Input.GetKeyDown(KeyCode.Delete))
             {
-                currentSelectedObject.PlacedOnTile.SetTileType(Tile.TileType.Passable);
-                Destroy(currentSelectedObject.gameObject);
-
-                if (CheckIfMachineOrPlaceable(currentSelectedObject))
-                {
-                    _playerLink.CurrentCash += currentSelectedObject.returnAmount();
-                }
-                else if (!CheckIfMachineOrPlaceable(currentSelectedObject))
-                {
-                    _playerLink.CurrentCash += currentSelectedObject.returnAmount();
-                    _playerLink.CurrentExpenses -= currentSelectedObject.GetComponent<Machine>().RunningCost;
-                }
-
-
-                currentSelectedObject = null;
+                DestroyCurrentlySelectedObject();
             }
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, 90.0f, 0.0f);
+                CurrentSelectedObject.transform.eulerAngles += new Vector3(0.0f, 90.0f, 0.0f);
                 
             }
             else if(Input.GetKeyDown(KeyCode.Q))
             {
-                currentSelectedObject.transform.eulerAngles += new Vector3(0.0f, -90.0f, 0.0f);
+                CurrentSelectedObject.transform.eulerAngles += new Vector3(0.0f, -90.0f, 0.0f);
             }
         }
-        if (!currentSelectedObject)
+        if (!CurrentSelectedObject)
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -181,10 +181,10 @@ public class TileInteraction : MonoBehaviour
 
     private void NullSelectedObject()
     {
-        if (currentSelectedObject)
+        if (CurrentSelectedObject)
         {
-            currentSelectedObject.Selected = false;
-            currentSelectedObject = null;
+            CurrentSelectedObject.Selected = false;
+            CurrentSelectedObject = null;
         }
     }
 
@@ -221,5 +221,22 @@ public class TileInteraction : MonoBehaviour
     {
         Mesh newMesh = objectToDrawMeshFrom.GetComponentInChildren<MeshFilter>().sharedMesh;
         tileHighlighter.GetComponent<MeshFilter>().sharedMesh = newMesh;
+    }
+
+    public void DestroyCurrentlySelectedObject()
+    {
+        CurrentSelectedObject.PlacedOnTile.SetTileType(Tile.TileType.Passable);
+        Destroy(CurrentSelectedObject.gameObject);
+
+        if (CheckIfMachineOrPlaceable(CurrentSelectedObject))
+        {
+            _playerLink.CurrentCash += CurrentSelectedObject.returnAmount();
+        }
+        else if (!CheckIfMachineOrPlaceable(CurrentSelectedObject))
+        {
+            _playerLink.CurrentCash += CurrentSelectedObject.returnAmount();
+           // GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().
+        }
+        CurrentSelectedObject = null;
     }
 }

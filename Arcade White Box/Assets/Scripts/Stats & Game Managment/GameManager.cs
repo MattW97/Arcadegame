@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour {
     void OnSceneLoaded(Scene mainScene, LoadSceneMode mode)
     {
         // MAIN SCENE LOADING
-        if (mainScene.name == "New Main Scene")
+        if (mainScene.name == "Main Scene")
         {
             Initialise();
         }
