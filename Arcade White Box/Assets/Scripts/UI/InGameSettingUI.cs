@@ -53,6 +53,11 @@ public class InGameSettingUI : MonoBehaviour
         resolutionDropDown.RefreshShownValue();
     }
 
+    void Update()
+    {
+        GameManager.Instance.SoundManager.InGameAudio();
+    }
+
     public void ChangeMusicVolume()
     {
         GameManager.Instance.SettingManager.SetMusicVolume(musicSlider.value);
