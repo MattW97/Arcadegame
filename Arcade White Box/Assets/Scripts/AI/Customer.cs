@@ -9,7 +9,7 @@ public class Customer : BaseAI
     private enum CustomerState { Idle, Moving, UsingFacility, Leaving }
 
     private bool usingFacility;
-    private float needsCounter;
+    private float needsCounter, speedFactor;
     private CustomerState currentState;
     private CustomerNeed[] customerNeeds;
     private CustomerNeed highestNeed;
@@ -17,13 +17,15 @@ public class Customer : BaseAI
     private CustomerText customerText;
     private Transform customerTransform, doorPosition;
     private Transform spawnLocation;
-    private IEnumerator usingFacilityWait; 
+    private IEnumerator usingFacilityWait;
+    private CustomerManager customerManager; 
 
     void Start()
     {   
         unitController = GetComponent<Unit>();
         customerText = GetComponent<CustomerText>();
         customerTransform = GetComponent<Transform>();
+        customerManager = CustomerManager.instance;
 
         customerNeeds = new CustomerNeed[3];
 
@@ -50,15 +52,15 @@ public class Customer : BaseAI
 
                 if ((int)customerNeed.Need == (int)CustomerNeed.NeedType.Food)
                 {
-                    unitController.SetTarget(FindNearestFacility(CustomerManager.instance.GetFoodStalls()));
+                    unitController.SetTarget(FindNearestFacility(customerManager.GetFoodStalls()));
                 }
                 else if ((int)customerNeed.Need == (int)CustomerNeed.NeedType.Toilet)
                 {
-                    unitController.SetTarget(FindNearestFacility(CustomerManager.instance.GetToilets()));
+                    unitController.SetTarget(FindNearestFacility(customerManager.GetToilets()));
                 }
                 else if ((int)customerNeed.Need == (int)CustomerNeed.NeedType.Excitement)
                 {
-                    unitController.SetTarget(FindNearestFacility(CustomerManager.instance.GetGameMachines()));
+                    unitController.SetTarget(FindNearestFacility(customerManager.GetGameMachines()));
                 }
 
                 unitController.GetNewPath();
@@ -81,7 +83,10 @@ public class Customer : BaseAI
             }
         }
 
-         NeedsTick();
+        NeedsTick();
+
+        speedFactor = customerManager.GetSpeedFactor();
+        unitController.SpeedFactor = speedFactor;
     }
 
     public void LeaveArcade()
@@ -120,32 +125,32 @@ public class Customer : BaseAI
 
     private void NeedsTick()
     {
-        needsCounter -= Time.deltaTime;
+        needsCounter -= Time.deltaTime * speedFactor;
         
         if(needsCounter <= 0.0f)
         {
             foreach (CustomerNeed need in customerNeeds)
             {
-                need.NeedValue += needsTickRate;
+                need.NeedValue += needsTickRate * speedFactor;
             }
 
             needsCounter = needsTickAmount;
         }
     }
 
-    private Transform FindNearestFacility(Transform[] facilities)
+    private Transform FindNearestFacility(List<Machine> facilities)
     {
-        Transform nearest = facilities[0];
+        Entity nearest = facilities[0];
 
-        foreach(Transform facility in facilities)
+        foreach(Entity facility in facilities)
         {
-            if(Vector3.Distance(customerTransform.position, facility.position) <= (Vector3.Distance(customerTransform.position, nearest.position)))
+            if(Vector3.Distance(customerTransform.position, facility.GetComponent<Transform>().position) <= (Vector3.Distance(customerTransform.position, nearest.GetComponent<Transform>().position)))
             {
                 nearest = facility;
             }
         }
 
-        return nearest;
+        return nearest.transform;
     }
 
     private IEnumerator UsingFacilitiesWait(float waitTime)
@@ -153,7 +158,7 @@ public class Customer : BaseAI
         usingFacility = true;
         highestNeed.NeedValue = 0.0f;
         currentState = CustomerState.UsingFacility;
-        yield return new WaitForSeconds(waitTime);
+        yield return new WaitForSeconds(waitTime / speedFactor);
         currentState = CustomerState.Idle;
         usingFacility = false;
     }

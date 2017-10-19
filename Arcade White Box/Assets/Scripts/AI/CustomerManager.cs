@@ -8,9 +8,12 @@ public class CustomerManager : MonoBehaviour
        
     [SerializeField] private Customer customer;
     [SerializeField] private Transform spawnLocation;
-    [SerializeField] private Transform[] toilets, foodStalls, gameMachines;
 
+    private float levelSpeedFactor;
     private List<Customer> currentCustomers;
+    private List<Machine> foodFacilities;
+    private List<Machine> gameMachines;
+    private List<Machine> toilets;
 
     void Awake()
     {
@@ -29,6 +32,19 @@ public class CustomerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J))
         {
             SpawnCustomers(1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            levelSpeedFactor = 1.0f;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            levelSpeedFactor = 2.0f;
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            levelSpeedFactor = 4.0f;
         }
     }
 
@@ -52,17 +68,22 @@ public class CustomerManager : MonoBehaviour
         currentCustomers.Clear();
     }
 
-    public Transform[] GetToilets()
+    public float GetSpeedFactor()
+    {
+        return levelSpeedFactor;
+    }
+
+    public List<Machine> GetToilets()
     {
         return toilets;
     }
 
-    public Transform[] GetFoodStalls()
+    public List<Machine> GetFoodStalls()
     {
-        return foodStalls;
+        return foodFacilities;
     }
 
-    public Transform[] GetGameMachines()
+    public List<Machine> GetGameMachines()
     {
         return gameMachines;
     }
