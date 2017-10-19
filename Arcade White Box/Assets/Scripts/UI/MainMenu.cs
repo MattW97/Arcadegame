@@ -64,7 +64,8 @@ public class MainMenu : MonoBehaviour {
     }
     public void SandboxBuild()
     {
-        SceneManager.LoadScene(sceneToSwitchTo.name);
+        SceneManager.LoadScene("Main Scene");
+        //SceneManager.LoadScene(sceneToSwitchTo.name);
     }
 
     public void ReturnToMain()
