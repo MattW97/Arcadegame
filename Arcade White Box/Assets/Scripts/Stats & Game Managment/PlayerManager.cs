@@ -102,6 +102,7 @@ public class PlayerManager : MonoBehaviour {
 
         CurrentCash = startingCash;
         BeenBankrupt = false;
+        GameManager.Instance.GetComponent<SaveAndLoadManager>().LoadData("TestSave");
 		
 	}
 	

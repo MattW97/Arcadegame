@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour {
         if (mainScene.name == "Main Scene")
         {
             Initialise();
+            this.gameObject.GetComponent<SaveAndLoadManager>().Initialise();
         }
     }
 

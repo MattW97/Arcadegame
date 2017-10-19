@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObjectInteractionScriptController : MonoBehaviour {
 
     [SerializeField]
-    private GameObject PlacedObjectInteractionMenu;
+    private GameObject PlacedObjectInteractionMenu, PlacingObjectInteractionMenu;
 
     private TileInteraction _tileInteractionLink;
 
@@ -25,6 +25,7 @@ public class ObjectInteractionScriptController : MonoBehaviour {
         }
         else
         {
+            PlacingObjectInteractionMenu.SetActive(false);
             PlacedObjectInteractionMenu.SetActive(true);
             PlacedObjectInteractionMenu.GetComponent<PlacedObjectInteractionMenuUI>().GetCurrentObject(_tileInteractionLink.CurrentSelectedObject);
         }

@@ -9,6 +9,7 @@ public class ButtonSelection : MonoBehaviour {
 
     [SerializeField] private List<PlaceableObject> placeableObjectsList;
     [SerializeField] private List<Button> buttonList;
+    [SerializeField] private GameObject _objectUILink;
 
 	// Use this for initialization
 	void Start () {
@@ -39,6 +40,8 @@ public class ButtonSelection : MonoBehaviour {
             {
                 _tileInteractionLink.TempPlaceObject = theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton;
                 _tileInteractionLink.switchTileHighlighterMesh(theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton);
+                _objectUILink.SetActive(true);
+                _objectUILink.GetComponent<PlacingObjectInteractionMenuUI>().GetCurrentObject(theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton);
             }
         }
         this.gameObject.SetActive(false);

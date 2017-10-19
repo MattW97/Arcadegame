@@ -88,6 +88,7 @@ public class TileInteraction : MonoBehaviour
                             {
 
                             GameObject newObject = Instantiate(TempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, tileHighlighter.transform.rotation);
+                            GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().allObjectsInLevel.Add(newObject);
 
                             if (CheckIfMachineOrPlaceable(TempPlaceObject))
                             {

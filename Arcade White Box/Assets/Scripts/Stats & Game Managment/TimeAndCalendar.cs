@@ -42,13 +42,52 @@ public class TimeAndCalendar : MonoBehaviour {
         }
     }
 
+    public int CurrentYear
+    {
+        get
+        {
+            return currentYear;
+        }
+
+        set
+        {
+            currentYear = value;
+        }
+    }
+
+    public int CurrentMonth
+    {
+        get
+        {
+            return currentMonth;
+        }
+
+        set
+        {
+            currentMonth = value;
+        }
+    }
+
+    public int CurrentDay
+    {
+        get
+        {
+            return currentDay;
+        }
+
+        set
+        {
+            currentDay = value;
+        }
+    }
+
     // Use this for initialization
     void Start () {
         CurrentHour = startHour;
         CurrentMinute = startMinute;
-        currentYear = startYear;
-        currentMonth = startMonth;
-        currentDay = startDay;
+        CurrentYear = startYear;
+        CurrentMonth = startMonth;
+        CurrentDay = startDay;
 
         timeText = GameObject.Find("UI Canvas/Top Banner/Time Panel/Time Text").GetComponent<Text>();
 
@@ -92,36 +131,36 @@ public class TimeAndCalendar : MonoBehaviour {
     private void DayIncrement()
     {
         // do daily stuff
-        if (currentDay == 29)
+        if (CurrentDay == 29)
         {
-            currentDay = 0;
+            CurrentDay = 0;
             MonthIncrement();
         }
         else
         {
-            currentDay++;
+            CurrentDay++;
         }
     }
 
     private void MonthIncrement()
     {
         // do month stuff
-        if (currentMonth == 11)
+        if (CurrentMonth == 11)
         {
-            currentMonth = 0;
+            CurrentMonth = 0;
             YearIncrement();
         }
 
         else
         {
-            currentMonth++;
+            CurrentMonth++;
         }
     }
 
     private void YearIncrement()
     {
         //do year stuff
-        currentYear++;
+        CurrentYear++;
         this.gameObject.GetComponent<PlayerManager>().BeenBankrupt = false;
     }
 
@@ -173,8 +212,8 @@ public class TimeAndCalendar : MonoBehaviour {
 
     private void UpdateDate()
     {
-        string day = LeadingZero(currentDay);
-        string month = LeadingZero(currentMonth);
-        dateText.text = ("" + day + "/" + month + "/" + currentYear + "");
+        string day = LeadingZero(CurrentDay);
+        string month = LeadingZero(CurrentMonth);
+        dateText.text = ("" + day + "/" + month + "/" + CurrentYear + "");
     }
 }

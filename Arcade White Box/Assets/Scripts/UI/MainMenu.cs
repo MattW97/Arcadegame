@@ -9,6 +9,9 @@ public class MainMenu : MonoBehaviour {
     [SerializeField]
     private GameObject startMenu, gameModeMenu, careerMenu, sandboxMenu, loadMenu, optionsMenu, arcadeName;
 
+    [SerializeField]
+    private Text arcadeNameTextField;
+
     public Object sceneToSwitchTo;
 
     private SettingManager settings;
@@ -64,6 +67,8 @@ public class MainMenu : MonoBehaviour {
     }
     public void SandboxBuild()
     {
+        GameManager.Instance.GetComponent<SaveAndLoadManager>().gameData.arcadeName = arcadeNameTextField.text;
+        GameManager.Instance.GetComponent<SaveAndLoadManager>().SaveData("TestSave");
         SceneManager.LoadScene(sceneToSwitchTo.name);
     }
 
@@ -76,4 +81,5 @@ public class MainMenu : MonoBehaviour {
         loadMenu.SetActive(false);
         optionsMenu.SetActive(false);
     }
+
 }

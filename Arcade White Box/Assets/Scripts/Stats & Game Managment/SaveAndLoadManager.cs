@@ -5,6 +5,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Runtime.Serialization.Formatters.Binary;
 
 /// <summary>
 /// Class for handling persistent game data
@@ -38,7 +39,7 @@ public class SaveAndLoadManager : MonoBehaviour
 
     #region Private Fields
 
-    private const string FILE_EXTENSION = ".xml";
+    private const string FILE_EXTENSION = ".lul";
 
     // Save Load Data
     private string saveFile;
@@ -129,43 +130,13 @@ public class SaveAndLoadManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Finds the value associated with the flag
-    /// </summary>
-    /// <param name="flagName"></param>
-    /// <returns></returns>
-    public int GetFlag(string flagName)
-    {
-        GameFlag flag = gameData.gameFlags.Find(x => x.flag == flagName);
-
-        // Create Non-existant flags but default to 0
-        if (flag == null)
-        {
-            SetFlag(flagName, 0);
-            return 0;
-        }
-
-        return flag.value;
-    }
-
-    /// <summary>
-    /// Checks if a particular level has been cleared yet or not
-    /// </summary>
-    /// <param name="level">Level to check</param>
-    /// <returns>True if cleared and false otherwise</returns>
-    public bool GetLevelCleared(int level)
-    {
-        return GetFlag("level" + level + "cleared") == 1 ? true : false;
-    }
-
-    /// <summary>
     /// Load game data from file for active use
+    /// THIS IS NO LONGER USED. LEFT IN FOR REFERENCE. CLEANUP TOWARDS FINAL VERSION!
     /// </summary>
     /// <param name="gameName"></param>
     /// <returns></returns>
     public void LoadGame(string gameName)
     {
-        CheckDirectory();
-
         // Assemble path to file to load game from
         String fullFilePath = SavePath + gameName + FILE_EXTENSION;
 
@@ -179,7 +150,7 @@ public class SaveAndLoadManager : MonoBehaviour
             // Deserialize the XML Save File (Using XmlSerializer instead of BinarySerializer)
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(GameData));
             XmlReader reader = XmlReader.Create(fs);
-            reader.Read(); //skip BOM
+            //reader.Read(); //skip BOM
             gameData = xmlSerializer.Deserialize(reader) as GameData;
 
             AssignValues(gameData);
@@ -194,11 +165,12 @@ public class SaveAndLoadManager : MonoBehaviour
 
     /// <summary>
     /// Save all game data to file
+    /// THIS IS NO LONGER USED. LEFT IN FOR REFERENCE. CLEANUP TOWARDS FINAL VERSION!
     /// </summary>
     /// <param name="saveFile"></param>
     public void SaveGame(string saveFile)
     {
-        CheckDirectory();
+        //CheckDirectory();
         
 
         // Update saveFile name
@@ -209,8 +181,7 @@ public class SaveAndLoadManager : MonoBehaviour
 
         this.saveFile = saveFile;
 
-        // FileStream fs = File.Create(GameDic.Instance.SavePath + saveFile);
-        GetValues();
+        //FileStream fs = File.Create(GameDic.Instance.SavePath + saveFile);
         UpdateSaveData(saveFile);
 
         string fullSavePath = SavePath + saveFile + FILE_EXTENSION;
@@ -235,6 +206,73 @@ public class SaveAndLoadManager : MonoBehaviour
         Debug.Log("Game Saved to " + fullSavePath);
     }
 
+
+    /// <summary>
+    /// Saves the current instantiation of the GameData class to a binary file.
+    /// </summary>
+    /// <param name="saveFileName"></param>
+    /// <returns></returns>
+    public void SaveData(string saveFileName)
+    {
+        if (!Directory.Exists("Saves"))
+            Directory.CreateDirectory("Saves");
+
+        string fullSavePath = SavePath + saveFileName + FILE_EXTENSION;
+
+
+        BinaryFormatter formatter = new BinaryFormatter();
+        FileStream saveFile = File.Create("Saves/save.lul");
+        // Create a file or open an old one up for writing to
+        if (!File.Exists(fullSavePath))
+        {
+            saveFile = File.Create(fullSavePath);
+        }
+        else
+        {
+            saveFile = File.OpenWrite(fullSavePath);
+        }
+
+        formatter.Serialize(saveFile, gameData);
+
+        saveFile.Close();
+    }
+
+    /// <summary>
+    /// Loads the @param file name and overwrites the current instantiation of the GameData class with the values contained within the save file.
+    /// </summary>
+    /// <param name="saveFileName"></param>
+    /// <returns></returns>
+    public void LoadData(string saveFileName)
+    {
+        string fullFilePath = SavePath + saveFileName + FILE_EXTENSION;
+        if (File.Exists(fullFilePath))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream saveFile = File.Open(fullFilePath, FileMode.Open);
+
+            gameData = (GameData)formatter.Deserialize(saveFile);
+            AssignValues(gameData);
+
+            saveFile.Close();
+        }
+        else
+        {
+            Debug.Log("Save file " + fullFilePath + " does not exist!");
+        }
+    }
+
+    public void UpdateGameData()
+    {
+        gameData.arcadeName = _playerManagerLink.ArcadeName;
+        gameData.playerName = _playerManagerLink.PlayerName;
+        gameData.playerMoney = _playerManagerLink.CurrentCash;
+        gameData.currentMinute = _timeAndCalendarLink.CurrentMinute;
+        gameData.currentHour = _timeAndCalendarLink.CurrentHour;
+        gameData.currentDay = _timeAndCalendarLink.CurrentDay;
+        gameData.currentMonth = _timeAndCalendarLink.CurrentMonth;
+        gameData.currentYear = _timeAndCalendarLink.CurrentYear;
+    }
+
     /// <summary>
     /// Set Current Save Related Information on gameData
     /// </summary>
@@ -245,63 +283,44 @@ public class SaveAndLoadManager : MonoBehaviour
         gameData.lastSaveTime = DateTime.Now.ToBinary();
     }
 
-    // For flag storing and getting
-    public void SetFlag(string flagName, int value)
-    {
-        // Overwrite Old Key/Values
-        GameFlag oldFlag = gameData.gameFlags.Find(x => x.flag == flagName);
-
-        // Either update the value or add a new one if it does not exist
-        if (oldFlag != null)
-        {
-            oldFlag.value = value;
-        }
-        else
-        {
-            // Does not exist in list
-            gameData.gameFlags.Add(new GameFlag(flagName, value));
-        }
-    }
-
     #endregion Public Methods
 
     #region Private Methods
 
-    /// <summary>
-    /// Checks if the file has not yet been created
-    /// </summary>
-    /// <param name="saveFile"></param>
-    /// <returns></returns>
-    private bool IsNewFile(string saveFile)
-    {
-        return !File.Exists(SavePath + saveFile + FILE_EXTENSION);
-    }
 
     /// <summary>
     /// Initialization
     /// </summary>
     private void Awake()
     {
-      //  _timeAndCalendarLink = GameManager.Instance.SceneManagerLink.GetComponent<TimeAndCalendar>();
-      // _playerManagerLink = GameManager.Instance.GetComponent<PlayerManager>();
     }
+
 
     void Start()
     {
         _playerManagerLink = GameManager.Instance.GetComponent<PlayerManager>();
     }
 
-
-    /// <summary>
-    /// Checks to see if the SavePath directory exists and creates a new one of it does not.
-    /// </summary>
-    private void CheckDirectory()
+    public void Initialise()
     {
-        // Check if directory exists, if not create it
-        if (!Directory.Exists(SavePath))
-        {
-            Directory.CreateDirectory(SavePath);
-        }
+        _timeAndCalendarLink = GameManager.Instance.SceneManagerLink.GetComponent<TimeAndCalendar>();
+        _playerManagerLink = GameManager.Instance.SceneManagerLink.GetComponent<PlayerManager>();
+    }
+
+    // Assigns data to where it should be after a load
+    private void AssignValues(GameData data)
+    {
+        _timeAndCalendarLink.CurrentDay = data.currentDay;
+        _timeAndCalendarLink.CurrentMonth = data.currentMonth;
+        _timeAndCalendarLink.CurrentYear = data.currentYear;
+        _timeAndCalendarLink.CurrentMinute = data.currentMinute;
+        _timeAndCalendarLink.CurrentHour = data.currentHour;
+
+        _playerManagerLink.CurrentCash = data.playerMoney;
+        _playerManagerLink.PlayerName = data.playerName;
+        _playerManagerLink.ArcadeName = data.arcadeName;
+        
+
     }
 
     /// <summary>
@@ -313,22 +332,11 @@ public class SaveAndLoadManager : MonoBehaviour
     {
         if (File.Exists(fullFilePath))
         {
-            // Old Binary Formmater Method BinaryFormatter bf = new BinaryFormatter(); FileStream
-            // fs = File.Open(fullFilePath, FileMode.Open);
-
-            // Put it into a file PlayerData data = (PlayerData)bf.Deserialize(fs);
-
-            // fs.Close();
-
-            // XML SERIALIZER TEST INSTEAD OF BINARYFORMATTER
+            BinaryFormatter bf = new BinaryFormatter();
             FileStream fs = File.Open(fullFilePath, FileMode.Open);
-
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(GameData));
-            XmlReader reader = XmlReader.Create(fs);
-            GameData data = xmlSerializer.Deserialize(reader) as GameData;
+            gameData = (GameData)bf.Deserialize(fs);
             fs.Close();
-
-            return data;
+            return gameData;
         }
         else
         {
@@ -337,82 +345,18 @@ public class SaveAndLoadManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Make sure that the save / load directory exists.
-    /// </summary>
-    /// <param name="scene"></param>
-    /// <param name="mode"></param>
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        CheckDirectory();
-    }
-
-    private void GetValues()
-    {
-      //  gameData.arcadeName = _playerManagerLink.ArcadeName;
-      //  gameData.playerName = _playerManagerLink.PlayerName;
-        gameData.playerMoney = _playerManagerLink.CurrentCash;
-    }
-
-    // Assigns data to where it should be after a load
-    private void AssignValues(GameData data)
-    {
-        //TimeAndCalendar timeAndCalendarLink = GameManager.Instance.LevelManagerLink.GetComponent<TimeAndCalendar>();
-       // PlayerManager _playerManagerLink = GameManager.Instance.GetComponent<PlayerManager>();
-        _timeAndCalendarLink.startDay = data.currentDay;
-        _timeAndCalendarLink.startMonth = data.currentMonth;
-        _timeAndCalendarLink.startYear = data.currentYear;
-        _timeAndCalendarLink.startMinute = data.currentMinute;
-        _timeAndCalendarLink.startHour = data.currentHour;
-
-        _playerManagerLink.CurrentCash = data.playerMoney;
-        _playerManagerLink.PlayerName = data.playerName;
-        _playerManagerLink.ArcadeName = data.arcadeName;
-        
-
-    }
-
     #endregion Private Methods
 }
 
-[Serializable]
-public class GameFlag
-{
-    #region Public Fields
 
-    public string flag;
-    public int value;
-
-    #endregion Public Fields
-
-    #region Public Constructors
-
-    public GameFlag()
-    {
-    }
-
-    public GameFlag(string flag, int value)
-    {
-        this.flag = flag;
-        this.value = value;
-    }
-
-    #endregion Public Constructors
-}
 
 [Serializable]
 public class GameData
 {
     #region Public Fields
-
-
-    public List<GameFlag> gameFlags;
-
     public float playerMoney;
-
     public int currentHour, currentMinute;
     public int currentYear, currentMonth, currentDay;
-
     public string playerName;
     public string arcadeName;
 
@@ -422,7 +366,6 @@ public class GameData
     public string lastSaveFile;
 
     public long lastSaveTime;
-
 
     #endregion Public Fields
 
@@ -434,18 +377,24 @@ public class GameData
     public GameData()
     {
         playerMoney = 0;
-        playerName = "Jill";
-        arcadeName = "Start Arcade";
-        currentHour = 12;
+        playerName = "Default_Player_Name";
+        arcadeName = "Default_Arcade_Name";
+        currentHour = 0;
         currentMinute = 0;
         currentDay = 1;
         currentMonth = 1;
         currentYear = 2000;
-
-        gameFlags = new List<GameFlag>();
     }
 
     #endregion Public Constructors
+
+}
+
+[Serializable]
+public class PlacedMachineData
+{
+    public float PositionX, PositionY, PositionZ;
+    public float RotationX, RotationY, RotationZ;
 
 }
 

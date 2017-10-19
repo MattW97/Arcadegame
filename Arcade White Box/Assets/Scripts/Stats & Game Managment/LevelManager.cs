@@ -7,7 +7,7 @@ public class LevelManager : MonoBehaviour {
     public enum ArcadeOpeningStatus { Open, Closed }
     private ArcadeOpeningStatus arcadeStatus = ArcadeOpeningStatus.Closed;
 
-    private List<PlaceableObject> allObjectsInLevel;
+    public List<GameObject> allObjectsInLevel;
     private List<Machine> allMachineObjects; 
 
     private List<BaseAI> allStaff;
@@ -57,6 +57,7 @@ public class LevelManager : MonoBehaviour {
         }
 		
 	}
+
 
     private float TotalExpenses()
     {
