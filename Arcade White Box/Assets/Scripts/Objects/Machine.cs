@@ -8,6 +8,8 @@ public class Machine : PlaceableObject {
     [SerializeField] private float maintenanceCost; //amount deducted upon machine breaking and needing repair
     [SerializeField] private float useCost; //how much it costs a user to use the machine. Includes playing if the machine is a game machine.
 
+    private bool inUse;
+
     protected override void Awake()
     {
         base.Awake();
@@ -54,6 +56,19 @@ public class Machine : PlaceableObject {
         set
         {
             useCost = value;
+        }
+    }
+
+    public bool InUse
+    {
+        get
+        {
+            return inUse;
+        }
+
+        set
+        {
+            inUse = value;
         }
     }
 }

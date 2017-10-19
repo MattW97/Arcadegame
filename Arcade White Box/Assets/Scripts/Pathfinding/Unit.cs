@@ -6,7 +6,7 @@ public class Unit : MonoBehaviour
     [SerializeField] [MinMaxRange(1.0f, 20.0f)] private MinMaxRange movementSpeed;
 
     private bool reachedTarget, followingPath;
-    private float setSpeed;
+    private float speedFactor, realSpeed;
 	private Transform target, unitTransform;
 	private Vector3[] path;
 	private int targetIndex;
@@ -16,7 +16,7 @@ public class Unit : MonoBehaviour
         unitTransform = GetComponent<Transform>();
 
         ReachedTarget = false;
-        setSpeed = movementSpeed.GetRandomValue();
+        realSpeed = movementSpeed.GetRandomValue();
     }
 
 	public void SetTarget(Transform target)
@@ -55,8 +55,16 @@ public class Unit : MonoBehaviour
 	private IEnumerator FollowPath()
 	{
         FollowingPath = true;
+        Vector3 currentWaypoint = Vector3.zero;
 
-		Vector3 currentWaypoint = path[0];
+        if (path.Length == 0)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            currentWaypoint = path[0];
+        }
 
 		while(true)
 		{
@@ -73,7 +81,7 @@ public class Unit : MonoBehaviour
 				currentWaypoint = path[targetIndex];
 			}
 
-			unitTransform.position = Vector3.MoveTowards(unitTransform.position, currentWaypoint, setSpeed * Time.deltaTime);
+			unitTransform.position = Vector3.MoveTowards(unitTransform.position, currentWaypoint, (realSpeed * SpeedFactor) * Time.deltaTime);
             unitTransform.LookAt(currentWaypoint);
 			yield return null;
 		}
@@ -102,6 +110,19 @@ public class Unit : MonoBehaviour
         set
         {
             followingPath = value;
+        }
+    }
+
+    public float SpeedFactor
+    {
+        get
+        {
+            return speedFactor;
+        }
+
+        set
+        {
+            speedFactor = value;
         }
     }
 }
