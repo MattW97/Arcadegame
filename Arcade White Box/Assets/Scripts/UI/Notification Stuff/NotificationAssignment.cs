@@ -18,12 +18,21 @@ public class NotificationAssignment : MonoBehaviour {
     private Text displayTextField;
 
 
-
    // [SerializeField]
    // private Image displayImageField;
 
     [SerializeField]
     private float lengthOfNotification, timeBetweenNotifications;
+
+    void OnEnable()
+    {
+        EventManager.SongSwitched += SongSwitchNotification;
+    }
+
+    void OnDisable()
+    {
+        EventManager.SongSwitched -= SongSwitchNotification;
+    }
 
 	// Use this for initialization
 	void Start () {
@@ -42,6 +51,7 @@ public class NotificationAssignment : MonoBehaviour {
         {
             randomPosNotification();
         }
+
 	}
 
     private void randomImage()
@@ -71,6 +81,15 @@ public class NotificationAssignment : MonoBehaviour {
     private IEnumerator SpecialNotificationTrigger()
     {
         displayTextField.text = specArray[Random.Range(0, specArray.Length)];
+        PlayAnimation();
+        yield return new WaitForSeconds(lengthOfNotification);
+        PlayAnimation();
+        notificationOpen = false;
+    }
+
+    private IEnumerator CustomNotificationTrigger(string textToDisplay)
+    {
+        displayTextField.text = textToDisplay;
         PlayAnimation();
         yield return new WaitForSeconds(lengthOfNotification);
         PlayAnimation();
@@ -128,6 +147,23 @@ public class NotificationAssignment : MonoBehaviour {
         else
             return false;
 
+    }
+
+    public bool CustomNotification(string textToDisplay)
+    {
+        if (!notificationOpen)
+        {
+            StartCoroutine(CustomNotificationTrigger(textToDisplay));
+            notificationOpen = true;
+            return true;
+        }
+        else
+            return false;
+    }
+
+    private void SongSwitchNotification()
+    {
+        CustomNotification(GameManager.Instance.SoundManager.currentSongName);
     }
 
 }

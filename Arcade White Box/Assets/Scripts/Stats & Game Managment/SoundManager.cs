@@ -11,6 +11,7 @@ public class SoundManager : MonoBehaviour {
     private AudioSource gameAudioSource;
 
     private int trackNumber = 0;
+    private bool doneOnce = false;
 
    // public bool ignoreListenerPause;
     public string currentSongName;
@@ -55,9 +56,13 @@ public class SoundManager : MonoBehaviour {
         {
             gameAudioSource.clip = inGameAudio[trackNumber];
             gameAudioSource.Play();
-            currentSongName = gameAudioSource.clip.ToString();
-            //print(gameAudioSource.clip.length.ToString());
-            print("The current song is " + currentSongName);
+            currentSongName = gameAudioSource.clip.name;
+            if (doneOnce)
+            {
+                GameManager.Instance.GetComponent<EventManager>().SongSwitch();
+            }
+            //print("The current song is " + gameAudioSource.clip.name);
+            doneOnce = true;
             trackNumber++;
         }
 
