@@ -214,8 +214,8 @@ public class SaveAndLoadManager : MonoBehaviour
     /// <returns></returns>
     public void SaveData(string saveFileName)
     {
-        if (!Directory.Exists("Saves"))
-            Directory.CreateDirectory("Saves");
+        if (!Directory.Exists(Application.persistentDataPath + "/SavedGames/"))
+            Directory.CreateDirectory(Application.persistentDataPath + "/SavedGames/");
 
         string fullSavePath = SavePath + saveFileName + FILE_EXTENSION;
 

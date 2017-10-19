@@ -14,6 +14,7 @@ public class LevelManager : MonoBehaviour {
 
     private TimeAndCalendar _timeLink;
     private PlayerManager _playerLink;
+    private CustomerManager customerManager;
 
     [SerializeField] private float rentCost;
     [SerializeField] private int openingHour, closingHour;
@@ -30,6 +31,7 @@ public class LevelManager : MonoBehaviour {
 
         _timeLink = this.gameObject.GetComponent<TimeAndCalendar>();
         _playerLink = this.gameObject.GetComponent<PlayerManager>();
+        customerManager = this.GetComponent<CustomerManager>();
         openOnce = false;
         closedOnce = false;
 		

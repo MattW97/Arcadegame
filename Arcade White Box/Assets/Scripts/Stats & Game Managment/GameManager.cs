@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager Instance;
 
-    [SerializeField] private GameObject sceneManager, gridManager, pathfindingManager, customerManager;
+    [SerializeField] private GameObject sceneManager, gridManager, pathfindingManager;
     [SerializeField] Scene mainScene;
 
     private GameObject sceneManagerLink, gridManagerLink, pathManagerLink, customerManagerLink;
