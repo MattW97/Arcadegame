@@ -27,7 +27,7 @@ public class MenuSettingsUI : MonoBehaviour
     {
         soundManager = GameManager.Instance.SoundManager;
         menuAudioSource = Instantiate(menuAudioSource);
-        soundManager.setAudioSource(menuAudioSource);
+        soundManager.setMenuAudioSource(menuAudioSource);
 
         GameManager.Instance.SettingManager.LoadSettings();
         GameManager.Instance.SoundManager.MenuAudio();

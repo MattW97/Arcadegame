@@ -221,7 +221,7 @@ public class SaveAndLoadManager : MonoBehaviour
 
 
         BinaryFormatter formatter = new BinaryFormatter();
-        FileStream saveFile = File.Create("Saves/save.lul");
+        FileStream saveFile;
         // Create a file or open an old one up for writing to
         if (!File.Exists(fullSavePath))
         {

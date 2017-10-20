@@ -23,7 +23,7 @@ public class InGameSettingUI : MonoBehaviour
     {
         soundManager = GameManager.Instance.SoundManager;
         gameAudioSource = Instantiate(gameAudioSource);
-        soundManager.setAudioSource(gameAudioSource);
+        soundManager.setGameAudioSource(gameAudioSource);
 
         GameManager.Instance.SettingManager.LoadSettings();
         GameManager.Instance.SoundManager.InGameAudio();

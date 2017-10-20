@@ -9,6 +9,7 @@ public class SoundManager : MonoBehaviour {
     public AudioClip[] inGameAudio;
     
     private AudioSource gameAudioSource;
+    private AudioSource menuAudioSource;
 
     private int trackNumber = 0;
     private bool doneOnce = false;
@@ -45,8 +46,8 @@ public class SoundManager : MonoBehaviour {
 
     public void MenuAudio()
     {
-        gameAudioSource.clip = menuAudio[Random.Range(0, menuAudio.Length)];
-        gameAudioSource.Play();
+        menuAudioSource.clip = menuAudio[Random.Range(0, menuAudio.Length)];
+        menuAudioSource.Play();
     }
 
     public void InGameAudio()
@@ -70,52 +71,22 @@ public class SoundManager : MonoBehaviour {
         {
             trackNumber = 0;
         }
-    }   
-
-    //private IEnumerator FadeOut()
-    //{
-    //    if (fadeOutDuration > 0f)
-    //    {
-    //        float startTime = gameAudioSource.clip.length - fadeOutDuration;
-    //        float lerpValue = 0f;
-    //        while (lerpValue < 1f)
-    //        {
-    //            lerpValue = Mathf.InverseLerp(startTime, gameAudioSource.clip.length, gameAudioSource.time);
-    //            gameAudioSource.volume = Mathf.Lerp(gameAudioSource.volume, 0f, lerpValue);
-    //            yield return null;
-    //        }
-    //    }
-    //}
-
-    //private IEnumerator FadeIn()
-    //{
-    //    if (fadeInDuration < 1f)
-    //    {
-    //        print("fade in 1");
-    //        float lerpValue = 0f;
-    //        while (lerpValue < 1f)
-    //        {
-    //            lerpValue = Mathf.InverseLerp(0f, fadeInDuration, gameAudioSource.time);
-    //            gameAudioSource.volume = Mathf.Lerp(0f, gameAudioSource.volume, lerpValue);
-    //            print("fade in 2");
-    //            yield return null;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        yield break;
-    //    }
-    //}
+    }  
 
     public void NextSong()
     {
         gameAudioSource.clip = inGameAudio[0];
     }
 
-    public void setAudioSource(AudioSource newAudioSource)
+    public void setMenuAudioSource(AudioSource newMenuAudioSource)
     {
-        gameAudioSource = newAudioSource;
+        menuAudioSource = newMenuAudioSource;
     }
 
-    
+    public void setGameAudioSource(AudioSource newGameAudioSource)
+    {
+        gameAudioSource = newGameAudioSource;
+    }
+
+
 }
