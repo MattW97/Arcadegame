@@ -25,7 +25,6 @@ public class Customer : BaseAI
         unitController = GetComponent<Unit>();
         customerText = GetComponent<CustomerText>();
         customerTransform = GetComponent<Transform>();
-        customerManager = CustomerManager.instance;
 
         customerNeeds = new CustomerNeed[3];
 
@@ -140,6 +139,12 @@ public class Customer : BaseAI
 
     private Transform FindNearestFacility(List<Machine> facilities)
     {
+        if (facilities.Count == 0)
+        {
+            print("THERE ARE NO TOILETS YA NONCE!");
+            return null;
+        }
+
         Entity nearest = facilities[0];
 
         foreach(Entity facility in facilities)
@@ -161,5 +166,10 @@ public class Customer : BaseAI
         yield return new WaitForSeconds(waitTime / speedFactor);
         currentState = CustomerState.Idle;
         usingFacility = false;
+    }
+
+    public void SetManager(CustomerManager customerManager)
+    {
+        this.customerManager = customerManager;
     }
 }

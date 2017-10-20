@@ -88,7 +88,7 @@ public class TileInteraction : MonoBehaviour
                             {
 
                             GameObject newObject = Instantiate(TempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, tileHighlighter.transform.rotation);
-                            GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().allObjectsInLevel.Add(newObject);
+                            GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().AddObjectToLists(newObject); 
 
                             if (CheckIfMachineOrPlaceable(TempPlaceObject))
                             {
@@ -227,6 +227,9 @@ public class TileInteraction : MonoBehaviour
     public void DestroyCurrentlySelectedObject()
     {
         CurrentSelectedObject.PlacedOnTile.SetTileType(Tile.TileType.Passable);
+
+        GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().RemoveObjectFromLists(CurrentSelectedObject.gameObject);
+
         Destroy(CurrentSelectedObject.gameObject);
 
         if (CheckIfMachineOrPlaceable(CurrentSelectedObject))

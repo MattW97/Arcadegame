@@ -8,10 +8,10 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager Instance;
 
-    [SerializeField] private GameObject sceneManager, gridManager, pathfindingManager;
+    [SerializeField] private GameObject sceneManager, gridManager;
     [SerializeField] Scene mainScene;
 
-    private GameObject sceneManagerLink, gridManagerLink, pathManagerLink, customerManagerLink;
+    private GameObject sceneManagerLink, gridManagerLink;
     private SettingManager settingManager;
     private SoundManager soundManager;
     private string sceneName;
@@ -45,20 +45,6 @@ public class GameManager : MonoBehaviour {
     {
         SceneManagerLink = Instantiate(sceneManager);
         GridManagerLink = Instantiate(gridManager);
-        PathManagerLink = Instantiate(pathfindingManager);
-    }
-
-    public GameObject CustomerManagerLink
-    {
-        get
-        {
-            return customerManagerLink;
-        }
-
-        set
-        {
-            customerManagerLink = value;
-        }
     }
 
     public GameObject SceneManagerLink
@@ -97,19 +83,6 @@ public class GameManager : MonoBehaviour {
         set
         {
             gridManagerLink = value;
-        }
-    }
-
-    public GameObject PathManagerLink
-    {
-        get
-        {
-            return pathManagerLink;
-        }
-
-        set
-        {
-            pathManagerLink = value;
         }
     }
 

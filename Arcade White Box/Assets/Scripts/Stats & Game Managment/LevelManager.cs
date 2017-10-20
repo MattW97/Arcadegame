@@ -7,8 +7,11 @@ public class LevelManager : MonoBehaviour {
     public enum ArcadeOpeningStatus { Open, Closed }
     private ArcadeOpeningStatus arcadeStatus = ArcadeOpeningStatus.Closed;
 
-    public List<GameObject> allObjectsInLevel;
-    private List<Machine> allMachineObjects; 
+    private List<GameObject> allObjectsInLevel;
+    private List<Machine> allMachineObjects;
+    private List<Machine> allGameMachines;
+    private List<Machine> allToilets;
+    private List<Machine> allFoodStalls; 
 
     private List<BaseAI> allStaff;
 
@@ -16,12 +19,13 @@ public class LevelManager : MonoBehaviour {
     private PlayerManager _playerLink;
     private CustomerManager customerManager;
 
-    [SerializeField] private float rentCost;
+    [SerializeField] private float customerSpawnRate, rentCost;
+    [SerializeField] private int MAXCUSTOMERS; // dont change this matt
     [SerializeField] private int openingHour, closingHour;
 
 
-    private int numOfCustomers, MAXNUMBEROFCUSTOMERS;
-    private bool openOnce, closedOnce;
+    private int numOfCustomers;
+    private bool openOnce, closedOnce, spawningCustomers;
 
     private float profitEntranceFees, profitGamesMachines, profitFoodStalls, profitOther;
     private float expensesTodaysPurchases, expensesStaffWages, expensesGamesMachineDailyCost, expensesGamesMachineMaintenance, expensesFoodStallsDailyCost, expensesFoodStallsMaintenance, expensesServiceMachineDailyCost, expensesServiceMachineMaintenanceCost;
@@ -34,8 +38,17 @@ public class LevelManager : MonoBehaviour {
         customerManager = this.GetComponent<CustomerManager>();
         openOnce = false;
         closedOnce = false;
-		
-	}
+
+        customerManager.SetSpawnLocation(transform);
+
+        allObjectsInLevel = new List<GameObject>();
+        allMachineObjects = new List<Machine>();
+        allGameMachines = new List<Machine>();
+        allToilets = new List<Machine>();
+        allFoodStalls = new List<Machine>();
+
+        spawningCustomers = false;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -48,8 +61,7 @@ public class LevelManager : MonoBehaviour {
             closedOnce = false;
             //openingScript
         }
-
-        else if(_timeLink.CurrentHour == closingHour && !closedOnce)
+        else if (_timeLink.CurrentHour == closingHour && !closedOnce)
         {
             arcadeStatus = ArcadeOpeningStatus.Closed;
             print("Arcade is closed!");
@@ -57,9 +69,18 @@ public class LevelManager : MonoBehaviour {
             openOnce = false;
             ClosingTime();
         }
-		
-	}
 
+        if(allGameMachines.Count > 0 && allToilets.Count > 0 && allFoodStalls.Count > 0 && !spawningCustomers)
+        {
+            spawningCustomers = true;
+            customerManager.InvokeRepeating("SpawnCustomer", customerSpawnRate, customerSpawnRate);
+        }
+
+        if(customerManager.GetCustomerNumber() >= MAXCUSTOMERS)
+        {
+            customerManager.CancelInvoke("SpawnCustomer");
+        }
+	}
 
     private float TotalExpenses()
     {
@@ -177,4 +198,56 @@ public class LevelManager : MonoBehaviour {
 
     }
 
+    public void AddObjectToLists(GameObject objectToAdd)
+    {
+        allObjectsInLevel.Add(objectToAdd);
+
+        if(objectToAdd.GetComponent<GameMachine>())
+        {
+            allGameMachines.Add(objectToAdd.GetComponent<GameMachine>());
+        }
+        else if(objectToAdd.GetComponent<FoodMachine>())
+        {
+            allFoodStalls.Add(objectToAdd.GetComponent<FoodMachine>());
+        }
+        else if (objectToAdd.GetComponent<ServiceMachine>())
+        {
+            allToilets.Add(objectToAdd.GetComponent<ServiceMachine>());
+        }
+
+        if(customerManager)
+        {
+            customerManager.SetGameMachines(allGameMachines);
+            customerManager.SetFoodStalls(allFoodStalls);
+            customerManager.SetToilets(allToilets);
+        }
+    }
+
+    public void RemoveObjectFromLists(GameObject objectToRemove)
+    {
+        allObjectsInLevel.Remove(objectToRemove);
+
+        if (objectToRemove.GetComponent<GameMachine>())
+        {
+            allGameMachines.Remove(objectToRemove.GetComponent<GameMachine>());
+            allGameMachines.TrimExcess();
+        }
+        else if (objectToRemove.GetComponent<FoodMachine>())
+        {
+            allFoodStalls.Remove(objectToRemove.GetComponent<FoodMachine>());
+            allGameMachines.TrimExcess();
+        }
+        else if (objectToRemove.GetComponent<ServiceMachine>())
+        {
+            allToilets.Remove(objectToRemove.GetComponent<ServiceMachine>());
+            allGameMachines.TrimExcess();
+        }
+
+        if (customerManager)
+        {
+            customerManager.SetGameMachines(allGameMachines);
+            customerManager.SetFoodStalls(allFoodStalls);
+            customerManager.SetToilets(allToilets);
+        }
+    }
 }

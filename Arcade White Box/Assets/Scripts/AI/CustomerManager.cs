@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
-{
-    public static CustomerManager instance;
-       
+{      
     [SerializeField] private Customer customer;
-    [SerializeField] private Transform spawnLocation;
 
     private float levelSpeedFactor;
+    private Transform spawnLocation;
     private List<Customer> currentCustomers;
     private List<Machine> foodFacilities;
     private List<Machine> gameMachines;
@@ -17,9 +15,10 @@ public class CustomerManager : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
-
         currentCustomers = new List<Customer>();
+        foodFacilities = new List<Machine>();
+        gameMachines = new List<Machine>();
+        toilets = new List<Machine>();
     }
 
     void Update()
@@ -54,9 +53,20 @@ public class CustomerManager : MonoBehaviour
         {
             Customer newCustomer = Instantiate(customer, spawnLocation.position, Quaternion.identity) as Customer;
             newCustomer.SetSpawnLocation(spawnLocation);
+            newCustomer.SetManager(this);
             currentCustomers.Add(newCustomer);
         }
     }
+
+    public void SpawnCustomer()
+    {
+        Customer newCustomer = Instantiate(customer, spawnLocation.position, Quaternion.identity) as Customer;
+        newCustomer.SetSpawnLocation(spawnLocation);
+        newCustomer.SetManager(this);
+        currentCustomers.Add(newCustomer);
+        print(currentCustomers.Count);
+    }
+
 
     public void MassLeave()
     {
@@ -70,7 +80,7 @@ public class CustomerManager : MonoBehaviour
 
     public float GetSpeedFactor()
     {
-        return levelSpeedFactor;
+        return 1;
     }
 
     public List<Machine> GetToilets()
@@ -86,5 +96,30 @@ public class CustomerManager : MonoBehaviour
     public List<Machine> GetGameMachines()
     {
         return gameMachines;
+    }
+
+    public int GetCustomerNumber()
+    {
+        return currentCustomers.Count;
+    }
+
+    public void SetSpawnLocation(Transform spawnLocation)
+    {
+        this.spawnLocation = spawnLocation;
+    }
+
+    public void SetToilets(List<Machine> toilets)
+    {
+        this.toilets = toilets;
+    }
+
+    public void SetFoodStalls(List<Machine> foodFacilities)
+    {   
+        this.foodFacilities = foodFacilities;
+    }
+
+    public void SetGameMachines(List<Machine> gameMachines)
+    {
+        this.gameMachines = gameMachines;
     }
 }

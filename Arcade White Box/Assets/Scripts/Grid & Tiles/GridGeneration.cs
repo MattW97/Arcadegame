@@ -9,19 +9,23 @@ public class GridGeneration : MonoBehaviour
 
     private List<Tile> gridTiles;
     private PathingGrid pathingGrid;
+    private PathManager pathManager;
+    private Pathfinding pathFinding;
     private GameObject tileHolder;
 
     void Start()
     {
         tileHolder = new GameObject("Grid Tiles");
         pathingGrid = GetComponent<PathingGrid>();
+        pathManager = GetComponent<PathManager>();
+        pathFinding = GetComponent<Pathfinding>();
 
         gridTiles = new List<Tile>();
 
         GenerateGrid();
     }
 
-    private void GenerateGrid()
+    public void GenerateGrid()
     {
         float widthOffset = 0;
         float lengthOffset = 0;
@@ -52,6 +56,10 @@ public class GridGeneration : MonoBehaviour
             startPoint.z = (-(gridSize.y / 2)) + lengthOffset;
             startPoint.x++;
         }
+
+        pathFinding.SetGrid(pathingGrid);
+        pathFinding.SetPathManager(pathManager);
+        pathingGrid.CreateGrid();
 
         pathingGrid.SetGridSize(gridSize);
         pathingGrid.SetupGrid();
