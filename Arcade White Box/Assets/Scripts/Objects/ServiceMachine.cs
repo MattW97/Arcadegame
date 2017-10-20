@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ServiceMachine : Machine {
 
-    public enum ServiceMachineType { ATM, PrizeCollection, VendingMachine }
+    public enum ServiceMachineType { ATM, PrizeCollection, VendingMachine, Toilet }
     [SerializeField] private ServiceMachineType machineType;
 
 	// Use this for initialization
@@ -13,7 +13,8 @@ public class ServiceMachine : Machine {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 		
 	}
 }
