@@ -17,8 +17,6 @@ public class SaveAndLoadManager : MonoBehaviour
     public GameData gameData = new GameData();
     public Scene openScene;
 
-    private TimeAndCalendar _timeAndCalendarLink;
-    private PlayerManager _playerManagerLink;
 
     private string savePath;
     public string SavePath
@@ -43,6 +41,10 @@ public class SaveAndLoadManager : MonoBehaviour
 
     // Save Load Data
     private string saveFile;
+
+    private TimeAndCalendar _timeAndCalendarLink;
+    private PlayerManager _playerManagerLink;
+    private EconomyManager _economyManagerLink;
 
     #endregion Private Fields
 
@@ -265,7 +267,7 @@ public class SaveAndLoadManager : MonoBehaviour
     {
         gameData.arcadeName = _playerManagerLink.ArcadeName;
         gameData.playerName = _playerManagerLink.PlayerName;
-        gameData.playerMoney = _playerManagerLink.CurrentCash;
+        gameData.playerMoney = _economyManagerLink.CurrentCash;
         gameData.currentMinute = _timeAndCalendarLink.CurrentMinute;
         gameData.currentHour = _timeAndCalendarLink.CurrentHour;
         gameData.currentDay = _timeAndCalendarLink.CurrentDay;
@@ -298,13 +300,14 @@ public class SaveAndLoadManager : MonoBehaviour
 
     void Start()
     {
-        _playerManagerLink = GameManager.Instance.GetComponent<PlayerManager>();
+        
     }
 
     public void Initialise()
     {
         _timeAndCalendarLink = GameManager.Instance.SceneManagerLink.GetComponent<TimeAndCalendar>();
         _playerManagerLink = GameManager.Instance.SceneManagerLink.GetComponent<PlayerManager>();
+        _economyManagerLink = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();
     }
 
     // Assigns data to where it should be after a load
@@ -316,7 +319,7 @@ public class SaveAndLoadManager : MonoBehaviour
         _timeAndCalendarLink.CurrentMinute = data.currentMinute;
         _timeAndCalendarLink.CurrentHour = data.currentHour;
 
-        _playerManagerLink.CurrentCash = data.playerMoney;
+        _economyManagerLink.CurrentCash = data.playerMoney;
         _playerManagerLink.PlayerName = data.playerName;
         _playerManagerLink.ArcadeName = data.arcadeName;
         

@@ -84,7 +84,7 @@ public class TileInteraction : MonoBehaviour
                     {
                         NullSelectedObject();
 
-                        if (_playerLink.CheckCanAfford(TempPlaceObject.BuyCost))
+                        if (GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().CheckCanAfford(TempPlaceObject.BuyCost))
                             {
 
                             GameObject newObject = Instantiate(TempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, tileHighlighter.transform.rotation);
@@ -92,11 +92,11 @@ public class TileInteraction : MonoBehaviour
 
                             if (CheckIfMachineOrPlaceable(TempPlaceObject))
                             {
-                                GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().OnMachinePurchase(TempPlaceObject as Machine);
+                                GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().OnMachinePurchase(TempPlaceObject as Machine);
                             }
                             else if (!CheckIfMachineOrPlaceable(TempPlaceObject))
                             {
-                                GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().OnBuildingPartPurchase(TempPlaceObject);
+                                GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().OnBuildingPartPurchase(TempPlaceObject);
                             }
                             else
                             {
@@ -234,12 +234,11 @@ public class TileInteraction : MonoBehaviour
 
         if (CheckIfMachineOrPlaceable(CurrentSelectedObject))
         {
-            _playerLink.CurrentCash += CurrentSelectedObject.returnAmount();
+            GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().CurrentCash += CurrentSelectedObject.returnAmount();
         }
         else if (!CheckIfMachineOrPlaceable(CurrentSelectedObject))
         {
-            _playerLink.CurrentCash += CurrentSelectedObject.returnAmount();
-           // GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().
+            GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().CurrentCash += CurrentSelectedObject.returnAmount();
         }
         CurrentSelectedObject = null;
     }

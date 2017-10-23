@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager Instance;
 
-    [SerializeField] private GameObject sceneManager, gridManager;
+    [SerializeField] private GameObject sceneManager, gridManager, economyManager;
     [SerializeField] Scene mainScene;
 
     private GameObject sceneManagerLink, gridManagerLink;
@@ -51,12 +51,12 @@ public class GameManager : MonoBehaviour {
     {
         get
         {
-            return sceneManagerLink;
+            return SceneManagerLink1;
         }
 
         set
         {
-            sceneManagerLink = value;
+            SceneManagerLink1 = value;
         }
     }
 
@@ -77,12 +77,12 @@ public class GameManager : MonoBehaviour {
     {
         get
         {
-            return gridManagerLink;
+            return GridManagerLink1;
         }
 
         set
         {
-            gridManagerLink = value;
+            GridManagerLink1 = value;
         }
     }
 
@@ -111,4 +111,31 @@ public class GameManager : MonoBehaviour {
             soundManager = value;
         }
     }
+
+    public GameObject SceneManagerLink1
+    {
+        get
+        {
+            return sceneManagerLink;
+        }
+
+        set
+        {
+            sceneManagerLink = value;
+        }
+    }
+
+    public GameObject GridManagerLink1
+    {
+        get
+        {
+            return gridManagerLink;
+        }
+
+        set
+        {
+            gridManagerLink = value;
+        }
+    }
+
 }

@@ -25,8 +25,8 @@ public class ExpensesMenuUI : MonoBehaviour {
 
     public void UpdateGraph()
     {
-        expensesText.text = GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().GetTotalExpenses().ToString();
-        pieGraphObject.GetComponent<PieGraph>().SetNewValues(GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().GetExpensesArray());
+        expensesText.text = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().GetTotalExpenses().ToString();
+        pieGraphObject.GetComponent<PieGraph>().SetNewValues(GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().GetExpensesArray());
         pieGraphObject.GetComponent<PieGraph>().MakeGraph();
     }
 }

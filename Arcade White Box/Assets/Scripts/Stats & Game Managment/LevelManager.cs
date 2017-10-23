@@ -18,8 +18,9 @@ public class LevelManager : MonoBehaviour {
     private TimeAndCalendar _timeLink;
     private PlayerManager _playerLink;
     private CustomerManager customerManager;
+    private EconomyManager _economyLink;
 
-    [SerializeField] private float customerSpawnRate, rentCost;
+    [SerializeField] private float customerSpawnRate, rentCost, startingCash;
     [SerializeField] private int MAXCUSTOMERS; // dont change this matt
     [SerializeField] private int openingHour, closingHour;
 
@@ -27,8 +28,95 @@ public class LevelManager : MonoBehaviour {
     private int numOfCustomers;
     private bool openOnce, closedOnce, spawningCustomers;
 
-    private float profitEntranceFees, profitGamesMachines, profitFoodStalls, profitOther;
-    private float expensesTodaysPurchases, expensesStaffWages, expensesGamesMachineDailyCost, expensesGamesMachineMaintenance, expensesFoodStallsDailyCost, expensesFoodStallsMaintenance, expensesServiceMachineDailyCost, expensesServiceMachineMaintenanceCost;
+    public float StartingCash
+    {
+        get
+        {
+            return startingCash;
+        }
+
+        set
+        {
+            startingCash = value;
+        }
+    }
+    public float RentCost
+    {
+        get
+        {
+            return rentCost;
+        }
+
+        set
+        {
+            rentCost = value;
+        }
+    }
+
+    public List<GameObject> AllObjectsInLevel
+    {
+        get
+        {
+            return allObjectsInLevel;
+        }
+
+        set
+        {
+            allObjectsInLevel = value;
+        }
+    }
+
+    public List<Machine> AllMachineObjects
+    {
+        get
+        {
+            return allMachineObjects;
+        }
+
+        set
+        {
+            allMachineObjects = value;
+        }
+    }
+
+    public List<Machine> AllGameMachines
+    {
+        get
+        {
+            return allGameMachines;
+        }
+
+        set
+        {
+            allGameMachines = value;
+        }
+    }
+
+    public List<Machine> AllToilets
+    {
+        get
+        {
+            return allToilets;
+        }
+
+        set
+        {
+            allToilets = value;
+        }
+    }
+
+    public List<Machine> AllFoodStalls
+    {
+        get
+        {
+            return allFoodStalls;
+        }
+
+        set
+        {
+            allFoodStalls = value;
+        }
+    }
 
     // Use this for initialization
     void Start () {
@@ -41,11 +129,11 @@ public class LevelManager : MonoBehaviour {
 
         customerManager.SetSpawnLocation(transform);
 
-        allObjectsInLevel = new List<GameObject>();
-        allMachineObjects = new List<Machine>();
-        allGameMachines = new List<Machine>();
-        allToilets = new List<Machine>();
-        allFoodStalls = new List<Machine>();
+        AllObjectsInLevel = new List<GameObject>();
+        AllMachineObjects = new List<Machine>();
+        AllGameMachines = new List<Machine>();
+        AllToilets = new List<Machine>();
+        AllFoodStalls = new List<Machine>();
 
         spawningCustomers = false;
     }
@@ -67,10 +155,10 @@ public class LevelManager : MonoBehaviour {
             print("Arcade is closed!");
             closedOnce = true;
             openOnce = false;
-            ClosingTime();
+            _economyLink.ClosingTime();
         }
 
-        if(allGameMachines.Count > 0 && allToilets.Count > 0 && allFoodStalls.Count > 0 && !spawningCustomers)
+        if(AllGameMachines.Count > 0 && AllToilets.Count > 0 && AllFoodStalls.Count > 0 && !spawningCustomers)
         {
             spawningCustomers = true;
             customerManager.InvokeRepeating("SpawnCustomer", customerSpawnRate, customerSpawnRate);
@@ -82,172 +170,56 @@ public class LevelManager : MonoBehaviour {
         }
 	}
 
-    private float TotalExpenses()
-    {
-        float cost = 0 + rentCost;
-        foreach(Machine obj in allMachineObjects)
-        {
-            cost += obj.RunningCost;
-        }
-
-        foreach (BaseAI ai in allStaff)
-        {   
-            if(ai is Staff)
-            {
-                cost += (ai as Staff).WageCost;
-            }
-        }
-        return cost;
-    }
-
-    private void AddToEarnedToday(float amount)
-    {
-        _playerLink.CurrentlyEarnedToday += amount;
-    }
-
-    private void ClosingTime()
-    {
-        _playerLink.ClosingTime();
-        expensesServiceMachineMaintenanceCost = 0;
-        expensesGamesMachineMaintenance = 0;
-        expensesFoodStallsMaintenance = 0;
-    }
-
-    public List<float> GetExpensesArray()
-    {
-        List<float> expensesArray = new List<float>();
-        expensesArray.Add(rentCost);
-        expensesArray.Add(expensesTodaysPurchases);
-        expensesArray.Add(expensesStaffWages);
-        expensesArray.Add(expensesGamesMachineDailyCost);
-        expensesArray.Add(expensesGamesMachineMaintenance);
-        expensesArray.Add(expensesFoodStallsDailyCost);
-        expensesArray.Add(expensesFoodStallsMaintenance);
-        expensesArray.Add(expensesServiceMachineDailyCost);
-        expensesArray.Add(expensesServiceMachineMaintenanceCost);
-
-        return expensesArray;
-    }
-
-    public void OnStaffHire(Staff staffMember)
-    {
-        expensesStaffWages += staffMember.WageCost;
-    }
-
-    public void OnStaffFire(Staff staffMember)
-    {
-        expensesStaffWages -= staffMember.WageCost;
-    }
-
-    public void OnMachineBreakdown(Machine brokenMachine)
-    {
-        if (brokenMachine is GameMachine)
-        {
-            expensesGamesMachineMaintenance += brokenMachine.MaintenanceCost;
-        }
-
-        else if (brokenMachine is ServiceMachine)
-        {
-            expensesServiceMachineMaintenanceCost += brokenMachine.MaintenanceCost;
-        }
-
-        else if (brokenMachine is FoodMachine)
-        {
-            expensesFoodStallsMaintenance += brokenMachine.MaintenanceCost;
-        }
-    }
-
-    public void OnMachinePurchase(Machine purchase)
-    {
-        _playerLink.CurrentCash -= purchase.BuyCost;
-        expensesTodaysPurchases += purchase.BuyCost;
-        if (purchase is GameMachine)
-        {
-            expensesGamesMachineDailyCost += purchase.RunningCost;
-        }
-        else if (purchase is ServiceMachine)
-        {
-            expensesServiceMachineDailyCost += purchase.RunningCost;
-        }
-        else if (purchase is FoodMachine)
-        {
-            expensesFoodStallsDailyCost += purchase.RunningCost;
-        }
-    }
-
-    public void OnBuildingPartPurchase(PlaceableObject purchase)
-    {
-        _playerLink.CurrentCash -= purchase.BuyCost;
-        expensesTodaysPurchases += purchase.BuyCost;
-    }
-
-    public float GetTotalExpenses()
-    {
-        float exp = 0.0f;
-        exp += rentCost;
-        exp += expensesTodaysPurchases;
-        exp += expensesStaffWages;
-        exp += expensesFoodStallsDailyCost;
-        exp += expensesFoodStallsMaintenance;
-        exp += expensesGamesMachineDailyCost;
-        exp += expensesGamesMachineMaintenance;
-        exp += expensesServiceMachineDailyCost;
-        exp += expensesServiceMachineMaintenanceCost;
-
-        return exp;
-
-    }
-
     public void AddObjectToLists(GameObject objectToAdd)
     {
-        allObjectsInLevel.Add(objectToAdd);
+        AllObjectsInLevel.Add(objectToAdd);
 
         if(objectToAdd.GetComponent<GameMachine>())
         {
-            allGameMachines.Add(objectToAdd.GetComponent<GameMachine>());
+            AllGameMachines.Add(objectToAdd.GetComponent<GameMachine>());
         }
         else if(objectToAdd.GetComponent<FoodMachine>())
         {
-            allFoodStalls.Add(objectToAdd.GetComponent<FoodMachine>());
+            AllFoodStalls.Add(objectToAdd.GetComponent<FoodMachine>());
         }
         else if (objectToAdd.GetComponent<ServiceMachine>())
         {
-            allToilets.Add(objectToAdd.GetComponent<ServiceMachine>());
+            AllToilets.Add(objectToAdd.GetComponent<ServiceMachine>());
         }
 
         if(customerManager)
         {
-            customerManager.SetGameMachines(allGameMachines);
-            customerManager.SetFoodStalls(allFoodStalls);
-            customerManager.SetToilets(allToilets);
+            customerManager.SetGameMachines(AllGameMachines);
+            customerManager.SetFoodStalls(AllFoodStalls);
+            customerManager.SetToilets(AllToilets);
         }
     }
 
     public void RemoveObjectFromLists(GameObject objectToRemove)
     {
-        allObjectsInLevel.Remove(objectToRemove);
+        AllObjectsInLevel.Remove(objectToRemove);
 
         if (objectToRemove.GetComponent<GameMachine>())
         {
-            allGameMachines.Remove(objectToRemove.GetComponent<GameMachine>());
-            allGameMachines.TrimExcess();
+            AllGameMachines.Remove(objectToRemove.GetComponent<GameMachine>());
+            AllGameMachines.TrimExcess();
         }
         else if (objectToRemove.GetComponent<FoodMachine>())
         {
-            allFoodStalls.Remove(objectToRemove.GetComponent<FoodMachine>());
-            allGameMachines.TrimExcess();
+            AllFoodStalls.Remove(objectToRemove.GetComponent<FoodMachine>());
+            AllGameMachines.TrimExcess();
         }
         else if (objectToRemove.GetComponent<ServiceMachine>())
         {
-            allToilets.Remove(objectToRemove.GetComponent<ServiceMachine>());
-            allGameMachines.TrimExcess();
+            AllToilets.Remove(objectToRemove.GetComponent<ServiceMachine>());
+            AllGameMachines.TrimExcess();
         }
 
         if (customerManager)
         {
-            customerManager.SetGameMachines(allGameMachines);
-            customerManager.SetFoodStalls(allFoodStalls);
-            customerManager.SetToilets(allToilets);
+            customerManager.SetGameMachines(AllGameMachines);
+            customerManager.SetFoodStalls(AllFoodStalls);
+            customerManager.SetToilets(AllToilets);
         }
     }
 }
