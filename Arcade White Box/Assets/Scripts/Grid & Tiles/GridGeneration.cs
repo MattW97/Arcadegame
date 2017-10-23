@@ -25,6 +25,11 @@ public class GridGeneration : MonoBehaviour
         GenerateGrid();
     }
 
+    public void UpdateGrid()
+    {
+        pathingGrid.CreateGrid();
+    }
+
     public void GenerateGrid()
     {
         float widthOffset = 0;
@@ -59,7 +64,6 @@ public class GridGeneration : MonoBehaviour
 
         pathFinding.SetGrid(pathingGrid);
         pathFinding.SetPathManager(pathManager);
-        pathingGrid.CreateGrid();
 
         pathingGrid.SetGridSize(gridSize);
         pathingGrid.SetupGrid();
