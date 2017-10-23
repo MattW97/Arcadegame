@@ -85,10 +85,10 @@ public class TileInteraction : MonoBehaviour
                         NullSelectedObject();
 
                         if (_playerLink.CheckCanAfford(TempPlaceObject.BuyCost))
-                            {
-
+                        {
                             GameObject newObject = Instantiate(TempPlaceObject.gameObject, hitInfo.collider.gameObject.transform.position, tileHighlighter.transform.rotation);
-                            GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().AddObjectToLists(newObject); 
+                            GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().AddObjectToLists(newObject);
+                            GameManager.Instance.GridManagerLink.GetComponent<GridGeneration>().UpdateGrid();
 
                             if (CheckIfMachineOrPlaceable(TempPlaceObject))
                             {
@@ -242,5 +242,7 @@ public class TileInteraction : MonoBehaviour
            // GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().
         }
         CurrentSelectedObject = null;
+
+        GameManager.Instance.GridManagerLink.GetComponent<GridGeneration>().UpdateGrid();
     }
 }
