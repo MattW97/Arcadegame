@@ -11,7 +11,7 @@ public class EconomyManager : MonoBehaviour {
 
     private float currentCash;
     private float rentCost;
-    private float profitEntranceFees, profitGamesMachines, profitFoodStalls, profitOther;
+    private float profitEntranceFees, profitDailyGamesMachines, profitDailyFoodStalls, profitDailyOther;
     private float expensesTodaysPurchases, expensesStaffWages, expensesGamesMachineDailyCost, expensesGamesMachineMaintenance, expensesFoodStallsDailyCost, expensesFoodStallsMaintenance, expensesServiceMachineDailyCost, expensesServiceMachineMaintenanceCost;
 
     public float CurrentCash
@@ -58,6 +58,16 @@ public class EconomyManager : MonoBehaviour {
         expensesArray.Add(expensesServiceMachineMaintenanceCost);
 
         return expensesArray;
+    }
+
+    public List<float> GetProfitArray()
+    {
+        List<float> profitArray = new List<float>();
+        profitArray.Add(profitEntranceFees);
+        profitArray.Add(profitDailyGamesMachines);
+        profitArray.Add(profitDailyFoodStalls);
+
+        return profitArray;
     }
 
     public void OnStaffHire(Staff staffMember)
@@ -129,6 +139,16 @@ public class EconomyManager : MonoBehaviour {
 
     }
 
+    public float GetTotalProfits()
+    {
+        float exp = 0.0f;
+        exp += profitEntranceFees;
+        exp += profitDailyGamesMachines;
+        exp += profitDailyFoodStalls;
+        exp += profitDailyOther;
+        return exp;
+    }
+
     public void ClosingTime()
     {
         expensesServiceMachineMaintenanceCost = 0;
@@ -147,6 +167,24 @@ public class EconomyManager : MonoBehaviour {
 
         else
             return false;
+    }
+
+    public void MoneyEarnedFromArcade(Machine objectSpentOn)
+    {
+        float num = objectSpentOn.UseCost;
+        if (objectSpentOn is GameMachine)
+        {
+            profitDailyGamesMachines += num;
+        }
+        else if (objectSpentOn is FoodMachine)
+        {
+            profitDailyFoodStalls += num;
+        }
+        else
+        {
+            profitDailyOther += num;
+        }
+        CurrentCash += num;
     }
 
 }
