@@ -31,15 +31,20 @@ public class Unit : MonoBehaviour
         PathManager.RequestPath(unitTransform.position, target.position, OnPathFound);
 	}
 
-	public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
-	{
-		if(pathSuccessful)
-		{
-			path = newPath;
-			targetIndex = 0;
-			StopCoroutine("FollowPath");
-			StartCoroutine("FollowPath");
-		}
+    public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
+    {
+        if (pathSuccessful)
+        {
+            print("HELLO");
+            path = newPath;
+            targetIndex = 0;
+            StopCoroutine("FollowPath");
+            StartCoroutine("FollowPath");
+        }
+        else
+        {
+            
+        }
 	}
 
     public void StopCurrentPathing()

@@ -18,7 +18,8 @@ public class Customer : BaseAI
     private Transform customerTransform, doorPosition;
     private Transform spawnLocation;
     private IEnumerator usingFacilityWait;
-    private CustomerManager customerManager; 
+    private CustomerManager customerManager;
+    private Machine machineNeed;
 
     void Start()
     {   
@@ -51,15 +52,18 @@ public class Customer : BaseAI
 
                 if ((int)customerNeed.Need == (int)CustomerNeed.NeedType.Food)
                 {
-                    unitController.SetTarget(FindNearestFacility(customerManager.GetFoodStalls()));
+                    machineNeed = FindNearestFacility(customerManager.GetFoodStalls());
+                    unitController.SetTarget(machineNeed.GetUsePosition());
                 }
                 else if ((int)customerNeed.Need == (int)CustomerNeed.NeedType.Toilet)
                 {
-                    unitController.SetTarget(FindNearestFacility(customerManager.GetToilets()));
+                    machineNeed = FindNearestFacility(customerManager.GetToilets());
+                    unitController.SetTarget(machineNeed.GetUsePosition());
                 }
                 else if ((int)customerNeed.Need == (int)CustomerNeed.NeedType.Excitement)
                 {
-                    unitController.SetTarget(FindNearestFacility(customerManager.GetGameMachines()));
+                    machineNeed = FindNearestFacility(customerManager.GetGameMachines());
+                    unitController.SetTarget(machineNeed.GetUsePosition());
                 }
 
                 unitController.GetNewPath();
@@ -70,7 +74,7 @@ public class Customer : BaseAI
         {   
             if(unitController.ReachedTarget)
             {   
-                usingFacilityWait = UsingFacilitiesWait(10.0f);
+                usingFacilityWait = UsingFacilitiesWait(machineNeed.UseTime);
                 StartCoroutine(usingFacilityWait);
             }
         }
@@ -137,7 +141,7 @@ public class Customer : BaseAI
         }
     }
 
-    private Transform FindNearestFacility(List<Machine> facilities)
+    private Machine FindNearestFacility(List<Machine> facilities)
     {
         if (facilities.Count == 0)
         {
@@ -145,9 +149,9 @@ public class Customer : BaseAI
             return null;
         }
 
-        Entity nearest = facilities[0];
+        Machine nearest = facilities[0];
 
-        foreach(Entity facility in facilities)
+        foreach(Machine facility in facilities)
         {
             if(Vector3.Distance(customerTransform.position, facility.GetComponent<Transform>().position) <= (Vector3.Distance(customerTransform.position, nearest.GetComponent<Transform>().position)))
             {
@@ -155,7 +159,7 @@ public class Customer : BaseAI
             }
         }
 
-        return nearest.transform;
+        return nearest;
     }
 
     private IEnumerator UsingFacilitiesWait(float waitTime)
