@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class ExpensesMenuUI : MonoBehaviour {
 
-
-
     [SerializeField]
     private GameObject pieGraphObject;
 

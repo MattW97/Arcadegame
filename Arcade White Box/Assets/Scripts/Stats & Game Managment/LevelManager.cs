@@ -123,6 +123,7 @@ public class LevelManager : MonoBehaviour {
 
         _timeLink = this.gameObject.GetComponent<TimeAndCalendar>();
         _playerLink = this.gameObject.GetComponent<PlayerManager>();
+        _economyLink = this.gameObject.GetComponent<EconomyManager>();
         customerManager = this.GetComponent<CustomerManager>();
         openOnce = false;
         closedOnce = false;
