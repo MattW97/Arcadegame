@@ -8,7 +8,7 @@ public class CustomerManager : MonoBehaviour
 
     private float levelSpeedFactor;
     private Transform spawnLocation;
-    private List<Customer> currentCustomers;
+    public List<Customer> currentCustomers;
     private List<Machine> foodFacilities;
     private List<Machine> gameMachines;
     private List<Machine> toilets;
