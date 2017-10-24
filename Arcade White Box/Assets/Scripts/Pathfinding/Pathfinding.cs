@@ -25,14 +25,16 @@ public class Pathfinding : MonoBehaviour
 	}
 
 	IEnumerator FindPath(Vector3 startPosition, Vector3 targetPosition)
-	{	
-		Vector3[] wayPoints = new Vector3[0];
+	{
+        Vector3[] wayPoints = new Vector3[0];
 		bool pathSuccess = false;
 
-		Node startNode = grid.NodeFromWorldPoint(startPosition);
+        Node startNode = grid.NodeFromWorldPoint(startPosition);
 		Node targetNode = grid.NodeFromWorldPoint(targetPosition);
 
-		if(startNode.GetWalkable() && targetNode.GetWalkable())
+        // ADD "&& " back to the if statement
+
+        if (startNode.GetWalkable() && targetNode.GetWalkable())
 		{
 			Heap<Node> openSet = new Heap<Node>(grid.GetMaxSize());
 			HashSet<Node> closedSet = new HashSet<Node>();

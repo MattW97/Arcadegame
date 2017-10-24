@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Machine : PlaceableObject {
 
-    [SerializeField] private float runningCost;  //amount deducted each day
-    [SerializeField] private float maintenanceCost; //amount deducted upon machine breaking and needing repair
-    [SerializeField] private float useCost; //how much it costs a user to use the machine. Includes playing if the machine is a game machine.
+    [SerializeField] private float runningCost;     // amount deducted each day
+    [SerializeField] private float useTime;         // Time it takes to use object, i.e. buy/eat food, use toilet, play game
+    [SerializeField] private float maintenanceCost; // amount deducted upon machine breaking and needing repair
+    [SerializeField] private float useCost;         // how much it costs a user to use the machine. Includes playing if the machine is a game machine.
+    [SerializeField] private Transform usePosition; // The position the customers moves to when using the object
 
     private bool inUse;
 
@@ -70,5 +72,23 @@ public class Machine : PlaceableObject {
         {
             inUse = value;
         }
+    }
+
+    public float UseTime
+    {
+        get
+        {
+            return useTime;
+        }
+
+        set
+        {
+            useTime = value;
+        }
+    }
+
+    public Transform GetUsePosition()
+    {
+        return usePosition;
     }
 }

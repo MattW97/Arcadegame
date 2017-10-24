@@ -26,7 +26,7 @@ public class GridGeneration : MonoBehaviour
     }
 
     public void UpdateGrid()
-    {
+    {   
         pathingGrid.CreateGrid();
     }
 

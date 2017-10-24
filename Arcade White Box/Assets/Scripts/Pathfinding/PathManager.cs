@@ -27,9 +27,9 @@ public class PathManager : MonoBehaviour
 
 	private void TryProcessNext()
 	{
-		if(!isProcessingPath && pathRequestQueue.Count > 0)
+        if (!isProcessingPath && pathRequestQueue.Count > 0)
 		{
-			currentPathRequest = pathRequestQueue.Dequeue();
+            currentPathRequest = pathRequestQueue.Dequeue();
 			isProcessingPath = true;
 			pathfinding.StartFindPath(currentPathRequest.pathStart, currentPathRequest.pathEnd);
 		}

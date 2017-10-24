@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
 {      
-    [SerializeField] private Customer customer;
+    [SerializeField] private Customer[] customers;
 
     private float levelSpeedFactor;
     private Transform spawnLocation;
@@ -51,7 +51,8 @@ public class CustomerManager : MonoBehaviour
     {
         for(int i = 0; i < amount; i++)
         {
-            Customer newCustomer = Instantiate(customer, spawnLocation.position, Quaternion.identity) as Customer;
+            int randomCustomer = Random.Range(0, customers.Length - 1);
+            Customer newCustomer = Instantiate(customers[randomCustomer], spawnLocation.position, Quaternion.identity) as Customer;
             newCustomer.SetSpawnLocation(spawnLocation);
             newCustomer.SetManager(this);
             currentCustomers.Add(newCustomer);
@@ -60,13 +61,13 @@ public class CustomerManager : MonoBehaviour
 
     public void SpawnCustomer()
     {
-        Customer newCustomer = Instantiate(customer, spawnLocation.position, Quaternion.identity) as Customer;
+        int randomCustomer = Random.Range(0, customers.Length - 1);
+        Customer newCustomer = Instantiate(customers[randomCustomer], spawnLocation.position, Quaternion.identity) as Customer;
         newCustomer.SetSpawnLocation(spawnLocation);
         newCustomer.SetManager(this);
         currentCustomers.Add(newCustomer);
         print(currentCustomers.Count);
     }
-
 
     public void MassLeave()
     {
