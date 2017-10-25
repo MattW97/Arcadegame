@@ -32,8 +32,6 @@ public class Pathfinding : MonoBehaviour
         Node startNode = grid.NodeFromWorldPoint(startPosition);
 		Node targetNode = grid.NodeFromWorldPoint(targetPosition);
 
-        // ADD "&& " back to the if statement
-
         if (startNode.GetWalkable() && targetNode.GetWalkable())
 		{
 			Heap<Node> openSet = new Heap<Node>(grid.GetMaxSize());

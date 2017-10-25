@@ -51,7 +51,7 @@ public class CustomerManager : MonoBehaviour
     {
         for(int i = 0; i < amount; i++)
         {
-            int randomCustomer = Random.Range(0, customers.Length - 1);
+            int randomCustomer = Random.Range(0, customers.Length);
             Customer newCustomer = Instantiate(customers[randomCustomer], spawnLocation.position, Quaternion.identity) as Customer;
             newCustomer.SetSpawnLocation(spawnLocation);
             newCustomer.SetManager(this);
@@ -61,7 +61,7 @@ public class CustomerManager : MonoBehaviour
 
     public void SpawnCustomer()
     {
-        int randomCustomer = Random.Range(0, customers.Length - 1);
+        int randomCustomer = Random.Range(0, customers.Length);
         Customer newCustomer = Instantiate(customers[randomCustomer], spawnLocation.position, Quaternion.identity) as Customer;
         newCustomer.SetSpawnLocation(spawnLocation);
         newCustomer.SetManager(this);
