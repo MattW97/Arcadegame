@@ -15,7 +15,7 @@ public class CustomerNumberUpdater : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-       textField.text = GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>().currentCustomers.Count.ToString();
+       textField.text = GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>().NumberOfCurrentCustomers().ToString();
 		
 	}
 }

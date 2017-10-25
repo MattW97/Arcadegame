@@ -123,4 +123,9 @@ public class CustomerManager : MonoBehaviour
     {
         this.gameMachines = gameMachines;
     }
+
+    public int NumberOfCurrentCustomers()
+    {
+        return currentCustomers.Count;
+    }
 }
