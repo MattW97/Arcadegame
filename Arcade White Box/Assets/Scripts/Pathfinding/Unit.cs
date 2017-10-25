@@ -35,7 +35,7 @@ public class Unit : MonoBehaviour
     {
         if (pathSuccessful)
         {
-            print("HELLO");
+            //print("HELLO");
             path = newPath;
             targetIndex = 0;
             StopCoroutine("FollowPath");

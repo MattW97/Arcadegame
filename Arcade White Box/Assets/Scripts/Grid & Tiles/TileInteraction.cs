@@ -108,7 +108,7 @@ public class TileInteraction : MonoBehaviour
                         }
                         else
                         {
-                            print("cant afford");
+                            //print("cant afford");
                             //put something here to tell the player they are poor
                         }
                     }

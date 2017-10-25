@@ -5,6 +5,7 @@ using UnityEngine;
 public class RandomColor : MonoBehaviour {
 
     public Transform parent;
+    public List<Color> colours;
 
     List<Transform> objectstoColor;
 
@@ -25,7 +26,8 @@ public class RandomColor : MonoBehaviour {
         foreach (Transform item in objectstoColor)
         {
             Renderer rend = item.gameObject.GetComponent<Renderer>();
-            rend.material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+           // rend.material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 1f, 1f);
+            rend.material.color = colours[Random.Range(0, colours.Count)];
         }
     }
 }

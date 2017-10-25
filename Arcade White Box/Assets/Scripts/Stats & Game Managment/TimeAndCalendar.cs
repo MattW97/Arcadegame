@@ -9,14 +9,11 @@ public class TimeAndCalendar : MonoBehaviour {
     public int startYear, startMonth, startDay;
 
     [SerializeField] private List<string> dayNames, monthNames;
-    [SerializeField] private float speedOption1, speedOption2, speedOption3, speedOption4, speedOption5;
 
     private Text timeText, dateText;
 
     private int currentHour, currentMinute;
     private int currentYear, currentMonth, currentDay;
-
-    public float timeMultiplier;
 
 
     public int CurrentHour
@@ -167,15 +164,15 @@ public class TimeAndCalendar : MonoBehaviour {
         this.gameObject.GetComponent<PlayerManager>().BeenBankrupt = false;
     }
 
-    private void SetInvokeRepeatingSpeed(float speedOption)
-    {
-        InvokeRepeating("MinuteIncrement", 0, speedOption);
-        timeMultiplier = Mathf.Round(1 / speedOption);
-    }
-
     public void PrintTime()
     {
         print("Current time is " + CurrentHour + ":" + CurrentMinute + ".");
+    }
+
+    public void StartTimer()
+    {
+        StopTimer();
+        InvokeRepeating("MinuteIncrement", 0, 1.0f);
     }
 
     public void StopTimer()
@@ -183,28 +180,22 @@ public class TimeAndCalendar : MonoBehaviour {
         CancelInvoke();
     }
 
-    public void StartTimer()
-    {
-        StopTimer();
-        SetInvokeRepeatingSpeed(speedOption1);
-    }
-
     public void StartTimerX2()
     {   
         StopTimer();
-        SetInvokeRepeatingSpeed(speedOption2);
+        InvokeRepeating("MinuteIncrement", 0, 0.5f);
     }
 
     public void StartTimerX3()
     {
         StopTimer();
-        SetInvokeRepeatingSpeed(speedOption3); 
+        InvokeRepeating("MinuteIncrement", 0, 0.33f);
     }
 
     public void StartTimerX10()
     {
         StopTimer();
-        SetInvokeRepeatingSpeed(speedOption4); 
+        InvokeRepeating("MinuteIncrement", 0, 0.01f);
     }
 
     private string LeadingZero(int n)
