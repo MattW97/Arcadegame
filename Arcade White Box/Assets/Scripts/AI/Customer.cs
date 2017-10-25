@@ -14,8 +14,7 @@ public class Customer : BaseAI
     private CustomerNeed[] customerNeeds;
     private CustomerNeed highestNeed;
     private Unit unitController;
-    private CustomerText customerText;
-    private Transform customerTransform, doorPosition;
+    private Transform customerTransform;
     private Transform spawnLocation;
     private IEnumerator usingFacilityWait;
     private CustomerManager customerManager;
@@ -24,7 +23,6 @@ public class Customer : BaseAI
     void Start()
     {   
         unitController = GetComponent<Unit>();
-        customerText = GetComponent<CustomerText>();
         customerTransform = GetComponent<Transform>();
 
         customerNeeds = new CustomerNeed[3];
@@ -67,6 +65,7 @@ public class Customer : BaseAI
                 }
 
                 unitController.GetNewPath();
+                machineNeed.InUse = true;
                 currentState = CustomerState.Moving;
             }
         }
@@ -75,6 +74,7 @@ public class Customer : BaseAI
             if(unitController.ReachedTarget)
             {   
                 usingFacilityWait = UsingFacilitiesWait(machineNeed.UseTime);
+                GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().MoneyEarnedFromArcade(machineNeed);
                 StartCoroutine(usingFacilityWait);
             }
         }
@@ -144,18 +144,20 @@ public class Customer : BaseAI
     private Machine FindNearestFacility(List<Machine> facilities)
     {
         if (facilities.Count == 0)
-        {
-            print("THERE ARE NO TOILETS YA NONCE!");
+        {   
             return null;
         }
 
         Machine nearest = facilities[0];
 
+        facilities.Sort(delegate(Machine a, Machine b){ return Vector3.Distance(customerTransform.position, a.transform.position).CompareTo(Vector3.Distance(customerTransform.position, b.transform.position)); });
+
         foreach(Machine facility in facilities)
         {
-            if(Vector3.Distance(customerTransform.position, facility.GetComponent<Transform>().position) <= (Vector3.Distance(customerTransform.position, nearest.GetComponent<Transform>().position)))
+            if(!facility.InUse)
             {
                 nearest = facility;
+                break;
             }
         }
 
@@ -166,9 +168,11 @@ public class Customer : BaseAI
     {
         usingFacility = true;
         highestNeed.NeedValue = 0.0f;
+        customerTransform.LookAt(machineNeed.transform);
         currentState = CustomerState.UsingFacility;
         yield return new WaitForSeconds(waitTime / speedFactor);
         currentState = CustomerState.Idle;
+        machineNeed.InUse = false;
         usingFacility = false;
     }
 

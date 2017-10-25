@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Machine : PlaceableObject {
-
+    
     [SerializeField] private float runningCost;     // amount deducted each day
     [SerializeField] private float useTime;         // Time it takes to use object, i.e. buy/eat food, use toilet, play game
     [SerializeField] private float maintenanceCost; // amount deducted upon machine breaking and needing repair
