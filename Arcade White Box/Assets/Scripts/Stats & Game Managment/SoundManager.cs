@@ -62,7 +62,6 @@ public class SoundManager : MonoBehaviour {
             {
                 GameManager.Instance.GetComponent<EventManager>().SongSwitch();
             }
-            //print("The current song is " + gameAudioSource.clip.name);
             doneOnce = true;
             trackNumber++;
         }

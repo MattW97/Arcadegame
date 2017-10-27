@@ -223,4 +223,9 @@ public class LevelManager : MonoBehaviour {
             customerManager.SetToilets(AllToilets);
         }
     }
+
+    public TimeAndCalendar GetTimeLink()
+    {
+        return _timeLink;
+    }
 }

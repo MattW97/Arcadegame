@@ -5,13 +5,16 @@ using UnityEngine;
 public class CustomerManager : MonoBehaviour
 {      
     [SerializeField] private Customer[] customers;
+    [SerializeField] private GameObject[] customerTrash;
 
     private float levelSpeedFactor;
+    private TimeAndCalendar gameTime;
     private Transform spawnLocation;
     private List<Customer> currentCustomers;
     private List<Machine> foodFacilities;
     private List<Machine> gameMachines;
     private List<Machine> toilets;
+    private List<GameObject> droppedTrash;
 
     void Awake()
     {
@@ -19,6 +22,12 @@ public class CustomerManager : MonoBehaviour
         foodFacilities = new List<Machine>();
         gameMachines = new List<Machine>();
         toilets = new List<Machine>();
+        droppedTrash = new List<GameObject>();
+    }
+
+    void Start()
+    {
+        gameTime = GameManager.Instance.SceneManagerLink.GetComponent<TimeAndCalendar>();
     }
 
     void Update()
@@ -31,19 +40,6 @@ public class CustomerManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.J))
         {
             SpawnCustomers(1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            levelSpeedFactor = 1.0f;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            levelSpeedFactor = 2.0f;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            levelSpeedFactor = 4.0f;
         }
     }
 
@@ -66,7 +62,6 @@ public class CustomerManager : MonoBehaviour
         newCustomer.SetSpawnLocation(spawnLocation);
         newCustomer.SetManager(this);
         currentCustomers.Add(newCustomer);
-        print(currentCustomers.Count);
     }
 
     public void MassLeave()
@@ -81,7 +76,7 @@ public class CustomerManager : MonoBehaviour
 
     public float GetSpeedFactor()
     {
-        return 1;
+        return gameTime.timeMultiplier;
     }
 
     public List<Machine> GetToilets()
@@ -104,6 +99,11 @@ public class CustomerManager : MonoBehaviour
         return currentCustomers.Count;
     }
 
+    public GameObject GetTrash()
+    {
+        return customerTrash[Random.Range(0, customerTrash.Length)];
+    }
+
     public void SetSpawnLocation(Transform spawnLocation)
     {
         this.spawnLocation = spawnLocation;
@@ -122,6 +122,16 @@ public class CustomerManager : MonoBehaviour
     public void SetGameMachines(List<Machine> gameMachines)
     {
         this.gameMachines = gameMachines;
+    }
+
+    public void AddToDroppedTrash(GameObject trash)
+    {
+        droppedTrash.Add(trash);
+    }
+
+    public List<GameObject> GetDroppedTrash()
+    {
+        return droppedTrash;
     }
 
     public int NumberOfCurrentCustomers()

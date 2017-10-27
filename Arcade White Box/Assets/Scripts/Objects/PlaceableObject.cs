@@ -19,6 +19,10 @@ public class PlaceableObject : Entity {
         selectionTransform = selectionMesh.GetComponent<Transform>();
         selectionMesh.SetActive(false);
         Selected = false;
+        if (percentReturnedUponSold == 0)
+        {
+            percentReturnedUponSold = 1;
+        }
     }
 
     protected virtual void Update()

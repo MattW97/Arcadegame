@@ -8,7 +8,10 @@ public class TimeAndCalendar : MonoBehaviour {
     public int startHour, startMinute;
     public int startYear, startMonth, startDay;
 
+    public float timeMultiplier;
+
     [SerializeField] private List<string> dayNames, monthNames;
+    [SerializeField] private float speedOption1, speedOption2, speedOption3, speedOption4, speedOption5;
 
     private Text timeText, dateText;
 
@@ -169,33 +172,39 @@ public class TimeAndCalendar : MonoBehaviour {
         print("Current time is " + CurrentHour + ":" + CurrentMinute + ".");
     }
 
-    public void StartTimer()
-    {
-        StopTimer();
-        InvokeRepeating("MinuteIncrement", 0, 1.0f);
-    }
-
     public void StopTimer()
     {
         CancelInvoke();
     }
 
+    public void StartTimer()
+    {
+        StopTimer();
+        SetInvokeRepeating(speedOption1);
+    }
+
+    private void SetInvokeRepeating(float option)
+    {
+        timeMultiplier = Mathf.Round(1 / option);
+        InvokeRepeating("MinuteIncrement", 0, option);
+    }
+
     public void StartTimerX2()
     {   
         StopTimer();
-        InvokeRepeating("MinuteIncrement", 0, 0.5f);
+        SetInvokeRepeating(speedOption2);
     }
 
     public void StartTimerX3()
     {
         StopTimer();
-        InvokeRepeating("MinuteIncrement", 0, 0.33f);
+        SetInvokeRepeating(speedOption3);
     }
 
     public void StartTimerX10()
     {
         StopTimer();
-        InvokeRepeating("MinuteIncrement", 0, 0.01f);
+        SetInvokeRepeating(speedOption4);
     }
 
     private string LeadingZero(int n)
