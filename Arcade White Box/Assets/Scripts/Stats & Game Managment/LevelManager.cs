@@ -223,4 +223,12 @@ public class LevelManager : MonoBehaviour {
             customerManager.SetToilets(AllToilets);
         }
     }
+
+    public void InstantiateLevel()
+    {
+        foreach (GameObject obj in allObjectsInLevel)
+        {
+            GameObject newObject = Instantiate(obj);
+        }
+    }
 }

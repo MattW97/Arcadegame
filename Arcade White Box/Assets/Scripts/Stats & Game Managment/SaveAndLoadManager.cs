@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Runtime.Serialization.Formatters.Binary;
+using BayatGames.SaveGameFree;
 
 /// <summary>
 /// Class for handling persistent game data
@@ -15,6 +16,7 @@ public class SaveAndLoadManager : MonoBehaviour
     #region Public Fields
 
     public GameData gameData = new GameData();
+    public MachineData machineData = new MachineData();
     public Scene openScene;
 
 
@@ -131,82 +133,6 @@ public class SaveAndLoadManager : MonoBehaviour
         return allSaves;
     }
 
-    /// <summary>
-    /// Load game data from file for active use
-    /// THIS IS NO LONGER USED. LEFT IN FOR REFERENCE. CLEANUP TOWARDS FINAL VERSION!
-    /// </summary>
-    /// <param name="gameName"></param>
-    /// <returns></returns>
-    public void LoadGame(string gameName)
-    {
-        // Assemble path to file to load game from
-        String fullFilePath = SavePath + gameName + FILE_EXTENSION;
-
-        if (File.Exists(fullFilePath))
-        {
-            // Put it into a file
-            Debug.Log("Deserializing " + fullFilePath);
-
-            FileStream fs = File.Open(fullFilePath, FileMode.Open);
-
-            // Deserialize the XML Save File (Using XmlSerializer instead of BinarySerializer)
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(GameData));
-            XmlReader reader = XmlReader.Create(fs);
-            //reader.Read(); //skip BOM
-            gameData = xmlSerializer.Deserialize(reader) as GameData;
-
-            AssignValues(gameData);
-            fs.Close();
-
-        }
-        else
-        {
-            Debug.Log("Failed to load file " + fullFilePath);
-        }
-    }
-
-    /// <summary>
-    /// Save all game data to file
-    /// THIS IS NO LONGER USED. LEFT IN FOR REFERENCE. CLEANUP TOWARDS FINAL VERSION!
-    /// </summary>
-    /// <param name="saveFile"></param>
-    public void SaveGame(string saveFile)
-    {
-        //CheckDirectory();
-        
-
-        // Update saveFile name
-        if (saveFile == null)
-        {
-            saveFile = GenerateNewSaveName();
-        }
-
-        this.saveFile = saveFile;
-
-        //FileStream fs = File.Create(GameDic.Instance.SavePath + saveFile);
-        UpdateSaveData(saveFile);
-
-        string fullSavePath = SavePath + saveFile + FILE_EXTENSION;
-
-        FileStream fs;
-
-        // Create a file or open an old one up for writing to
-        if (!File.Exists(fullSavePath))
-        {
-            fs = File.Create(fullSavePath);
-        }
-        else
-        {
-            fs = File.OpenWrite(fullSavePath);
-        }
-
-        XmlSerializer serializer = new XmlSerializer(typeof(GameData));
-        TextWriter textWriter = new StreamWriter(fs);
-        serializer.Serialize(textWriter, gameData);
-        fs.Close();
-
-        Debug.Log("Game Saved to " + fullSavePath);
-    }
 
 
     /// <summary>
@@ -263,6 +189,24 @@ public class SaveAndLoadManager : MonoBehaviour
         }
     }
 
+    public void SaveScene(string saveFileName)
+    {
+        if (!Directory.Exists(Application.persistentDataPath + "/SavedGames/"))
+            Directory.CreateDirectory(Application.persistentDataPath + "/SavedGames/");
+
+        string fullSavePath = SavePath + saveFileName + FILE_EXTENSION;
+        UpdateMachineData();
+
+        SaveGame.Save<MachineData>("All Objects", machineData);
+    }
+
+    public void LoadScene(string saveFileName)
+    {
+        machineData = SaveGame.Load<MachineData>("All Objects", machineData);
+        GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().AllMachineObjects = machineData.allGOs;
+        GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().InstantiateLevel();
+    }
+
     public void UpdateGameData()
     {
         gameData.arcadeName = _playerManagerLink.ArcadeName;
@@ -273,6 +217,11 @@ public class SaveAndLoadManager : MonoBehaviour
         gameData.currentDay = _timeAndCalendarLink.CurrentDay;
         gameData.currentMonth = _timeAndCalendarLink.CurrentMonth;
         gameData.currentYear = _timeAndCalendarLink.CurrentYear;
+    }
+
+    public void UpdateMachineData()
+    {
+        machineData.allGOs = GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().AllMachineObjects;
     }
 
     /// <summary>
@@ -394,10 +343,15 @@ public class GameData
 }
 
 [Serializable]
-public class PlacedMachineData
+public class MachineData
 {
-    public float PositionX, PositionY, PositionZ;
-    public float RotationX, RotationY, RotationZ;
+    //public Vector3 position;
+    //public Vector3 rotation;
+    //public int UseCost;
+    //public GameObject machineGameObject;
+
+    public List<Machine> allGOs;
+
 
 }
 

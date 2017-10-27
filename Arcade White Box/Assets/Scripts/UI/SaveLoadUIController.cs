@@ -20,10 +20,12 @@ public class SaveLoadUIController : MonoBehaviour {
     {
         GameManager.Instance.GetComponent<SaveAndLoadManager>().UpdateGameData();
         _saveLoadManagerLink.SaveData("UI Test");
+        _saveLoadManagerLink.SaveScene("Scene test");
     }
 
     public void OnLoadButtonPressed()
     {
         _saveLoadManagerLink.LoadData("UI Test");
+        _saveLoadManagerLink.LoadScene("Scene test");
     }
 }
