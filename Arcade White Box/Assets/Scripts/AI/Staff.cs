@@ -9,11 +9,20 @@ public class Staff : BaseAI
     [SerializeField] private StaffType staffType;
     [SerializeField] private float hireCost, wageCost;
 
-    private Unit unitController;
+    protected float speedFactor;
+    protected Unit unitController;
+    protected StaffManager staffManager;
 
-    void Awake()
+    protected virtual void Awake()
     {
         unitController = GetComponent<Unit>();
+        staffManager = GameManager.Instance.SceneManagerLink.GetComponent<StaffManager>();
+    }
+
+    protected virtual void Update()
+    {
+        speedFactor = staffManager.GetSpeedFactor();
+        unitController.SpeedFactor = speedFactor;
     }
 
     public float HireCost

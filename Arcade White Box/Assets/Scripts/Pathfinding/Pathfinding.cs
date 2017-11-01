@@ -52,7 +52,7 @@ public class Pathfinding : MonoBehaviour
 
 				foreach(Node neighbour in grid.GetNeighbours(currentNode))
 				{
-					if(!neighbour.GetWalkable() || closedSet.Contains(neighbour))
+                    if (!neighbour.GetWalkable() || closedSet.Contains(neighbour))
 					{
 						continue;
 					}

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ButtonSelection : MonoBehaviour {
 
-    private TileInteraction _tileInteractionLink;
+    private LevelInteraction _tileInteractionLink;
 
     [SerializeField] private List<PlaceableObject> placeableObjectsList;
     [SerializeField] private List<Button> buttonList;
@@ -13,7 +13,7 @@ public class ButtonSelection : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        _tileInteractionLink = GameManager.Instance.SceneManagerLink.GetComponent<TileInteraction>();
+        _tileInteractionLink = GameManager.Instance.SceneManagerLink.GetComponent<LevelInteraction>();
         setupButtons();
 	}
 	
@@ -38,8 +38,8 @@ public class ButtonSelection : MonoBehaviour {
         {
             if (buttonList[i] == theButton)
             {
-                _tileInteractionLink.TempPlaceObject = theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton;
-                _tileInteractionLink.switchTileHighlighterMesh(theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton);
+                _tileInteractionLink.ObjectToPlace = theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton;
+                _tileInteractionLink.SwitchTileHighlighterMesh(theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton);
                 _objectUILink.SetActive(true);
                 _objectUILink.GetComponent<PlacingObjectInteractionMenuUI>().GetCurrentObject(theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton);
             }

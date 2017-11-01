@@ -18,12 +18,14 @@ public class Customer : BaseAI
     private Transform spawnLocation;
     private IEnumerator usingFacilityWait;
     private CustomerManager customerManager;
+    private EconomyManager economyManager;
     private Machine machineNeed;
 
     void Start()
     {   
         unitController = GetComponent<Unit>();
         customerTransform = GetComponent<Transform>();
+        economyManager = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();
 
         customerNeeds = new CustomerNeed[3];
 
@@ -51,22 +53,25 @@ public class Customer : BaseAI
                 if ((int)customerNeed.Need == (int)CustomerNeed.NeedType.Food)
                 {
                     machineNeed = FindNearestFacility(customerManager.GetFoodStalls());
-                    unitController.SetTarget(machineNeed.GetUsePosition());
+
+                    DropTrash();
                 }
                 else if ((int)customerNeed.Need == (int)CustomerNeed.NeedType.Toilet)
                 {
                     machineNeed = FindNearestFacility(customerManager.GetToilets());
-                    unitController.SetTarget(machineNeed.GetUsePosition());
                 }
                 else if ((int)customerNeed.Need == (int)CustomerNeed.NeedType.Excitement)
                 {
                     machineNeed = FindNearestFacility(customerManager.GetGameMachines());
-                    unitController.SetTarget(machineNeed.GetUsePosition());
                 }
 
-                unitController.GetNewPath();
-                machineNeed.InUse = true;
-                currentState = CustomerState.Moving;
+                if(machineNeed != null)
+                {
+                    unitController.SetTarget(machineNeed.GetUsePosition());
+                    unitController.GetNewPath();
+                    machineNeed.InUse = true;
+                    currentState = CustomerState.Moving;
+                }
             }
         }
         else if(currentState == CustomerState.Moving)
@@ -74,7 +79,7 @@ public class Customer : BaseAI
             if(unitController.ReachedTarget)
             {   
                 usingFacilityWait = UsingFacilitiesWait(machineNeed.UseTime);
-                GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().MoneyEarnedFromArcade(machineNeed);
+                economyManager.MoneyEarnedFromArcade(machineNeed);
                 StartCoroutine(usingFacilityWait);
             }
         }
@@ -148,7 +153,7 @@ public class Customer : BaseAI
             return null;
         }
 
-        Machine nearest = facilities[0];
+        Machine nearest = null;
 
         facilities.Sort(delegate(Machine a, Machine b){ return Vector3.Distance(customerTransform.position, a.transform.position).CompareTo(Vector3.Distance(customerTransform.position, b.transform.position)); });
 
@@ -174,6 +179,12 @@ public class Customer : BaseAI
         currentState = CustomerState.Idle;
         machineNeed.InUse = false;
         usingFacility = false;
+    }
+
+    private void DropTrash()
+    {
+        GameObject dropped = Instantiate(customerManager.GetTrash(), customerTransform.position, Quaternion.identity);
+        customerManager.AddToDroppedTrash(dropped);
     }
 
     public void SetManager(CustomerManager customerManager)

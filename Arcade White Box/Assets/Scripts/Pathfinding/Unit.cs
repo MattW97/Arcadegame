@@ -35,15 +35,10 @@ public class Unit : MonoBehaviour
     {
         if (pathSuccessful)
         {
-            //print("HELLO");
             path = newPath;
             targetIndex = 0;
             StopCoroutine("FollowPath");
             StartCoroutine("FollowPath");
-        }
-        else
-        {
-            
         }
 	}
 
@@ -64,7 +59,9 @@ public class Unit : MonoBehaviour
 
         if (path.Length == 0)
         {
-            Destroy(gameObject);
+            ReachedTarget = true;
+            FollowingPath = false;
+            yield break;
         }
         else
         {
