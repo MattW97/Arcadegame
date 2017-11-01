@@ -22,7 +22,7 @@ MonoBehaviour:
   m_MinSize: {x: 583, y: 492}
   m_MaxSize: {x: 14004, y: 14042}
   vertical: 1
-  controlID: 11
+  controlID: 1481
 --- !u!114 &2
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_MinSize: {x: 583, y: 492}
   m_MaxSize: {x: 14004, y: 14042}
   vertical: 0
-  controlID: 12
+  controlID: 1482
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -146,7 +146,7 @@ MonoBehaviour:
   m_MinSize: {x: 306, y: 492}
   m_MaxSize: {x: 10002, y: 14042}
   vertical: 1
-  controlID: 13
+  controlID: 1483
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_MinSize: {x: 306, y: 221}
   m_MaxSize: {x: 8006, y: 4021}
   vertical: 0
-  controlID: 14
+  controlID: 1484
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -226,14 +226,14 @@ MonoBehaviour:
     width: 1933
     height: 879
   m_SceneLighting: 1
-  lastFramingTime: 20188.533494378757
+  lastFramingTime: 567.1972254304278
   m_2DMode: 1
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 586.0544, y: 357.44806, z: 0}
+    m_Target: {x: -1569.4614, y: 1147.9359, z: 3698.4822}
     speed: 2
-    m_Value: {x: 586.0544, y: 357.44806, z: 0}
+    m_Value: {x: -1569.4614, y: 1147.9359, z: 3698.4822}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -260,9 +260,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 1603.9047
+    m_Target: 5.2637963
     speed: 2
-    m_Value: 1603.9047
+    m_Value: 5.2637963
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -403,23 +403,23 @@ MonoBehaviour:
     height: 879
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 7e300000
-    m_LastClickedID: 12414
-    m_ExpandedIDs: 74f9ffffe6fbffff00000000
+    m_SelectedIDs: 8ed3feff
+    m_LastClickedID: -76914
+    m_ExpandedIDs: 14c4feff8ed3feff26d7feffaa5effff1edaffff2edaffff92daffffc6daffff96dbffffa2dcffff2eddffff48ddffffe8ebffff00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: Slime Machine
+      m_OriginalName: Slime Machine
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: -76006
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 0
       m_ClientGUIView: {fileID: 10}
     m_SearchString: 
@@ -500,10 +500,10 @@ MonoBehaviour:
   m_LastProjectPath: C:\Users\Matt\Documents\Arcadegame\Arcade White Box
   m_IsLocked: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 911}
-    m_SelectedIDs: 52290000
-    m_LastClickedID: 10578
-    m_ExpandedIDs: 000000005c2500008e250000ae2500001c2600002a260000182800001a280000582800007e28000094280000be280000022900004e290000ca290000da290000722b0000ffffff7f
+    scrollPos: {x: 0, y: 947}
+    m_SelectedIDs: 6e430000
+    m_LastClickedID: 17262
+    m_ExpandedIDs: 00000000c0400000e8400000f840000036410000444100009c420000a2420000be420000d6420000e8420000084300003e4300006c430000a2430000b2430000ce440000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -531,7 +531,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 0027f0ff
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000005c2500008e250000ae2500001c2600002a260000182800001a280000582800007e28000094280000be280000022900004e290000ca290000da290000722b0000
+    m_ExpandedIDs: 00000000c0400000e8400000f840000036410000444100009c420000a2420000be420000d6420000e8420000084300003e4300006c430000a2430000b2430000ce440000ffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -556,8 +556,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 7e300000
-    m_LastClickedInstanceID: 12414
+    m_SelectedInstanceIDs: 8ed3feff
+    m_LastClickedInstanceID: -76914
     m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: a822000036220000b0a0ffff4a2e0000a8260000dc2c0000b4280000d43300004a9bffffdc250000e825000082280000762600007e8ef8ffc82600009a270000ce4300003e4500004c2e00006c4e0000f24c00000c4c00005a270000f6380000b229000060550000e24100002e180000663cfcfff46c0000f226000008270000fc260000bafc0000ee260000a2360000e2e100005ecb0000900cfdff9ac200006087ffff18f7f4ff762a0000f49effff763c000050fd000074250000fa40000082250000243500007e2700000000000096700000
     m_RenameOverlay:
