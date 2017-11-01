@@ -14,7 +14,6 @@ public class TileInteraction : MonoBehaviour
     private GameObject tileHighlighter;
     private Transform highlighterTransform;
     private PlaceableObject currentSelectedObject;
-
     private PlayerManager _playerLink;
 
     public PlaceableObject TempPlaceObject
@@ -36,7 +35,6 @@ public class TileInteraction : MonoBehaviour
         {
             return currentSelectedObject;
         }
-
         set
         {
             currentSelectedObject = value;
@@ -219,7 +217,7 @@ public class TileInteraction : MonoBehaviour
         }
     }
 
-    public void switchTileHighlighterMesh(PlaceableObject objectToDrawMeshFrom)
+    public void SwitchTileHighlighterMesh(PlaceableObject objectToDrawMeshFrom)
     {
         Mesh newMesh = objectToDrawMeshFrom.GetComponentInChildren<MeshFilter>().sharedMesh;
         tileHighlighter.GetComponent<MeshFilter>().sharedMesh = newMesh;
@@ -241,6 +239,7 @@ public class TileInteraction : MonoBehaviour
         {
             GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().CurrentCash += CurrentSelectedObject.returnAmount();
         }
+
         CurrentSelectedObject = null;
     }
 }

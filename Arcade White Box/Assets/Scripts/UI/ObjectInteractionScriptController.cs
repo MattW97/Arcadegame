@@ -7,12 +7,12 @@ public class ObjectInteractionScriptController : MonoBehaviour {
     [SerializeField]
     private GameObject PlacedObjectInteractionMenu, PlacingObjectInteractionMenu;
 
-    private TileInteraction _tileInteractionLink;
+    private LevelInteraction _tileInteractionLink;
 
 	// Use this for initialization
 	void Start () {
 
-        _tileInteractionLink = GameManager.Instance.SceneManagerLink.GetComponent<TileInteraction>();
+        _tileInteractionLink = GameManager.Instance.SceneManagerLink.GetComponent<LevelInteraction>();
 		
 	}
 	
