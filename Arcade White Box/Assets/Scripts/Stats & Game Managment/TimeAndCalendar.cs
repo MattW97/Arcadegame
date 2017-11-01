@@ -92,7 +92,7 @@ public class TimeAndCalendar : MonoBehaviour {
         CurrentMonth = startMonth;
         CurrentDay = startDay;
 
-        timeText = GameObject.Find("UI Canvas/Top Banner/Time Panel/Time Text").GetComponent<Text>();
+        timeText = GameObject.Find("UI Canvas/New/Bottom Bar/Date And Time/Text").GetComponent<Text>();
 
         StartTimer();
 	}
