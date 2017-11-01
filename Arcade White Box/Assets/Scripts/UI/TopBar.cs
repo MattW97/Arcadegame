@@ -11,8 +11,8 @@ public class TopBar : MonoBehaviour {
     private PlayerManager _playerLink;
     private EconomyManager _economyLink;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         _playerLink = GameManager.Instance.SceneManagerLink.GetComponent<PlayerManager>();
         _economyLink = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();

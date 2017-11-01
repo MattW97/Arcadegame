@@ -15,9 +15,23 @@ public class InGameSettingUI : MonoBehaviour
     private Dropdown resolutionDropDown;
 
     [SerializeField]
-    private AudioSource gameAudioSource;
+    public AudioSource gameAudioSource;
 
     private SoundManager soundManager;
+
+
+    public Slider MusicSlider
+    {
+        get
+        {
+            return musicSlider;
+        }
+
+        set
+        {
+            musicSlider = value;
+        }
+    }
 
     void Awake()
     {
@@ -28,8 +42,8 @@ public class InGameSettingUI : MonoBehaviour
         GameManager.Instance.SettingManager.LoadSettings();
         GameManager.Instance.SoundManager.InGameAudio();
 
-        musicSlider.value = GameManager.Instance.SettingManager.GetMusicVolume();
-        gameAudioSource.volume = musicSlider.value;
+        MusicSlider.value = GameManager.Instance.SettingManager.GetMusicVolume();
+        gameAudioSource.volume = MusicSlider.value;
         fullscreen.isOn = GameManager.Instance.SettingManager.GetIfFullscreen();
         fullscreen.isOn = fullscreen.isOn;
         resolutionDropDown.value = GameManager.Instance.SettingManager.GetResolutionIndex();
@@ -60,8 +74,8 @@ public class InGameSettingUI : MonoBehaviour
 
     public void ChangeMusicVolume()
     {
-        GameManager.Instance.SettingManager.SetMusicVolume(musicSlider.value);
-        gameAudioSource.volume = musicSlider.value;
+        GameManager.Instance.SettingManager.SetMusicVolume(MusicSlider.value);
+        gameAudioSource.volume = MusicSlider.value;
     }
 
     public void Fullscreen()
@@ -80,5 +94,11 @@ public class InGameSettingUI : MonoBehaviour
     public void ApplySettings()
     {
         GameManager.Instance.SettingManager.SaveSettings();
+    }
+    public void CancelSettings()
+    {
+        GameManager.Instance.SettingManager.LoadSettings();
+        print(gameAudioSource.volume);
+
     }
 }

@@ -44,6 +44,6 @@ public class ButtonSelection : MonoBehaviour {
                 _objectUILink.GetComponent<PlacingObjectInteractionMenuUI>().GetCurrentObject(theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton);
             }
         }
-        this.gameObject.SetActive(false);
+        //this.gameObject.SetActive(false);
     }
 }
