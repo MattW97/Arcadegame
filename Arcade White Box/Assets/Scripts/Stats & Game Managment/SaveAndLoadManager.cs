@@ -16,7 +16,7 @@ public class SaveAndLoadManager : MonoBehaviour
     #region Public Fields
 
     public GameData gameData = new GameData();
-    public MachineData machineData = new MachineData();
+    public SaveableData saveData = new SaveableData();
     public Scene openScene;
 
 
@@ -140,7 +140,7 @@ public class SaveAndLoadManager : MonoBehaviour
     /// </summary>
     /// <param name="saveFileName"></param>
     /// <returns></returns>
-    public void SaveData(string saveFileName)
+    public void SaveStat(string saveFileName)
     {
         if (!Directory.Exists(Application.persistentDataPath + "/SavedGames/"))
             Directory.CreateDirectory(Application.persistentDataPath + "/SavedGames/");
@@ -160,7 +160,7 @@ public class SaveAndLoadManager : MonoBehaviour
             saveFile = File.OpenWrite(fullSavePath);
         }
 
-        formatter.Serialize(saveFile, gameData);
+        formatter.Serialize(saveFile, saveData.stats);
 
         saveFile.Close();
     }
@@ -170,7 +170,7 @@ public class SaveAndLoadManager : MonoBehaviour
     /// </summary>
     /// <param name="saveFileName"></param>
     /// <returns></returns>
-    public void LoadData(string saveFileName)
+    public void LoadStats(string saveFileName)
     {
         string fullFilePath = SavePath + saveFileName + FILE_EXTENSION;
         if (File.Exists(fullFilePath))
@@ -178,8 +178,8 @@ public class SaveAndLoadManager : MonoBehaviour
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream saveFile = File.Open(fullFilePath, FileMode.Open);
 
-            gameData = (GameData)formatter.Deserialize(saveFile);
-            AssignValues(gameData);
+            saveData.stats = (GameData)formatter.Deserialize(saveFile);
+            AssignValues(saveData);
 
             saveFile.Close();
         }
@@ -197,31 +197,41 @@ public class SaveAndLoadManager : MonoBehaviour
         string fullSavePath = SavePath + saveFileName + FILE_EXTENSION;
         UpdateMachineData();
 
-        SaveGame.Save<MachineData>("All Objects", machineData);
+        SaveGame.Save<SaveableData>(Application.persistentDataPath + "/SavedGames/SavedScene", saveData);
     }
 
     public void LoadScene(string saveFileName)
     {
-        machineData = SaveGame.Load<MachineData>("All Objects", machineData);
-        GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().AllMachineObjects = machineData.allGOs;
-        GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().InstantiateLevel();
+        saveData = SaveGame.Load<SaveableData>(Application.persistentDataPath + "/SavedGames/SavedScene", saveData);
+        GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().InstantiateLevel(saveData.allGameObjects);
+    }
+
+    public void SaveCustomers()
+    {
+
+    }
+
+    public void LoadCustomers()
+    {
+
     }
 
     public void UpdateGameData()
     {
-        gameData.arcadeName = _playerManagerLink.ArcadeName;
-        gameData.playerName = _playerManagerLink.PlayerName;
-        gameData.playerMoney = _economyManagerLink.CurrentCash;
-        gameData.currentMinute = _timeAndCalendarLink.CurrentMinute;
-        gameData.currentHour = _timeAndCalendarLink.CurrentHour;
-        gameData.currentDay = _timeAndCalendarLink.CurrentDay;
-        gameData.currentMonth = _timeAndCalendarLink.CurrentMonth;
-        gameData.currentYear = _timeAndCalendarLink.CurrentYear;
+        saveData.stats.arcadeName = _playerManagerLink.ArcadeName;
+        saveData.stats.playerName = _playerManagerLink.PlayerName;
+        saveData.stats.playerMoney = _economyManagerLink.CurrentCash;
+        saveData.stats.currentMinute = _timeAndCalendarLink.CurrentMinute;
+        saveData.stats.currentHour = _timeAndCalendarLink.CurrentHour;
+        saveData.stats.currentDay = _timeAndCalendarLink.CurrentDay;
+        saveData.stats.currentMonth = _timeAndCalendarLink.CurrentMonth;
+        saveData.stats.currentYear = _timeAndCalendarLink.CurrentYear;
     }
 
     public void UpdateMachineData()
     {
-        machineData.allGOs = GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().AllMachineObjects;
+        saveData.allGameObjects = GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().AllObjectsInLevel;
+
     }
 
     /// <summary>
@@ -230,27 +240,13 @@ public class SaveAndLoadManager : MonoBehaviour
     /// <param name="saveFile"></param>
     private void UpdateSaveData(string saveFile)
     {
-        gameData.lastSaveFile = saveFile;
-        gameData.lastSaveTime = DateTime.Now.ToBinary();
+        saveData.stats.lastSaveFile = saveFile;
+        saveData.stats.lastSaveTime = DateTime.Now.ToBinary();
     }
 
     #endregion Public Methods
 
     #region Private Methods
-
-
-    /// <summary>
-    /// Initialization
-    /// </summary>
-    private void Awake()
-    {
-    }
-
-
-    void Start()
-    {
-        
-    }
 
     public void Initialise()
     {
@@ -260,17 +256,17 @@ public class SaveAndLoadManager : MonoBehaviour
     }
 
     // Assigns data to where it should be after a load
-    private void AssignValues(GameData data)
+    private void AssignValues(SaveableData data)
     {
-        _timeAndCalendarLink.CurrentDay = data.currentDay;
-        _timeAndCalendarLink.CurrentMonth = data.currentMonth;
-        _timeAndCalendarLink.CurrentYear = data.currentYear;
-        _timeAndCalendarLink.CurrentMinute = data.currentMinute;
-        _timeAndCalendarLink.CurrentHour = data.currentHour;
+        _timeAndCalendarLink.CurrentDay = data.stats.currentDay;
+        _timeAndCalendarLink.CurrentMonth = data.stats.currentMonth;
+        _timeAndCalendarLink.CurrentYear = data.stats.currentYear;
+        _timeAndCalendarLink.CurrentMinute = data.stats.currentMinute;
+        _timeAndCalendarLink.CurrentHour = data.stats.currentHour;
 
-        _economyManagerLink.CurrentCash = data.playerMoney;
-        _playerManagerLink.PlayerName = data.playerName;
-        _playerManagerLink.ArcadeName = data.arcadeName;
+        _economyManagerLink.CurrentCash = data.stats.playerMoney;
+        _playerManagerLink.PlayerName = data.stats.playerName;
+        _playerManagerLink.ArcadeName = data.stats.arcadeName;
         
 
     }
@@ -342,16 +338,13 @@ public class GameData
 
 }
 
+
 [Serializable]
-public class MachineData
+public class SaveableData
 {
-    //public Vector3 position;
-    //public Vector3 rotation;
-    //public int UseCost;
-    //public GameObject machineGameObject;
-
-    public List<Machine> allGOs;
-
+    public List<GameObject> allGameObjects;
+    public List<Customer> allCustomers;
+    public GameData stats;
 
 }
 

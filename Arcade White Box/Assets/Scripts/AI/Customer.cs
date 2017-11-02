@@ -74,7 +74,7 @@ public class Customer : BaseAI
             if(unitController.ReachedTarget)
             {   
                 usingFacilityWait = UsingFacilitiesWait(machineNeed.UseTime);
-                GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().MoneyEarnedFromArcade(machineNeed);
+                GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().OnMachineProfit(machineNeed);
                 StartCoroutine(usingFacilityWait);
             }
         }

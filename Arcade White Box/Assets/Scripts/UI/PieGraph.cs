@@ -13,13 +13,13 @@ public class PieGraph : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         MakeGraph();
-		
-	}
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+        
+    }
 
     public void MakeGraph()
     {

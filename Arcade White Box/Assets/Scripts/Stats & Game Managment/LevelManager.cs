@@ -5,9 +5,11 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour {
 
     public enum ArcadeOpeningStatus { Open, Closed }
-    private ArcadeOpeningStatus arcadeStatus = ArcadeOpeningStatus.Closed;
+    public enum ArcadeTimeStatus { Day, Night }
+    private ArcadeOpeningStatus arcadeOpeningStatus = ArcadeOpeningStatus.Closed;
+    private ArcadeTimeStatus arcadeTimeStatus = ArcadeTimeStatus.Day;
 
-    private List<GameObject> allObjectsInLevel;
+    private List<GameObject> allObjectsInLevel, previousAllObjectsInLevel;
     private List<Machine> allMachineObjects;
     private List<Machine> allGameMachines;
     private List<Machine> allToilets;
@@ -21,7 +23,7 @@ public class LevelManager : MonoBehaviour {
     private EconomyManager _economyLink;
 
     [SerializeField] private float customerSpawnRate, rentCost, startingCash;
-    [SerializeField] private int MAXCUSTOMERS; // dont change this matt
+    [SerializeField] private int MAXCUSTOMERS; 
     [SerializeField] private int openingHour, closingHour;
 
 
@@ -131,6 +133,7 @@ public class LevelManager : MonoBehaviour {
         customerManager.SetSpawnLocation(transform);
 
         AllObjectsInLevel = new List<GameObject>();
+        previousAllObjectsInLevel = new List<GameObject>();
         AllMachineObjects = new List<Machine>();
         AllGameMachines = new List<Machine>();
         AllToilets = new List<Machine>();
@@ -144,7 +147,7 @@ public class LevelManager : MonoBehaviour {
 
         if (_timeLink.CurrentHour == openingHour && !openOnce)
         {
-            arcadeStatus = ArcadeOpeningStatus.Open;
+            arcadeOpeningStatus = ArcadeOpeningStatus.Open;
             print("Arcade is open!");
             openOnce = true;
             closedOnce = false;
@@ -152,7 +155,7 @@ public class LevelManager : MonoBehaviour {
         }
         else if (_timeLink.CurrentHour == closingHour && !closedOnce)
         {
-            arcadeStatus = ArcadeOpeningStatus.Closed;
+            arcadeOpeningStatus = ArcadeOpeningStatus.Closed;
             print("Arcade is closed!");
             closedOnce = true;
             openOnce = false;
@@ -168,6 +171,11 @@ public class LevelManager : MonoBehaviour {
         if(customerManager.GetCustomerNumber() >= MAXCUSTOMERS)
         {
             customerManager.CancelInvoke("SpawnCustomer");
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            print(allMachineObjects.Count);
         }
 	}
 
@@ -208,12 +216,12 @@ public class LevelManager : MonoBehaviour {
         else if (objectToRemove.GetComponent<FoodMachine>())
         {
             AllFoodStalls.Remove(objectToRemove.GetComponent<FoodMachine>());
-            AllGameMachines.TrimExcess();
+            AllFoodStalls.TrimExcess();
         }
         else if (objectToRemove.GetComponent<ServiceMachine>())
         {
             AllToilets.Remove(objectToRemove.GetComponent<ServiceMachine>());
-            AllGameMachines.TrimExcess();
+            AllToilets.TrimExcess();
         }
 
         if (customerManager)
@@ -224,11 +232,30 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    public void InstantiateLevel()
+    public void InstantiateLevel(List<GameObject> allObjects)
     {
-        foreach (GameObject obj in allObjectsInLevel)
+        previousAllObjectsInLevel = AllObjectsInLevel;
+        AddToLists(allObjects);
+        //CheckNewObjects();
+    }
+
+    private void AddToLists(List<GameObject> allObjects)
+    {
+        foreach (GameObject go in allObjects)
         {
-            GameObject newObject = Instantiate(obj);
+            AddObjectToLists(go);
         }
     }
+
+    private void CheckNewObjects()
+    {
+        for (int i = 0; i < allObjectsInLevel.Count; i++)
+        {
+            if (!previousAllObjectsInLevel.Contains(allObjectsInLevel[i]))
+            {
+                Instantiate(allObjectsInLevel[i]);
+            }
+        }
+    }
+
 }

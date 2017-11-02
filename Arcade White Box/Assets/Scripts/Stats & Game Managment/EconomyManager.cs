@@ -66,6 +66,7 @@ public class EconomyManager : MonoBehaviour {
         profitArray.Add(profitEntranceFees);
         profitArray.Add(profitDailyGamesMachines);
         profitArray.Add(profitDailyFoodStalls);
+        profitArray.Add(profitDailyOther);
 
         return profitArray;
     }
@@ -169,7 +170,7 @@ public class EconomyManager : MonoBehaviour {
             return false;
     }
 
-    public void MoneyEarnedFromArcade(Machine objectSpentOn)
+    public void OnMachineProfit(Machine objectSpentOn)
     {
         float num = objectSpentOn.UseCost;
         if (objectSpentOn is GameMachine)
