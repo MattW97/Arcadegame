@@ -293,6 +293,7 @@ namespace RTS_Cam
         {
             Vector3 targetPos = new Vector3(targetFollow.position.x, m_Transform.position.y, targetFollow.position.z) + targetOffset;
             m_Transform.position = Vector3.MoveTowards(m_Transform.position, targetPos, Time.deltaTime * followingSpeed);
+            m_Transform.rotation = targetFollow.rotation;
         }
 
         /// <summary>
