@@ -8,6 +8,7 @@ public class Tile : MonoBehaviour
 
     [SerializeField] private TileType tileType;
 
+    private int id;
     private Vector2 tileCoordinates;
 
     public TileType GetTileType()
@@ -20,6 +21,11 @@ public class Tile : MonoBehaviour
         return tileCoordinates;
     }
 
+    public void SetID(int id)
+    {
+        this.id = id;
+    }
+
     public void SetTileType(TileType newType)
     {
         tileType = newType;
@@ -29,4 +35,24 @@ public class Tile : MonoBehaviour
     {
         this.tileCoordinates = tileCoordinates;
     }
+
+    public virtual TileSaveable GetTileSaveable()
+    {
+        TileSaveable newSave = new TileSaveable();
+        newSave.tile_ID = this.id.ToString();
+        newSave.posX = this.transform.position.x;
+        newSave.posY = this.transform.position.y;
+        newSave.posZ = this.transform.position.z;
+        // TEXTURE ID NEEDS TO GO HERE!
+
+        return newSave;
+    }
+}
+
+[System.Serializable]
+public class TileSaveable
+{
+    public string tile_ID;
+    public float posX, posY, posZ;
+    public int textureID;
 }

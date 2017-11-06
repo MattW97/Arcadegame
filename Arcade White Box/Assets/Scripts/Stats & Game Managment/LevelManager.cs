@@ -5,15 +5,14 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour {
 
     public enum ArcadeOpeningStatus { Open, Closed }
-    public enum ArcadeTimeStatus { Day, Night }
-    private ArcadeOpeningStatus arcadeOpeningStatus = ArcadeOpeningStatus.Closed;
-    private ArcadeTimeStatus arcadeTimeStatus = ArcadeTimeStatus.Day;
+    private ArcadeOpeningStatus arcadeStatus = ArcadeOpeningStatus.Closed;
 
-    private List<GameObject> allObjectsInLevel, previousAllObjectsInLevel;
+    private List<GameObject> allObjectsInLevel;
     private List<Machine> allMachineObjects;
     private List<Machine> allGameMachines;
     private List<Machine> allToilets;
-    private List<Machine> allFoodStalls; 
+    private List<Machine> allFoodStalls;
+    private List<MachineData> allMachineData;
 
     private List<BaseAI> allStaff;
 
@@ -23,12 +22,124 @@ public class LevelManager : MonoBehaviour {
     private EconomyManager _economyLink;
 
     [SerializeField] private float customerSpawnRate, rentCost, startingCash;
-    [SerializeField] private int MAXCUSTOMERS; 
+    [SerializeField] private int MAXCUSTOMERS; // dont change this matt
     [SerializeField] private int openingHour, closingHour;
-
 
     private int numOfCustomers;
     private bool openOnce, closedOnce, spawningCustomers;
+
+    void Start () {
+
+        _timeLink = this.gameObject.GetComponent<TimeAndCalendar>();
+        _playerLink = this.gameObject.GetComponent<PlayerManager>();
+        _economyLink = this.gameObject.GetComponent<EconomyManager>();
+        customerManager = this.GetComponent<CustomerManager>();
+        openOnce = false;
+        closedOnce = false;
+
+        customerManager.SetSpawnLocation(transform); 
+
+        AllObjectsInLevel = new List<GameObject>();
+        AllMachineObjects = new List<Machine>();
+        AllGameMachines = new List<Machine>();
+        AllToilets = new List<Machine>();
+        AllFoodStalls = new List<Machine>();
+        AllMachineData = new List<MachineData>();
+
+        spawningCustomers = false;
+    }
+	
+	void Update () {
+
+        if (_timeLink.CurrentHour == openingHour && !openOnce)
+        {
+            arcadeStatus = ArcadeOpeningStatus.Open;
+            print("Arcade is open!");
+            openOnce = true;
+            closedOnce = false;
+            //openingScript
+        }
+        else if (_timeLink.CurrentHour == closingHour && !closedOnce)
+        {
+            arcadeStatus = ArcadeOpeningStatus.Closed;
+            print("Arcade is closed!");
+            closedOnce = true;
+            openOnce = false;
+            _economyLink.ClosingTime();
+        }
+
+        if(AllGameMachines.Count > 0 && AllToilets.Count > 0 && AllFoodStalls.Count > 0 && !spawningCustomers)
+        {
+            spawningCustomers = true;
+            customerManager.InvokeRepeating("SpawnCustomer", customerSpawnRate, customerSpawnRate);
+        }
+
+        if(customerManager.GetCustomerNumber() >= MAXCUSTOMERS)
+        {
+            customerManager.CancelInvoke("SpawnCustomer");
+        }
+	}
+
+    public void AddObjectToLists(GameObject objectToAdd)
+    {
+        AllObjectsInLevel.Add(objectToAdd);
+
+        if(objectToAdd.GetComponent<GameMachine>())
+        {
+            AllGameMachines.Add(objectToAdd.GetComponent<GameMachine>());
+        }
+        else if(objectToAdd.GetComponent<FoodMachine>())
+        {
+            AllFoodStalls.Add(objectToAdd.GetComponent<FoodMachine>());
+        }
+        else if (objectToAdd.GetComponent<ServiceMachine>())
+        {
+            AllToilets.Add(objectToAdd.GetComponent<ServiceMachine>());
+        }
+
+        if(customerManager)
+        {
+            customerManager.SetGameMachines(AllGameMachines);
+            customerManager.SetFoodStalls(AllFoodStalls);
+            customerManager.SetToilets(AllToilets);
+        }
+    }
+
+    public void RemoveObjectFromLists(GameObject objectToRemove)
+    {
+        AllObjectsInLevel.Remove(objectToRemove);
+
+        if (objectToRemove.GetComponent<GameMachine>())
+        {
+            AllGameMachines.Remove(objectToRemove.GetComponent<GameMachine>());
+            AllGameMachines.TrimExcess();
+        }
+        else if (objectToRemove.GetComponent<FoodMachine>())
+        {
+            AllFoodStalls.Remove(objectToRemove.GetComponent<FoodMachine>());
+            AllGameMachines.TrimExcess();
+        }
+        else if (objectToRemove.GetComponent<ServiceMachine>())
+        {
+            AllToilets.Remove(objectToRemove.GetComponent<ServiceMachine>());
+            AllGameMachines.TrimExcess();
+        }
+
+        if (customerManager)
+        {
+            customerManager.SetGameMachines(AllGameMachines);
+            customerManager.SetFoodStalls(AllFoodStalls);
+            customerManager.SetToilets(AllToilets);
+        }
+    }
+
+    public void InstantiateLevel()
+    {
+        foreach (GameObject obj in allObjectsInLevel)
+        {
+            GameObject newObject = Instantiate(obj);
+        }
+    }
 
     public float StartingCash
     {
@@ -120,142 +231,16 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
-    // Use this for initialization
-    void Start () {
-
-        _timeLink = this.gameObject.GetComponent<TimeAndCalendar>();
-        _playerLink = this.gameObject.GetComponent<PlayerManager>();
-        _economyLink = this.gameObject.GetComponent<EconomyManager>();
-        customerManager = this.GetComponent<CustomerManager>();
-        openOnce = false;
-        closedOnce = false;
-
-        customerManager.SetSpawnLocation(transform);
-
-        AllObjectsInLevel = new List<GameObject>();
-        previousAllObjectsInLevel = new List<GameObject>();
-        AllMachineObjects = new List<Machine>();
-        AllGameMachines = new List<Machine>();
-        AllToilets = new List<Machine>();
-        AllFoodStalls = new List<Machine>();
-
-        spawningCustomers = false;
-    }
-	
-	// Update is called once per frame
-	void Update () {
-
-        if (_timeLink.CurrentHour == openingHour && !openOnce)
-        {
-            arcadeOpeningStatus = ArcadeOpeningStatus.Open;
-            print("Arcade is open!");
-            openOnce = true;
-            closedOnce = false;
-            //openingScript
-        }
-        else if (_timeLink.CurrentHour == closingHour && !closedOnce)
-        {
-            arcadeOpeningStatus = ArcadeOpeningStatus.Closed;
-            print("Arcade is closed!");
-            closedOnce = true;
-            openOnce = false;
-            _economyLink.ClosingTime();
-        }
-
-        if(AllGameMachines.Count > 0 && AllToilets.Count > 0 && AllFoodStalls.Count > 0 && !spawningCustomers)
-        {
-            spawningCustomers = true;
-            customerManager.InvokeRepeating("SpawnCustomer", customerSpawnRate, customerSpawnRate);
-        }
-
-        if(customerManager.GetCustomerNumber() >= MAXCUSTOMERS)
-        {
-            customerManager.CancelInvoke("SpawnCustomer");
-        }
-
-        if (Input.GetKeyDown(KeyCode.M))
-        {
-            print(allMachineObjects.Count);
-        }
-	}
-
-    public void AddObjectToLists(GameObject objectToAdd)
+    public List<MachineData> AllMachineData
     {
-        AllObjectsInLevel.Add(objectToAdd);
-
-        if(objectToAdd.GetComponent<GameMachine>())
+        get
         {
-            AllGameMachines.Add(objectToAdd.GetComponent<GameMachine>());
-        }
-        else if(objectToAdd.GetComponent<FoodMachine>())
-        {
-            AllFoodStalls.Add(objectToAdd.GetComponent<FoodMachine>());
-        }
-        else if (objectToAdd.GetComponent<ServiceMachine>())
-        {
-            AllToilets.Add(objectToAdd.GetComponent<ServiceMachine>());
+            return allMachineData;
         }
 
-        if(customerManager)
+        set
         {
-            customerManager.SetGameMachines(AllGameMachines);
-            customerManager.SetFoodStalls(AllFoodStalls);
-            customerManager.SetToilets(AllToilets);
+            allMachineData = value;
         }
     }
-
-    public void RemoveObjectFromLists(GameObject objectToRemove)
-    {
-        AllObjectsInLevel.Remove(objectToRemove);
-
-        if (objectToRemove.GetComponent<GameMachine>())
-        {
-            AllGameMachines.Remove(objectToRemove.GetComponent<GameMachine>());
-            AllGameMachines.TrimExcess();
-        }
-        else if (objectToRemove.GetComponent<FoodMachine>())
-        {
-            AllFoodStalls.Remove(objectToRemove.GetComponent<FoodMachine>());
-            AllFoodStalls.TrimExcess();
-        }
-        else if (objectToRemove.GetComponent<ServiceMachine>())
-        {
-            AllToilets.Remove(objectToRemove.GetComponent<ServiceMachine>());
-            AllToilets.TrimExcess();
-        }
-
-        if (customerManager)
-        {
-            customerManager.SetGameMachines(AllGameMachines);
-            customerManager.SetFoodStalls(AllFoodStalls);
-            customerManager.SetToilets(AllToilets);
-        }
-    }
-
-    public void InstantiateLevel(List<GameObject> allObjects)
-    {
-        previousAllObjectsInLevel = AllObjectsInLevel;
-        AddToLists(allObjects);
-        //CheckNewObjects();
-    }
-
-    private void AddToLists(List<GameObject> allObjects)
-    {
-        foreach (GameObject go in allObjects)
-        {
-            AddObjectToLists(go);
-        }
-    }
-
-    private void CheckNewObjects()
-    {
-        for (int i = 0; i < allObjectsInLevel.Count; i++)
-        {
-            if (!previousAllObjectsInLevel.Contains(allObjectsInLevel[i]))
-            {
-                Instantiate(allObjectsInLevel[i]);
-            }
-        }
-    }
-
 }

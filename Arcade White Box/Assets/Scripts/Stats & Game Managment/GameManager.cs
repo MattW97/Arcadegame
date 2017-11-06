@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField] private GameObject sceneManager, gridManager, economyManager;
     [SerializeField] Scene mainScene;
+    [SerializeField] private List<GameObject> allPrefabs;
 
     private GameObject sceneManagerLink, gridManagerLink;
     private SettingManager settingManager;
