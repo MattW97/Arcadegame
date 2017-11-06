@@ -33,7 +33,7 @@ public class LevelInteraction : MonoBehaviour
         ObjectToPlace = null;
 
         tileHighlighter.SetActive(false);
-        CurrentState = InteractionState.PlacingMode;
+        CurrentState = InteractionState.SelectionMode;
     }
 
     void Start()
@@ -214,6 +214,7 @@ public class LevelInteraction : MonoBehaviour
     {
         if (EventSystem.current.IsPointerOverGameObject())
         {
+            tileHighlighter.SetActive(false);
             return true;
         }
         else

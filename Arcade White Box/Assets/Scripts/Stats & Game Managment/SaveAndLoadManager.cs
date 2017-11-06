@@ -203,7 +203,7 @@ public class SaveAndLoadManager : MonoBehaviour
     public void LoadScene(string saveFileName)
     {
         machineData = SaveGame.Load<MachineData>("All Objects", machineData);
-        GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().AllMachineObjects = machineData.allGOs;
+        //GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().AllMachineObjects = machineData.allGOs;
         GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().InstantiateLevel();
     }
 
@@ -221,7 +221,7 @@ public class SaveAndLoadManager : MonoBehaviour
 
     public void UpdateMachineData()
     {
-        machineData.allGOs = GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().AllMachineObjects;
+        //machineData.allGOs = GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().AllMachineObjects;
     }
 
     /// <summary>
@@ -300,8 +300,6 @@ public class SaveAndLoadManager : MonoBehaviour
     #endregion Private Methods
 }
 
-
-
 [Serializable]
 public class GameData
 {
@@ -345,13 +343,10 @@ public class GameData
 [Serializable]
 public class MachineData
 {
-    //public Vector3 position;
-    //public Vector3 rotation;
-    //public int UseCost;
-    //public GameObject machineGameObject;
-
-    public List<Machine> allGOs;
-
-
+    public int prefabID;
+    public int[] tiles;
+    public float posX, posY, posZ;
+    public float rotX, rotY, rotZ;
+    public int useCost;
 }
 
