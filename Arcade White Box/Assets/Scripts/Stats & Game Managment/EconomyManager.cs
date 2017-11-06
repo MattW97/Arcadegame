@@ -170,7 +170,7 @@ public class EconomyManager : MonoBehaviour {
             return false;
     }
 
-    public void OnMachineProfit(Machine objectSpentOn)
+    public void MoneyEarnedFromArcade(Machine objectSpentOn)
     {
         float num = objectSpentOn.UseCost;
         if (objectSpentOn is GameMachine)

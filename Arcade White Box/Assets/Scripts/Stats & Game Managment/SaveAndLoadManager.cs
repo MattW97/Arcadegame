@@ -48,6 +48,8 @@ public class SaveAndLoadManager : MonoBehaviour
     private PlayerManager _playerManagerLink;
     private EconomyManager _economyManagerLink;
 
+    private List<PlaceableObjectSaveable> placeableSaveList;
+
     #endregion Private Fields
 
     #region Public Methods
@@ -338,13 +340,24 @@ public class GameData
 
 }
 
+[Serializable]
+public class MachineData
+{
+    public int prefabID;
+    public float posX, posY, posZ;
+    public float rotX, rotY, rotZ;
+    public int useCost;
+}
+
 
 [Serializable]
 public class SaveableData
 {
     public List<GameObject> allGameObjects;
+    public List<MachineData> allMachineData;
     public List<Customer> allCustomers;
     public GameData stats;
+    public List<PlaceableObjectSaveable> placeableSaveList;
 
 }
 

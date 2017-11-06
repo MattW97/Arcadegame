@@ -14,6 +14,9 @@ public class PlaceableObject : Entity {
     protected Tile placedOnTile;
     protected Transform selectionTransform;
 
+    public string obj_ID;
+    public int tile_ID;
+
     protected virtual void Awake()
     {
         selectionTransform = selectionMesh.GetComponent<Transform>();
@@ -113,4 +116,20 @@ public class PlaceableObject : Entity {
     {
         return (BuyCost / percentReturnedUponSold);
     }
+
+    public virtual PlaceableObjectSaveable GetPlaceableObjectSaveable()
+    {
+        PlaceableObjectSaveable save = new PlaceableObjectSaveable();
+        save.obj_ID = this.obj_ID;
+        save.tile_ID = this.tile_ID;
+
+        return save;
+    }
+}
+
+[System.Serializable]
+public class PlaceableObjectSaveable
+{
+    public string obj_ID;
+    public int tile_ID;
 }
