@@ -6,7 +6,7 @@ public class OptionsUI : MonoBehaviour
 {
 
     [SerializeField]
-    private GameObject audioTab, graphicsTab, cameraTab, interfaceTab, optionsPanel; // optionsMenu;
+    private GameObject audioHalfTab, graphicsHalfTab, cameraHalfTab, interfaceHalfTab, audioFullTab, graphicsFullTab, cameraFullTab, interfaceFullTab, audioPanel, graphicsPanel, cameraPanel, interfacePanel, optionsPanel, masterEnd, musicEnd, sfxEnd; // optionsMenu;
 
     private bool tabOpen;
     private float volume;
@@ -14,35 +14,102 @@ public class OptionsUI : MonoBehaviour
 
     public void AudioTab()
     {
-        audioTab.SetActive(true);
-        graphicsTab.SetActive(false);
-        cameraTab.SetActive(false);
-        interfaceTab.SetActive(false);
+        ////////////////////// Panels ///////////////////////////////
+
+        audioPanel.SetActive(true);
+        graphicsPanel.SetActive(false);
+        cameraPanel.SetActive(false);
+        interfacePanel.SetActive(false);
+
+        //////////////////// Half Tabs /////////////////////////////
+
+        audioHalfTab.SetActive(false);
+        graphicsHalfTab.SetActive(true);
+        cameraHalfTab.SetActive(true);
+        interfaceHalfTab.SetActive(true);
+
+        //////////////////// Full Tabs /////////////////////////////
+
+        audioFullTab.SetActive(true);
+        graphicsFullTab.SetActive(false);
+        cameraFullTab.SetActive(false);
+        interfaceFullTab.SetActive(false);
 
     }
 
     public void GraphicsTab()
     {
-        audioTab.SetActive(false);
-        graphicsTab.SetActive(true);
-        cameraTab.SetActive(false);
-        interfaceTab.SetActive(false);
+        ////////////////////// Panels ///////////////////////////////
+
+        audioPanel.SetActive(false);
+        graphicsPanel.SetActive(true);
+        cameraPanel.SetActive(false);
+        interfacePanel.SetActive(false);
+
+        //////////////////// Half Tabs /////////////////////////////
+
+        audioHalfTab.SetActive(true);
+        graphicsHalfTab.SetActive(false);
+        cameraHalfTab.SetActive(true);
+        interfaceHalfTab.SetActive(true);
+
+        //////////////////// Full Tabs /////////////////////////////
+
+        audioFullTab.SetActive(false);
+        graphicsFullTab.SetActive(true);
+        cameraFullTab.SetActive(false);
+        interfaceFullTab.SetActive(false);
+
     }
 
     public void CameraTab()
     {
-        audioTab.SetActive(false);
-        graphicsTab.SetActive(false);
-        cameraTab.SetActive(true);
-        interfaceTab.SetActive(false);
+        ////////////////////// Panels ///////////////////////////////
+
+        audioPanel.SetActive(false);
+        graphicsPanel.SetActive(false);
+        cameraPanel.SetActive(true);
+        interfacePanel.SetActive(false);
+
+        //////////////////// Half Tabs /////////////////////////////
+
+        audioHalfTab.SetActive(true);
+        graphicsHalfTab.SetActive(true);
+        cameraHalfTab.SetActive(false);
+        interfaceHalfTab.SetActive(true);
+
+        //////////////////// Full Tabs /////////////////////////////
+
+        audioFullTab.SetActive(false);
+        graphicsFullTab.SetActive(false);
+        cameraFullTab.SetActive(true);
+        interfaceFullTab.SetActive(false);
+
     }
 
     public void InterfaceTab()
     {
-        audioTab.SetActive(false);
-        graphicsTab.SetActive(false);
-        cameraTab.SetActive(false);
-        interfaceTab.SetActive(true);
+        ////////////////////// Panels ///////////////////////////////
+
+        audioPanel.SetActive(false);
+        graphicsPanel.SetActive(false);
+        cameraPanel.SetActive(false);
+        interfacePanel.SetActive(true);
+
+        //////////////////// Half Tabs /////////////////////////////
+
+        audioHalfTab.SetActive(true);
+        graphicsHalfTab.SetActive(true);
+        cameraHalfTab.SetActive(true);
+        interfaceHalfTab.SetActive(false);
+
+        //////////////////// Full Tabs /////////////////////////////
+
+        audioFullTab.SetActive(false);
+        graphicsFullTab.SetActive(false);
+        cameraFullTab.SetActive(false);
+        interfaceFullTab.SetActive(true);
+
     }
 
     public void ActivateAllMenus()
@@ -62,8 +129,6 @@ public class OptionsUI : MonoBehaviour
 
     public void LoadDefaultSettings()
     {
-        print("val" + value);
-       // print("vol" + volume);
         this.GetComponent<InGameSettingUI>().MusicSlider.value = value;
     }
 
@@ -72,8 +137,15 @@ public class OptionsUI : MonoBehaviour
         optionsPanel.SetActive(false);
     }
 
-    void Update()
+    public void Update()
     {
-        //print(value);
+        if (this.GetComponent<InGameSettingUI>().MusicSlider.value == 1)
+        {
+            musicEnd.SetActive(true);
+        }
+        else
+        {
+            musicEnd.SetActive(false);
+        }
     }
 }
