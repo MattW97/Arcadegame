@@ -12,7 +12,7 @@ public class LevelInteraction : MonoBehaviour
 
     private bool rotatingObject;
     private GameObject tileHighlighter;
-    private Transform highlighterTransform;
+    private Transform highlighterTransform, objectParent;
     private Renderer highlighterRenderer;
     private PlaceableObject currentSelectedObject;
     private InteractionState currentState;
@@ -33,7 +33,7 @@ public class LevelInteraction : MonoBehaviour
         ObjectToPlace = null;
 
         tileHighlighter.SetActive(false);
-        CurrentState = InteractionState.SelectionMode;
+        CurrentState = InteractionState.PlacingMode;
     }
 
     void Start()
@@ -41,6 +41,8 @@ public class LevelInteraction : MonoBehaviour
         economyManager = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();
         levelManager = GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>();
         gridGeneration = GameManager.Instance.GridManagerLink.GetComponent<GridGeneration>();
+
+        objectParent = GameObject.Find("Level/Placed Objects").transform;
     }
 
     void Update()
@@ -130,21 +132,7 @@ public class LevelInteraction : MonoBehaviour
 
                             if(economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
                             {
-                                GameObject newObject = Instantiate(ObjectToPlace.gameObject, hitInfo.collider.gameObject.transform.position, highlighterTransform.rotation);
-                                levelManager.AddObjectToLists(newObject);
-                                gridGeneration.UpdateGrid();
-
-                                if (CheckIfMachineOrPlaceable(ObjectToPlace))
-                                {
-                                    economyManager.OnMachinePurchase(ObjectToPlace as Machine);
-                                }
-                                else if (!CheckIfMachineOrPlaceable(ObjectToPlace))
-                                {
-                                    economyManager.OnBuildingPartPurchase(ObjectToPlace);
-                                }
-
-                                newObject.GetComponent<PlaceableObject>().PlacedOnTile = placedOnTile;
-                                placedOnTile.SetTileType(Tile.TileType.Object);
+                                InstantiateNewObject(ObjectToPlace, hitInfo.collider.gameObject.transform.position, highlighterTransform.rotation, placedOnTile);
                             }
                         }
                     }
@@ -155,6 +143,28 @@ public class LevelInteraction : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void InstantiateNewObject(PlaceableObject objectToPlace, Vector3 position, Quaternion rotation, Tile objectTile)
+    {
+        GameObject newObject = Instantiate(objectToPlace.gameObject, position, rotation, objectParent);
+        levelManager.AddObjectToLists(newObject);
+        gridGeneration.UpdateGrid();
+
+        if (CheckIfMachineOrPlaceable(ObjectToPlace))
+        {
+            economyManager.OnMachinePurchase(ObjectToPlace as Machine);
+        }
+        else if (!CheckIfMachineOrPlaceable(ObjectToPlace))
+        {
+            economyManager.OnBuildingPartPurchase(ObjectToPlace);
+        }
+
+        PlaceableObject newPlaceableObject = newObject.GetComponent<PlaceableObject>();
+
+        newPlaceableObject.PlacedOnTile = objectTile;
+        newPlaceableObject.prefabName = objectToPlace.name;
+        objectTile.SetIfPlacedOn(true);
     }
 
     private void ObjectInteraction()

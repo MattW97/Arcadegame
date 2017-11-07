@@ -70,7 +70,7 @@ public class MainMenu : MonoBehaviour {
         GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.stats.arcadeName = arcadeNameTextField.text;
         GameManager.Instance.GetComponent<SaveAndLoadManager>().SaveStat("TestSave");
        // SceneManager.LoadScene(sceneToSwitchTo.name);
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(3);
     }
 
     public void ReturnToMain()

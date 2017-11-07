@@ -48,7 +48,7 @@ public class SaveAndLoadManager : MonoBehaviour
     private PlayerManager _playerManagerLink;
     private EconomyManager _economyManagerLink;
 
-    private List<PlaceableObjectSaveable> placeableSaveList;
+    public List<PlaceableObjectSaveable> placeableSaveList;
 
     #endregion Private Fields
 
@@ -205,7 +205,7 @@ public class SaveAndLoadManager : MonoBehaviour
     public void LoadScene(string saveFileName)
     {
         saveData = SaveGame.Load<SaveableData>(Application.persistentDataPath + "/SavedGames/SavedScene", saveData);
-        GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().InstantiateLevel(saveData.allGameObjects);
+        //GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().InstantiateLevel(saveData.allGameObjects);
     }
 
     public void SaveCustomers()
@@ -294,6 +294,8 @@ public class SaveAndLoadManager : MonoBehaviour
             return null;
         }
     }
+
+    
 
     #endregion Private Methods
 }

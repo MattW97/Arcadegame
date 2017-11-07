@@ -96,10 +96,10 @@ public class TimeAndCalendar : MonoBehaviour {
         CurrentMonth = startMonth;
         CurrentDay = startDay;
 
-        timeText = GameObject.Find("UI Canvas/Top Banner/Time Panel/Time Text").GetComponent<Text>();
-        CreateMonths();
+        timeText = GameObject.Find("UI Canvas/New/Bottom Bar/Date And Time/Text").GetComponent<Text>();
+        //CreateMonths();
         StartTimer();
-        CreateDay(starterDay);
+       // CreateDay(starterDay);
 	}
 	
 	// Update is called once per frame

@@ -14,7 +14,7 @@ public class PlaceableObject : Entity {
     protected Tile placedOnTile;
     protected Transform selectionTransform;
 
-    public string obj_ID;
+    public string prefabName;
     public int tile_ID;
 
     protected virtual void Awake()
@@ -26,6 +26,11 @@ public class PlaceableObject : Entity {
         {
             percentReturnedUponSold = 1;
         }
+    }
+
+    void OnEnable()
+    {
+        EventManager.Save += OnSave;
     }
 
     protected virtual void Update()
@@ -120,16 +125,22 @@ public class PlaceableObject : Entity {
     public virtual PlaceableObjectSaveable GetPlaceableObjectSaveable()
     {
         PlaceableObjectSaveable save = new PlaceableObjectSaveable();
-        save.obj_ID = this.obj_ID;
+        save.prefabName = this.prefabName;
         save.tile_ID = this.tile_ID;
 
         return save;
+    }
+
+    private void OnSave()
+    {
+        GameManager.Instance.GetComponent<SaveAndLoadManager>().placeableSaveList.Add(GetPlaceableObjectSaveable());
+        print("tried to save");
     }
 }
 
 [System.Serializable]
 public class PlaceableObjectSaveable
 {
-    public string obj_ID;
+    public string prefabName;
     public int tile_ID;
 }

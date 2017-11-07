@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager Instance;
 
-    [SerializeField] private GameObject sceneManager, gridManager, economyManager;
+    [SerializeField] private GameObject sceneManager, gridManager;
     [SerializeField] Scene mainScene;
     [SerializeField] private List<GameObject> allPrefabs;
 
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour {
     void OnSceneLoaded(Scene mainScene, LoadSceneMode mode)
     {
         // MAIN SCENE LOADING
-        if (mainScene.name == "Main Scene")
+        if (mainScene.name == "Level 1")
         {
             Initialise();
             this.gameObject.GetComponent<SaveAndLoadManager>().Initialise();
