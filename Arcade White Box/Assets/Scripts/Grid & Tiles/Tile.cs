@@ -9,6 +9,7 @@ public class Tile : MonoBehaviour
     [SerializeField] private TileType tileType;
 
     private int id;
+    private bool placedOn;
     private Vector2 tileCoordinates;
 
     public TileType GetTileType()
@@ -31,6 +32,11 @@ public class Tile : MonoBehaviour
         tileType = newType;
     }
 
+    public void SetIfPlacedOn(bool placedOn)
+    {
+        this.placedOn = placedOn;
+    }
+
     public void SetCoordinates(Vector2 tileCoordinates)
     {
         this.tileCoordinates = tileCoordinates;
@@ -43,6 +49,8 @@ public class Tile : MonoBehaviour
         newSave.posX = this.transform.position.x;
         newSave.posY = this.transform.position.y;
         newSave.posZ = this.transform.position.z;
+        newSave.placedOn = this.placedOn;
+
         // TEXTURE ID NEEDS TO GO HERE!
 
         return newSave;
@@ -55,4 +63,5 @@ public class TileSaveable
     public string tile_ID;
     public float posX, posY, posZ;
     public int textureID;
+    public bool placedOn;
 }
