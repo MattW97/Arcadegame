@@ -22,7 +22,7 @@ public class GridGeneration : MonoBehaviour
 
         gridTiles = new List<Tile>();
 
-        GenerateGrid();
+        //GenerateGrid();
     }
 
     public void UpdateGrid()

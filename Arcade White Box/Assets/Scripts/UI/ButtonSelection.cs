@@ -11,15 +11,10 @@ public class ButtonSelection : MonoBehaviour {
     [SerializeField] private List<Button> buttonList;
     [SerializeField] private GameObject _objectUILink;
 
-	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
         _tileInteractionLink = GameManager.Instance.SceneManagerLink.GetComponent<LevelInteraction>();
         setupButtons();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 
     private void setupButtons()
@@ -44,6 +39,7 @@ public class ButtonSelection : MonoBehaviour {
                 _objectUILink.GetComponent<PlacingObjectInteractionMenuUI>().GetCurrentObject(theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton);
             }
         }
+
         //this.gameObject.SetActive(false);
     }
 }
