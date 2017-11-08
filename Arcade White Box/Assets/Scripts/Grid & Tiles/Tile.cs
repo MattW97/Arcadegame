@@ -27,6 +27,11 @@ public class Tile : MonoBehaviour
         this.id = id;
     }
 
+    public int GetID()
+    {
+        return id;
+    }
+
     public void SetTileType(TileType newType)
     {
         tileType = newType;

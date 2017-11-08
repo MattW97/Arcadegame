@@ -18,14 +18,14 @@ public class SaveLoadUIController : MonoBehaviour {
 
     public void OnSaveButtonPressed()
     {
-        GameManager.Instance.GetComponent<SaveAndLoadManager>().UpdateGameData();
-        _saveLoadManagerLink.SaveStat("UI Test");
+        // GameManager.Instance.GetComponent<SaveAndLoadManager>().UpdateGameData();
+        _saveLoadManagerLink.ClearLists();
+        GameManager.Instance.GetComponent<EventManager>().SaveObject();
         _saveLoadManagerLink.SaveScene("Scene test");
     }
 
     public void OnLoadButtonPressed()
     {
-        _saveLoadManagerLink.LoadStats("UI Test");
         _saveLoadManagerLink.LoadScene("Scene test");
     }
 }

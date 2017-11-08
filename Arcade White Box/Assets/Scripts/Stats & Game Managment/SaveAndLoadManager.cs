@@ -13,8 +13,16 @@ using BayatGames.SaveGameFree;
 /// </summary>
 public class SaveAndLoadManager : MonoBehaviour
 {
-    #region Public Fields
 
+    private TimeAndCalendar _timeAndCalendarLink;
+    private PlayerManager _playerManagerLink;
+    private EconomyManager _economyManagerLink;
+    private ObjectManager _objectManager;
+    private GameObject instantiatedObjectParent;
+    private GameObject instantiatedCustomerParent;
+
+    public List<PlaceableObjectSaveable> placeableSaveList;
+    public List<CustomerSaveable> customerSaveList;
     public GameData gameData = new GameData();
     public SaveableData saveData = new SaveableData();
     public Scene openScene;
@@ -35,24 +43,16 @@ public class SaveAndLoadManager : MonoBehaviour
         }
     }
 
-    #endregion Public Fields
 
-    #region Private Fields
 
     private const string FILE_EXTENSION = ".lul";
 
     // Save Load Data
     private string saveFile;
 
-    private TimeAndCalendar _timeAndCalendarLink;
-    private PlayerManager _playerManagerLink;
-    private EconomyManager _economyManagerLink;
+   
 
-    public List<PlaceableObjectSaveable> placeableSaveList;
 
-    #endregion Private Fields
-
-    #region Public Methods
 
     /// <summary>
     /// Deletes the save file if it exists and errors out otherwise.
@@ -135,14 +135,32 @@ public class SaveAndLoadManager : MonoBehaviour
         return allSaves;
     }
 
+    public void CreateBaseSave()
+    {
+        if (!Directory.Exists(Application.persistentDataPath + "/SavedGames/"))
+            Directory.CreateDirectory(Application.persistentDataPath + "/SavedGames/");
+        string fullSavePath = SavePath + "Base" + FILE_EXTENSION;
+        BinaryFormatter formatter = new BinaryFormatter();
+        FileStream saveFile;
+        if (!File.Exists(fullSavePath))
+        {
+            saveFile = File.Create(fullSavePath);
+        }
+        else
+        {
+            saveFile = File.OpenWrite(fullSavePath);
+        }
+        formatter.Serialize(saveFile, saveData.stats);
 
+        saveFile.Close();
+    }
 
     /// <summary>
     /// Saves the current instantiation of the GameData class to a binary file.
     /// </summary>
     /// <param name="saveFileName"></param>
     /// <returns></returns>
-    public void SaveStat(string saveFileName)
+    public void SaveStats(string saveFileName)
     {
         if (!Directory.Exists(Application.persistentDataPath + "/SavedGames/"))
             Directory.CreateDirectory(Application.persistentDataPath + "/SavedGames/");
@@ -152,7 +170,7 @@ public class SaveAndLoadManager : MonoBehaviour
 
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream saveFile;
-        // Create a file or open an old one up for writing to
+
         if (!File.Exists(fullSavePath))
         {
             saveFile = File.Create(fullSavePath);
@@ -161,6 +179,7 @@ public class SaveAndLoadManager : MonoBehaviour
         {
             saveFile = File.OpenWrite(fullSavePath);
         }
+        UpdateGameData();
 
         formatter.Serialize(saveFile, saveData.stats);
 
@@ -197,15 +216,91 @@ public class SaveAndLoadManager : MonoBehaviour
             Directory.CreateDirectory(Application.persistentDataPath + "/SavedGames/");
 
         string fullSavePath = SavePath + saveFileName + FILE_EXTENSION;
-        UpdateMachineData();
+        UpdateGameData();
 
         SaveGame.Save<SaveableData>(Application.persistentDataPath + "/SavedGames/SavedScene", saveData);
     }
 
     public void LoadScene(string saveFileName)
     {
+        GameManager.Instance.SceneManagerLink.GetComponent<LevelInteraction>().ClearObjectParent();
+        GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>().ClearCustomerParent();
+        GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>().LoadClearLists();
         saveData = SaveGame.Load<SaveableData>(Application.persistentDataPath + "/SavedGames/SavedScene", saveData);
-        //GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().InstantiateLevel(saveData.allGameObjects);
+        AssignValues(saveData);
+        instantiatedObjectParent = GameObject.Find("Level/Placed Objects");
+        instantiatedCustomerParent = GameObject.Find("Customers");
+        CreateObjects();
+        CreateCustomers();
+        GameManager.Instance.GridManagerLink.GetComponent<GridGeneration>().UpdateGrid();
+    }
+
+    private void CreateObjects()
+    {
+        foreach (PlaceableObjectSaveable obj in saveData.placeableSaveList)
+        {
+            for (int i = 0; i < _objectManager.AllPlaceableObjects.Count; i++)
+            {
+                if (obj.prefabName == _objectManager.AllPlaceableObjects[i].name)
+                {
+                    InstantiateNewObject(_objectManager.AllPlaceableObjects[i], new Vector3(obj.PosX, obj.PosY, obj.PosZ), Quaternion.Euler(new Vector3(obj.RotX, obj.RotY, obj.RotZ)), FindTileFromID(obj.tile_ID));
+                }
+            }
+
+        }
+        placeableSaveList.Clear();
+    }
+
+    private void CreateCustomers()
+    {
+        foreach (CustomerSaveable cust in saveData.customerSaveList)
+        {
+            for (int i = 0; i < GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>().customers.Length; i++)
+            {
+                if (cust.prefabName == GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>().customers[i].name)
+                {
+                       InstantiateNewCustomer(GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>().customers[i], cust, 
+                        new Vector3(cust.PosX, cust.PosY, cust.PosZ),
+                        Quaternion.Euler(new Vector3(cust.RotX, cust.RotY, cust.RotZ)));
+
+                        
+                }
+            }
+        }
+    }
+
+    private Tile FindTileFromID(int tile_ID)
+    {
+        Tile tile = null; 
+        for (int i = 0; i < _objectManager.AllTiles.Length; i++)
+        {
+            if (tile_ID == _objectManager.AllTiles[i].GetID())
+            {
+                tile = _objectManager.AllTiles[i];
+            }
+
+        }
+        return tile;
+    }
+
+    private void InstantiateNewObject(PlaceableObject objectToPlace, Vector3 position, Quaternion rotation, Tile objectTile)
+    {
+        GameObject newObject = Instantiate(objectToPlace.gameObject, position, rotation, instantiatedObjectParent.transform);
+        GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().AddObjectToLists(newObject);
+      
+        PlaceableObject newPlaceableObject = newObject.GetComponent<PlaceableObject>();
+
+        newPlaceableObject.PlacedOnTile = objectTile;
+        newPlaceableObject.prefabName = objectToPlace.name;
+        objectTile.SetIfPlacedOn(true);
+    }
+
+    private void InstantiateNewCustomer(Customer cust, CustomerSaveable custSave, Vector3 position, Quaternion rotation)
+    {
+        Customer newCustomer = Instantiate(cust, position, rotation, instantiatedCustomerParent.transform) as Customer;
+        newCustomer.SetCustomerNeeds(custSave.foodNeed, custSave.toiletNeed, custSave.excitementNeed);
+        newCustomer.prefabName = custSave.prefabName;
+        newCustomer.SetManager(GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>());
     }
 
     public void SaveCustomers()
@@ -230,10 +325,10 @@ public class SaveAndLoadManager : MonoBehaviour
         saveData.stats.currentYear = _timeAndCalendarLink.CurrentYear;
     }
 
-    public void UpdateMachineData()
+    public void ClearLists()
     {
-        saveData.allGameObjects = GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().AllObjectsInLevel;
-
+        saveData.placeableSaveList.Clear();
+        saveData.customerSaveList.Clear();
     }
 
     /// <summary>
@@ -246,15 +341,14 @@ public class SaveAndLoadManager : MonoBehaviour
         saveData.stats.lastSaveTime = DateTime.Now.ToBinary();
     }
 
-    #endregion Public Methods
 
-    #region Private Methods
 
     public void Initialise()
     {
         _timeAndCalendarLink = GameManager.Instance.SceneManagerLink.GetComponent<TimeAndCalendar>();
         _playerManagerLink = GameManager.Instance.SceneManagerLink.GetComponent<PlayerManager>();
         _economyManagerLink = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();
+        _objectManager = GameManager.Instance.SceneManagerLink.GetComponent<ObjectManager>();
     }
 
     // Assigns data to where it should be after a load
@@ -297,7 +391,6 @@ public class SaveAndLoadManager : MonoBehaviour
 
     
 
-    #endregion Private Methods
 }
 
 
@@ -357,7 +450,7 @@ public class SaveableData
 {
     public List<GameObject> allGameObjects;
     public List<MachineData> allMachineData;
-    public List<Customer> allCustomers;
+    public List<CustomerSaveable> customerSaveList;
     public GameData stats;
     public List<PlaceableObjectSaveable> placeableSaveList;
 

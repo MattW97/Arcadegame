@@ -22,7 +22,7 @@ public class LevelManager : MonoBehaviour {
     private EconomyManager _economyLink;
 
     [SerializeField] private float customerSpawnRate, rentCost, startingCash;
-    [SerializeField] private int MAXCUSTOMERS; // dont change this matt
+    [SerializeField] private int MAXCUSTOMERS; 
     [SerializeField] private int openingHour, closingHour;
 
     private int numOfCustomers;
@@ -130,14 +130,6 @@ public class LevelManager : MonoBehaviour {
             customerManager.SetGameMachines(AllGameMachines);
             customerManager.SetFoodStalls(AllFoodStalls);
             customerManager.SetToilets(AllToilets);
-        }
-    }
-
-    public void InstantiateLevel()
-    {
-        foreach (GameObject obj in allObjectsInLevel)
-        {
-            GameObject newObject = Instantiate(obj);
         }
     }
 

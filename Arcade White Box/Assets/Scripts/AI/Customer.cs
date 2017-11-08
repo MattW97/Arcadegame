@@ -21,6 +21,18 @@ public class Customer : BaseAI
     private EconomyManager economyManager;
     private Machine machineNeed;
 
+    public string prefabName;
+
+    void OnEnable()
+    {
+        EventManager.Save += OnSave;
+    }
+
+    void OnDisable()
+    {
+        EventManager.Save -= OnSave;
+    }
+
     void Start()
     {   
         unitController = GetComponent<Unit>();
@@ -42,7 +54,7 @@ public class Customer : BaseAI
 
     void Update()
     {
-        if(currentState == CustomerState.Idle)
+        if (currentState == CustomerState.Idle)
         {
             CustomerNeed customerNeed = GetHightestNeed();
 
@@ -183,12 +195,51 @@ public class Customer : BaseAI
 
     private void DropTrash()
     {
-        GameObject dropped = Instantiate(customerManager.GetTrash(), customerTransform.position, Quaternion.identity);
-        customerManager.AddToDroppedTrash(dropped);
+        //GameObject dropped = Instantiate(customerManager.GetTrash(), customerTransform.position, Quaternion.identity);
+        //customerManager.AddToDroppedTrash(dropped);
+    }
+
+    public void SetCustomerNeeds(float foodNeed, float toiletNeed, float exciteNeed)
+    {
+        customerNeeds = new CustomerNeed[3];
+
+        customerNeeds[0] = new CustomerNeed(CustomerNeed.NeedType.Food, foodNeed);
+        customerNeeds[1] = new CustomerNeed(CustomerNeed.NeedType.Toilet, toiletNeed);
+        customerNeeds[2] = new CustomerNeed(CustomerNeed.NeedType.Excitement, exciteNeed);
     }
 
     public void SetManager(CustomerManager customerManager)
     {
         this.customerManager = customerManager;
     }
+
+    private CustomerSaveable GetCustomerSaveable()
+    {
+        CustomerSaveable customerSave = new CustomerSaveable();
+        customerSave.foodNeed = this.customerNeeds[0].NeedValue;
+        customerSave.toiletNeed = this.customerNeeds[1].NeedValue;
+        customerSave.excitementNeed = this.customerNeeds[2].NeedValue;
+        customerSave.PosX = this.customerTransform.position.x;
+        customerSave.PosY = this.customerTransform.position.y;
+        customerSave.PosZ = this.customerTransform.position.z;
+        customerSave.RotX = this.customerTransform.rotation.x;
+        customerSave.RotY = this.customerTransform.rotation.y;
+        customerSave.RotZ = this.customerTransform.rotation.z;
+        customerSave.prefabName = this.prefabName;
+        return customerSave;
+    }
+
+    private void OnSave()
+    {
+        GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.customerSaveList.Add(GetCustomerSaveable());
+    }
+}
+
+[System.Serializable]
+public class CustomerSaveable
+{
+    public string prefabName;
+    public float toiletNeed, excitementNeed, foodNeed;
+    public float PosX, PosY, PosZ;
+    public float RotX, RotY, RotZ;
 }
