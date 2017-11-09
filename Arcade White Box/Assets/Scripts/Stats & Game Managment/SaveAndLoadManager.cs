@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Xml;
-using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -13,6 +11,8 @@ using BayatGames.SaveGameFree;
 /// </summary>
 public class SaveAndLoadManager : MonoBehaviour
 {
+    public enum AutoSaveDelay { OneMinute, FiveMinute, TenMinute, ThirtyMinute, Hour }
+    [SerializeField] private AutoSaveDelay autosaveDelay;
 
     private TimeAndCalendar _timeAndCalendarLink;
     private PlayerManager _playerManagerLink;
@@ -27,6 +27,7 @@ public class SaveAndLoadManager : MonoBehaviour
     public SaveableData saveData = new SaveableData();
     public Scene openScene;
 
+    public bool autosaveOn;
 
     private string savePath;
     public string SavePath
@@ -42,6 +43,9 @@ public class SaveAndLoadManager : MonoBehaviour
             }
         }
     }
+
+    private string autoSaveName = "AutoSave";
+
 
 
 
@@ -218,15 +222,16 @@ public class SaveAndLoadManager : MonoBehaviour
         string fullSavePath = SavePath + saveFileName + FILE_EXTENSION;
         UpdateGameData();
 
-        SaveGame.Save<SaveableData>(Application.persistentDataPath + "/SavedGames/SavedScene", saveData);
+        SaveGame.Save<SaveableData>(fullSavePath, saveData);
     }
 
     public void LoadScene(string saveFileName)
     {
+        string fullSavePath = SavePath + saveFileName + FILE_EXTENSION;
         GameManager.Instance.SceneManagerLink.GetComponent<LevelInteraction>().ClearObjectParent();
         GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>().ClearCustomerParent();
         GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>().LoadClearLists();
-        saveData = SaveGame.Load<SaveableData>(Application.persistentDataPath + "/SavedGames/SavedScene", saveData);
+        saveData = SaveGame.Load<SaveableData>(fullSavePath, saveData);
         AssignValues(saveData);
         instantiatedObjectParent = GameObject.Find("Level/Placed Objects");
         instantiatedCustomerParent = GameObject.Find("Customers");
@@ -303,15 +308,49 @@ public class SaveAndLoadManager : MonoBehaviour
         newCustomer.SetManager(GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>());
     }
 
-    public void SaveCustomers()
+    public void AutoSaveHandler(bool on)
     {
-
+        if (on)
+        {
+            if (autosaveDelay == AutoSaveDelay.OneMinute)
+            {
+                StartCoroutine(AutoSave(60));
+            }
+            else if (autosaveDelay == AutoSaveDelay.FiveMinute)
+            {
+                StartCoroutine(AutoSave(360));
+            }
+            else if (autosaveDelay == AutoSaveDelay.TenMinute)
+            {
+                StartCoroutine(AutoSave(600));
+            }
+            else if (autosaveDelay == AutoSaveDelay.ThirtyMinute)
+            {
+                StartCoroutine(AutoSave(1800));
+            }
+            else if (autosaveDelay == AutoSaveDelay.Hour)
+            {
+                StartCoroutine(AutoSave(3600));
+            }
+        }
+        else
+        {
+            StopAllCoroutines();
+        }
     }
 
-    public void LoadCustomers()
+    private IEnumerator<UnityEngine.WaitForSeconds> AutoSave(float delay)
     {
-
+        SaveScene(autoSaveName);
+        yield return new WaitForSeconds(delay);
+        StartCoroutine(AutoSave(delay));
     }
+    private void AutoSaveSingular()
+    {
+        SaveScene(autoSaveName);
+    }
+
+
 
     public void UpdateGameData()
     {
@@ -349,6 +388,10 @@ public class SaveAndLoadManager : MonoBehaviour
         _playerManagerLink = GameManager.Instance.SceneManagerLink.GetComponent<PlayerManager>();
         _economyManagerLink = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();
         _objectManager = GameManager.Instance.SceneManagerLink.GetComponent<ObjectManager>();
+        if (autosaveOn)
+        {
+            AutoSaveHandler(true);
+        }
     }
 
     // Assigns data to where it should be after a load
