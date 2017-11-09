@@ -5,19 +5,32 @@ using UnityEngine;
 public class InGameUI : MonoBehaviour
 {
 
+    //[SerializeField]
+    //private GameObject gameTab, servicesTab, constructionTab, decorationTab; // optionsMenu;
+
     [SerializeField]
-    private GameObject gameTab, servicesTab, constructionTab, decorationTab; // optionsMenu;
+    private GameObject gameHalfTab, gameFullTab, servicesHalfTab, servicesFullTab, constructionHalfTab, constructionFullTab, 
+                       decorationHalfTab, decorationFullTab, gameMain, serviceMain, constructionMain, decorationMain;
 
     private bool tabOpen;
     private Animator anim;
-
-    //[SerializeField]
-    //private GameObject joystickMenu, friesMenu, stoolMenu, weirdThingAtTheBottomMenu, advisorMenu;
 
     // Use this for initialization
     void Start()
     {
         anim = this.GetComponent<Animator>();
+
+        gameFullTab.SetActive(false);
+        servicesFullTab.SetActive(false);
+        constructionFullTab.SetActive(false);
+        decorationFullTab.SetActive(false);
+
+        //////////////////// Main Tabs /////////////////////////////
+
+        gameMain.SetActive(false);
+        serviceMain.SetActive(false);
+        constructionMain.SetActive(false);
+        decorationMain.SetActive(false);
     }
 
     // Update is called once per frame
@@ -28,126 +41,127 @@ public class InGameUI : MonoBehaviour
 
     public void GameTab()
     {
-        
+
         PlayAnimation();
-        gameTab.SetActive(true);
-        servicesTab.SetActive(false);
-        constructionTab.SetActive(false);
-        decorationTab.SetActive(false);
-        
+
+        //////////////////// Main Tabs /////////////////////////////
+
+        gameMain.SetActive(true);
+        serviceMain.SetActive(false);
+        constructionMain.SetActive(false);
+        decorationMain.SetActive(false);
+
+        //////////////////// Half Tabs /////////////////////////////
+
+        gameHalfTab.SetActive(false);
+        servicesHalfTab.SetActive(true);
+        constructionHalfTab.SetActive(true);
+        decorationHalfTab.SetActive(true);
+
+        //////////////////// Full Tabs /////////////////////////////
+
+        gameFullTab.SetActive(true);
+        servicesFullTab.SetActive(false);
+        constructionFullTab.SetActive(false);
+        decorationFullTab.SetActive(false);
+
     }
 
     public void ServicesTab()
     {
         PlayAnimation();
-        servicesTab.SetActive(true);
-        gameTab.SetActive(false);
-        constructionTab.SetActive(false);
-        decorationTab.SetActive(false);
+
+        //////////////////// Main Tabs /////////////////////////////
+
+        gameMain.SetActive(false);
+        serviceMain.SetActive(true);
+        constructionMain.SetActive(false);
+        decorationMain.SetActive(false);
+
+        //////////////////// Half Tabs /////////////////////////////
+
+        gameHalfTab.SetActive(true);
+        servicesHalfTab.SetActive(false);
+        constructionHalfTab.SetActive(true);
+        decorationHalfTab.SetActive(true);
+
+        //////////////////// Full Tabs /////////////////////////////
+
+        gameFullTab.SetActive(false);
+        servicesFullTab.SetActive(true);
+        constructionFullTab.SetActive(false);
+        decorationFullTab.SetActive(false);
     }
 
     public void ConstructionTab()
     {
         PlayAnimation();
-        constructionTab.SetActive(true);
-        gameTab.SetActive(false);
-        servicesTab.SetActive(false);
-        decorationTab.SetActive(false);        
+
+        //////////////////// Main Tabs /////////////////////////////
+
+        gameMain.SetActive(false);
+        serviceMain.SetActive(false);
+        constructionMain.SetActive(true);
+        decorationMain.SetActive(false);
+
+        //////////////////// Half Tabs /////////////////////////////
+
+        gameHalfTab.SetActive(true);
+        servicesHalfTab.SetActive(true);
+        constructionHalfTab.SetActive(false);
+        decorationHalfTab.SetActive(true);
+
+        //////////////////// Full Tabs /////////////////////////////
+
+        gameFullTab.SetActive(false);
+        servicesFullTab.SetActive(false);
+        constructionFullTab.SetActive(true);
+        decorationFullTab.SetActive(false);
     }
 
     public void DecorationTab()
     {
         PlayAnimation();
-        decorationTab.SetActive(true);
-        gameTab.SetActive(false);
-        servicesTab.SetActive(false);
-        constructionTab.SetActive(false);
+
+        //////////////////// Main Tabs /////////////////////////////
+
+        gameMain.SetActive(false);
+        serviceMain.SetActive(false);
+        constructionMain.SetActive(false);
+        decorationMain.SetActive(true);
+
+        //////////////////// Half Tabs /////////////////////////////
+
+        gameHalfTab.SetActive(true);
+        servicesHalfTab.SetActive(true);
+        constructionHalfTab.SetActive(true);
+        decorationHalfTab.SetActive(false);
+
+        //////////////////// Full Tabs /////////////////////////////
+
+        gameFullTab.SetActive(false);
+        servicesFullTab.SetActive(false);
+        constructionFullTab.SetActive(false);
+        decorationFullTab.SetActive(true);
     }
-
-    //public void OptionsMenu()
-    //{
-    //    if (optionsMenu.activeInHierarchy)
-    //    {
-    //        optionsMenu.SetActive(false);
-    //    }
-    //    else
-    //    {
-    //        optionsMenu.SetActive(true);
-    //    }
-    //}
-
-    //public void JoyStickMenu()
-    //{
-    //    if (optionsMenu.activeInHierarchy)
-    //    {
-    //        optionsMenu.SetActive(false);
-    //    }
-    //    else
-    //    {
-    //        optionsMenu.SetActive(true);
-    //    }
-    //}
-
-    //public void FriesMenu()
-    //{
-    //    if (friesMenu.activeInHierarchy)
-    //    {
-    //        friesMenu.SetActive(false);
-    //    }
-    //    else
-    //    {
-    //        friesMenu.SetActive(true);
-    //    }
-    //}
-
-    //public void StoolMenu()
-    //{
-    //    if (stoolMenu.activeInHierarchy)
-    //    {
-    //        stoolMenu.SetActive(false);
-    //    }
-    //    else
-    //    {
-    //        stoolMenu.SetActive(true);
-    //    }
-    //}
-
-    //public void WeirdThingMenu()
-    //{
-    //    if (weirdThingAtTheBottomMenu.activeInHierarchy)
-    //    {
-    //        weirdThingAtTheBottomMenu.SetActive(false);
-    //    }
-    //    else
-    //    {
-    //        weirdThingAtTheBottomMenu.SetActive(true);
-    //    }
-    //}
-
-    //public void AdvisorMenu()
-    //{
-    //    if (advisorMenu.activeInHierarchy)
-    //    {
-    //        advisorMenu.SetActive(false);
-    //    }
-    //    else
-    //    {
-    //        advisorMenu.SetActive(true);
-    //    }
-    //}
-
-    //public void DeactivateAllBuildSubMenus()
-    //{
-    //    joystickMenu.SetActive(false);
-    //    friesMenu.SetActive(false);
-    //    stoolMenu.SetActive(false);
-    //    weirdThingAtTheBottomMenu.SetActive(false);
-
-    //}
 
     public void DeactivateAllMenus()
     {
         anim.SetBool("Open", false);
+
+        //////////////////// Half Tabs /////////////////////////////
+
+        gameHalfTab.SetActive(true);
+        servicesHalfTab.SetActive(true);
+        constructionHalfTab.SetActive(true);
+        decorationHalfTab.SetActive(true);
+
+        //////////////////// Full Tabs /////////////////////////////
+
+        gameFullTab.SetActive(false);
+        servicesFullTab.SetActive(false);
+        constructionFullTab.SetActive(false);
+        decorationFullTab.SetActive(false);
 
     }
     private void PlayAnimation()
