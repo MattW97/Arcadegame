@@ -6,7 +6,9 @@ public class OptionsUI : MonoBehaviour
 {
 
     [SerializeField]
-    private GameObject audioHalfTab, graphicsHalfTab, cameraHalfTab, interfaceHalfTab, audioFullTab, graphicsFullTab, cameraFullTab, interfaceFullTab, audioPanel, graphicsPanel, cameraPanel, interfacePanel, optionsPanel, masterEnd, musicEnd, sfxEnd; // optionsMenu;
+    private GameObject audioHalfTab, graphicsHalfTab, cameraHalfTab, interfaceHalfTab, audioFullTab, graphicsFullTab, 
+                       cameraFullTab, interfaceFullTab, audioPanel, graphicsPanel, cameraPanel, interfacePanel, optionsPanel, 
+                       masterEnd, musicEnd, sfxEnd; // optionsMenu;
 
     private bool tabOpen;
     private float volume;
