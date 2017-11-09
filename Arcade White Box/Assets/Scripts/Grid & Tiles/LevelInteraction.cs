@@ -33,7 +33,7 @@ public class LevelInteraction : MonoBehaviour
         ObjectToPlace = null;
 
         tileHighlighter.SetActive(false);
-        CurrentState = InteractionState.PlacingMode;
+        CurrentState = InteractionState.SelectionMode;
     }
 
     void Start()
@@ -54,6 +54,15 @@ public class LevelInteraction : MonoBehaviour
         else if(CurrentState == InteractionState.PlacingMode)
         {
             PlacingMode();
+        }
+
+        if(ObjectToPlace)
+        {
+            CurrentState = InteractionState.PlacingMode;
+        }
+        else
+        {
+            CurrentState = InteractionState.SelectionMode;
         }
     }
 
@@ -133,6 +142,7 @@ public class LevelInteraction : MonoBehaviour
                             if(economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
                             {
                                 InstantiateNewObject(ObjectToPlace, hitInfo.collider.gameObject.transform.position, highlighterTransform.rotation, placedOnTile);
+                                ObjectToPlace = null;
                             }
                         }
                     }
