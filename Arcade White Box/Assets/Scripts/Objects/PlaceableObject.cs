@@ -14,6 +14,9 @@ public class PlaceableObject : Entity {
     protected Tile placedOnTile;
     protected Transform selectionTransform;
 
+    protected Vector3 position;
+    protected Vector3 rotation;
+
     public string prefabName;
     public int tile_ID;
 
@@ -31,6 +34,11 @@ public class PlaceableObject : Entity {
     void OnEnable()
     {
         EventManager.Save += OnSave;
+    }
+
+    void OnDisable()
+    {
+        EventManager.Save -= OnSave;
     }
 
     protected virtual void Update()
@@ -124,17 +132,24 @@ public class PlaceableObject : Entity {
 
     public virtual PlaceableObjectSaveable GetPlaceableObjectSaveable()
     {
+        Transform tempTran = GetComponent<Transform>();
+
         PlaceableObjectSaveable save = new PlaceableObjectSaveable();
         save.prefabName = this.prefabName;
         save.tile_ID = this.tile_ID;
+        save.PosX = tempTran.position.x;
+        save.PosY = tempTran.position.y;
+        save.PosZ = tempTran.position.z;
+        save.RotX = tempTran.rotation.x;
+        save.RotY = tempTran.rotation.y;
+        save.RotZ = tempTran.rotation.z;
 
         return save;
     }
 
     private void OnSave()
     {
-        GameManager.Instance.GetComponent<SaveAndLoadManager>().placeableSaveList.Add(GetPlaceableObjectSaveable());
-        print("tried to save");
+        GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.placeableSaveList.Add(GetPlaceableObjectSaveable());
     }
 }
 
@@ -143,4 +158,6 @@ public class PlaceableObjectSaveable
 {
     public string prefabName;
     public int tile_ID;
+    public float PosX, PosY, PosZ;
+    public float RotX, RotY, RotZ;
 }

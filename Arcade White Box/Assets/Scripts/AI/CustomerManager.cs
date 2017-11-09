@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CustomerManager : MonoBehaviour
 {      
-    [SerializeField] private Customer[] customers;
+    [SerializeField] public Customer[] customers;
     [SerializeField] private GameObject[] customerTrash;
 
     private float levelSpeedFactor;
@@ -15,6 +15,8 @@ public class CustomerManager : MonoBehaviour
     private List<Machine> gameMachines;
     private List<Machine> toilets;
     private List<GameObject> droppedTrash;
+
+    private Transform customerParent;
 
     void Awake()
     {
@@ -28,6 +30,7 @@ public class CustomerManager : MonoBehaviour
     void Start()
     {
         gameTime = GameManager.Instance.SceneManagerLink.GetComponent<TimeAndCalendar>();
+        customerParent = GameObject.Find("Customers").transform;
     }
 
     void Update()
@@ -48,7 +51,8 @@ public class CustomerManager : MonoBehaviour
         for(int i = 0; i < amount; i++)
         {
             int randomCustomer = Random.Range(0, customers.Length);
-            Customer newCustomer = Instantiate(customers[randomCustomer], spawnLocation.position, Quaternion.identity) as Customer;
+            Customer newCustomer = Instantiate(customers[randomCustomer], spawnLocation.position, Quaternion.identity, customerParent) as Customer;
+            newCustomer.prefabName = customers[randomCustomer].name;
             newCustomer.SetSpawnLocation(spawnLocation);
             newCustomer.SetManager(this);
             currentCustomers.Add(newCustomer);
@@ -58,7 +62,8 @@ public class CustomerManager : MonoBehaviour
     public void SpawnCustomer()
     {
         int randomCustomer = Random.Range(0, customers.Length);
-        Customer newCustomer = Instantiate(customers[randomCustomer], spawnLocation.position, Quaternion.identity) as Customer;
+        Customer newCustomer = Instantiate(customers[randomCustomer], spawnLocation.position, Quaternion.identity, customerParent) as Customer;
+        newCustomer.prefabName = customers[randomCustomer].name;
         newCustomer.SetSpawnLocation(spawnLocation);
         newCustomer.SetManager(this);
         currentCustomers.Add(newCustomer);
@@ -72,6 +77,14 @@ public class CustomerManager : MonoBehaviour
         }
 
         currentCustomers.Clear();
+    }
+
+    public void ClearCustomerParent()
+    {
+        foreach (Transform child in customerParent)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
     }
 
     public float GetSpeedFactor()
@@ -137,5 +150,12 @@ public class CustomerManager : MonoBehaviour
     public int NumberOfCurrentCustomers()
     {
         return currentCustomers.Count;
+    }
+
+    public void LoadClearLists()
+    {
+        toilets.Clear();
+        foodFacilities.Clear();
+        gameMachines.Clear();
     }
 }

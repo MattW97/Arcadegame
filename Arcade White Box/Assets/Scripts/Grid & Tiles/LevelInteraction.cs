@@ -253,6 +253,14 @@ public class LevelInteraction : MonoBehaviour
         CurrentSelectedObject = null;
     }
 
+    public void ClearObjectParent()
+    {
+        foreach (Transform child in objectParent)
+        {
+            GameObject.Destroy(child.gameObject);
+        }
+    }
+
     public void SwitchTileHighlighterMesh(PlaceableObject objectToDrawMeshFrom)
     {
         Mesh newMesh = objectToDrawMeshFrom.GetComponentInChildren<MeshFilter>().sharedMesh;

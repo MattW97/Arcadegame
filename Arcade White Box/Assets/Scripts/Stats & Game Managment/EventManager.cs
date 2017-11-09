@@ -22,11 +22,6 @@ public class EventManager : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            SaveObject();
-            print(GameManager.Instance.GetComponent<SaveAndLoadManager>().placeableSaveList.Count);
-        }
     }
 
 }

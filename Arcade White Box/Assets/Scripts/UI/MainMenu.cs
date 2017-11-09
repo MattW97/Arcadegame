@@ -68,7 +68,7 @@ public class MainMenu : MonoBehaviour {
     public void SandboxBuild()
     {
         GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.stats.arcadeName = arcadeNameTextField.text;
-        GameManager.Instance.GetComponent<SaveAndLoadManager>().SaveStat("TestSave");
+        GameManager.Instance.GetComponent<SaveAndLoadManager>().CreateBaseSave();
        // SceneManager.LoadScene(sceneToSwitchTo.name);
         SceneManager.LoadScene(3);
     }

@@ -89,7 +89,7 @@ public class PlayerManager : MonoBehaviour {
 
         _economyLink = this.GetComponent<EconomyManager>();
         BeenBankrupt = false;
-        GameManager.Instance.GetComponent<SaveAndLoadManager>().LoadStats("TestSave");
+        GameManager.Instance.GetComponent<SaveAndLoadManager>().LoadStats("Base");
 		
 	}
 	
