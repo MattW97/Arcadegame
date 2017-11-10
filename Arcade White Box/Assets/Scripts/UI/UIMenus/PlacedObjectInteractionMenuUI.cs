@@ -58,7 +58,7 @@ public class PlacedObjectInteractionMenuUI : MonoBehaviour {
 
     public void SellButtonPressed()
     {
-        GameManager.Instance.SceneManagerLink.GetComponent<TileInteraction>().DestroyCurrentlySelectedObject();
+        GameManager.Instance.SceneManagerLink.GetComponent<LevelInteraction>().DestroyCurrentlySelectedObject();
     }
 
     public void AddUseCostButtonPressed(Machine currentObject)

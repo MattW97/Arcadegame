@@ -21,7 +21,7 @@ public class LevelInteraction : MonoBehaviour
     private PlaceableObject objectToPlace;
     private EconomyManager economyManager;
     private LevelManager levelManager;
-    private GridGeneration gridGeneration;
+    private PathingGridSetup pathingGridSetup;
 
     void Awake()
     {
@@ -40,7 +40,7 @@ public class LevelInteraction : MonoBehaviour
     {
         economyManager = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();
         levelManager = GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>();
-        gridGeneration = GameManager.Instance.GridManagerLink.GetComponent<GridGeneration>();
+        pathingGridSetup = GameManager.Instance.PathingGridManagerLink.GetComponent<PathingGridSetup>();
 
         objectParent = GameObject.Find("Level/Placed Objects").transform;
     }
@@ -159,7 +159,7 @@ public class LevelInteraction : MonoBehaviour
     {
         GameObject newObject = Instantiate(objectToPlace.gameObject, position, rotation, objectParent);
         levelManager.AddObjectToLists(newObject);
-        gridGeneration.UpdateGrid();
+        pathingGridSetup.UpdateGrid();
 
         if (CheckIfMachineOrPlaceable(ObjectToPlace))
         {

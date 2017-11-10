@@ -68,10 +68,10 @@ public class Unit : MonoBehaviour
             currentWaypoint = path[0];
         }
 
-		while(true)
+        while (true)
 		{
-			if(unitTransform.position == currentWaypoint)
-			{
+            if (unitTransform.position == currentWaypoint)
+			{   
 				targetIndex++;
 				if(targetIndex >= path.Length)
                 {
@@ -81,11 +81,12 @@ public class Unit : MonoBehaviour
 				}
 
 				currentWaypoint = path[targetIndex];
-			}
+            }
 
 			unitTransform.position = Vector3.MoveTowards(unitTransform.position, currentWaypoint, (realSpeed * SpeedFactor) * Time.deltaTime);
             unitTransform.LookAt(currentWaypoint);
-			yield return null;
+            print(currentWaypoint);
+            yield return null;
 		}
     }
 
