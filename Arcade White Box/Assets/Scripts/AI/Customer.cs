@@ -195,8 +195,8 @@ public class Customer : BaseAI
 
     private void DropTrash()
     {
-        //GameObject dropped = Instantiate(customerManager.GetTrash(), customerTransform.position, Quaternion.identity);
-        //customerManager.AddToDroppedTrash(dropped);
+        GameObject dropped = Instantiate(customerManager.GetTrash(), customerTransform.position, Quaternion.identity);
+        customerManager.AddToDroppedTrash(dropped);
     }
 
     public void SetCustomerNeeds(float foodNeed, float toiletNeed, float exciteNeed)

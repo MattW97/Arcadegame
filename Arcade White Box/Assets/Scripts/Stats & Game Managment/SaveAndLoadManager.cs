@@ -232,7 +232,7 @@ public class SaveAndLoadManager : MonoBehaviour
         instantiatedCustomerParent = GameObject.Find("Customers");
         CreateObjects();
         CreateCustomers();
-        GameManager.Instance.GridManagerLink.GetComponent<GridGeneration>().UpdateGrid();
+        GameManager.Instance.PathingGridManagerLink.GetComponent<GridGeneration>().UpdateGrid();
     }
 
     private void CreateObjects()

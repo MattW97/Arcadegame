@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class PathingGrid : MonoBehaviour 
 {	
+    [SerializeField] private bool drawGizmoGrid;
+
 	public float nodeRadius;
 	public LayerMask unwalkableMask;
 
@@ -65,9 +67,6 @@ public class PathingGrid : MonoBehaviour
 
 	public Node NodeFromWorldPoint(Vector3 worldPosition)
 	{
-        //float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
-        //float percentY = (worldPosition.z + gridWorldSize.y / 2) / gridWorldSize.y;
-
         float percentX = (worldPosition.x / gridWorldSize.x) + 0.5f;
         float percentY = (worldPosition.z / gridWorldSize.y) + 0.5f;
 
@@ -94,4 +93,21 @@ public class PathingGrid : MonoBehaviour
 	{
 		this.gridWorldSize = gridWorldSize;
 	}
+
+    void OnDrawGizmos()
+    {   
+        if(drawGizmoGrid)
+        {
+            Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));
+
+            if (grid != null)
+            {
+                foreach (Node n in grid)
+                {
+                    Gizmos.color = (n.GetWalkable()) ? Color.white : Color.red;
+                    Gizmos.DrawWireCube(n.GetWorldPosition(), Vector3.one * (nodeDiameter - 0.1f));
+                }
+            }
+        }
+    }
 }

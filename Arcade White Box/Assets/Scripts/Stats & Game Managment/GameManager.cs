@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private GameObject sceneManager, gridManager;
     [SerializeField] Scene mainScene;
 
-    private GameObject sceneManagerLink, gridManagerLink;
+    private GameObject sceneManagerLink, pathingGridManagerLink;
     private SettingManager settingManager;
     private SoundManager soundManager;
     private string sceneName;
@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour {
         Instance = this;
 
         SettingManager = GetComponent<SettingManager>();
-
         SoundManager = GetComponent<SoundManager>();
     }
 
@@ -44,19 +43,19 @@ public class GameManager : MonoBehaviour {
     private void Initialise()
     {
         SceneManagerLink = Instantiate(sceneManager);
-        GridManagerLink = Instantiate(gridManager);
+        PathingGridManagerLink = GameObject.Find("Pathing Grid Manager");
     }
 
     public GameObject SceneManagerLink
     {
         get
         {
-            return SceneManagerLink1;
+            return sceneManagerLink;
         }
 
         set
         {
-            SceneManagerLink1 = value;
+            sceneManagerLink = value;
         }
     }
 
@@ -73,16 +72,16 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public GameObject GridManagerLink
+    public GameObject PathingGridManagerLink
     {
         get
         {
-            return GridManagerLink1;
+            return pathingGridManagerLink;
         }
 
         set
         {
-            GridManagerLink1 = value;
+            pathingGridManagerLink = value;
         }
     }
 
@@ -111,31 +110,4 @@ public class GameManager : MonoBehaviour {
             soundManager = value;
         }
     }
-
-    public GameObject SceneManagerLink1
-    {
-        get
-        {
-            return sceneManagerLink;
-        }
-
-        set
-        {
-            sceneManagerLink = value;
-        }
-    }
-
-    public GameObject GridManagerLink1
-    {
-        get
-        {
-            return gridManagerLink;
-        }
-
-        set
-        {
-            gridManagerLink = value;
-        }
-    }
-
 }
