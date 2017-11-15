@@ -7,10 +7,21 @@ public class Tile : MonoBehaviour
     public enum TileType { Empty, Passable, Impassable, Object, Wall }
 
     [SerializeField] private TileType tileType;
+    [SerializeField] private MeshFilter trashMesh;
+    [SerializeField] private Mesh[] trashLevels;
 
-    private int id;
+    private int id, trashLevel;
     private bool placedOn;
     private Vector2 tileCoordinates;
+
+    void Start()
+    {
+        trashLevel = 0;
+
+        Vector3 newRotation = trashMesh.transform.rotation.eulerAngles;
+        newRotation.y = Random.Range(0, 360);
+        trashMesh.transform.rotation = Quaternion.Euler(newRotation);
+    }
 
     public TileType GetTileType()
     {
@@ -59,6 +70,15 @@ public class Tile : MonoBehaviour
         // TEXTURE ID NEEDS TO GO HERE!
 
         return newSave;
+    }
+
+    public void AddToTrash()
+    {
+        if(trashLevel < trashLevels.Length - 1)
+        {
+            trashLevel++;
+            trashMesh.mesh = trashLevels[trashLevel];
+        }
     }
 }
 

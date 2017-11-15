@@ -1,4 +1,11 @@
-﻿using System.Collections;
+﻿/* 
+ * TODO:
+ *      - Add susceptibilities for each need within the save functions for customers
+ *      - Update speed scale in customers when are using machines or other objects
+ */
+
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -41,9 +48,9 @@ public class Customer : BaseAI
 
         customerNeeds = new CustomerNeed[3];
 
-        customerNeeds[0] = new CustomerNeed(CustomerNeed.NeedType.Food, Random.Range((needsTickRate * 2.0f) + 1.0f, needLimit - (needsTickRate * 2.0f)));
-        customerNeeds[1] = new CustomerNeed(CustomerNeed.NeedType.Toilet, Random.Range((needsTickRate * 2.0f) + 1.0f, needLimit - (needsTickRate * 2.0f)));
-        customerNeeds[2] = new CustomerNeed(CustomerNeed.NeedType.Excitement, Random.Range((needsTickRate * 2.0f) + 1.0f, needLimit - (needsTickRate * 2.0f)));
+        customerNeeds[0] = new CustomerNeed(CustomerNeed.NeedType.Food, Random.Range((needsTickRate * 2.0f) + 1.0f, needLimit - (needsTickRate * 2.0f)), 1.0f);
+        customerNeeds[1] = new CustomerNeed(CustomerNeed.NeedType.Toilet, Random.Range((needsTickRate * 2.0f) + 1.0f, needLimit - (needsTickRate * 2.0f)), 1.0f);
+        customerNeeds[2] = new CustomerNeed(CustomerNeed.NeedType.Excitement, Random.Range((needsTickRate * 2.0f) + 1.0f, needLimit - (needsTickRate * 2.0f)), 1.0f);
 
         customerNeeds[Random.Range(0, customerNeeds.Length)].NeedValue = needLimit;
 
@@ -66,7 +73,12 @@ public class Customer : BaseAI
                 {
                     machineNeed = FindNearestFacility(customerManager.GetFoodStalls());
 
-                    DropTrash();
+                    Tile trashTile = CheckTile();
+
+                    if(trashTile)
+                    {
+                        trashTile.AddToTrash();
+                    }
                 }
                 else if ((int)customerNeed.Need == (int)CustomerNeed.NeedType.Toilet)
                 {
@@ -90,6 +102,7 @@ public class Customer : BaseAI
         {   
             if(unitController.ReachedTarget)
             {   
+                // USE ONUSE() INSTEAD OF DIRECTLY GIVING MONEY TO THE PLAYER
                 usingFacilityWait = UsingFacilitiesWait(machineNeed.UseTime);
                 economyManager.MoneyEarnedFromArcade(machineNeed);
                 StartCoroutine(usingFacilityWait);
@@ -130,7 +143,7 @@ public class Customer : BaseAI
 
     private CustomerNeed GetHightestNeed()
     {
-        CustomerNeed greatestNeed = new CustomerNeed(CustomerNeed.NeedType.Test, 0.0f);
+        CustomerNeed greatestNeed = new CustomerNeed();
 
         foreach(CustomerNeed need in customerNeeds)
         {
@@ -193,19 +206,34 @@ public class Customer : BaseAI
         usingFacility = false;
     }
 
-    private void DropTrash()
-    {
-        GameObject dropped = Instantiate(customerManager.GetTrash(), customerTransform.position, Quaternion.identity);
-        customerManager.AddToDroppedTrash(dropped);
-    }
-
-    public void SetCustomerNeeds(float foodNeed, float toiletNeed, float exciteNeed)
+    public void SetCustomerNeeds(float foodNeed, float toiletNeed, float exciteNeed, float susceptibility)
     {
         customerNeeds = new CustomerNeed[3];
 
-        customerNeeds[0] = new CustomerNeed(CustomerNeed.NeedType.Food, foodNeed);
-        customerNeeds[1] = new CustomerNeed(CustomerNeed.NeedType.Toilet, toiletNeed);
-        customerNeeds[2] = new CustomerNeed(CustomerNeed.NeedType.Excitement, exciteNeed);
+        customerNeeds[0] = new CustomerNeed(CustomerNeed.NeedType.Food, foodNeed, susceptibility);
+        customerNeeds[1] = new CustomerNeed(CustomerNeed.NeedType.Toilet, toiletNeed, susceptibility);
+        customerNeeds[2] = new CustomerNeed(CustomerNeed.NeedType.Excitement, exciteNeed, susceptibility);
+    }
+
+    private Tile CheckTile()
+    {
+        RaycastHit hitInfo;
+
+        if(Physics.Raycast(new Vector3(customerTransform.position.x, customerTransform.position.y + 1, customerTransform.position.z), -customerTransform.up, out hitInfo))
+        {
+            if(string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Tile") == 0)
+            {
+                return hitInfo.collider.GetComponent<Tile>();
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public void SetManager(CustomerManager customerManager)

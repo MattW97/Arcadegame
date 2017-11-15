@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour {
     void OnSceneLoaded(Scene mainScene, LoadSceneMode mode)
     {
         // MAIN SCENE LOADING
-        if (mainScene.name == "Level 1")
+        if (mainScene.name == "Level 2")
         {
             Initialise();
             this.gameObject.GetComponent<SaveAndLoadManager>().Initialise();
