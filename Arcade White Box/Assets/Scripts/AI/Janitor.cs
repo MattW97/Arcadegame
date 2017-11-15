@@ -29,8 +29,8 @@ public class Janitor : Staff
     {
         if(currentState == JanitorSate.Searching)
         {
-            currentTarget = customerManager.GetDroppedTrash()[customerManager.GetDroppedTrash().Count - 1].transform;
-            customerManager.GetDroppedTrash().RemoveAt(customerManager.GetDroppedTrash().Count - 1);
+            //currentTarget = customerManager.GetDroppedTrash()[customerManager.GetDroppedTrash().Count - 1].transform;
+            //customerManager.GetDroppedTrash().RemoveAt(customerManager.GetDroppedTrash().Count - 1);
 
             unitController.SetTarget(currentTarget);
             unitController.GetNewPath();
@@ -47,10 +47,10 @@ public class Janitor : Staff
         }
         else if(currentState == JanitorSate.Idle)
         {
-            if(customerManager.GetDroppedTrash().Count > 0)
-            {
-                currentState = JanitorSate.Searching;
-            }
+            //if(customerManager.GetDroppedTrash().Count > 0)
+            //{
+            //    currentState = JanitorSate.Searching;
+            ///}
         }
 
         base.Update();

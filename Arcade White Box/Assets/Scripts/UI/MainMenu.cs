@@ -70,7 +70,7 @@ public class MainMenu : MonoBehaviour {
         GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.stats.arcadeName = arcadeNameTextField.text;
         GameManager.Instance.GetComponent<SaveAndLoadManager>().CreateBaseSave();
        // SceneManager.LoadScene(sceneToSwitchTo.name);
-        SceneManager.LoadScene(3);
+        SceneManager.LoadScene("Level 2");
     }
 
     public void ReturnToMain()

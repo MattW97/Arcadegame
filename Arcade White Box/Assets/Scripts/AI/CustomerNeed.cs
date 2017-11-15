@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class CustomerNeed
 {
-    public enum NeedType { Test, Food, Toilet, Excitement }
+    public enum NeedType { Test, Food, Toilet, Excitement, Happiness, Sadness, }
 
     private NeedType need;
     private float needValue;
+    private float needSusceptibility;
 
-    public CustomerNeed(NeedType type, float value)
+    public CustomerNeed() {}
+
+    public CustomerNeed(NeedType type, float value, float susceptibility)
     {
-        Need = type;
+        need = type;
         needValue = value;
+        needSusceptibility = susceptibility;
     }
 
     public float NeedValue
@@ -38,6 +42,19 @@ public class CustomerNeed
         set
         {
             need = value;
+        }
+    }
+
+    public float NeedSusceptibility
+    {
+        get
+        {
+            return needSusceptibility;
+        }
+
+        set
+        {
+            needSusceptibility = value;
         }
     }
 }

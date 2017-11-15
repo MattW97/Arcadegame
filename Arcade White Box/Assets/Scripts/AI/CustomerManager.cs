@@ -9,14 +9,11 @@ public class CustomerManager : MonoBehaviour
 
     private float levelSpeedFactor;
     private TimeAndCalendar gameTime;
-    private Transform spawnLocation;
+    private Transform spawnLocation, trashParent;
     private List<Customer> currentCustomers;
     private List<Machine> foodFacilities;
     private List<Machine> gameMachines;
     private List<Machine> toilets;
-    private List<GameObject> droppedTrash;
-
-    private Transform customerParent;
 
     void Awake()
     {
@@ -24,13 +21,11 @@ public class CustomerManager : MonoBehaviour
         foodFacilities = new List<Machine>();
         gameMachines = new List<Machine>();
         toilets = new List<Machine>();
-        droppedTrash = new List<GameObject>();
     }
 
     void Start()
     {
         gameTime = GameManager.Instance.SceneManagerLink.GetComponent<TimeAndCalendar>();
-        customerParent = GameObject.Find("Customers").transform;
     }
 
     void Update()
@@ -81,9 +76,9 @@ public class CustomerManager : MonoBehaviour
 
     public void ClearCustomerParent()
     {
-        foreach (Transform child in customerParent)
+        foreach (Customer customer in currentCustomers)
         {
-            GameObject.Destroy(child.gameObject);
+            Destroy(customer.gameObject);
         }
     }
 
@@ -135,16 +130,6 @@ public class CustomerManager : MonoBehaviour
     public void SetGameMachines(List<Machine> gameMachines)
     {
         this.gameMachines = gameMachines;
-    }
-
-    public void AddToDroppedTrash(GameObject trash)
-    {
-        droppedTrash.Add(trash);
-    }
-
-    public List<GameObject> GetDroppedTrash()
-    {
-        return droppedTrash;
     }
 
     public int NumberOfCurrentCustomers()
