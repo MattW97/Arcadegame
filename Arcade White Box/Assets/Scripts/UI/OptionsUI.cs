@@ -123,10 +123,6 @@ public class OptionsUI : MonoBehaviour
     public void DefaultSettings()
     {
         value = this.GetComponent<InGameSettingUI>().MusicSlider.value;
-
-
-        print(value);
-        
     }
 
     public void LoadDefaultSettings()

@@ -17,8 +17,8 @@ public class PlaceableObject : Entity {
     protected Vector3 position;
     protected Vector3 rotation;
 
-    public string prefabName;
-    public int tile_ID;
+    private string prefabName;
+    private int tile_ID;
 
     protected virtual void Awake()
     {
@@ -125,6 +125,19 @@ public class PlaceableObject : Entity {
         }
     }
 
+    public string PrefabName
+    {
+        get
+        {
+            return prefabName;
+        }
+
+        set
+        {
+            prefabName = value;
+        }
+    }
+
     public float returnAmount()
     {
         return (BuyCost / percentReturnedUponSold);
@@ -135,7 +148,7 @@ public class PlaceableObject : Entity {
         Transform tempTran = GetComponent<Transform>();
 
         PlaceableObjectSaveable save = new PlaceableObjectSaveable();
-        save.prefabName = this.prefabName;
+        save.prefabName = this.PrefabName;
         save.tile_ID = this.tile_ID;
         save.PosX = tempTran.position.x;
         save.PosY = tempTran.position.y;

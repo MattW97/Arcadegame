@@ -173,7 +173,7 @@ public class LevelInteraction : MonoBehaviour
         PlaceableObject newPlaceableObject = newObject.GetComponent<PlaceableObject>();
 
         newPlaceableObject.PlacedOnTile = objectTile;
-        newPlaceableObject.prefabName = objectToPlace.name;
+        newPlaceableObject.PrefabName = objectToPlace.name;
         objectTile.SetIfPlacedOn(true);
     }
 

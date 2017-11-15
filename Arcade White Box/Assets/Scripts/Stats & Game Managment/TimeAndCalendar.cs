@@ -6,90 +6,23 @@ using UnityEngine.UI;
 public class TimeAndCalendar : MonoBehaviour {
 
     public enum DayNames { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
-    public enum MonthNames { January, February, March, April, May, June, July, August, September, October, November, December }
     public int startHour, startMinute;
     public int startYear, startMonth, startDay;
-    public Day starterDay = new Day();
-    public int numberOfDaysToCreate;
     public float timeMultiplier;
+    [SerializeField] private float speedOption1, speedOption2, speedOption3, speedOption4, speedOption5;
 
-    public List<Day> listOfDays;
 
-    [SerializeField]
-    private float speedOption1, speedOption2, speedOption3, speedOption4, speedOption5;
+    public Day starterDay = new Day();
+    private List<Day> listOfDays;
+    private Year testerYear;
     private Text timeText, dateText;
     private int currentHour, currentMinute;
     private int currentYear, currentMonth, currentDay;
-    private Month january, february, march, april, may, june, july, august, september, october, november, december;
+    private List<int> monthLengths;
+    private List<string> monthNames;
 
-
-    public int CurrentHour
+    void Start ()
     {
-        get
-        {
-            return currentHour;
-        }
-
-        set
-        {
-            currentHour = value;
-        }
-    }
-
-    public int CurrentMinute
-    {
-        get
-        {
-            return currentMinute;
-        }
-
-        set
-        {
-            currentMinute = value;
-        }
-    }
-
-    public int CurrentYear
-    {
-        get
-        {
-            return currentYear;
-        }
-
-        set
-        {
-            currentYear = value;
-        }
-    }
-
-    public int CurrentMonth
-    {
-        get
-        {
-            return currentMonth;
-        }
-
-        set
-        {
-            currentMonth = value;
-        }
-    }
-
-    public int CurrentDay
-    {
-        get
-        {
-            return currentDay;
-        }
-
-        set
-        {
-            currentDay = value;
-        }
-    }
-
-    // Use this for initialization
-    void Start () {
         CurrentHour = startHour;
         CurrentMinute = startMinute;
         CurrentYear = startYear;
@@ -97,13 +30,13 @@ public class TimeAndCalendar : MonoBehaviour {
         CurrentDay = startDay;
 
         timeText = GameObject.Find("UI Canvas/Bottom Bar/Date And Time/Text").GetComponent<Text>();
-        //CreateMonths();
         StartTimer();
-       // CreateDay(starterDay);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        CreateCalendar();
+    }
+
+
+    // Update is called once per frame
+    void Update () {
 
         UpdateTime();
         // UpdateDate();
@@ -194,6 +127,7 @@ public class TimeAndCalendar : MonoBehaviour {
     public void StopTimer()
     {
         CancelInvoke();
+        timeMultiplier = 0;
     }
 
     public void StartTimerX2()
@@ -237,67 +171,82 @@ public class TimeAndCalendar : MonoBehaviour {
 
     #region Calendar
 
+    private Day prevDay;
+
+    /// <summary>
+    /// Starter method for creating the calendar. 
+    /// </summary>
     private void CreateCalendar()
     {
-        
+        CalendarInit();
+        prevDay = starterDay;
+        CreateYear(2000);
     }
 
-    private void CreateMonths()
+    /// <summary>
+    /// Creates a year's worth of months (12). 
+    /// @param the year number, basically increase by one on each call.
+    /// </summary>
+    /// <param name="yearNumber"></param>
+    private void CreateYear(int yearNumber)
     {
-        Month january = new Month();
-        january.monthName = MonthNames.January;
-        january.numberOfDays = 31;
-
-        Month february = new Month();
-        february.monthName = MonthNames.February;
-        february.numberOfDays = 28;
-
-        Month march = new Month();
-        march.monthName = MonthNames.March;
-        march.numberOfDays = 31;
-
-        Month april = new Month();
-        april.monthName = MonthNames.April;
-        april.numberOfDays = 30;
-
-        Month may = new Month();
-        may.monthName = MonthNames.May;
-        may.numberOfDays = 31;
-
-        Month june = new Month();
-        june.monthName = MonthNames.June;
-        june.numberOfDays = 30;
-
-        Month july = new Month();
-        july.monthName = MonthNames.July;
-        july.numberOfDays = 31;
-
-        Month august = new Month();
-        august.monthName = MonthNames.August;
-        august.numberOfDays = 31;
-
-        Month september = new Month();
-        september.monthName = MonthNames.September;
-        september.numberOfDays = 30;
-
-        Month october = new Month();
-        october.monthName = MonthNames.October;
-        october.numberOfDays = 31;
-
-        Month november = new Month();
-        november.monthName = MonthNames.November;
-        november.numberOfDays = 30;
-
-        Month december = new Month();
-        december.monthName = MonthNames.December;
-        december.numberOfDays = 31;
+        Year newYear = new Year();
+        testerYear.yearNumber = yearNumber;
+        for (int i = 0; i < 12; i++)
+        {
+           testerYear.monthsInYear.Add(CreateMonth(monthLengths[i], i, yearNumber));  
+        }
     }
 
-    private Day CreateDay(Day previousDay)
+    /// <summary>
+    /// Creates a month worth of days (Either, 28, 30, or 31).
+    /// This is handled by CreateYear(). Do not call this method anywhere else.
+    /// @param noOfDays - Number of days to be created and attached to this month.
+    /// @param curMonthINT - Which number month this is, in the current year. Eg 2 = February.
+    /// @param curYearINT - Which year this month belongs to.
+    /// @return An instantiation of the Month class that this function creates.
+    /// </summary>
+    /// <param name="noOfDays"></param>
+    /// <param name="curMonthINT"></param>
+    /// <param name="curYearINT"></param>
+    /// <returns></returns>
+    private Month CreateMonth(int noOfDays, int curMonthINT, int curYearINT)
+    {
+        Month newMonth = new Month();
+        newMonth.monthName = monthNames[curMonthINT];
+        for (int i = 0; i < noOfDays; i++)
+        {
+            prevDay = CreateDay(prevDay, newMonth.monthName, i, curMonthINT, curYearINT);
+            newMonth.daysInMonth.Add(prevDay);
+        }
+        return newMonth;
+    }
+
+/// <summary>
+/// Creates a singular Day.
+/// This is handled by CreateMonth(). Should have no reason to call this method on its own.
+/// @param previousDay - The previous day that has been created. Used to update values of the day each call will create.
+/// @param curMonthSTR - The month this day is attached to as a string. Done this way so we aren't unnecessarily trolling through a list.
+/// @param curDayINT - The day integer this day should be. NOTE: This value has been increased by 1, because the value originally draws from a list which 
+/// obviously starts at 0. As there isn't a "0ist" day, they have been increased by 1.
+/// @param curMonthINT - The month integer this day should belong to. NOTE: Read note above, also applies.
+/// @param curYearINT - The year integer this day should belong to.
+/// @return An instantiation of the Day class that has been created.
+/// </summary>
+/// <param name="previousDay"></param>
+/// <param name="curMonthSTR"></param>
+/// <param name="curDayINT"></param>
+/// <param name="curMonthINT"></param>
+/// <param name="curYearINT"></param>
+/// <returns></returns>
+    private Day CreateDay(Day previousDay, string curMonthSTR, int curDayINT, int curMonthINT, int curYearINT)
     {
         Day newDay = new Day();
-        newDay.month = january;
-        newDay.id = previousDay.id++;
+        newDay.dateDay = curDayINT += 1;
+        newDay.dateMonth = curMonthINT += 1;
+        newDay.dateYear = curYearINT;
+        newDay.monthName = curMonthSTR;
+        newDay.id = CreateDayID(newDay);
         switch (previousDay.dayName)
         {
             case DayNames.Monday:
@@ -322,109 +271,154 @@ public class TimeAndCalendar : MonoBehaviour {
                 newDay.dayName = DayNames.Monday;
                 break;
         }
-
-        if (previousDay.dateDay == previousDay.month.numberOfDays)
-        {
-            newDay.dateDay = 1;
-            switch (previousDay.month.monthName)
-            {
-                case MonthNames.January:
-                    newDay.month.monthName = MonthNames.February;
-                    newDay.month = february;
-                    newDay.dateMonth = 2;
-                    break;
-                case MonthNames.February:
-                    newDay.month.monthName = MonthNames.March;
-                    newDay.month = march;
-                    newDay.dateMonth = 3;
-                    break;
-                case MonthNames.March:
-                    newDay.month.monthName = MonthNames.April;
-                    newDay.month = april;
-                    newDay.dateMonth = 4;
-                    break;
-                case MonthNames.April:
-                    newDay.month.monthName = MonthNames.May;
-                    newDay.month = may;
-                    newDay.dateMonth = 5;
-                    break;
-                case MonthNames.May:
-                    newDay.month.monthName = MonthNames.June;
-                    newDay.month = june;
-                    newDay.dateMonth = 6;
-                    break;
-                case MonthNames.June:
-                    newDay.month.monthName = MonthNames.July;
-                    newDay.month = july;
-                    newDay.dateMonth = 7;
-                    break;
-                case MonthNames.July:
-                    newDay.month.monthName = MonthNames.August;
-                    newDay.month = august;
-                    newDay.dateMonth = 8;
-                    break;
-                case MonthNames.August:
-                    newDay.month.monthName = MonthNames.September;
-                    newDay.month = september;
-                    newDay.dateMonth = 9;
-                    break;
-                case MonthNames.September:
-                    newDay.month.monthName = MonthNames.October;
-                    newDay.month = october;
-                    newDay.dateMonth = 10;
-                    break;
-                case MonthNames.October:
-                    newDay.month.monthName = MonthNames.November;
-                    newDay.month = november;
-                    newDay.dateMonth = 11;
-                    break;
-                case MonthNames.November:
-                    newDay.month.monthName = MonthNames.December;
-                    newDay.month = december;
-                    newDay.dateMonth = 12;
-                    break;
-                case MonthNames.December:
-                    newDay.month.monthName = MonthNames.January;
-                    newDay.month = february;
-                    newDay.dateMonth = 1;
-                    newDay.dateYear = previousDay.dateYear++;
-                    break;
-
-            }
-            
-
-        }
-        else
-        {
-            newDay.dateDay = previousDay.dateDay++;
-            newDay.month = previousDay.month;
-        }
-        print("Created a new day with the ID " + newDay.id);
         listOfDays.Add(newDay);
-        if (newDay.id != numberOfDaysToCreate)
-        {
-            CreateDay(newDay);
-        }
-
         return newDay;
-        
     }
 
+    /// <summary>
+    /// A method to create a unique ID for each day.
+    /// This is done byy concatenating an int in the format YYYY/MM/DD
+    /// @param the Day to create an ID for
+    /// @return the ID
+    /// </summary>
+    /// <param name="day"></param>
+    /// <returns></returns>
+    private int CreateDayID(Day day)
+    {
+        int id = 0;
+        id = int.Parse(day.dateYear.ToString() + day.dateMonth.ToString() + day.dateDay.ToString());
+        return id;
+    }
+
+    /// <summary>
+    /// Initialisation for Calendar
+    /// </summary>
+    private void CalendarInit()
+    {
+        monthLengths = new List<int>();
+        monthNames = new List<string>();
+        listOfDays = new List<Day>();
+        testerYear = new Year();
+
+        monthLengths.Add(31);
+        monthLengths.Add(28);
+        monthLengths.Add(31);
+        monthLengths.Add(30);
+        monthLengths.Add(31);
+        monthLengths.Add(30);
+        monthLengths.Add(31);
+        monthLengths.Add(31);
+        monthLengths.Add(30);
+        monthLengths.Add(31);
+        monthLengths.Add(30);
+        monthLengths.Add(31);
+
+        monthNames.Add("January");
+        monthNames.Add("February");
+        monthNames.Add("March");
+        monthNames.Add("April");
+        monthNames.Add("May");
+        monthNames.Add("June");
+        monthNames.Add("July");
+        monthNames.Add("August");
+        monthNames.Add("September");
+        monthNames.Add("October");
+        monthNames.Add("November");
+        monthNames.Add("December");
+    }
+
+
     #endregion Calendar
+
+    #region Getters/Setters
+    public int CurrentHour
+    {
+        get
+        {
+            return currentHour;
+        }
+
+        set
+        {
+            currentHour = value;
+        }
+    }
+
+    public int CurrentMinute
+    {
+        get
+        {
+            return currentMinute;
+        }
+
+        set
+        {
+            currentMinute = value;
+        }
+    }
+
+    public int CurrentYear
+    {
+        get
+        {
+            return currentYear;
+        }
+
+        set
+        {
+            currentYear = value;
+        }
+    }
+
+    public int CurrentMonth
+    {
+        get
+        {
+            return currentMonth;
+        }
+
+        set
+        {
+            currentMonth = value;
+        }
+    }
+
+    public int CurrentDay
+    {
+        get
+        {
+            return currentDay;
+        }
+
+        set
+        {
+            currentDay = value;
+        }
+    }
+    #endregion Getters/Setters
+
 }
 
 [Serializable]
 public class Day
 {
     public TimeAndCalendar.DayNames dayName;
+    public string monthName;
     public int dateDay, dateMonth, dateYear, id;
-    public Month month;
 }
 
 [Serializable]
 public class Month
 {
-    public TimeAndCalendar.MonthNames monthName;
-    public int numberOfDays;
-    
+    public string monthName;
+    public List<Day> daysInMonth = new List<Day>();
 }
+
+[Serializable]
+public class Year
+{
+    public int yearNumber;
+    public List<Month> monthsInYear = new List<Month>();
+}
+
+

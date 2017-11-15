@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -63,8 +64,14 @@ public class InGameSettingUI : MonoBehaviour
 
     void OnEnable()
     {
-        print(GameManager.Instance.SettingManager);
-        GameManager.Instance.SettingManager.LoadSettings();
+        try
+        {
+            GameManager.Instance.SettingManager.LoadSettings();
+        }
+        catch (Exception e)
+        {
+            print("InGameSettingUI threw an error again!");
+        }
         resolutionDropDown.RefreshShownValue();
     }
 

@@ -7,10 +7,11 @@ using System.Runtime.Serialization.Formatters.Binary;
 using BayatGames.SaveGameFree;
 
 /// <summary>
-/// Class for handling persistent game data
+/// Class for saving and loading persistent game data and autosaving.
 /// </summary>
 public class SaveAndLoadManager : MonoBehaviour
 {
+    public bool autosaveOn;
     public enum AutoSaveDelay { OneMinute, FiveMinute, TenMinute, ThirtyMinute, Hour }
     [SerializeField] private AutoSaveDelay autosaveDelay;
 
@@ -21,13 +22,12 @@ public class SaveAndLoadManager : MonoBehaviour
     private GameObject instantiatedObjectParent;
     private GameObject instantiatedCustomerParent;
 
-    public List<PlaceableObjectSaveable> placeableSaveList;
-    public List<CustomerSaveable> customerSaveList;
-    public GameData gameData = new GameData();
+    private List<PlaceableObjectSaveable> placeableSaveList;
+    private List<CustomerSaveable> customerSaveList;
+    private GameData gameData = new GameData();
     public SaveableData saveData = new SaveableData();
     public Scene openScene;
 
-    public bool autosaveOn;
 
     private string savePath;
     public string SavePath
@@ -45,18 +45,8 @@ public class SaveAndLoadManager : MonoBehaviour
     }
 
     private string autoSaveName = "AutoSave";
-
-
-
-
     private const string FILE_EXTENSION = ".lul";
-
-    // Save Load Data
     private string saveFile;
-
-   
-
-
 
     /// <summary>
     /// Deletes the save file if it exists and errors out otherwise.
@@ -81,12 +71,12 @@ public class SaveAndLoadManager : MonoBehaviour
     /// <returns>True if it exists and false otherwise</returns>
     public bool DoesFileExist(string testFileName)
     {
-        foreach (GameData data in GetAllSaveFiles())
+        foreach (SaveableData data in GetAllSaveFiles())
         {
-            if (data.lastSaveFile == testFileName)
-            {
-                return true;
-            }
+            //if (data.lastSaveFile == testFileName)
+            //{
+            //    return true;
+            //}
         }
 
         return false;
@@ -125,20 +115,23 @@ public class SaveAndLoadManager : MonoBehaviour
     /// Gets a list of all save files in the save directory.
     /// </summary>
     /// <returns></returns>
-    public List<GameData> GetAllSaveFiles()
+    public List<SaveableData> GetAllSaveFiles()
     {
-        List<GameData> allSaves = new List<GameData>();
-
+        List<SaveableData> allSaves = new List<SaveableData>();
         // Check Save Path
         foreach (string fileName in Directory.GetFiles(SavePath))
         {
             // Get Player Data for Each File
             allSaves.Add(GetSaveFile(fileName));
         }
-
         return allSaves;
     }
 
+    /// <summary>
+    /// Creates a base save, almost identical to SaveStats. This is only used when switching from the main menu to a level.
+    /// It allows passing the Player Name and Arcade Name entered by the player on the main menu to whichever level they select.
+    /// Load this file with the LoadStats function, pass in the variable "Base" to ensure you load the correct file.
+    /// </summary>
     public void CreateBaseSave()
     {
         if (!Directory.Exists(Application.persistentDataPath + "/SavedGames/"))
@@ -147,20 +140,16 @@ public class SaveAndLoadManager : MonoBehaviour
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream saveFile;
         if (!File.Exists(fullSavePath))
-        {
             saveFile = File.Create(fullSavePath);
-        }
         else
-        {
             saveFile = File.OpenWrite(fullSavePath);
-        }
         formatter.Serialize(saveFile, saveData.stats);
-
         saveFile.Close();
     }
 
     /// <summary>
-    /// Saves the current instantiation of the GameData class to a binary file.
+    /// Specifically saves an instantiation of the GameData class inside SaveableData.
+    /// Should be used if you need to save things such as player name/cash, but not the level itself.
     /// </summary>
     /// <param name="saveFileName"></param>
     /// <returns></returns>
@@ -168,30 +157,23 @@ public class SaveAndLoadManager : MonoBehaviour
     {
         if (!Directory.Exists(Application.persistentDataPath + "/SavedGames/"))
             Directory.CreateDirectory(Application.persistentDataPath + "/SavedGames/");
-
         string fullSavePath = SavePath + saveFileName + FILE_EXTENSION;
-
-
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream saveFile;
-
         if (!File.Exists(fullSavePath))
-        {
             saveFile = File.Create(fullSavePath);
-        }
         else
-        {
             saveFile = File.OpenWrite(fullSavePath);
-        }
-        UpdateGameData();
-
+        UpdateSaveableDataStats();
         formatter.Serialize(saveFile, saveData.stats);
-
         saveFile.Close();
     }
 
     /// <summary>
-    /// Loads the @param file name and overwrites the current instantiation of the GameData class with the values contained within the save file.
+    /// Loads the @param file name and overwrites what is currently contained in SaveData.stats. 
+    /// Used to load a file saved with the SaveStats and SaveScene functions.
+    /// Using this function will not update the scene the player is currently in. Do not use this to load a level.
+    /// Also used with the CreateBaseSave function, to allow the passage and saving of player data from the Main Menu scene to any level scene.
     /// </summary>
     /// <param name="saveFileName"></param>
     /// <returns></returns>
@@ -202,29 +184,34 @@ public class SaveAndLoadManager : MonoBehaviour
         {
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream saveFile = File.Open(fullFilePath, FileMode.Open);
-
             saveData.stats = (GameData)formatter.Deserialize(saveFile);
             AssignValues(saveData);
-
             saveFile.Close();
         }
         else
-        {
             Debug.Log("Save file " + fullFilePath + " does not exist!");
-        }
     }
 
+    /// <summary>
+    /// Saves the current instantiation of the SaveableData class. This will contain all the stats of the player, 
+    /// every PlaceableObject object placed in the current scene and every customer as well.
+    /// @param The name of the file that is being saved to disk.
+    /// </summary>
     public void SaveScene(string saveFileName)
     {
         if (!Directory.Exists(Application.persistentDataPath + "/SavedGames/"))
             Directory.CreateDirectory(Application.persistentDataPath + "/SavedGames/");
-
         string fullSavePath = SavePath + saveFileName + FILE_EXTENSION;
-        UpdateGameData();
-
+        UpdateSaveableDataStats();
         SaveGame.Save<SaveableData>(fullSavePath, saveData);
     }
 
+    /// <summary>
+    /// Loads the @param file from disk and overwrites the current instantiation of the SaveableData class.
+    /// This function will destroy all machines and customers in the current level, then reinstantiate the ones contained in the @param file from disk.
+    /// ANY MACHINE OR CUSTOMER THAT HAS NOT BEEN SAVED BEFORE THIS FUNCTION IS CALLED WILL BE DELETED AND UNRECOVERABLE.
+    /// This function will also update the pathfinding grid once it is finished, to allow the AI to navigate the new level layout.
+    /// </summary>
     public void LoadScene(string saveFileName)
     {
         string fullSavePath = SavePath + saveFileName + FILE_EXTENSION;
@@ -240,6 +227,10 @@ public class SaveAndLoadManager : MonoBehaviour
         GameManager.Instance.PathingGridManagerLink.GetComponent<GridGeneration>().UpdateGrid();
     }
 
+    /// <summary>
+    /// Instantiates every placeable object that is in the current instantiation of the SaveableData class. 
+    /// This function is called from Load Scene.
+    /// </summary>
     private void CreateObjects()
     {
         foreach (PlaceableObjectSaveable obj in saveData.placeableSaveList)
@@ -251,11 +242,14 @@ public class SaveAndLoadManager : MonoBehaviour
                     InstantiateNewObject(_objectManager.AllPlaceableObjects[i], new Vector3(obj.PosX, obj.PosY, obj.PosZ), Quaternion.Euler(new Vector3(obj.RotX, obj.RotY, obj.RotZ)), FindTileFromID(obj.tile_ID));
                 }
             }
-
         }
         placeableSaveList.Clear();
     }
 
+    /// <summary>
+    /// Instantiates every customer contained inside the current instantiation of the SaveableData class.
+    /// This function is called from the LoadScene function.
+    /// </summary>
     private void CreateCustomers()
     {
         foreach (CustomerSaveable cust in saveData.customerSaveList)
@@ -267,13 +261,15 @@ public class SaveAndLoadManager : MonoBehaviour
                        InstantiateNewCustomer(GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>().customers[i], cust, 
                         new Vector3(cust.PosX, cust.PosY, cust.PosZ),
                         Quaternion.Euler(new Vector3(cust.RotX, cust.RotY, cust.RotZ)));
-
-                        
                 }
             }
         }
     }
 
+    /// <summary>
+    /// Finds and returns a tile based on the @param ID from the list inside ObjectManager.
+    /// Returns the tile if found, returns null otherwise.
+    /// </summary>
     private Tile FindTileFromID(int tile_ID)
     {
         Tile tile = null; 
@@ -283,11 +279,14 @@ public class SaveAndLoadManager : MonoBehaviour
             {
                 tile = _objectManager.AllTiles[i];
             }
-
         }
         return tile;
     }
 
+    /// <summary>
+    /// Object instantiation method. Called from CreateObjects(). 
+    /// @param The placeableoject to place, a vector 3 containing position, a quaternion containing rotation and the Tile to place on.
+    /// </summary>
     private void InstantiateNewObject(PlaceableObject objectToPlace, Vector3 position, Quaternion rotation, Tile objectTile)
     {
         GameObject newObject = Instantiate(objectToPlace.gameObject, position, rotation, instantiatedObjectParent.transform);
@@ -296,10 +295,14 @@ public class SaveAndLoadManager : MonoBehaviour
         PlaceableObject newPlaceableObject = newObject.GetComponent<PlaceableObject>();
 
         newPlaceableObject.PlacedOnTile = objectTile;
-        newPlaceableObject.prefabName = objectToPlace.name;
+        newPlaceableObject.PrefabName = objectToPlace.name;
         objectTile.SetIfPlacedOn(true);
     }
 
+    /// <summary>
+    /// Customer instantiation method. Called from CreateCustomers(). 
+    /// @param The customer model to load, the customer saveable class to load data from, a Vector3 containing position, a Quaternion containing rotation.
+    /// </summary>
     private void InstantiateNewCustomer(Customer cust, CustomerSaveable custSave, Vector3 position, Quaternion rotation)
     {
         Customer newCustomer = Instantiate(cust, position, rotation, instantiatedCustomerParent.transform) as Customer;
@@ -308,28 +311,39 @@ public class SaveAndLoadManager : MonoBehaviour
         newCustomer.SetManager(GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>());
     }
 
+    /// <summary>
+    /// @param Autosaving bool
+    /// Handles the autosaving. Starts a Coroutine if passed true. Stops all coroutines, stopping autosaving if passed false.
+    /// Can be used to toggle autosvaing on and off.
+    /// This is where autosaving timing changes should be made if necessary.
+    /// </summary>
     public void AutoSaveHandler(bool on)
     {
         if (on)
         {
             if (autosaveDelay == AutoSaveDelay.OneMinute)
             {
+                StopAllCoroutines();
                 StartCoroutine(AutoSave(60));
             }
             else if (autosaveDelay == AutoSaveDelay.FiveMinute)
             {
+                StopAllCoroutines();
                 StartCoroutine(AutoSave(360));
             }
             else if (autosaveDelay == AutoSaveDelay.TenMinute)
             {
+                StopAllCoroutines();
                 StartCoroutine(AutoSave(600));
             }
             else if (autosaveDelay == AutoSaveDelay.ThirtyMinute)
             {
+                StopAllCoroutines();
                 StartCoroutine(AutoSave(1800));
             }
             else if (autosaveDelay == AutoSaveDelay.Hour)
             {
+                StopAllCoroutines();
                 StartCoroutine(AutoSave(3600));
             }
         }
@@ -339,20 +353,36 @@ public class SaveAndLoadManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Autosave function, recurvsive function. 
+    /// Calls SaveScene() and passes in the autoSaveName variable. 
+    /// Will overwrite the autosave file on every call. Previous autosaves will be lost.
+    /// Recursion recalls this method after the delay specified from AutoSaveHandler. 
+    /// Do not call this method from anywhere else, if you wish to do a one off AutoSave, use AutoSaveSingular() instead.
+    /// </summary>
+    /// <param name="delay"></param>
+    /// <returns></returns>
     private IEnumerator<UnityEngine.WaitForSeconds> AutoSave(float delay)
     {
         SaveScene(autoSaveName);
         yield return new WaitForSeconds(delay);
         StartCoroutine(AutoSave(delay));
     }
-    private void AutoSaveSingular()
+
+    /// <summary>
+    /// Performs a singular autosave. Will overwrite the autosave file on every call. Previous autosaves will be lost.
+    /// </summary>
+    public void AutoSaveSingular()
     {
         SaveScene(autoSaveName);
     }
 
-
-
-    public void UpdateGameData()
+    /// <summary>
+    /// Updates stats subclass of the current instantiation of the SaveableData class with data currently being used by the game for saving.
+    /// Will overwrite any data contained in that instantiation.
+    /// This function is called in SaveStats() and SaveScene(). There is no harm in calling this method elsewhere, but is unnecessary.
+    /// </summary>
+    private void UpdateSaveableDataStats()
     {
         saveData.stats.arcadeName = _playerManagerLink.ArcadeName;
         saveData.stats.playerName = _playerManagerLink.PlayerName;
@@ -364,6 +394,10 @@ public class SaveAndLoadManager : MonoBehaviour
         saveData.stats.currentYear = _timeAndCalendarLink.CurrentYear;
     }
 
+    /// <summary>
+    /// Clears all lists inside the current instantiation of the SaveableData class. 
+    /// This is to prevent duplication on saving. 
+    /// </summary>
     public void ClearLists()
     {
         saveData.placeableSaveList.Clear();
@@ -371,17 +405,8 @@ public class SaveAndLoadManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Set Current Save Related Information on gameData
+    /// Class initialisiation. Assigns all the links and starts autosaving if enabled.
     /// </summary>
-    /// <param name="saveFile"></param>
-    private void UpdateSaveData(string saveFile)
-    {
-        saveData.stats.lastSaveFile = saveFile;
-        saveData.stats.lastSaveTime = DateTime.Now.ToBinary();
-    }
-
-
-
     public void Initialise()
     {
         _timeAndCalendarLink = GameManager.Instance.SceneManagerLink.GetComponent<TimeAndCalendar>();
@@ -394,7 +419,11 @@ public class SaveAndLoadManager : MonoBehaviour
         }
     }
 
-    // Assigns data to where it should be after a load
+    /// <summary>
+    /// Assigns data after it has been loaded from file. 
+    /// @param the data class that has been loaded from file
+    /// </summary>
+    /// <param name="data"></param>
     private void AssignValues(SaveableData data)
     {
         _timeAndCalendarLink.CurrentDay = data.stats.currentDay;
@@ -406,8 +435,6 @@ public class SaveAndLoadManager : MonoBehaviour
         _economyManagerLink.CurrentCash = data.stats.playerMoney;
         _playerManagerLink.PlayerName = data.stats.playerName;
         _playerManagerLink.ArcadeName = data.stats.arcadeName;
-        
-
     }
 
     /// <summary>
@@ -415,15 +442,15 @@ public class SaveAndLoadManager : MonoBehaviour
     /// </summary>
     /// <param name="fullFilePath"></param>
     /// <returns></returns>
-    private GameData GetSaveFile(string fullFilePath)
+    private SaveableData GetSaveFile(string fullFilePath)
     {
         if (File.Exists(fullFilePath))
         {
             BinaryFormatter bf = new BinaryFormatter();
             FileStream fs = File.Open(fullFilePath, FileMode.Open);
-            gameData = (GameData)bf.Deserialize(fs);
+            saveData = (SaveableData)bf.Deserialize(fs);
             fs.Close();
-            return gameData;
+            return saveData;
         }
         else
         {
@@ -431,12 +458,7 @@ public class SaveAndLoadManager : MonoBehaviour
             return null;
         }
     }
-
-    
-
 }
-
-
 
 [Serializable]
 public class GameData
@@ -479,22 +501,10 @@ public class GameData
 }
 
 [Serializable]
-public class MachineData
-{
-    public int prefabID;
-    public float posX, posY, posZ;
-    public float rotX, rotY, rotZ;
-    public int useCost;
-}
-
-
-[Serializable]
 public class SaveableData
 {
-    public List<GameObject> allGameObjects;
-    public List<MachineData> allMachineData;
-    public List<CustomerSaveable> customerSaveList;
     public GameData stats;
+    public List<CustomerSaveable> customerSaveList;
     public List<PlaceableObjectSaveable> placeableSaveList;
 
 }
