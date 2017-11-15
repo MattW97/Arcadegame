@@ -14,6 +14,15 @@ public class OptionsUI : MonoBehaviour
     private float volume;
     private float value;
 
+    void Start()
+    {
+
+        audioFullTab.SetActive(false);
+        graphicsFullTab.SetActive(false);
+        cameraFullTab.SetActive(false);
+        interfaceFullTab.SetActive(false);
+    }
+
     public void AudioTab()
     {
         ////////////////////// Panels ///////////////////////////////
