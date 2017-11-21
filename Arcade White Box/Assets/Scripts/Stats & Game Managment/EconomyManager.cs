@@ -29,10 +29,10 @@ public class EconomyManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        rentCost = this.GetComponent<LevelManager>().RentCost;
+        rentCost = GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>().RentCost;
         _playerLink = this.GetComponent<PlayerManager>();
-        _levelLink = this.GetComponent<LevelManager>();
-        _customerLink = this.GetComponent<CustomerManager>();
+        _levelLink = GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>();
+        _customerLink = GameManager.Instance.ScriptHolderLink.GetComponent<CustomerManager>();
         CurrentCash = _levelLink.StartingCash;
         
 	}
@@ -152,13 +152,12 @@ public class EconomyManager : MonoBehaviour {
 
     public void ClosingTime()
     {
+        CurrentCash -= (GetTotalExpenses() - expensesTodaysPurchases);
+        //CurrentCash -= dailyBankRepayment;
+        //CurrentlyEarnedToday = 0;
         expensesServiceMachineMaintenanceCost = 0;
         expensesGamesMachineMaintenance = 0;
         expensesFoodStallsMaintenance = 0;
-
-        //CurrentCash -= CurrentExpenses;
-        //CurrentCash -= dailyBankRepayment;
-        //CurrentlyEarnedToday = 0;
     }
 
     public bool CheckCanAfford(float price)

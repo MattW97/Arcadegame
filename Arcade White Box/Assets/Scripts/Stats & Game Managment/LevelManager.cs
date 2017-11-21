@@ -22,6 +22,7 @@ public class LevelManager : MonoBehaviour {
     [SerializeField] private float customerSpawnRate, rentCost, startingCash;
     [SerializeField] private int MAXCUSTOMERS; 
     [SerializeField] private int openingHour, closingHour;
+    [SerializeField] private int preOpeningTime;
 
     private int numOfCustomers;
     private bool openOnce, closedOnce, spawningCustomers;
@@ -63,10 +64,17 @@ public class LevelManager : MonoBehaviour {
 
     private void OpenClose()
     {
-        if (_timeLink.CurrentHour == openingHour && !openOnce)
+        if (_timeLink.GetCurrentTime() == preOpeningTime)
+        {
+            _timeLink.StopTimer();
+            // create UI stuff to show next day
+        }
+        else if (_timeLink.CurrentHour == openingHour && !openOnce)
         {
             arcadeStatus = ArcadeOpeningStatus.Open;
             print("Arcade is open!");
+            _timeLink.StopTimer();
+
             openOnce = true;
             closedOnce = false;
         }
@@ -74,11 +82,15 @@ public class LevelManager : MonoBehaviour {
         {
             arcadeStatus = ArcadeOpeningStatus.Closed;
             print("Arcade is closed!");
+            _timeLink.StopTimer();
+            // enable UI element to show data of the day
+
             closedOnce = true;
             openOnce = false;
             _economyLink.ClosingTime();
         }
     }
+
 
     public void AddObjectToLists(GameObject objectToAdd)
     {
@@ -153,8 +165,6 @@ public class LevelManager : MonoBehaviour {
             rentCost = value;
         }
     }
-
-
     public List<Machine> AllMachineObjects
     {
         get
@@ -167,7 +177,6 @@ public class LevelManager : MonoBehaviour {
             allMachineObjects = value;
         }
     }
-
     public List<Machine> AllGameMachines
     {
         get
@@ -180,7 +189,6 @@ public class LevelManager : MonoBehaviour {
             allGameMachines = value;
         }
     }
-
     public List<Machine> AllToilets
     {
         get
@@ -193,7 +201,6 @@ public class LevelManager : MonoBehaviour {
             allToilets = value;
         }
     }
-
     public List<Machine> AllFoodStalls
     {
         get

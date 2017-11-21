@@ -8,7 +8,7 @@ public class LevelInteraction : MonoBehaviour
     [SerializeField] private GameObject tileHighlighterPrefab;
     [SerializeField] private Material canPlace, cantPlace;
 
-    public enum InteractionState {SelectionMode, PlacingMode, IdleMode}
+    public enum InteractionState {SelectionMode, PlacingMode, WallPlacing, IdleMode}
 
     private bool rotatingObject;
     private GameObject tileHighlighter;
@@ -17,6 +17,7 @@ public class LevelInteraction : MonoBehaviour
     private PlaceableObject currentSelectedObject;
     private InteractionState currentState;
     private Ray interactionRay;
+    private Tile placedOnTile;
     private RaycastHit hitInfo;
     private PlaceableObject objectToPlace;
     private EconomyManager economyManager;
@@ -39,7 +40,7 @@ public class LevelInteraction : MonoBehaviour
     void Start()
     {
         economyManager = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();
-        levelManager = GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>();
+        levelManager = GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>();
         pathingGridSetup = GameManager.Instance.PathingGridManagerLink.GetComponent<PathingGridSetup>();
 
         objectParent = GameObject.Find("Level/Placed Objects").transform;
@@ -47,23 +48,28 @@ public class LevelInteraction : MonoBehaviour
 
     void Update()
     {
-        if(CurrentState == InteractionState.SelectionMode)
+        if (CurrentState == InteractionState.SelectionMode)
         {
             SelectionMode();
         }
-        else if(CurrentState == InteractionState.PlacingMode)
+        else if (CurrentState == InteractionState.PlacingMode)
         {
             PlacingMode();
         }
+        else if (CurrentState == InteractionState.WallPlacing)
+        {
+            print("Wow");
+            WallPlacing();
+        }
 
-        if(ObjectToPlace)
-        {
-            CurrentState = InteractionState.PlacingMode;
-        }
-        else
-        {
-            CurrentState = InteractionState.SelectionMode;
-        }
+        //if(ObjectToPlace)
+        //{
+        //    CurrentState = InteractionState.PlacingMode;
+        //}
+        //else
+        //{
+        //    CurrentState = InteractionState.SelectionMode;
+        //}
     }
 
     private void SelectionMode()
@@ -120,7 +126,7 @@ public class LevelInteraction : MonoBehaviour
             {
                 if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Tile") == 0)
                 {
-                    Tile placedOnTile = hitInfo.collider.gameObject.GetComponent<Tile>();
+                    placedOnTile = hitInfo.collider.gameObject.GetComponent<Tile>();
 
                     if(!tileHighlighter.activeSelf)
                     {
@@ -139,11 +145,13 @@ public class LevelInteraction : MonoBehaviour
                         {
                             NullSelectedObject();
 
-                            if(economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
-                            {
-                                InstantiateNewObject(ObjectToPlace, hitInfo.collider.gameObject.transform.position, highlighterTransform.rotation, placedOnTile);
-                                ObjectToPlace = null;
-                            }
+                            CurrentState = InteractionState.WallPlacing;
+
+                            //if (economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
+                            //{
+                            //    InstantiateNewObject(ObjectToPlace, hitInfo.collider.gameObject.transform.position, highlighterTransform.rotation, placedOnTile);
+                            //    ObjectToPlace = null;
+                            //}
                         }
                     }
                     else if(placedOnTile.GetTileType() == Tile.TileType.Impassable)
@@ -154,6 +162,43 @@ public class LevelInteraction : MonoBehaviour
             }
         }
     }
+
+    private void WallPlacing()
+    {
+        if (Input.GetMouseButtonUp(0))
+        {
+            print("hi");
+            Tile startTile = placedOnTile;
+            Tile endTile = GetTileMouseIsOn();
+            float distBetweenTiles = Vector3.Distance(startTile.transform.position, endTile.transform.position);
+            Vector3 dirToTiles = startTile.transform.position - endTile.transform.position;
+
+            RaycastHit[] hits;
+            hits = Physics.RaycastAll(startTile.transform.position, dirToTiles, distBetweenTiles);
+            foreach (RaycastHit hit in hits)
+            {
+                if (hit.collider.gameObject.tag == "Tile")
+                {
+                    InstantiateNewObject(objectToPlace, hit.collider.transform.position, highlighterTransform.rotation, hit.collider.gameObject.GetComponent<Tile>());
+                }
+            }
+
+        }
+    }
+    private Tile GetTileMouseIsOn()
+    {
+        Tile tile = null;
+        interactionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(interactionRay, out hitInfo))
+        {
+            if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Tile") == 0)
+            {
+                 tile = hitInfo.collider.gameObject.GetComponent<Tile>();
+            }
+        }
+        return tile;
+    }
+    
 
     private void InstantiateNewObject(PlaceableObject objectToPlace, Vector3 position, Quaternion rotation, Tile objectTile)
     {

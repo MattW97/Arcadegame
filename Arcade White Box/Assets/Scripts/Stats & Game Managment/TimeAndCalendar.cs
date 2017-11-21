@@ -9,6 +9,7 @@ public class TimeAndCalendar : MonoBehaviour {
     public int startHour, startMinute;
     public int startYear, startMonth, startDay;
     public float timeMultiplier;
+
     [SerializeField] private float speedOption1, speedOption2, speedOption3, speedOption4, speedOption5;
 
 
@@ -21,6 +22,9 @@ public class TimeAndCalendar : MonoBehaviour {
     private List<int> monthLengths;
     private List<string> monthNames;
 
+    private float secondsMultiplier;
+    private float seconds;
+
     void Start ()
     {
         CurrentHour = startHour;
@@ -29,8 +33,9 @@ public class TimeAndCalendar : MonoBehaviour {
         CurrentMonth = startMonth;
         CurrentDay = startDay;
 
+        seconds = 0;
+
         timeText = GameObject.Find("UI Canvas/Bottom Bar/Date And Time/Text").GetComponent<Text>();
-        StartTimer();
         CreateCalendar();
     }
 
@@ -39,11 +44,30 @@ public class TimeAndCalendar : MonoBehaviour {
     void Update () {
 
         UpdateTime();
-        // UpdateDate();
+
+        Seconds();
 
     }
 
     #region Time
+
+    public int GetCurrentTime()
+    {
+        int time = 0;
+        time = int.Parse(currentHour.ToString() + CurrentMinute.ToString());
+        //print(time);
+        return time;
+    }
+
+    private void Seconds()
+    {
+        seconds += (Time.deltaTime * 60 * secondsMultiplier);
+        if (seconds >= 60)
+        {
+            seconds = 0;
+            MinuteIncrement();
+        }
+    }
 
     private void MinuteIncrement()
     {
@@ -100,6 +124,8 @@ public class TimeAndCalendar : MonoBehaviour {
         }
     }
 
+
+
     private void YearIncrement()
     {
         //do year stuff
@@ -112,40 +138,41 @@ public class TimeAndCalendar : MonoBehaviour {
         print("Current time is " + CurrentHour + ":" + CurrentMinute + ".");
     }
 
-    private void SetInvokeRepeating(float option)
+    private void SetTimeMultiplier(float option)
     {
         timeMultiplier = Mathf.Round(1 / option);
-        InvokeRepeating("MinuteIncrement", 0, option);
+        secondsMultiplier = option;
     }
 
     public void StartTimer()
     {
         StopTimer();
-        SetInvokeRepeating(speedOption1);
+        SetTimeMultiplier(speedOption1);
     }
 
     public void StopTimer()
     {
-        CancelInvoke();
+        //CancelInvoke();
+        secondsMultiplier = 0;
         timeMultiplier = 0;
     }
 
     public void StartTimerX2()
     {   
         StopTimer();
-        SetInvokeRepeating(speedOption2);
+        SetTimeMultiplier(speedOption2);
     }
 
     public void StartTimerX3()
     {
         StopTimer();
-        SetInvokeRepeating(speedOption3);
+        SetTimeMultiplier(speedOption3);
     }
 
     public void StartTimerX10()
     {
         StopTimer();
-        SetInvokeRepeating(speedOption4);
+        SetTimeMultiplier(speedOption4);
     }
 
     private string LeadingZero(int n)

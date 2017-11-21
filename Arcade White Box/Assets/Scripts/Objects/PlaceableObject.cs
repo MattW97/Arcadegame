@@ -67,6 +67,35 @@ public class PlaceableObject : Entity {
         selectionTransform.localScale = new Vector3(Mathf.PingPong(Time.time, 0.2f) + 1.0f, Mathf.PingPong(Time.time, 0.2f) + 1.0f, Mathf.PingPong(Time.time, 0.2f) + 1.0f);
     }
 
+
+    public float returnAmount()
+    {
+        return (BuyCost / percentReturnedUponSold);
+    }
+
+    public virtual PlaceableObjectSaveable GetPlaceableObjectSaveable()
+    {
+        Transform tempTran = GetComponent<Transform>();
+
+        PlaceableObjectSaveable save = new PlaceableObjectSaveable();
+        save.prefabName = this.PrefabName;
+        save.tile_ID = this.tile_ID;
+        save.PosX = tempTran.position.x;
+        save.PosY = tempTran.position.y;
+        save.PosZ = tempTran.position.z;
+        save.RotX = tempTran.rotation.x;
+        save.RotY = tempTran.rotation.y;
+        save.RotZ = tempTran.rotation.z;
+
+        return save;
+    }
+
+    private void OnSave()
+    {
+        GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.placeableSaveList.Add(GetPlaceableObjectSaveable());
+    }
+
+    #region Getters/Setters
     public bool Selected
     {
         get
@@ -137,33 +166,7 @@ public class PlaceableObject : Entity {
             prefabName = value;
         }
     }
-
-    public float returnAmount()
-    {
-        return (BuyCost / percentReturnedUponSold);
-    }
-
-    public virtual PlaceableObjectSaveable GetPlaceableObjectSaveable()
-    {
-        Transform tempTran = GetComponent<Transform>();
-
-        PlaceableObjectSaveable save = new PlaceableObjectSaveable();
-        save.prefabName = this.PrefabName;
-        save.tile_ID = this.tile_ID;
-        save.PosX = tempTran.position.x;
-        save.PosY = tempTran.position.y;
-        save.PosZ = tempTran.position.z;
-        save.RotX = tempTran.rotation.x;
-        save.RotY = tempTran.rotation.y;
-        save.RotZ = tempTran.rotation.z;
-
-        return save;
-    }
-
-    private void OnSave()
-    {
-        GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.placeableSaveList.Add(GetPlaceableObjectSaveable());
-    }
+    #endregion Getters/Setters
 }
 
 [System.Serializable]

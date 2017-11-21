@@ -59,14 +59,20 @@ public class GameMachine : Machine {
         else
             return false;
     }
+
+    protected override void DailyReset()
+    {
+        base.DailyReset();
+        CalculateAttractionRating();
+    }
     private void CalculateAttractionRating()
     {
-
-    }
-
-    private void OnInteraction()
-    {
-        
+        if (attractionRatingStart > attractionRatingMinimum)
+            attractionRatingStart = attractionRatingMinimum;
+        else
+        {
+            attractionRatingStart -= attractionRatingFallOff;
+        }
     }
 
     public int SwitchStringToInt(PlayerCount value)

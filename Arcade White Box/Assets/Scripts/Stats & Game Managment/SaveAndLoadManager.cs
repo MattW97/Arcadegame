@@ -409,7 +409,7 @@ public class SaveAndLoadManager : MonoBehaviour
     /// </summary>
     public void Initialise()
     {
-        _timeAndCalendarLink = GameManager.Instance.SceneManagerLink.GetComponent<TimeAndCalendar>();
+        _timeAndCalendarLink = GameManager.Instance.ScriptHolderLink.GetComponent<TimeAndCalendar>();
         _playerManagerLink = GameManager.Instance.SceneManagerLink.GetComponent<PlayerManager>();
         _economyManagerLink = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();
         _objectManager = GameManager.Instance.SceneManagerLink.GetComponent<ObjectManager>();
