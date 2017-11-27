@@ -5,7 +5,6 @@ using UnityEngine;
 public class CustomerManager : MonoBehaviour
 {      
     [SerializeField] public Customer[] customers;
-    [SerializeField] private GameObject[] customerTrash;
 
     private float levelSpeedFactor;
     private TimeAndCalendar gameTime;
@@ -39,18 +38,79 @@ public class CustomerManager : MonoBehaviour
         {
             SpawnCustomers(1);
         }
+
+        UpdateCustomers();
+    }
+
+    private void UpdateCustomers()
+    {
+        foreach(Customer customer in currentCustomers)
+        {
+            customer.SpeedFactor = GetSpeedFactor();
+
+            if (!customer.IsBusy())
+            {
+                CustomerStat highestStat = GetHighestStat(customer.GetCustomerStats());
+
+                if(highestStat.GetStatType() == CustomerStat.Stats.Bladder)
+                {
+                    customer.SetNewTarget(FindNearestFacility(toilets, customer.transform));
+                }
+                else if(highestStat.GetStatType() == CustomerStat.Stats.Hunger)
+                {
+                    customer.SetNewTarget(FindNearestFacility(foodFacilities, customer.transform));
+                }
+            }
+            else
+            {
+                
+            }
+        }
+    }
+
+    private Machine FindNearestFacility(List<Machine> facilities, Transform customerTransform)
+    {
+        if (facilities.Count == 0)
+        {
+            return null;
+        }
+
+        Machine nearest = null;
+
+        facilities.Sort(delegate (Machine a, Machine b) { return Vector3.Distance(customerTransform.position, a.transform.position).CompareTo(Vector3.Distance(customerTransform.position, b.transform.position)); });
+
+        foreach (Machine facility in facilities)
+        {
+            if (!facility.InUse)
+            {
+                nearest = facility;
+                break;
+            }
+        }
+
+        return nearest;
+    }
+
+    private CustomerStat GetHighestStat(List<CustomerStat> customerStats)
+    {
+        CustomerStat highestStat = new CustomerStat();
+
+        foreach (CustomerStat stat in customerStats)
+        {
+            if (stat.StatValue > highestStat.StatValue)
+            {
+                highestStat = stat;
+            }
+        }
+
+        return highestStat;
     }
 
     public void SpawnCustomers(int amount)
     {
         for(int i = 0; i < amount; i++)
         {
-            int randomCustomer = Random.Range(0, customers.Length);
-            Customer newCustomer = Instantiate(customers[randomCustomer], spawnLocation.position, Quaternion.identity) as Customer;
-            newCustomer.prefabName = customers[randomCustomer].name;
-            newCustomer.SetSpawnLocation(spawnLocation);
-            newCustomer.SetManager(this);
-            currentCustomers.Add(newCustomer);
+            SpawnCustomer();
         }
     }
 
@@ -60,7 +120,6 @@ public class CustomerManager : MonoBehaviour
         Customer newCustomer = Instantiate(customers[randomCustomer], spawnLocation.position, Quaternion.identity) as Customer;
         newCustomer.prefabName = customers[randomCustomer].name;
         newCustomer.SetSpawnLocation(spawnLocation);
-        newCustomer.SetManager(this);
         currentCustomers.Add(newCustomer);
     }
 
@@ -81,6 +140,8 @@ public class CustomerManager : MonoBehaviour
             Destroy(customer.gameObject);
         }
     }
+
+
 
     public float GetSpeedFactor()
     {
@@ -105,11 +166,6 @@ public class CustomerManager : MonoBehaviour
     public int GetCustomerNumber()
     {
         return currentCustomers.Count;
-    }
-
-    public GameObject GetTrash()
-    {
-        return customerTrash[Random.Range(0, customerTrash.Length)];
     }
 
     public void SetSpawnLocation(Transform spawnLocation)

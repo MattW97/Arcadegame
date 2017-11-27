@@ -8,6 +8,7 @@ public class Tile : MonoBehaviour
 
     [SerializeField] private TileType tileType;
     [SerializeField] private MeshFilter trashMesh;
+    [SerializeField] private GameObject trashParticles;
     [SerializeField] private Mesh[] trashLevels;
 
     private int id, trashLevel;
@@ -16,6 +17,8 @@ public class Tile : MonoBehaviour
 
     void Start()
     {
+        trashParticles.SetActive(false);
+
         trashLevel = 0;
 
         Vector3 newRotation = trashMesh.transform.rotation.eulerAngles;
@@ -78,13 +81,26 @@ public class Tile : MonoBehaviour
         {
             trashLevel++;
             trashMesh.mesh = trashLevels[trashLevel];
+            trashParticles.SetActive(false);
         }
+        else if(trashLevel == trashLevels.Length - 1)
+        {
+            trashParticles.SetActive(true);
+        }
+    }
+
+    public void CleanTrash()
+    {
+        trashLevel = 0;
+        trashMesh.mesh = null;
+        trashParticles.SetActive(false);
     }
 }
 
 [System.Serializable]
 public class TileSaveable
 {
+    public int trashLvl;
     public string tile_ID;
     public float posX, posY, posZ;
     public int textureID;

@@ -6,14 +6,14 @@ public class Machine : PlaceableObject {
 
     public enum MachineStatus { Working, Broken }
 
-    [SerializeField] private float useTime;         // Time it takes to use object, i.e. buy/eat food, use toilet, play game (in Seconds)
-    [SerializeField] private float runningCost;     // amount deducted each day
-    [SerializeField] private float useCost;         // how much it costs a user to use the machine. Includes playing if the machine is a game machine.
-    [SerializeField] private float maintenanceCost; // amount deducted upon machine breaking and needing repair
-    [SerializeField] private Transform usePosition; // The position the customers moves to when using the object
-    [SerializeField] private float failurePercentage; // The chance the machine has to break on use
-    [SerializeField] private float failurePercentageIncrease; // How much the failurePercentage increases by each IncreaseFailurePercentage() call.
-
+    [SerializeField] private float useTime;                                 // Time it takes to use object, i.e. buy/eat food, use toilet, play game (in Seconds)
+    [SerializeField] private float runningCost;                             // amount deducted each day
+    [SerializeField] private float useCost;                                 // how much it costs a user to use the machine. Includes playing if the machine is a game machine.
+    [SerializeField] private float maintenanceCost;                         // amount deducted upon machine breaking and needing repair
+    [SerializeField] private Transform usePosition;                         // The position the customers moves to when using the object
+    [SerializeField] private float failurePercentage;                       // The chance the machine has to break on use
+    [SerializeField] private float failurePercentageIncrease;               // How much the failurePercentage increases by each IncreaseFailurePercentage() call.
+    [SerializeField] [Range(0.0f, 100.0f)]protected float statAdjustment;   // The amount the customer stat is adjusted when used
 
     private MachineStatus machineStatus;
     private bool inUse;
@@ -26,7 +26,7 @@ public class Machine : PlaceableObject {
   /// <summary>
   /// When the machine is used.
   /// </summary>
-    protected virtual void OnUse()
+    public virtual void OnUse()
     {
         int roll = Random.Range(1, 100);
         if (roll <= failurePercentage)
@@ -53,6 +53,11 @@ public class Machine : PlaceableObject {
     protected override void Update()
     {
         base.Update();
+    }
+
+    public float GetStatAdjustment()
+    {
+        return statAdjustment;
     }
 
     public float RunningCost

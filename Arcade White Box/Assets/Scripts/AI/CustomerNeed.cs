@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CustomerNeed
 {
-    public enum NeedType { Test, Food, Toilet, Excitement, Happiness, Sadness, }
+    public enum NeedType { Test, Food, Toilet, Excitement, Happiness, Sadness, Puke}
 
     private NeedType need;
     private float needValue;
