@@ -10,7 +10,7 @@ public class InGameUI : MonoBehaviour
 
     [SerializeField]
     private GameObject gameHalfTab, gameFullTab, servicesHalfTab, servicesFullTab, constructionHalfTab, constructionFullTab, 
-                       decorationHalfTab, decorationFullTab, gameMain, serviceMain, constructionMain, decorationMain;
+                       decorationHalfTab, decorationFullTab, placeholder, gameMain, serviceMain, constructionMain, decorationMain;
 
     private bool tabOpen;
     private Animator anim;
@@ -20,6 +20,7 @@ public class InGameUI : MonoBehaviour
     {
         anim = this.GetComponent<Animator>();
 
+        placeholder.SetActive(true);
         gameFullTab.SetActive(false);
         servicesFullTab.SetActive(false);
         constructionFullTab.SetActive(false);
@@ -32,13 +33,7 @@ public class InGameUI : MonoBehaviour
         constructionMain.SetActive(false);
         decorationMain.SetActive(false);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    
     public void GameTab()
     {
 
@@ -162,6 +157,8 @@ public class InGameUI : MonoBehaviour
         servicesFullTab.SetActive(false);
         constructionFullTab.SetActive(false);
         decorationFullTab.SetActive(false);
+
+        placeholder.SetActive(true);
 
     }
     private void PlayAnimation()

@@ -13,7 +13,7 @@ public class InGameSettingUI : MonoBehaviour
     private Toggle fullscreen;
 
     [SerializeField]
-    private Dropdown resolutionDropDown;
+    private Dropdown resolutionDropDown, textureQualityDropdown, antialiasingDropdown, vSyncDropdown;
 
     [SerializeField]
     public AudioSource gameAudioSource;
@@ -48,6 +48,9 @@ public class InGameSettingUI : MonoBehaviour
         fullscreen.isOn = GameManager.Instance.SettingManager.GetIfFullscreen();
         fullscreen.isOn = fullscreen.isOn;
         resolutionDropDown.value = GameManager.Instance.SettingManager.GetResolutionIndex();
+        //textureQualityDropdown.value = GameManager.Instance.SettingManager.GetTextureQuality();
+        //antialiasingDropdown.value = GameManager.Instance.SettingManager.GetAnitaliasing();
+        //vSyncDropdown.value = GameManager.Instance.SettingManager.GetVSync();
 
         Resolution[] resolutions = GameManager.Instance.SettingManager.GetResolutionList();
 

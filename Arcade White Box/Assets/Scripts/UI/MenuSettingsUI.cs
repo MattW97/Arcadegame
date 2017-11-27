@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,11 +18,27 @@ public class MenuSettingsUI : MonoBehaviour
     [SerializeField]
     private AudioSource menuAudioSource;
 
-
-    //[SerializeField]
-    //private AudioSource menuMusic;
-
     private SoundManager soundManager;
+    
+    private float musicValue;
+    private bool fullscreenOn;
+    private int resolutionOption;
+    private int textureOption;
+    private int antialiasingOption;
+    private int vSyncOption;
+
+    public Slider MusicSlider
+    {
+        get
+        {
+            return musicSlider;
+        }
+
+        set
+        {
+            musicSlider = value;
+        }
+    }
 
     void Awake()
     {
@@ -32,8 +49,8 @@ public class MenuSettingsUI : MonoBehaviour
         GameManager.Instance.SettingManager.LoadSettings();
         GameManager.Instance.SoundManager.MenuAudio();
 
-        musicSlider.value = GameManager.Instance.SettingManager.GetMusicVolume();
-        menuAudioSource.volume = musicSlider.value;
+        MusicSlider.value = GameManager.Instance.SettingManager.GetMusicVolume();
+        menuAudioSource.volume = MusicSlider.value;
         fullscreen.isOn = GameManager.Instance.SettingManager.GetIfFullscreen();
         fullscreen.isOn = fullscreen.isOn;
         resolutionDropDown.value = GameManager.Instance.SettingManager.GetResolutionIndex();
@@ -56,14 +73,21 @@ public class MenuSettingsUI : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.Instance.SettingManager.LoadSettings();
+        try
+        {
+            GameManager.Instance.SettingManager.LoadSettings();
+        }
+        catch (Exception e)
+        {
+            print("MenuSettingUI threw an error again!");
+        }
         resolutionDropDown.RefreshShownValue();
     }
 
     public void ChangeMusicVolume()
     {
-        GameManager.Instance.SettingManager.SetMusicVolume(musicSlider.value);
-        menuAudioSource.volume = musicSlider.value;
+        GameManager.Instance.SettingManager.SetMusicVolume(MusicSlider.value);
+        menuAudioSource.volume = MusicSlider.value;
     }
 
     public void Fullscreen()
@@ -97,10 +121,28 @@ public class MenuSettingsUI : MonoBehaviour
         GameManager.Instance.SettingManager.SetVSync(vSyncDropdown.value);
     }
 
-
     public void ApplySettings()
     {
         GameManager.Instance.SettingManager.SaveSettings();
     }
+    
+    public void CancelSettings()
+    {
+        MusicSlider.value = musicValue;
+        fullscreen.isOn = fullscreenOn;
+        resolutionDropDown.value = resolutionOption;
+        textureQualityDropdown.value = textureOption;
+        antialiasingDropdown.value = antialiasingOption;
+        vSyncDropdown.value = vSyncOption;
+    }
 
+    public void DefaultSettings()
+    {
+        musicValue = GameManager.Instance.SettingManager.GetMusicVolume();
+        fullscreenOn = GameManager.Instance.SettingManager.GetIfFullscreen();
+        resolutionOption = GameManager.Instance.SettingManager.GetResolutionIndex();
+        textureOption = GameManager.Instance.SettingManager.GetTextureQuality();
+        antialiasingOption = GameManager.Instance.SettingManager.GetAnitaliasing();
+        vSyncOption = GameManager.Instance.SettingManager.GetVSync();
+    }
 }

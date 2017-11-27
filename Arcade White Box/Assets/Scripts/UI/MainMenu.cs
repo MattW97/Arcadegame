@@ -7,24 +7,32 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour {
 
     [SerializeField]
-    private GameObject startMenu, gameModeMenu, careerMenu, sandboxMenu, loadMenu, optionsMenu, soundOptions, visualOptions, arcadeName;
+    private GameObject startMenu, gameModeMenu, careerMenu, sandboxMenu, 
+                       loadMenu, optionsMenu, soundOptions, visualOptions, arcadeName;
 
     [SerializeField]
-    private Text arcadeNameTextField;
+    private Text arcadeNameTextField;    
+
+    public Object sceneToSwitchTo;
 
     private SettingManager settings;
 
     public string newName;
 
-    public string newArcadeName;
-
     void Start()
     {
         startMenu.SetActive(true);
+        gameModeMenu.SetActive(false);
+        careerMenu.SetActive(false);
+        sandboxMenu.SetActive(false);
+        loadMenu.SetActive(false);
+        optionsMenu.SetActive(false);
+        visualOptions.SetActive(false);
+        soundOptions.SetActive(false);
     }
 
     public void Play()
-    { 
+    {
         startMenu.SetActive(false);
         gameModeMenu.SetActive(true);
 
@@ -47,6 +55,7 @@ public class MainMenu : MonoBehaviour {
         optionsMenu.SetActive(false);
         soundOptions.SetActive(true);
     }
+
     public void VisualOptions()
     {
         optionsMenu.SetActive(false);
@@ -58,6 +67,13 @@ public class MainMenu : MonoBehaviour {
         optionsMenu.SetActive(true);
         soundOptions.SetActive(false);
         visualOptions.SetActive(false);
+    }
+
+    public void BackToModeSelection()
+    {
+        gameModeMenu.SetActive(true);
+        careerMenu.SetActive(false);
+        sandboxMenu.SetActive(false);
     }
 
     public void Quit()
