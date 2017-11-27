@@ -44,6 +44,11 @@ public class Machine : PlaceableObject {
         machineStatus = MachineStatus.Working;
     }
 
+    protected virtual void DailyReset()
+    {
+
+    }
+
     protected override void Awake()
     {
         base.Awake();

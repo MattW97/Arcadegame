@@ -239,6 +239,8 @@ public class LevelInteraction : MonoBehaviour
 
                         Ray checkRay = new Ray(startWallTile.transform.position, direction);
 
+                        Debug.DrawLine(startWallTile.transform.position, endWallTile.transform.position, Color.red, 1.0f, false);
+
                         hits = Physics.RaycastAll(checkRay, distance, wallLayerMask);
 
                         float angle = Vector3.Angle(heading, startWallTile.transform.forward);
@@ -250,6 +252,11 @@ public class LevelInteraction : MonoBehaviour
                                 wallHighlighters[i].transform.position = hits[i].transform.position;
                                 wallHighlighters[i].SetActive(true);
                             }
+
+                            for( int i = hits.Length; i < wallHighlighters.Count; i++)
+                            {
+                                wallHighlighters[i].SetActive(false);
+                            }
                         }
                     }
 
@@ -257,6 +264,11 @@ public class LevelInteraction : MonoBehaviour
                     {
                         endWallTile = null;
                         startWallTile = null;
+
+                        foreach (GameObject highligher in wallHighlighters)
+                        {
+                            highligher.SetActive(false);
+                        }
                     }
                 }
             }
