@@ -7,13 +7,11 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour {
 
     [SerializeField]
-    private GameObject startMenu, gameModeMenu, careerMenu, sandboxMenu, loadMenu, optionsMenu, soundOptions, visualOptions, arcadeName;
+    private GameObject startMenu, gameModeMenu, careerMenu, sandboxMenu, 
+                       loadMenu, optionsMenu, soundOptions, visualOptions, arcadeName;
 
     [SerializeField]
-    private Text arcadeNameTextField;
-
-    [SerializeField]
-    private Text char1, char2, char3, char4, char5, char6, char7, char8, char9, char10, char11, char12, char13, char14, char15;
+    private Text arcadeNameTextField;    
 
     public Object sceneToSwitchTo;
 
@@ -21,16 +19,20 @@ public class MainMenu : MonoBehaviour {
 
     public string newName;
 
-    public string newArcadeName;
-
     void Start()
     {
         startMenu.SetActive(true);
+        gameModeMenu.SetActive(false);
+        careerMenu.SetActive(false);
+        sandboxMenu.SetActive(false);
+        loadMenu.SetActive(false);
+        optionsMenu.SetActive(false);
+        visualOptions.SetActive(false);
+        soundOptions.SetActive(false);
     }
 
     public void Play()
     {
-        //SceneManager.LoadScene(1);
         startMenu.SetActive(false);
         gameModeMenu.SetActive(true);
 
@@ -53,6 +55,7 @@ public class MainMenu : MonoBehaviour {
         optionsMenu.SetActive(false);
         soundOptions.SetActive(true);
     }
+
     public void VisualOptions()
     {
         optionsMenu.SetActive(false);
@@ -64,6 +67,13 @@ public class MainMenu : MonoBehaviour {
         optionsMenu.SetActive(true);
         soundOptions.SetActive(false);
         visualOptions.SetActive(false);
+    }
+
+    public void BackToModeSelection()
+    {
+        gameModeMenu.SetActive(true);
+        careerMenu.SetActive(false);
+        sandboxMenu.SetActive(false);
     }
 
     public void Quit()
@@ -84,8 +94,7 @@ public class MainMenu : MonoBehaviour {
     }
     public void SandboxBuild()
     {
-        newArcadeName = (char1.text + char2.text + char3.text + char4.text + char5.text + char6.text + char7.text + char8.text + char9.text + char10.text + char11.text + char12.text + char13.text + char14.text + char15.text);
-        GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.stats.arcadeName = newArcadeName;
+        GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.stats.arcadeName = arcadeNameTextField.text;
         GameManager.Instance.GetComponent<SaveAndLoadManager>().CreateBaseSave();
        // SceneManager.LoadScene(sceneToSwitchTo.name);
         SceneManager.LoadScene("Level 2");
