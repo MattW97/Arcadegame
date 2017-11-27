@@ -6,32 +6,17 @@ public class Machine : PlaceableObject {
 
     public enum MachineStatus { Working, Broken }
 
-    [SerializeField] private float useTime;                   // Time it takes to use object, i.e. buy/eat food, use toilet, play game (in Seconds)
-    [SerializeField] private float runningCost;               // amount deducted each day
-    [SerializeField] private float defaultUseCost;            // how much it costs a user to use the machine. Includes playing if the machine is a game machine.
-    [SerializeField] private float maintenanceCost;           // amount deducted upon machine breaking and needing repair
-    [SerializeField] private Transform usePosition;           // The position the customers moves to when using the object
-    [SerializeField] private float failurePercentage;         // The chance the machine has to break on use
-    [SerializeField] private float failurePercentageIncrease; // How much the failurePercentage increases by each IncreaseFailurePercentage() call.
-
-    [SerializeField] [Range(0, 1000)] private int minimumUseCost;
-    [SerializeField] [Range(0, 1000)] private int maximumUseCost;
+    [SerializeField] private float useTime;                                 // Time it takes to use object, i.e. buy/eat food, use toilet, play game (in Seconds)
+    [SerializeField] private float runningCost;                             // amount deducted each day
+    [SerializeField] private float useCost;                                 // how much it costs a user to use the machine. Includes playing if the machine is a game machine.
+    [SerializeField] private float maintenanceCost;                         // amount deducted upon machine breaking and needing repair
+    [SerializeField] private Transform usePosition;                         // The position the customers moves to when using the object
+    [SerializeField] private float failurePercentage;                       // The chance the machine has to break on use
+    [SerializeField] private float failurePercentageIncrease;               // How much the failurePercentage increases by each IncreaseFailurePercentage() call.
+    [SerializeField] [Range(0.0f, 100.0f)]protected float statAdjustment;   // The amount the customer stat is adjusted when used
 
     private MachineStatus machineStatus;
     private bool inUse;
-
-    private int numberOfCustomersToday;
-    private int numberOfCustomersEver;
-
-    private float amountEarnedToday;
-    private float amountEarnedEver;
-
-    private float maintainenceToday;
-    private float maintainenceEver;
-
-    private float expensesEver;
-
-
 
     private void IncreaseFailurePercentage()
     {
@@ -41,12 +26,8 @@ public class Machine : PlaceableObject {
   /// <summary>
   /// When the machine is used.
   /// </summary>
-    protected virtual void OnUse()
+    public virtual void OnUse()
     {
-        NumberOfCustomersToday++;
-        NumberOfCustomersEver++;
-        AmountEarnedToday += defaultUseCost;
-        AmountEarnedEver += defaultUseCost;
         int roll = Random.Range(1, 100);
         if (roll <= failurePercentage)
         {
@@ -59,8 +40,6 @@ public class Machine : PlaceableObject {
     /// </summary>
     protected void OnRepair()
     {
-        MaintainenceToday += maintenanceCost;
-        MaintainenceEver += maintenanceCost;
         GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().OnMachineBreakdown(this);
         machineStatus = MachineStatus.Working;
     }
@@ -76,16 +55,11 @@ public class Machine : PlaceableObject {
         base.Update();
     }
 
-    protected virtual void DailyReset()
+    public float GetStatAdjustment()
     {
-        IncreaseFailurePercentage();
-        NumberOfCustomersToday = 0;
-        AmountEarnedToday = 0;
-        MaintainenceToday = 0;
-        expensesEver += runningCost;
+        return statAdjustment;
     }
 
-    #region Getters/Setters
     public float RunningCost
     {
         get
@@ -116,12 +90,12 @@ public class Machine : PlaceableObject {
     {
         get
         {
-            return defaultUseCost;
+            return useCost;
         }
 
         set
         {
-            defaultUseCost = value;
+            useCost = value;
         }
     }
 
@@ -151,127 +125,8 @@ public class Machine : PlaceableObject {
         }
     }
 
-    public int MinimumUseCost
-    {
-        get
-        {
-            return minimumUseCost;
-        }
-
-        set
-        {
-            minimumUseCost = value;
-        }
-    }
-
-    public int MaximumUseCost
-    {
-        get
-        {
-            return maximumUseCost;
-        }
-
-        set
-        {
-            maximumUseCost = value;
-        }
-    }
-
-    public int NumberOfCustomersToday
-    {
-        get
-        {
-            return numberOfCustomersToday;
-        }
-
-        set
-        {
-            numberOfCustomersToday = value;
-        }
-    }
-
-    public int NumberOfCustomersEver
-    {
-        get
-        {
-            return numberOfCustomersEver;
-        }
-
-        set
-        {
-            numberOfCustomersEver = value;
-        }
-    }
-
-    public float AmountEarnedToday
-    {
-        get
-        {
-            return amountEarnedToday;
-        }
-
-        set
-        {
-            amountEarnedToday = value;
-        }
-    }
-
-    public float AmountEarnedEver
-    {
-        get
-        {
-            return amountEarnedEver;
-        }
-
-        set
-        {
-            amountEarnedEver = value;
-        }
-    }
-
-    public float MaintainenceToday
-    {
-        get
-        {
-            return maintainenceToday;
-        }
-
-        set
-        {
-            maintainenceToday = value;
-        }
-    }
-
-    public float MaintainenceEver
-    {
-        get
-        {
-            return maintainenceEver;
-        }
-
-        set
-        {
-            maintainenceEver = value;
-        }
-    }
-
-    public float ExpensesEver
-    {
-        get
-        {
-            return expensesEver;
-        }
-
-        set
-        {
-            expensesEver = value;
-        }
-    }
-
     public Transform GetUsePosition()
     {
         return usePosition;
     }
-
-    #endregion Getters/Setters
 }

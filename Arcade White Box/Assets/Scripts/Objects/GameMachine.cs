@@ -13,12 +13,9 @@ public class GameMachine : Machine {
     [SerializeField] private float attractionRatingMinimum; // How low the attraction rating can fall to.
     [SerializeField] private float attractionRatingFallOff; // How fast the attraction rating falls off. (Percentage)
 
-
-    [SerializeField] private float happinessIncrease; // How much happiness the game gives on use.
-
     private int currentNumberOfPlayers;
 
-    protected override void OnUse()
+    public override void OnUse()
     {
         if (CheckIfMachineIsFull())
         {
@@ -40,10 +37,10 @@ public class GameMachine : Machine {
 
     public float TotalHappiness()
     {
-        float hapGiven = happinessIncrease;
+        float hapGiven = statAdjustment;
         int winRoll = Random.Range(0, 1);
         if (winRoll == 1)
-            hapGiven += (happinessIncrease / 2);
+            hapGiven += (statAdjustment / 2);
         return hapGiven;
     }
 

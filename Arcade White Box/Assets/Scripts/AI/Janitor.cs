@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Janitor : Staff
-{   
-    private enum JanitorSate { Idle, Moving, Cleaning, Searching }
+{
+    [SerializeField] private float cleanTime;
+       
+    private enum JanitorSate {Idle, GotTarget, Moving, Cleaning}
 
-    private bool cleaning;
+    private bool hasJob;
     private JanitorSate currentState;
     private CustomerManager customerManager;
-    private Transform currentTarget;
+    private Tile currentTile;
     private IEnumerator cleaningUp;
 
     protected override void Awake()
@@ -17,7 +19,7 @@ public class Janitor : Staff
         base.Awake();
 
         currentState = JanitorSate.Idle;
-        cleaning = false;
+        hasJob = false;
     }
 
     void Start()
@@ -26,31 +28,19 @@ public class Janitor : Staff
     }
 
     protected override void Update()
-    {
-        if(currentState == JanitorSate.Searching)
+    {   
+        if(currentState == JanitorSate.GotTarget)
         {
-            //currentTarget = customerManager.GetDroppedTrash()[customerManager.GetDroppedTrash().Count - 1].transform;
-            //customerManager.GetDroppedTrash().RemoveAt(customerManager.GetDroppedTrash().Count - 1);
-
-            unitController.SetTarget(currentTarget);
+            unitController.SetTarget(currentTile.transform);
             unitController.GetNewPath();
             currentState = JanitorSate.Moving;
         }
         else if(currentState == JanitorSate.Moving)
         {
-            if(unitController.ReachedTarget)
+            if (unitController.ReachedTarget)
             {
-                currentState = JanitorSate.Cleaning;
-                cleaningUp = CleaningUp();
-                StartCoroutine(cleaningUp);
+                StartCoroutine("CleaningUp");
             }
-        }
-        else if(currentState == JanitorSate.Idle)
-        {
-            //if(customerManager.GetDroppedTrash().Count > 0)
-            //{
-            //    currentState = JanitorSate.Searching;
-            ///}
         }
 
         base.Update();
@@ -58,10 +48,22 @@ public class Janitor : Staff
 
     private IEnumerator CleaningUp()
     {
-        cleaning = true;
-        yield return new WaitForSeconds(0.5f);
+        currentState = JanitorSate.Cleaning;
+        yield return new WaitForSeconds(cleanTime);
+        currentTile.CleanTrash();
         currentState = JanitorSate.Idle;
-        Destroy(currentTarget.gameObject);
-        cleaning = false;
+        hasJob = false;
+    }
+
+    public void SetNewTarget(Tile newTile)
+    {
+        currentTile = newTile;
+        hasJob = true;
+        currentState = JanitorSate.GotTarget;
+    }
+
+    public bool HasJob()
+    {
+        return hasJob;
     }
 }
