@@ -134,11 +134,6 @@ public class MenuSettingsUI : MonoBehaviour
         textureQualityDropdown.value = textureOption;
         antialiasingDropdown.value = antialiasingOption;
         vSyncDropdown.value = vSyncOption;
-        print("Res "+ resolutionOption);
-        print("Tex " + textureOption);
-        print("anti " + antialiasingOption);
-        print("vsync " + vSyncOption);
-        print("full " + fullscreenOn);
     }
 
     public void DefaultSettings()
@@ -149,11 +144,5 @@ public class MenuSettingsUI : MonoBehaviour
         textureOption = GameManager.Instance.SettingManager.GetTextureQuality();
         antialiasingOption = GameManager.Instance.SettingManager.GetAnitaliasing();
         vSyncOption = GameManager.Instance.SettingManager.GetVSync();
-
-        print("Res " + resolutionOption);
-        print("Tex " + textureOption);
-        print("anti " + antialiasingOption);
-        print("vsync " + vSyncOption);
-        print("full " + fullscreenOn);
     }
 }
