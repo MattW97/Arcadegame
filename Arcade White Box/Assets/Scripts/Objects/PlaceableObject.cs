@@ -112,6 +112,10 @@ public class PlaceableObject : Entity {
                 selectionTransform.localScale = new Vector3(1, 1, 1);
                 selectionMesh.SetActive(false);
             }
+            else
+            {
+                selectionMesh.SetActive(true);
+            }
         }
     }
 
