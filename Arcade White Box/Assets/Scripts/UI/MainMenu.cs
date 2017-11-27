@@ -12,11 +12,6 @@ public class MainMenu : MonoBehaviour {
     [SerializeField]
     private Text arcadeNameTextField;
 
-    [SerializeField]
-    private Text char1, char2, char3, char4, char5, char6, char7, char8, char9, char10, char11, char12, char13, char14, char15;
-
-    public Object sceneToSwitchTo;
-
     private SettingManager settings;
 
     public string newName;
@@ -29,8 +24,7 @@ public class MainMenu : MonoBehaviour {
     }
 
     public void Play()
-    {
-        //SceneManager.LoadScene(1);
+    { 
         startMenu.SetActive(false);
         gameModeMenu.SetActive(true);
 
@@ -84,8 +78,7 @@ public class MainMenu : MonoBehaviour {
     }
     public void SandboxBuild()
     {
-        newArcadeName = (char1.text + char2.text + char3.text + char4.text + char5.text + char6.text + char7.text + char8.text + char9.text + char10.text + char11.text + char12.text + char13.text + char14.text + char15.text);
-        GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.stats.arcadeName = newArcadeName;
+        GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.stats.arcadeName = arcadeNameTextField.text;
         GameManager.Instance.GetComponent<SaveAndLoadManager>().CreateBaseSave();
        // SceneManager.LoadScene(sceneToSwitchTo.name);
         SceneManager.LoadScene("Level 2");

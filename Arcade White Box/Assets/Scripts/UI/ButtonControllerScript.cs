@@ -9,7 +9,7 @@ public class ButtonControllerScript : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        timeAndCalendarLink = GameManager.Instance.SceneManagerLink.GetComponent<TimeAndCalendar>();
+        timeAndCalendarLink = GameManager.Instance.ScriptHolderLink.GetComponent<TimeAndCalendar>();
     }
 
     public void pauseTimer()
