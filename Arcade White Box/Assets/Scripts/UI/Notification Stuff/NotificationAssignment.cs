@@ -47,11 +47,6 @@ public class NotificationAssignment : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            randomPosNotification();
-        }
-
 	}
 
     private void randomImage()

@@ -10,4 +10,6 @@ public class GameSettings
     public int antialiasing;
     public int vSync;
     public float musicVolume;
+    public float menuEffectVolume;
+    public float inGameSoundEffectVolume;
 }

@@ -13,7 +13,7 @@ public class Machine : PlaceableObject {
     [SerializeField] private Transform usePosition;                         // The position the customers moves to when using the object
     [SerializeField] private float failurePercentage;                       // The chance the machine has to break on use
     [SerializeField] private float failurePercentageIncrease;               // How much the failurePercentage increases by each IncreaseFailurePercentage() call.
-    [SerializeField] [Range(0.0f, 100.0f)]protected float statAdjustment;   // The amount the customer stat is adjusted when used
+    [SerializeField] [Range(0.0f, 100.0f)]protected float statAdjustment;   // Customer stat boost OnUse() (Stat increased dependent on the machine this is attached to)b 
 
     private MachineStatus machineStatus;
     private bool inUse;

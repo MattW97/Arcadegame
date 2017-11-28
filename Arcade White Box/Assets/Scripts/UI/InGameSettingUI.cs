@@ -41,7 +41,7 @@ public class InGameSettingUI : MonoBehaviour
         soundManager.setGameAudioSource(gameAudioSource);
 
         GameManager.Instance.SettingManager.LoadSettings();
-        GameManager.Instance.SoundManager.InGameAudio();
+        GameManager.Instance.SoundManager.InGameMusic();
 
         MusicSlider.value = GameManager.Instance.SettingManager.GetMusicVolume();
         gameAudioSource.volume = MusicSlider.value;
@@ -80,7 +80,7 @@ public class InGameSettingUI : MonoBehaviour
 
     void Update()
     {
-        GameManager.Instance.SoundManager.InGameAudio();
+        GameManager.Instance.SoundManager.InGameMusic();
     }
 
     public void ChangeMusicVolume()

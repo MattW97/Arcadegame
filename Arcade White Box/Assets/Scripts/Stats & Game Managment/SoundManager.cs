@@ -41,16 +41,16 @@ public class SoundManager : MonoBehaviour {
 
     public void Update()
     {
-        //gameAudioSource.ignoreListenerPause = true;
+       
     }
 
-    public void MenuAudio()
+    public void MenuMusic()
     {
         menuAudioSource.clip = menuAudio[Random.Range(0, menuAudio.Length)];
         menuAudioSource.Play();
     }
 
-    public void InGameAudio()
+    public void InGameMusic()
     {     
 
         if (!gameAudioSource.isPlaying && !isPaused && trackNumber < inGameAudio.Length)
@@ -74,11 +74,6 @@ public class SoundManager : MonoBehaviour {
             trackNumber = 0;
         }
     }  
-
-    public void NextSong()
-    {
-        gameAudioSource.clip = inGameAudio[0];
-    }
 
     public void setMenuAudioSource(AudioSource newMenuAudioSource)
     {

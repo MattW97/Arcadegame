@@ -43,6 +43,11 @@ public class SettingManager : MonoBehaviour
         gameSettings.musicVolume = newMusicVolume;
     }
 
+    public void SetMenuEffectsVolume(float newSoundEffectVolume)
+    {
+        gameSettings.menuEffectVolume = newSoundEffectVolume;
+    }
+
     public void SetResolution(int newResolution)
     {
         gameSettings.resolutionIndex = newResolution;

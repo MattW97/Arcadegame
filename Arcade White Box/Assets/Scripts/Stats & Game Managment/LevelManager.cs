@@ -23,18 +23,20 @@ public class LevelManager : MonoBehaviour {
     [SerializeField] private int MAXCUSTOMERS; 
     [SerializeField] private int openingHour, closingHour;
     [SerializeField] private int preOpeningTime;
+    [SerializeField] private MainDoorController mainDoors;
 
     private int numOfCustomers;
-    private bool openOnce, closedOnce, spawningCustomers;
+    private bool openOnce, closedOnce, spawningCustomers, preOpenBool;
 
     void Start () {
 
         _timeLink = this.gameObject.GetComponent<TimeAndCalendar>();
-        _playerLink = this.gameObject.GetComponent<PlayerManager>();
-        _economyLink = this.gameObject.GetComponent<EconomyManager>();
+        _playerLink = GameManager.Instance.SceneManagerLink.GetComponent<PlayerManager>();
+        _economyLink = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();
         customerManager = this.GetComponent<CustomerManager>();
         openOnce = false;
         closedOnce = false;
+        preOpenBool = false; 
 
         customerManager.SetSpawnLocation(transform); 
 
@@ -64,25 +66,27 @@ public class LevelManager : MonoBehaviour {
 
     private void OpenClose()
     {
-        if (_timeLink.GetCurrentTime() == preOpeningTime)
+        if (_timeLink.GetCurrentTime() == preOpeningTime && !preOpenBool)
         {
             _timeLink.StopTimer();
+            preOpenBool = true;
             // create UI stuff to show next day
         }
         else if (_timeLink.CurrentHour == openingHour && !openOnce)
         {
             arcadeStatus = ArcadeOpeningStatus.Open;
-            print("Arcade is open!");
-            _timeLink.StopTimer();
+            mainDoors.OpenDoor();
+           // _timeLink.StopTimer();
 
             openOnce = true;
             closedOnce = false;
+            
         }
         else if (_timeLink.CurrentHour == closingHour && !closedOnce)
         {
             arcadeStatus = ArcadeOpeningStatus.Closed;
-            print("Arcade is closed!");
-            _timeLink.StopTimer();
+            mainDoors.CloseDoor();
+            // _timeLink.StopTimer();
             // enable UI element to show data of the day
 
             closedOnce = true;
