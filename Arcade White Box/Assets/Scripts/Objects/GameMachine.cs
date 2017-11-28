@@ -57,11 +57,11 @@ public class GameMachine : Machine {
             return false;
     }
 
-    protected override void DailyReset()
-    {
-        base.DailyReset();
-        CalculateAttractionRating();
-    }
+    //protected override void DailyReset()
+    //{
+    //    base.DailyReset();
+    //    CalculateAttractionRating();
+    //}
     private void CalculateAttractionRating()
     {
         if (attractionRatingStart > attractionRatingMinimum)
