@@ -47,6 +47,7 @@ public class CustomerManager : MonoBehaviour
         foreach(Customer customer in currentCustomers)
         {
             customer.SpeedFactor = GetSpeedFactor();
+            customer.StatDecayTick();
 
             if (!customer.IsBusy())
             {
