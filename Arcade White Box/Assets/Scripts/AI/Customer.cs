@@ -28,7 +28,7 @@ public class Customer : BaseAI
     private CustomerStat queasinessStat;
 
     private const float STAT_LIMIT = 100.0f;            //THE LIMIT A STAT CAN REACH
-    private const float STAT_TICK_AMOUNT = 0.1f;        //THE AMOUNT THE STAT INCREASES WITH EACH TICK
+    private const float STAT_TICK_AMOUNT = 0.1f;        //THE AMOUNT THE STAT IS AFFECTED EACH TICK
     private const float STAT_TICK_RATE = 0.5f;          //HOW OFTEN THE STAT TICKS (IN SECONDS)
 
     void OnEnable() { EventManager.Save += OnSave; }
@@ -101,22 +101,16 @@ public class Customer : BaseAI
         }
     }
 
-    public void TickStats()
+    public void StatDecayTick()
     {
         statCounter += Time.deltaTime * speedFactor;
 
         if (statCounter >= STAT_TICK_RATE)
         {
-            foreach (CustomerStat stat in customerStats)
+            if(happinessStat.StatValue > 0)
             {
-                if (stat.StatValue < STAT_LIMIT)
-                {
-                    stat.StatValue += STAT_TICK_AMOUNT;
-                }
-                else if (stat.StatValue > STAT_LIMIT)
-                {
-                    stat.StatValue = STAT_LIMIT;
-                }
+                happinessStat.StatValue -= STAT_TICK_AMOUNT;
+
             }
 
             statCounter = 0.0f;

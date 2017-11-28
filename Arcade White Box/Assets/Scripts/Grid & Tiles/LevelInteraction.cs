@@ -52,7 +52,7 @@ public class LevelInteraction : MonoBehaviour
         ObjectToPlace = null;
 
         tileHighlighter.SetActive(false);
-        CurrentState = InteractionState.WallPlacingMode; 
+        CurrentState = InteractionState.SelectionMode; 
     }
 
     void Start()
@@ -89,7 +89,7 @@ public class LevelInteraction : MonoBehaviour
         }
         else
         {
-            //CurrentState = InteractionState.SelectionMode;
+            CurrentState = InteractionState.SelectionMode;
         }
     }
 
