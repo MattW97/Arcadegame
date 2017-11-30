@@ -391,7 +391,7 @@ public class LevelInteraction : MonoBehaviour
     {
         CurrentSelectedObject.PlacedOnTile.SetTileType(Tile.TileType.Passable);
 
-        GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().RemoveObjectFromLists(CurrentSelectedObject.gameObject);
+        GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>().RemoveObjectFromLists(CurrentSelectedObject.gameObject);
 
         Destroy(CurrentSelectedObject.gameObject);
 

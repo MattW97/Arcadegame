@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class OptionsUI : MonoBehaviour
@@ -15,7 +16,7 @@ public class OptionsUI : MonoBehaviour
 
     void Start()
     {
-        audioSelected.SetActive(false);
+        audioSelected.SetActive(true);
         graphicsSelected.SetActive(false);
         cameraSelected.SetActive(false);
         interfaceSelected.SetActive(false);
@@ -124,6 +125,16 @@ public class OptionsUI : MonoBehaviour
     public void ActivatePauseMenu()
     {
         pausePanel.SetActive(true);
+    }
+
+    public void Quit()
+    {
+        SceneManager.LoadScene("Main Menu 1");
+    }
+
+    public void DeactivatePauseMenu()
+    {
+        pausePanel.SetActive(false);
     }
 
     public void ActivateAllMenus()

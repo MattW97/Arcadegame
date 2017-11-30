@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.EventSystems;
 
 namespace RTS_Cam
 {
@@ -182,6 +183,18 @@ namespace RTS_Cam
                 CameraUpdate();
         }
 
+        private bool OverUI()
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {                
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         #endregion
 
         #region RTSCamera_Methods
@@ -256,22 +269,25 @@ namespace RTS_Cam
         /// </summary>
         private void HeightCalculation()
         {
-            float distanceToGround = DistanceToGround();
-            if(useScrollwheelZooming)
-                zoomPos += ScrollWheel * Time.deltaTime * scrollWheelZoomingSensitivity;
-            if (useKeyboardZooming)
-                zoomPos += ZoomDirection * Time.deltaTime * keyboardZoomingSensitivity;
+            if (!OverUI())
+            {
+                float distanceToGround = DistanceToGround();
+                if (useScrollwheelZooming)
+                    zoomPos += ScrollWheel * Time.deltaTime * scrollWheelZoomingSensitivity;
+                if (useKeyboardZooming)
+                    zoomPos += ZoomDirection * Time.deltaTime * keyboardZoomingSensitivity;
 
-            zoomPos = Mathf.Clamp01(zoomPos);
+                zoomPos = Mathf.Clamp01(zoomPos);
 
-            float targetHeight = Mathf.Lerp(minHeight, maxHeight, zoomPos);
-            float difference = 0; 
+                float targetHeight = Mathf.Lerp(minHeight, maxHeight, zoomPos);
+                float difference = 0;
 
-            if(distanceToGround != targetHeight)
-                difference = targetHeight - distanceToGround;
+                if (distanceToGround != targetHeight)
+                    difference = targetHeight - distanceToGround;
 
-            m_Transform.position = Vector3.Lerp(m_Transform.position, 
-                new Vector3(m_Transform.position.x, targetHeight + difference, m_Transform.position.z), Time.deltaTime * heightDampening);
+                m_Transform.position = Vector3.Lerp(m_Transform.position,
+                    new Vector3(m_Transform.position.x, targetHeight + difference, m_Transform.position.z), Time.deltaTime * heightDampening);
+            }            
         }
 
         /// <summary>
