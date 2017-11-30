@@ -129,7 +129,6 @@ public class LevelInteraction : MonoBehaviour
                 {
                     if (Input.GetMouseButtonDown(0) && currentSelectedObject)
                     {
-                        print("2");
                         currentSelectedObject.Selected = false;
                         NullSelectedObject();
                     }
