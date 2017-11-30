@@ -14,13 +14,9 @@ public class SoundManager : MonoBehaviour {
     private int trackNumber = 0;
     private bool doneOnce = false;
 
-   // public bool ignoreListenerPause;
     public string currentSongName;
     private float length;
-    public bool isPaused = false;
-
-    //public float fadeInDuration = 1;
-    //public float fadeOutDuration = 1;   
+    public bool isPaused = false; 
 
     void OnApplicationFocus(bool hasFocus)
     {        

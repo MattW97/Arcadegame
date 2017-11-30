@@ -1,0 +1,181 @@
+fileFormatVersion: 2
+guid: 31cf359e9f450d24b8a8175b24ef9f1d
+timeCreated: 1511966878
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: AllosaurHead
+    100002: AllosaurHeadBone0
+    100004: AllosaurHeadBone004
+    100006: AllosaurHeadBone005
+    100008: AllosaurLArm1
+    100010: AllosaurLArm21
+    100012: AllosaurLArm22
+    100014: AllosaurLArmCollarbone
+    100016: AllosaurLArmPalm
+    100018: AllosaurLeye
+    100020: AllosaurLLeg1
+    100022: AllosaurLLeg2
+    100024: AllosaurLLegPalm
+    100026: AllosaurNeck1
+    100028: AllosaurNeck2
+    100030: AllosaurNeck3
+    100032: AllosaurNeck4
+    100034: AllosaurNeck5
+    100036: AllosaurNeck6
+    100038: AllosaurNeck7
+    100040: AllosaurPalmBone001
+    100042: AllosaurPalmBone001 1
+    100044: AllosaurPelvis
+    100046: AllosaurPelvisBone001
+    100048: AllosaurPelvisBone001Bone001
+    100050: AllosaurRArm1
+    100052: AllosaurRArm21
+    100054: AllosaurRArm22
+    100056: AllosaurRArmCollarbone
+    100058: AllosaurRArmPalm
+    100060: AllosaurReye
+    100062: AllosaurRibcage
+    100064: AllosaurRLeg1
+    100066: AllosaurRLeg2
+    100068: AllosaurRLegPalm
+    100070: AllosaurSpine1
+    100072: AllosaurSpine2
+    100074: AllosaurSpine3
+    100076: AllosaurSpine4
+    100078: AllosaurSpine5
+    100080: AllosaurSpine6
+    100082: AllosaurSpine7
+    100084: body
+    100086: eyes
+    100088: shirt
+    100090: //RootNode
+    100092: teeth
+    400000: AllosaurHead
+    400002: AllosaurHeadBone0
+    400004: AllosaurHeadBone004
+    400006: AllosaurHeadBone005
+    400008: AllosaurLArm1
+    400010: AllosaurLArm21
+    400012: AllosaurLArm22
+    400014: AllosaurLArmCollarbone
+    400016: AllosaurLArmPalm
+    400018: AllosaurLeye
+    400020: AllosaurLLeg1
+    400022: AllosaurLLeg2
+    400024: AllosaurLLegPalm
+    400026: AllosaurNeck1
+    400028: AllosaurNeck2
+    400030: AllosaurNeck3
+    400032: AllosaurNeck4
+    400034: AllosaurNeck5
+    400036: AllosaurNeck6
+    400038: AllosaurNeck7
+    400040: AllosaurPalmBone001
+    400042: AllosaurPalmBone001 1
+    400044: AllosaurPelvis
+    400046: AllosaurPelvisBone001
+    400048: AllosaurPelvisBone001Bone001
+    400050: AllosaurRArm1
+    400052: AllosaurRArm21
+    400054: AllosaurRArm22
+    400056: AllosaurRArmCollarbone
+    400058: AllosaurRArmPalm
+    400060: AllosaurReye
+    400062: AllosaurRibcage
+    400064: AllosaurRLeg1
+    400066: AllosaurRLeg2
+    400068: AllosaurRLegPalm
+    400070: AllosaurSpine1
+    400072: AllosaurSpine2
+    400074: AllosaurSpine3
+    400076: AllosaurSpine4
+    400078: AllosaurSpine5
+    400080: AllosaurSpine6
+    400082: AllosaurSpine7
+    400084: body
+    400086: eyes
+    400088: shirt
+    400090: //RootNode
+    400092: teeth
+    4300000: body
+    4300002: shirt
+    4300004: eyes
+    4300006: teeth
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: body
+    13700002: eyes
+    13700004: shirt
+    13700006: teeth
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

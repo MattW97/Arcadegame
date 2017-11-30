@@ -15,10 +15,7 @@ public class MainDoorController : MonoBehaviour {
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            OpenDoor();
-        }
+        
     }
 
     public void OpenDoor()
@@ -45,15 +42,12 @@ public class MainDoorController : MonoBehaviour {
     {
         if (doorOpen)
         {
-            anim.animatorecord
-            anim.speed = -1;
-            anim.SetTrigger("Play");
+            anim.SetTrigger("UnPlay");
             doorOpen = false;
             print("1");
         }
         else
         {
-            anim.speed = 1; 
             anim.SetTrigger("Play");
             doorOpen = true;
             print("2");

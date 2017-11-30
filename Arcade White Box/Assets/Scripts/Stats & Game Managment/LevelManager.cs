@@ -51,17 +51,27 @@ public class LevelManager : MonoBehaviour {
 	void Update ()
     {
         OpenClose();
-
-        if (AllGameMachines.Count > 0 && AllToilets.Count > 0 && AllFoodStalls.Count > 0 && !spawningCustomers)
+        if (CheckCustomerSpawnParameters())
         {
-            spawningCustomers = true;
             customerManager.InvokeRepeating("SpawnCustomer", customerSpawnRate, customerSpawnRate);
         }
+        
 
         if (customerManager.GetCustomerNumber() >= MAXCUSTOMERS)
         {
             customerManager.CancelInvoke("SpawnCustomer");
         }
+    }
+
+    public bool CheckCustomerSpawnParameters()
+    {
+        if (AllGameMachines.Count > 0 && AllToilets.Count > 0 && AllFoodStalls.Count > 0 && !spawningCustomers)
+        {
+            spawningCustomers = true;
+            //customerManager.InvokeRepeating("SpawnCustomer", customerSpawnRate, customerSpawnRate);
+            return true;
+        }
+        return false;
     }
 
     private void OpenClose()

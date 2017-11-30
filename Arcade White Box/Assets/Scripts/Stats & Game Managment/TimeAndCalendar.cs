@@ -15,7 +15,6 @@ public class TimeAndCalendar : MonoBehaviour {
 
     public Day starterDay = new Day();
     private List<Day> listOfDays;
-    private Year testerYear;
     private Text timeText, dateText;
     private int currentHour, currentMinute;
     private int currentYear, currentMonth, currentDay;
@@ -55,7 +54,6 @@ public class TimeAndCalendar : MonoBehaviour {
     {
         int time = 0;
         time = int.Parse(currentHour.ToString() + CurrentMinute.ToString());
-        //print(time);
         return time;
     }
 
@@ -97,7 +95,6 @@ public class TimeAndCalendar : MonoBehaviour {
 
     private void DayIncrement()
     {
-        // do daily stuff
         if (CurrentDay == 29)
         {
             CurrentDay = 0;
@@ -207,7 +204,12 @@ public class TimeAndCalendar : MonoBehaviour {
     {
         CalendarInit();
         prevDay = starterDay;
-        CreateYear(2000);
+        Calendar calendar = new Calendar();
+        calendar.Start();
+        calendar.calendarYears.Add(CreateYear(prevDay.dateYear));
+        calendar.CurrentDay = prevDay;
+        calendar.CurrentYear = calendar.calendarYears[0];
+        calendar.CurrentMonth = calendar.CurrentYear.monthsInYear[1];
     }
 
     /// <summary>
@@ -215,14 +217,15 @@ public class TimeAndCalendar : MonoBehaviour {
     /// @param the year number, basically increase by one on each call.
     /// </summary>
     /// <param name="yearNumber"></param>
-    private void CreateYear(int yearNumber)
+    private Year CreateYear(int yearNumber)
     {
         Year newYear = new Year();
-        testerYear.yearNumber = yearNumber;
+        newYear.yearNumber = yearNumber;
         for (int i = 0; i < 12; i++)
         {
-           testerYear.monthsInYear.Add(CreateMonth(monthLengths[i], i, yearNumber));  
+           newYear.monthsInYear.Add(CreateMonth(monthLengths[i], i, yearNumber));  
         }
+        return newYear;
     }
 
     /// <summary>
@@ -325,7 +328,6 @@ public class TimeAndCalendar : MonoBehaviour {
         monthLengths = new List<int>();
         monthNames = new List<string>();
         listOfDays = new List<Day>();
-        testerYear = new Year();
 
         monthLengths.Add(31);
         monthLengths.Add(28);
@@ -446,6 +448,59 @@ public class Year
 {
     public int yearNumber;
     public List<Month> monthsInYear = new List<Month>();
+}
+
+[Serializable]
+public class Calendar
+{
+    public List<Year> calendarYears;
+    private Day currentDay;
+    private Month currentMonth;
+    private Year currentYear;
+
+   public void Start()
+    {
+        calendarYears = new List<Year>();
+    }
+
+    public Day CurrentDay
+    {
+        get
+        {
+            return currentDay;
+        }
+
+        set
+        {
+            currentDay = value;
+        }
+    }
+
+    public Month CurrentMonth
+    {
+        get
+        {
+            return currentMonth;
+        }
+
+        set
+        {
+            currentMonth = value;
+        }
+    }
+
+    public Year CurrentYear
+    {
+        get
+        {
+            return currentYear;
+        }
+
+        set
+        {
+            currentYear = value;
+        }
+    }
 }
 
 
