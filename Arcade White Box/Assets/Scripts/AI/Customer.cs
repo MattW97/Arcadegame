@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Customer : BaseAI
 {
-    [SerializeField]
-    private CustomerStat.Stats weakness;
+    [SerializeField] private CustomerStat.Stats weakness;
 
     public string prefabName;
 
-    public enum CustomerStates { Idle, GotTarget, Moving, UsingFacility, Leaving, Wandering }
+    public enum CustomerStates { Idle, GotTarget, Moving, UsingFacility, Leaving, Wandering, BeginningWander}
 
     private int weakStat;
     private float speedFactor, statCounter;
@@ -24,7 +23,7 @@ public class Customer : BaseAI
     private CustomerStat bladderStat;
     private CustomerStat happinessStat;
     private CustomerStat hungerStat;
-    private CustomerStat hygieneStat;
+    private CustomerStat tirednessStat;
     private CustomerStat queasinessStat;
 
     private const float STAT_LIMIT = 100.0f;            //THE LIMIT A STAT CAN REACH
@@ -44,14 +43,14 @@ public class Customer : BaseAI
         bladderStat = new CustomerStat(CustomerStat.Stats.Bladder, 50.0f, 0.0f);
         happinessStat = new CustomerStat(CustomerStat.Stats.Happiness, 50.0f, 0.0f);
         hungerStat = new CustomerStat(CustomerStat.Stats.Hunger, 50.0f, 0.0f);
-        hygieneStat = new CustomerStat(CustomerStat.Stats.Hygiene, 50.0f, 0.0f);
+        tirednessStat = new CustomerStat(CustomerStat.Stats.Tiredness, 50.0f, 0.0f);
         queasinessStat = new CustomerStat(CustomerStat.Stats.Queasiness, 50.0f, 0.0f);
 
         customerStats = new List<CustomerStat>();
         customerStats.Add(bladderStat);
         customerStats.Add(happinessStat);
         customerStats.Add(hungerStat);
-        customerStats.Add(hygieneStat);
+        customerStats.Add(tirednessStat);
         customerStats.Add(queasinessStat);
 
         for (int i = 0; i < customerStats.Count; i++)
@@ -95,9 +94,16 @@ public class Customer : BaseAI
                 Destroy(gameObject);
             }
         }
-        else if (currentState == CustomerStates.Wandering)
+        else if (currentState == CustomerStates.BeginningWander)
         {
 
+        }
+        else if (currentState == CustomerStates.Wandering)
+        {
+            if(unitController.ReachedTarget)
+            {
+                currentState = CustomerStates.Idle;
+            }
         }
     }
 
@@ -110,7 +116,6 @@ public class Customer : BaseAI
             if(happinessStat.StatValue > 0)
             {
                 happinessStat.StatValue -= STAT_TICK_AMOUNT;
-
             }
 
             statCounter = 0.0f;
@@ -119,8 +124,9 @@ public class Customer : BaseAI
 
     public void SetNewTarget(Machine newTarget)
     {
-        this.currentTarget = newTarget;
         currentState = CustomerStates.GotTarget;
+        print("TARGET SET");
+        this.currentTarget = newTarget;
     }
 
     public void LeaveArcade()
@@ -149,7 +155,27 @@ public class Customer : BaseAI
 
     public bool IsBusy()
     {
-        if (currentState == CustomerStates.Leaving || currentState == CustomerStates.Moving || currentState == CustomerStates.UsingFacility || currentState == CustomerStates.GotTarget)
+        if (currentState == CustomerStates.Leaving)
+        {
+            return true;
+        }
+        else if(currentState == CustomerStates.GotTarget)
+        {
+            return true;
+        }
+        else if(currentState == CustomerStates.UsingFacility)
+        {
+            return true;
+        }
+        else if(currentState == CustomerStates.Moving)
+        {
+            return true;
+        }
+        else if(currentState == CustomerStates.Wandering)
+        {
+            return true;
+        }
+        else if(currentState == CustomerStates.BeginningWander)
         {
             return true;
         }
@@ -209,19 +235,19 @@ public class Customer : BaseAI
         currentState = CustomerStates.Idle;
     }
 
-    public void SetCustomerNeeds(float bladder, float happiness, float hunger, float hygiene, float queasiness, int weakStat)
+    public void SetCustomerNeeds(float bladder, float happiness, float hunger, float tiredness, float queasiness, int weakStat)
     {
         bladderStat = new CustomerStat(CustomerStat.Stats.Bladder, bladder, 0.0f);
         happinessStat = new CustomerStat(CustomerStat.Stats.Happiness, happiness, 0.0f);
         hungerStat = new CustomerStat(CustomerStat.Stats.Hunger, hunger, 0.0f);
-        hygieneStat = new CustomerStat(CustomerStat.Stats.Hygiene, hygiene, 0.0f);
+        tirednessStat = new CustomerStat(CustomerStat.Stats.Tiredness, tiredness, 0.0f);
         queasinessStat = new CustomerStat(CustomerStat.Stats.Queasiness, queasiness, 0.0f);
 
         customerStats = new List<CustomerStat>();
         customerStats.Add(bladderStat);
         customerStats.Add(happinessStat);
         customerStats.Add(hungerStat);
-        customerStats.Add(hygieneStat);
+        customerStats.Add(tirednessStat);
         customerStats.Add(queasinessStat);
 
         customerStats[weakStat].Susceptibility = 15.0f;
@@ -234,10 +260,12 @@ public class Customer : BaseAI
     public float BladderStat        { get { return bladderStat.StatValue; } set { bladderStat.StatValue = value; } }
     public float HappinessStat      { get { return happinessStat.StatValue; } set { happinessStat.StatValue = value; } }
     public float HungerStat         { get { return hungerStat.StatValue; } set { hungerStat.StatValue = value; } }
-    public float HygieneStat        { get { return hygieneStat.StatValue; } set { hygieneStat.StatValue = value; } }
+    public float TirednessStat      { get { return tirednessStat.StatValue; } set { tirednessStat.StatValue = value; } }
     public float QueasinessStat     { get { return queasinessStat.StatValue; } set { queasinessStat.StatValue = value; } }
 
     public List<CustomerStat> GetCustomerStats() { return customerStats; }
+    public CustomerStates GetCurrentCustomerState() { return currentState; }
+    public void SetCurrentCustomerState(CustomerStates newState) { currentState = newState; } 
 
     private CustomerSaveable GetCustomerSaveable()
     {
@@ -246,7 +274,7 @@ public class Customer : BaseAI
         customerSave.bladderStat = bladderStat.StatValue;
         customerSave.happinessStat = happinessStat.StatValue;
         customerSave.hungerStat = hungerStat.StatValue;
-        customerSave.hygieneStat = hygieneStat.StatValue;
+        customerSave.tirednessStat = tirednessStat.StatValue;
         customerSave.queasinessStat = queasinessStat.StatValue;
 
         customerSave.weakStat = this.weakStat;
@@ -278,7 +306,7 @@ public class CustomerSaveable
     public float    hungerStat,
                     bladderStat,
                     happinessStat,
-                    hygieneStat,
+                    tirednessStat,
                     queasinessStat;
 
     public int weakStat;

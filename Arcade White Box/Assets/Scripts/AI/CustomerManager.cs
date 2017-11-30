@@ -5,10 +5,10 @@ using UnityEngine;
 public class CustomerManager : MonoBehaviour
 {      
     [SerializeField] public Customer[] customers;
+    [SerializeField] private Transform spawnLocation;
 
     private float levelSpeedFactor;
     private TimeAndCalendar gameTime;
-    private Transform spawnLocation;
     private List<Customer> currentCustomers;
     private List<Machine> foodFacilities;
     private List<Machine> gameMachines;
@@ -39,44 +39,80 @@ public class CustomerManager : MonoBehaviour
             SpawnCustomers(1);
         }
 
-        UpdateCustomers();
+        if(foodFacilities.Count > 0 && toilets.Count > 0 && foodFacilities.Count > 0)
+        {
+            UpdateCustomers();
+        }
     }
 
     private void UpdateCustomers()
     {
         foreach(Customer customer in currentCustomers)
         {
-            customer.SpeedFactor = GetSpeedFactor();
-            customer.StatDecayTick();
-
-            if (!customer.IsBusy())
+            if (customer.GetCurrentCustomerState() != Customer.CustomerStates.Leaving)
             {
-                CustomerStat highestStat = GetHighestStat(customer.GetCustomerStats());
+                customer.SpeedFactor = GetSpeedFactor();
+                customer.StatDecayTick();
 
-                if(highestStat.GetStatType() == CustomerStat.Stats.Bladder)
+                if(customer.HappinessStat <= 0.0f || customer.TirednessStat >= 100.0f)
                 {
-                    customer.SetNewTarget(FindNearestFacility(toilets, customer.transform));
+                    print("LEAVING");
+                    customer.LeaveArcade();
                 }
-                else if(highestStat.GetStatType() == CustomerStat.Stats.Hunger)
+
+                if (!customer.IsBusy())
                 {
-                    customer.SetNewTarget(FindNearestFacility(foodFacilities, customer.transform));
+                    if (customer.BladderStat >= 75.0f)
+                    {
+                        Machine availableMachine = FindNearestFacility(toilets, customer.transform);
+                        
+                        if(availableMachine)
+                        {
+                            availableMachine.InUse = true;
+                            customer.SetNewTarget(availableMachine);
+                            print("TARGET SENT");
+                        }
+                        else
+                        {
+                            customer.HappinessStat -= 25.0f;
+                            customer.SetCurrentCustomerState(Customer.CustomerStates.BeginningWander);
+                            print("WANDERING");
+                        }
+                    }
+                    else if(customer.HungerStat >= 75.0f)
+                    {
+                        Machine availableMachine = FindNearestFacility(foodFacilities, customer.transform);
+
+                        if (availableMachine)
+                        {
+                            availableMachine.InUse = true;
+                            customer.SetNewTarget(availableMachine);
+                            print("TARGET SENT");
+                        }
+                        else
+                        {
+                            customer.HappinessStat -= 25.0f;
+                            customer.SetCurrentCustomerState(Customer.CustomerStates.BeginningWander);
+                            print("WANDERING");
+                        }
+                    }
                 }
-            }
-            else
-            {
-                
+                else
+                {
+
+                }
             }
         }
     }
 
     private Machine FindNearestFacility(List<Machine> facilities, Transform customerTransform)
     {
+        Machine nearest = null;
+
         if (facilities.Count == 0)
         {
             return null;
         }
-
-        Machine nearest = null;
 
         facilities.Sort(delegate (Machine a, Machine b) { return Vector3.Distance(customerTransform.position, a.transform.position).CompareTo(Vector3.Distance(customerTransform.position, b.transform.position)); });
 
@@ -142,26 +178,9 @@ public class CustomerManager : MonoBehaviour
         }
     }
 
-
-
     public float GetSpeedFactor()
     {
         return gameTime.timeMultiplier;
-    }
-
-    public List<Machine> GetToilets()
-    {
-        return toilets;
-    }
-
-    public List<Machine> GetFoodStalls()
-    {
-        return foodFacilities;
-    }
-
-    public List<Machine> GetGameMachines()
-    {
-        return gameMachines;
     }
 
     public int GetCustomerNumber()
@@ -169,25 +188,9 @@ public class CustomerManager : MonoBehaviour
         return currentCustomers.Count;
     }
 
-    public void SetSpawnLocation(Transform spawnLocation)
-    {
-        this.spawnLocation = spawnLocation;
-    }
-
-    public void SetToilets(List<Machine> toilets)
-    {
-        this.toilets = toilets;
-    }
-
-    public void SetFoodStalls(List<Machine> foodFacilities)
-    {   
-        this.foodFacilities = foodFacilities;
-    }
-
-    public void SetGameMachines(List<Machine> gameMachines)
-    {
-        this.gameMachines = gameMachines;
-    }
+    public void SetToilets(List<Machine> toilets)           { this.toilets = toilets; }
+    public void SetFoodStalls(List<Machine> foodFacilities) { this.foodFacilities = foodFacilities; }
+    public void SetGameMachines(List<Machine> gameMachines) { this.gameMachines = gameMachines; }
 
     public int NumberOfCurrentCustomers()
     {
@@ -200,4 +203,70 @@ public class CustomerManager : MonoBehaviour
         foodFacilities.Clear();
         gameMachines.Clear();
     }
+
+    // ---------------------------------------------------------------------------------------------
+    // AVERAGE CUSTOMER STATS FOR CURRENT IN-ARCADE CUSTOMERS --------------------------------------
+    // ---------------------------------------------------------------------------------------------
+    
+    public float GetAverageCustomerHappiness()
+    {
+        float average = 0.0f;
+
+        foreach(Customer customer in currentCustomers)
+        {
+            average += customer.HappinessStat;
+        }
+
+        return average;
+    }
+
+    public float GetAverageCustomerBladder()
+    {
+        float average = 0.0f;
+
+        foreach (Customer customer in currentCustomers)
+        {
+            average += customer.BladderStat;
+        }
+
+        return average;
+    }
+
+    public float GetAverageCustomerHunger()
+    {
+        float average = 0.0f;
+
+        foreach (Customer customer in currentCustomers)
+        {
+            average += customer.HungerStat;
+        }
+
+        return average;
+    }
+
+    public float GetAverageCustomerTiredness()
+    {
+        float average = 0.0f;
+
+        foreach (Customer customer in currentCustomers)
+        {
+            average += customer.TirednessStat;
+        }
+
+        return average;
+    }
+
+    public float GetAverageCustomerQueasiness()
+    {
+        float average = 0.0f;
+
+        foreach (Customer customer in currentCustomers)
+        {
+            average += customer.QueasinessStat;
+        }
+
+        return average;
+    }
+
+    // ---------------------------------------------------------------------------------------------
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CustomerStat
 {
-    public enum Stats {Hunger, Bladder, Happiness, Hygiene, Queasiness}
+    public enum Stats {Hunger, Bladder, Happiness, Tiredness, Queasiness}
 
     private Stats statType;
     private float statValue;
@@ -21,6 +21,6 @@ public class CustomerStat
     
     public Stats GetStatType() { return statType; }
 
-    public float StatValue { get; set; }
-    public float Susceptibility { get; set; }
+    public float StatValue      { get { return statValue; } set { statValue = value; } }
+    public float Susceptibility { get { return susceptibility; } set { susceptibility = value; } }
 }

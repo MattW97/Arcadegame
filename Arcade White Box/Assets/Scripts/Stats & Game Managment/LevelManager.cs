@@ -38,8 +38,6 @@ public class LevelManager : MonoBehaviour {
         closedOnce = false;
         preOpenBool = false; 
 
-        customerManager.SetSpawnLocation(transform); 
-
         AllMachineObjects = new List<Machine>();
         AllGameMachines = new List<Machine>();
         AllToilets = new List<Machine>();
