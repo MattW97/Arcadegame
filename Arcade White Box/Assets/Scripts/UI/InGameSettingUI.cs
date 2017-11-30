@@ -19,7 +19,13 @@ public class InGameSettingUI : MonoBehaviour
     public AudioSource gameAudioSource;
 
     private SoundManager soundManager;
-
+    
+    private float musicValue;
+    private bool fullscreenOn;
+    private int resolutionOption;
+    private int textureOption;
+    private int antialiasingOption;
+    private int vSyncOption;
 
     public Slider MusicSlider
     {
@@ -48,9 +54,9 @@ public class InGameSettingUI : MonoBehaviour
         fullscreen.isOn = GameManager.Instance.SettingManager.GetIfFullscreen();
         fullscreen.isOn = fullscreen.isOn;
         resolutionDropDown.value = GameManager.Instance.SettingManager.GetResolutionIndex();
-        //textureQualityDropdown.value = GameManager.Instance.SettingManager.GetTextureQuality();
-        //antialiasingDropdown.value = GameManager.Instance.SettingManager.GetAnitaliasing();
-        //vSyncDropdown.value = GameManager.Instance.SettingManager.GetVSync();
+        textureQualityDropdown.value = GameManager.Instance.SettingManager.GetTextureQuality();
+        antialiasingDropdown.value = GameManager.Instance.SettingManager.GetAnitaliasing();
+        vSyncDropdown.value = GameManager.Instance.SettingManager.GetVSync();
 
         Resolution[] resolutions = GameManager.Instance.SettingManager.GetResolutionList();
 
@@ -102,14 +108,45 @@ public class InGameSettingUI : MonoBehaviour
         GameManager.Instance.SettingManager.SetResolution(resolutionDropDown.value);
     }
 
+    public void OnTextureChange()
+    {
+        QualitySettings.masterTextureLimit = textureQualityDropdown.value;
+        GameManager.Instance.SettingManager.SetTextureQuality(textureQualityDropdown.value);
+    }
+
+    public void OnAntialiasingChange()
+    {
+        QualitySettings.antiAliasing = (int)Mathf.Pow(2f, antialiasingDropdown.value);
+        GameManager.Instance.SettingManager.SetAntialiasing((int)Mathf.Pow(2f, antialiasingDropdown.value));
+    }
+
+    public void OnVSyncChange()
+    {
+        QualitySettings.vSyncCount = vSyncDropdown.value;
+        GameManager.Instance.SettingManager.SetVSync(vSyncDropdown.value);
+    }
+
     public void ApplySettings()
     {
         GameManager.Instance.SettingManager.SaveSettings();
     }
     public void CancelSettings()
     {
-        GameManager.Instance.SettingManager.LoadSettings();
-        print(gameAudioSource.volume);
+        MusicSlider.value = musicValue;
+        fullscreen.isOn = fullscreenOn;
+        resolutionDropDown.value = resolutionOption;
+        textureQualityDropdown.value = textureOption;
+        antialiasingDropdown.value = antialiasingOption;
+        vSyncDropdown.value = vSyncOption;
 
+    }
+    public void DefaultSettings()
+    {
+        musicValue = GameManager.Instance.SettingManager.GetMusicVolume();
+        fullscreenOn = GameManager.Instance.SettingManager.GetIfFullscreen();
+        resolutionOption = GameManager.Instance.SettingManager.GetResolutionIndex();
+        textureOption = GameManager.Instance.SettingManager.GetTextureQuality();
+        antialiasingOption = GameManager.Instance.SettingManager.GetAnitaliasing();
+        vSyncOption = GameManager.Instance.SettingManager.GetVSync();
     }
 }

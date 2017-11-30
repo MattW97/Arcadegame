@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour {
     private GameObject sceneManagerLink, pathingGridManagerLink, scriptHolderLink;
     private SettingManager settingManager;
     private SoundManager soundManager;
+    private SaveAndLoadManager saveAndLoad;
     private string sceneName;
 
 
@@ -122,6 +123,19 @@ public class GameManager : MonoBehaviour {
         set
         {
             scriptHolderLink = value;
+        }
+    }
+
+    public SaveAndLoadManager SaveAndLoad
+    {
+        get
+        {
+            return saveAndLoad;
+        }
+
+        set
+        {
+            saveAndLoad = value;
         }
     }
 }

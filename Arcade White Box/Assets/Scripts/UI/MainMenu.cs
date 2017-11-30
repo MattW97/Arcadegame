@@ -17,6 +17,10 @@ public class MainMenu : MonoBehaviour {
 
     private SettingManager settings;
 
+    public CameraZoom cameraZoom;
+
+    public ScreenFade screenFade;
+
     public string newName;
 
     void Start()
@@ -91,14 +95,30 @@ public class MainMenu : MonoBehaviour {
     {
         gameModeMenu.SetActive(false);
         sandboxMenu.SetActive(true);
-    }
-    public void SandboxBuild()
+    }    
+
+    public void BuildSandboxWorld()
     {
+        cameraZoom.Zoom();
+        screenFade.FadeOut();
+        StartCoroutine(SandBoxBuild());
+    }
+
+    IEnumerator SandBoxBuild()
+    {   
+        yield return new WaitForSeconds(2);
         GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.stats.arcadeName = arcadeNameTextField.text;
         GameManager.Instance.GetComponent<SaveAndLoadManager>().CreateBaseSave();
-       // SceneManager.LoadScene(sceneToSwitchTo.name);
         SceneManager.LoadScene("Level 2");
     }
+
+    //public void SandboxBuild()
+    //{
+    //    GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.stats.arcadeName = arcadeNameTextField.text;
+    //    GameManager.Instance.GetComponent<SaveAndLoadManager>().CreateBaseSave();
+    //   // SceneManager.LoadScene(sceneToSwitchTo.name);
+    //    SceneManager.LoadScene("Level 2");
+    //}
 
     public void ReturnToMain()
     {

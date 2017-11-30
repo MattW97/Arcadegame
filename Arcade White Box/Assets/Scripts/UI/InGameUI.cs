@@ -13,11 +13,13 @@ public class InGameUI : MonoBehaviour
                        decorationHalfTab, decorationFullTab, placeholder, gameMain, serviceMain, constructionMain, decorationMain;
 
     private bool tabOpen;
+
     private Animator anim;
 
     // Use this for initialization
     void Start()
     {
+
         anim = this.GetComponent<Animator>();
 
         placeholder.SetActive(true);
@@ -161,6 +163,7 @@ public class InGameUI : MonoBehaviour
         placeholder.SetActive(true);
 
     }
+
     private void PlayAnimation()
     {
             anim.SetBool("Open", true);

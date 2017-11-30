@@ -22,7 +22,7 @@ public class SaveAndLoadManager : MonoBehaviour
     private GameObject instantiatedObjectParent;
     private GameObject instantiatedCustomerParent;
 
-    private List<PlaceableObjectSaveable> placeableSaveList;
+    //private List<PlaceableObjectSaveable> placeableSaveList;
     private List<CustomerSaveable> customerSaveList;
     private GameData gameData = new GameData();
     public SaveableData saveData = new SaveableData();
@@ -216,15 +216,15 @@ public class SaveAndLoadManager : MonoBehaviour
     {
         string fullSavePath = SavePath + saveFileName + FILE_EXTENSION;
         GameManager.Instance.SceneManagerLink.GetComponent<LevelInteraction>().ClearObjectParent();
-        GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>().ClearCustomerParent();
-        GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>().LoadClearLists();
+        GameManager.Instance.ScriptHolderLink.GetComponent<CustomerManager>().ClearCustomerParent();
+        GameManager.Instance.ScriptHolderLink.GetComponent<CustomerManager>().LoadClearLists();
         saveData = SaveGame.Load<SaveableData>(fullSavePath, saveData);
         AssignValues(saveData);
         instantiatedObjectParent = GameObject.Find("Level/Placed Objects");
         instantiatedCustomerParent = GameObject.Find("Customers");
         CreateObjects();
         CreateCustomers();
-        GameManager.Instance.PathingGridManagerLink.GetComponent<GridGeneration>().UpdateGrid();
+        GameManager.Instance.PathingGridManagerLink.GetComponent<PathingGridSetup>().UpdateGrid();
     }
 
     /// <summary>
@@ -243,7 +243,7 @@ public class SaveAndLoadManager : MonoBehaviour
                 }
             }
         }
-        placeableSaveList.Clear();
+        //placeableSaveList.Clear();
     }
 
     /// <summary>
@@ -290,7 +290,7 @@ public class SaveAndLoadManager : MonoBehaviour
     private void InstantiateNewObject(PlaceableObject objectToPlace, Vector3 position, Quaternion rotation, Tile objectTile)
     {
         GameObject newObject = Instantiate(objectToPlace.gameObject, position, rotation, instantiatedObjectParent.transform);
-        GameManager.Instance.SceneManagerLink.GetComponent<LevelManager>().AddObjectToLists(newObject);
+        GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>().AddObjectToLists(newObject);
       
         PlaceableObject newPlaceableObject = newObject.GetComponent<PlaceableObject>();
 
