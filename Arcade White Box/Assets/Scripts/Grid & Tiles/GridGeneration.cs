@@ -79,5 +79,7 @@ public class GridGeneration : MonoBehaviour
 
         newTile.SetCoordinates(coordinates);
         newTile.SetTileType(Tile.TileType.Passable);
+
+        gridTiles.Add(newTile);
     }
 }

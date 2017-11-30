@@ -15,8 +15,8 @@ public class StaffManager : MonoBehaviour
     void Awake()
     {
         spawnedStaff = new List<Staff>();
-        currentTrashTiles = new List<Tile>();
         spawnedJanitors = new List<Janitor>();
+        currentTrashTiles = new List<Tile>();
     }
 
     void Start()
@@ -50,6 +50,7 @@ public class StaffManager : MonoBehaviour
     {
         Janitor newJanitor = Instantiate(janitor, new Vector3(0, 0, 0), janitor.transform.rotation);
         spawnedJanitors.Add(newJanitor);
+        spawnedStaff.Add(newJanitor);
     }
 
     public float GetSpeedFactor()

@@ -10,7 +10,6 @@ public class Janitor : Staff
 
     private bool hasJob;
     private JanitorSate currentState;
-    private CustomerManager customerManager;
     private Tile currentTile;
     private IEnumerator cleaningUp;
 
@@ -20,11 +19,6 @@ public class Janitor : Staff
 
         currentState = JanitorSate.Idle;
         hasJob = false;
-    }
-
-    void Start()
-    {
-        customerManager = GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>();
     }
 
     protected override void Update()

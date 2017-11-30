@@ -306,7 +306,7 @@ public class SaveAndLoadManager : MonoBehaviour
     private void InstantiateNewCustomer(Customer cust, CustomerSaveable custSave, Vector3 position, Quaternion rotation)
     {
         Customer newCustomer = Instantiate(cust, position, rotation, instantiatedCustomerParent.transform) as Customer;
-        newCustomer.SetCustomerNeeds(custSave.bladderStat, custSave.happinessStat, custSave.hungerStat, custSave.hygieneStat, custSave.queasinessStat, custSave.weakStat);
+        newCustomer.SetCustomerNeeds(custSave.bladderStat, custSave.happinessStat, custSave.hungerStat, custSave.tirednessStat, custSave.queasinessStat, custSave.weakStat);
         newCustomer.prefabName = custSave.prefabName;
     }
 
