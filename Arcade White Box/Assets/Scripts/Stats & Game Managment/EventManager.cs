@@ -19,9 +19,4 @@ public class EventManager : MonoBehaviour {
     {
         Save();
     }
-
-    void Update()
-    {
-    }
-
 }

@@ -75,17 +75,16 @@ public class PlaceableObject : Entity {
 
     public virtual PlaceableObjectSaveable GetPlaceableObjectSaveable()
     {
-        Transform tempTran = GetComponent<Transform>();
-
+        Transform tempTran = this.gameObject.GetComponent<Transform>();
         PlaceableObjectSaveable save = new PlaceableObjectSaveable();
         save.prefabName = this.PrefabName;
         save.tile_ID = this.tile_ID;
         save.PosX = tempTran.position.x;
         save.PosY = tempTran.position.y;
         save.PosZ = tempTran.position.z;
-        save.RotX = tempTran.rotation.x;
-        save.RotY = tempTran.rotation.y;
-        save.RotZ = tempTran.rotation.z;
+        save.RotX = tempTran.rotation.eulerAngles.x;
+        save.RotY = tempTran.rotation.eulerAngles.y;
+        save.RotZ = tempTran.rotation.eulerAngles.z;
 
         return save;
     }

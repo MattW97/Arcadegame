@@ -129,6 +129,7 @@ public class OptionsUI : MonoBehaviour
 
     public void Quit()
     {
+        GameManager.Instance.GetComponent<SoundManager>().DoneOnce = false;
         SceneManager.LoadScene("Main Menu 1");
     }
 

@@ -7,6 +7,7 @@ public class SoundManager : MonoBehaviour {
     
     public AudioClip[] menuAudio;    
     public AudioClip[] inGameAudio;
+    [SerializeField] private AudioClip oneSecAudio;
     
     private AudioSource gameAudioSource;
     private AudioSource menuAudioSource;
@@ -16,7 +17,8 @@ public class SoundManager : MonoBehaviour {
 
     public string currentSongName;
     private float length;
-    public bool isPaused = false; 
+    public bool isPaused = false;
+
 
     void OnApplicationFocus(bool hasFocus)
     {        
@@ -46,30 +48,46 @@ public class SoundManager : MonoBehaviour {
         menuAudioSource.Play();
     }
 
-    public void InGameMusic()
-    {     
-
-        if (!gameAudioSource.isPlaying && !isPaused && trackNumber < inGameAudio.Length)
+    public IEnumerator InGameMusic()
+    {
+        if (!gameAudioSource.isPlaying && !isPaused)
         {
-            gameAudioSource.clip = inGameAudio[trackNumber];
-            gameAudioSource.Play();
-            currentSongName = gameAudioSource.clip.name;
-            if (doneOnce)
+            if (!doneOnce)
             {
-                if (GameManager.Instance.SettingManager.GetMusicVolume() != 0)
-                {
-                    GameManager.Instance.GetComponent<EventManager>().SongSwitch();
-                }
+                gameAudioSource.clip = oneSecAudio;
+                gameAudioSource.Play();
+                doneOnce = true;
+                isPaused = true;
+                yield return new WaitForSeconds(oneSecAudio.length);
+                isPaused = false;
             }
-            doneOnce = true;
-            trackNumber++;
-        }
+            trackNumber = StartMusic(trackNumber);
+            if (GameManager.Instance.SettingManager.GetMusicVolume() != 0)
+            {
+                GameManager.Instance.GetComponent<EventManager>().SongSwitch();
+            }
 
-        if (trackNumber == inGameAudio.Length)
-        {
-            trackNumber = 0;
         }
-    }  
+    }
+
+    private int StartMusic(int oldTrackNumber)
+    {
+        int trackNum = RandomTrack(oldTrackNumber);
+        gameAudioSource.clip = inGameAudio[trackNum];
+        currentSongName = gameAudioSource.clip.name;
+        gameAudioSource.Play();
+        return trackNum;
+    }
+
+    private int RandomTrack(int oldTrack)
+    {
+        int track = Random.Range(0, inGameAudio.Length);
+        if (track == oldTrack)
+        {
+           track = RandomTrack(oldTrack);
+        }
+        return track; 
+    }
 
     public void setMenuAudioSource(AudioSource newMenuAudioSource)
     {
@@ -81,5 +99,17 @@ public class SoundManager : MonoBehaviour {
         gameAudioSource = newGameAudioSource;
     }
 
+    public bool DoneOnce
+    {
+        get
+        {
+            return doneOnce;
+        }
+
+        set
+        {
+            doneOnce = value;
+        }
+    }
 
 }

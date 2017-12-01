@@ -47,7 +47,8 @@ public class InGameSettingUI : MonoBehaviour
         soundManager.setGameAudioSource(gameAudioSource);
 
         GameManager.Instance.SettingManager.LoadSettings();
-        GameManager.Instance.SoundManager.InGameMusic();
+        //StartCoroutine(GameManager.Instance.SoundManager.InGameMusic());
+        //GameManager.Instance.SoundManager.InGameMusic();
 
         MusicSlider.value = GameManager.Instance.SettingManager.GetMusicVolume();
         gameAudioSource.volume = MusicSlider.value;
@@ -73,20 +74,16 @@ public class InGameSettingUI : MonoBehaviour
 
     void OnEnable()
     {
-        try
-        {
-            GameManager.Instance.SettingManager.LoadSettings();
-        }
-        catch (Exception e)
-        {
-            print("InGameSettingUI threw an error again!");
-        }
+
+        GameManager.Instance.SettingManager.LoadSettings();
+
         resolutionDropDown.RefreshShownValue();
     }
 
     void Update()
     {
-        GameManager.Instance.SoundManager.InGameMusic();
+        //GameManager.Instance.SoundManager.InGameMusic();
+        StartCoroutine(GameManager.Instance.SoundManager.InGameMusic());
     }
 
     public void ChangeMusicVolume()
