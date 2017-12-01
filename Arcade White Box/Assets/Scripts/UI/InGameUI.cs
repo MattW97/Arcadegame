@@ -9,18 +9,24 @@ public class InGameUI : MonoBehaviour
     //private GameObject gameTab, servicesTab, constructionTab, decorationTab; // optionsMenu;
 
     [SerializeField]
-    private GameObject gameHalfTab, gameFullTab, servicesHalfTab, servicesFullTab, constructionHalfTab, constructionFullTab, 
+    private GameObject gameHalfTab, gameFullTab, servicesHalfTab, servicesFullTab, constructionHalfTab, constructionFullTab,
                        decorationHalfTab, decorationFullTab, placeholder, gameMain, serviceMain, constructionMain, decorationMain;
+
+    [SerializeField]
+    private GameObject placingObject, placedObject;
 
     private bool tabOpen;
 
     private Animator anim;
+    private Animator placingAnim;
 
     // Use this for initialization
     void Start()
     {
 
         anim = this.GetComponent<Animator>();
+
+        placingAnim = placingObject.GetComponent<Animator>();
 
         placeholder.SetActive(true);
         gameFullTab.SetActive(false);
@@ -159,6 +165,9 @@ public class InGameUI : MonoBehaviour
         servicesFullTab.SetActive(false);
         constructionFullTab.SetActive(false);
         decorationFullTab.SetActive(false);
+
+        placingAnim.SetBool("Placing", false);
+        //placingObject.SetActive(false);
 
         placeholder.SetActive(true);
 

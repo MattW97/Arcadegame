@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private GameObject sceneManager, gridManager;
     [SerializeField] Scene mainScene;
 
-    private GameObject sceneManagerLink, pathingGridManagerLink, scriptHolderLink;
+    private GameObject sceneManagerLink, pathingGridManagerLink, scriptHolderLink, objectInfoBox;
     private SettingManager settingManager;
     private SoundManager soundManager;
     private SaveAndLoadManager saveAndLoad;
@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour {
         SceneManagerLink = Instantiate(sceneManager);
         PathingGridManagerLink = GameObject.Find("Pathing Grid Manager");
         ScriptHolderLink = GameObject.Find("Script Holder");
+        ObjectInfoBox = GameObject.Find("PlacingObjectInteractionMenu");
     }
 
     public GameObject SceneManagerLink
@@ -136,6 +137,19 @@ public class GameManager : MonoBehaviour {
         set
         {
             saveAndLoad = value;
+        }
+    }
+
+    public GameObject ObjectInfoBox
+    {
+        get
+        {
+            return objectInfoBox;
+        }
+
+        set
+        {
+            objectInfoBox = value;
         }
     }
 }

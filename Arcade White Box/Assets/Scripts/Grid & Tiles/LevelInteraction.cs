@@ -31,6 +31,9 @@ public class LevelInteraction : MonoBehaviour
     private List<GameObject> wallHighlighters;
     private GameObject wallHighligherParent;
 
+    private PlacingObjectInteractionMenuUI placingObject;
+    
+
     void Awake()
     {
         tileHighlighter = Instantiate(tileHighlighterPrefab, Vector3.zero, Quaternion.identity);
@@ -60,6 +63,8 @@ public class LevelInteraction : MonoBehaviour
         economyManager = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();
         levelManager = GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>();
         pathingGridSetup = GameManager.Instance.PathingGridManagerLink.GetComponent<PathingGridSetup>();
+        placingObject = GameManager.Instance.ObjectInfoBox.GetComponent<PlacingObjectInteractionMenuUI>();
+        
         Initialise();
 
         objectParent = GameObject.Find("Level/Placed Objects").transform;
@@ -160,6 +165,7 @@ public class LevelInteraction : MonoBehaviour
                         if (Input.GetMouseButtonDown(0))
                         {
                             NullSelectedObject();
+                            placingObject.GetComponent<Animator>().SetBool("Placing", false);
 
                             //CurrentState = InteractionState.WallPlacing;
 

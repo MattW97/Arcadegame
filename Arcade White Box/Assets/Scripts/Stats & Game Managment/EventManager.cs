@@ -9,6 +9,7 @@ public class EventManager : MonoBehaviour {
 
     public delegate void SaveNotification();
     public static event SaveNotification Save;
+    
 
     public void SongSwitch()
     {

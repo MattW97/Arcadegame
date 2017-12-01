@@ -9,8 +9,15 @@ public class ObjectInteractionScriptController : MonoBehaviour {
 
     private LevelInteraction _tileInteractionLink;
 
-	// Use this for initialization
-	void Start () {
+    private Animator placingAnim;
+    private Animator placedAnim;
+
+    // Use this for initialization
+    void Start () {
+
+        placedAnim = PlacedObjectInteractionMenu.GetComponent<Animator>();
+
+        placingAnim = PlacingObjectInteractionMenu.GetComponent<Animator>();
 
         _tileInteractionLink = GameManager.Instance.SceneManagerLink.GetComponent<LevelInteraction>();
 		
@@ -21,12 +28,15 @@ public class ObjectInteractionScriptController : MonoBehaviour {
 
         if (_tileInteractionLink.CurrentSelectedObject == null)
         {
-            PlacedObjectInteractionMenu.SetActive(false);
+            placedAnim.SetBool("Placed", false);
+            //PlacedObjectInteractionMenu.SetActive(false);
         }
         else
         {
-            PlacingObjectInteractionMenu.SetActive(false);
-            PlacedObjectInteractionMenu.SetActive(true);
+            placingAnim.SetBool("Placing", false);
+            placedAnim.SetBool("Placed", true);
+            //PlacingObjectInteractionMenu.SetActive(false);
+            //PlacedObjectInteractionMenu.SetActive(true);
             PlacedObjectInteractionMenu.GetComponent<PlacedObjectInteractionMenuUI>().GetCurrentObject(_tileInteractionLink.CurrentSelectedObject);
         }
 		

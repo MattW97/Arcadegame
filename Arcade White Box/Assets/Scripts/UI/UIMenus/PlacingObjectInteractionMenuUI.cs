@@ -14,10 +14,14 @@ public class PlacingObjectInteractionMenuUI : MonoBehaviour {
     [SerializeField]
     private GameObject interactableMachineMenu;
 
+    public Animator anim;
+
     // Use this for initialization
     void Start () {
-		
-	}
+
+        anim = this.GetComponent<Animator>();
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -46,6 +50,8 @@ public class PlacingObjectInteractionMenuUI : MonoBehaviour {
         //objectGameCost.text = currentObject.UseCost.ToString();
         objectDescription.text = currentObject.Description;
         icon.sprite = currentObject.Icon;
+
+        anim.SetBool("Placing", true);
         interactableMachineMenu.SetActive(true);
     }
 
@@ -60,6 +66,7 @@ public class PlacingObjectInteractionMenuUI : MonoBehaviour {
 
     public void DisableThisGameObject()
     {
-        this.gameObject.SetActive(false);
+        //anim.SetBool("Placing", false);
+        //this.gameObject.SetActive(false);
     }
 }
