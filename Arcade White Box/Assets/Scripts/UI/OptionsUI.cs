@@ -8,7 +8,7 @@ public class OptionsUI : MonoBehaviour
 
     [SerializeField]
     private GameObject audioUnselected, graphicsUnselected, cameraUnselected, interfaceUnselected, audioSelected, graphicsSelected,
-                       cameraSelected, interfaceSelected, audioPanel, graphicsPanel, cameraPanel, interfacePanel, optionsPanel, pausePanel;
+                       cameraSelected, interfaceSelected, audioPanel, graphicsPanel, cameraPanel, interfacePanel, optionsPanel, pausePanel, backPanel;
 
     private bool tabOpen;
     private float volume;
@@ -124,6 +124,7 @@ public class OptionsUI : MonoBehaviour
 
     public void ActivatePauseMenu()
     {
+        backPanel.SetActive(true);
         pausePanel.SetActive(true);
     }
 
@@ -134,11 +135,13 @@ public class OptionsUI : MonoBehaviour
 
     public void DeactivatePauseMenu()
     {
+        backPanel.SetActive(false);
         pausePanel.SetActive(false);
     }
 
     public void ActivateAllMenus()
     {
+        //backPanel.SetActive(true);
         optionsPanel.SetActive(true);
         pausePanel.SetActive(false);
         DefaultSettings();
@@ -156,6 +159,7 @@ public class OptionsUI : MonoBehaviour
 
     public void DeactivateAllMenus()
     {
+        //backPanel.SetActive(true);
         optionsPanel.SetActive(false);
     }
 }

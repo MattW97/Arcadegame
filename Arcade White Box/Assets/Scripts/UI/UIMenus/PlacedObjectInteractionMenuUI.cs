@@ -14,11 +14,14 @@ public class PlacedObjectInteractionMenuUI : MonoBehaviour {
     [SerializeField]
     private GameObject interactableMachineMenu;
 
+    private Animator placedAnimation;
 
     // Use this for initialization
     void Start () {
-		
-	}
+
+        placedAnimation = this.GetComponent<Animator>();
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -46,6 +49,9 @@ public class PlacedObjectInteractionMenuUI : MonoBehaviour {
         objectMaintainCost.text = currentObject.MaintenanceCost.ToString();
         objectGameCost.text = currentObject.UseCost.ToString();
         icon.sprite = currentObject.Icon;
+
+        placedAnimation.SetBool("Placed", true);
+
         interactableMachineMenu.SetActive(true);
     }
 
