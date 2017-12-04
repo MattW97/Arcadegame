@@ -11,6 +11,7 @@ public class LevelManager : MonoBehaviour {
     private List<Machine> allGameMachines;
     private List<Machine> allToilets;
     private List<Machine> allFoodStalls;
+    private List<Machine> allBrokenMachines;
 
     private List<BaseAI> allStaff;
 
@@ -42,6 +43,8 @@ public class LevelManager : MonoBehaviour {
         AllGameMachines = new List<Machine>();
         AllToilets = new List<Machine>();
         AllFoodStalls = new List<Machine>();
+        AllBrokenMachines = new List<Machine>();
+        
 
         spawningCustomers = false;
     }
@@ -223,6 +226,19 @@ public class LevelManager : MonoBehaviour {
         set
         {
             allFoodStalls = value;
+        }
+    }
+
+    public List<Machine> AllBrokenMachines
+    {
+        get
+        {
+            return allBrokenMachines;
+        }
+
+        set
+        {
+            allBrokenMachines = value;
         }
     }
 }

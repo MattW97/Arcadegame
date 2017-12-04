@@ -12,7 +12,8 @@ public class PlacedObjectInteractionMenuUI : MonoBehaviour {
     private Image icon;
 
     [SerializeField]
-    private GameObject interactableMachineMenu;
+    private GameObject interactableMachineMenu, minusButton, plusButton;
+
 
     private Animator placedAnimation;
 
@@ -29,9 +30,8 @@ public class PlacedObjectInteractionMenuUI : MonoBehaviour {
 		
 	}
 
-    public void GetCurrentObject(PlaceableObject currentObject)
+    public void UpdateUIBase(PlaceableObject currentObject)
     {
-
         if (currentObject is Machine)
         {
             UpdateUIMachine(currentObject as Machine);
@@ -41,6 +41,7 @@ public class PlacedObjectInteractionMenuUI : MonoBehaviour {
             UpdateUI(currentObject);
         }
     }
+
 
     private void UpdateUIMachine(Machine currentObject)
     {
@@ -71,11 +72,31 @@ public class PlacedObjectInteractionMenuUI : MonoBehaviour {
     {
         currentObject.UseCost++;
         UpdateUIMachine(currentObject);
+        ButtonCheck(currentObject);
     }
     public void DeductUseCostButtonPressed(Machine currentObject)
     {
         currentObject.UseCost--;
         UpdateUIMachine(currentObject);
+        ButtonCheck(currentObject);
+    }
+
+    private void ButtonCheck(Machine currentObject)
+    {
+        if (currentObject.UseCost == currentObject.MinUseCost)
+        {
+            minusButton.SetActive(false);
+        }
+
+        else if (currentObject.UseCost == currentObject.MaxUseCost)
+        {
+            plusButton.SetActive(false);
+        }
+        else
+        {
+            plusButton.SetActive(true);
+            minusButton.SetActive(true);
+        }
     }
 
 

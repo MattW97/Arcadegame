@@ -8,7 +8,7 @@ public class Machine : PlaceableObject {
 
     [SerializeField] private float useTime;                                 // Time it takes to use object, i.e. buy/eat food, use toilet, play game (in Seconds)
     [SerializeField] private float runningCost;                             // amount deducted each day
-    [SerializeField] private float useCost;                                 // how much it costs a user to use the machine. Includes playing if the machine is a game machine.
+    [SerializeField] private float useCost, minUseCost, maxUseCost;          // how much it costs a user to use the machine. Includes playing if the machine is a game machine, also min and max use cost.
     [SerializeField] private float maintenanceCost;                         // amount deducted upon machine breaking and needing repair
     [SerializeField] private Transform usePosition;                         // The position the customers moves to when using the object
     [SerializeField] private float failurePercentage;                       // The chance the machine has to break on use
@@ -17,21 +17,27 @@ public class Machine : PlaceableObject {
 
     private MachineStatus machineStatus;
     private bool inUse;
+    private float baseFailurePercentage;
 
     private void IncreaseFailurePercentage()
     {
         failurePercentage = failurePercentage + failurePercentageIncrease;
     }
 
-  /// <summary>
-  /// When the machine is used.
-  /// </summary>
+    /// <summary>
+    /// When the machine is used.
+    /// </summary>
     public virtual void OnUse()
     {
         int roll = Random.Range(1, 100);
         if (roll <= failurePercentage)
         {
             machineStatus = MachineStatus.Broken;
+            OnMachineBreak();
+        }
+        else
+        {
+            IncreaseFailurePercentage();
         }
     }
 
@@ -42,6 +48,7 @@ public class Machine : PlaceableObject {
     {
         GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().OnMachineBreakdown(this);
         machineStatus = MachineStatus.Working;
+        failurePercentage = baseFailurePercentage;
     }
 
     protected virtual void DailyReset()
@@ -55,10 +62,46 @@ public class Machine : PlaceableObject {
         machineStatus = MachineStatus.Working;
     }
 
+    void Start()
+    {
+        baseFailurePercentage = failurePercentage;
+    }
+
+
     protected override void Update()
     {
         base.Update();
+        
     }
+
+    protected void OnMachineBreak()
+    {
+        // play broken animation stuff
+    }
+    protected bool IncreaseUseCost()
+    {
+        if (UseCost != MaxUseCost)
+        {
+            UseCost++;
+            return true;
+        }
+        else
+        return false;
+
+    }
+
+    protected bool DecreaseUseCost()
+    {
+        if (UseCost != MinUseCost)
+        {
+            UseCost--;
+            return true;
+        }
+        else
+            return false;
+    }
+
+    #region Getters/Setters
 
     public float GetStatAdjustment()
     {
@@ -130,8 +173,35 @@ public class Machine : PlaceableObject {
         }
     }
 
+    public float MinUseCost
+    {
+        get
+        {
+            return minUseCost;
+        }
+
+        set
+        {
+            minUseCost = value;
+        }
+    }
+
+    public float MaxUseCost
+    {
+        get
+        {
+            return maxUseCost;
+        }
+
+        set
+        {
+            maxUseCost = value;
+        }
+    }
+
     public Transform GetUsePosition()
     {
         return usePosition;
     }
+    #endregion Getters/Setters
 }

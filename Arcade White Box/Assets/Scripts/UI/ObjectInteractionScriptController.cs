@@ -29,15 +29,12 @@ public class ObjectInteractionScriptController : MonoBehaviour {
         if (_tileInteractionLink.CurrentSelectedObject == null)
         {
             placedAnim.SetBool("Placed", false);
-            //PlacedObjectInteractionMenu.SetActive(false);
         }
         else
         {
             placingAnim.SetBool("Placing", false);
             placedAnim.SetBool("Placed", true);
-            //PlacingObjectInteractionMenu.SetActive(false);
-            //PlacedObjectInteractionMenu.SetActive(true);
-            PlacedObjectInteractionMenu.GetComponent<PlacedObjectInteractionMenuUI>().GetCurrentObject(_tileInteractionLink.CurrentSelectedObject);
+            PlacedObjectInteractionMenu.GetComponent<PlacedObjectInteractionMenuUI>().UpdateUIBase(_tileInteractionLink.CurrentSelectedObject);
         }
 		
 	}
