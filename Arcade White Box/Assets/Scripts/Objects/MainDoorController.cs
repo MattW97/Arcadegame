@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MainDoorController : MonoBehaviour {
 
-    private bool doorOpen;
+    public bool doorOpen;
     private Animator anim;
 
     void Start()
@@ -44,13 +44,12 @@ public class MainDoorController : MonoBehaviour {
         {
             anim.SetTrigger("UnPlay");
             doorOpen = false;
-            print("1");
         }
         else
         {
             anim.SetTrigger("Play");
             doorOpen = true;
-            print("2");
+            print("opemn");
         }
         
     }

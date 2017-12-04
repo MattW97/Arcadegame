@@ -68,13 +68,13 @@ public class Customer : BaseAI
         currentState = CustomerStates.Idle;
     }
 
-    public void CustomerUpdate()
+    void Update()
     {
         unitController.SpeedFactor = speedFactor;
 
         if (currentState == CustomerStates.GotTarget)
         {
-            print("GOT TARGET");
+            //print("GOT TARGET");
 
             unitController.StopCurrentPathing();
             unitController.SetTarget(currentTarget.GetUsePosition());
@@ -85,7 +85,7 @@ public class Customer : BaseAI
         {
             if (unitController.ReachedTarget)
             {
-                print("REACHED FACILITY");
+                //print("REACHED FACILITY");
 
                 currentState = CustomerStates.UsingFacility;
                 usingFacilityWait = UsingFacilityWait(currentTarget.UseTime);
@@ -96,7 +96,7 @@ public class Customer : BaseAI
         {
             if (unitController.ReachedTarget)
             {
-                print("LEFT");
+                //print("LEFT");
 
                 Destroy(gameObject);
             }
@@ -143,14 +143,14 @@ public class Customer : BaseAI
         {
             StopCoroutine(usingFacilityWait);
 
-            print("STOPPED USING FACILITY");
+            //print("STOPPED USING FACILITY");
         }
 
         unitController.StopCurrentPathing();
         unitController.SetTarget(spawnLocation);
         unitController.GetNewPath();
 
-        print("IS SET FOR LEAVING");
+        //print("IS SET FOR LEAVING");
 
         currentState = CustomerStates.Leaving;
     }
@@ -234,7 +234,7 @@ public class Customer : BaseAI
 
     private IEnumerator UsingFacilityWait(float waitTime)
     {
-        print("USING FACILITY");
+        //print("USING FACILITY");
 
         if (currentTarget is GameMachine)
         {
@@ -260,7 +260,7 @@ public class Customer : BaseAI
 
         currentState = CustomerStates.Idle;
 
-        print("FINISHED USING FACILITY");
+        //print("FINISHED USING FACILITY");
     }
 
     public void SetCustomerNeeds(float bladder, float happiness, float hunger, float tiredness, float queasiness, int weakStat)
@@ -311,7 +311,7 @@ public class Customer : BaseAI
         customerSave.PosY = this.customerTransform.position.y;
         customerSave.PosZ = this.customerTransform.position.z;
 
-        customerSave.RotX = this.customerTransform.rotation.x;w
+        customerSave.RotX = this.customerTransform.rotation.x;
         customerSave.RotY = this.customerTransform.rotation.y;
         customerSave.RotZ = this.customerTransform.rotation.z;
 

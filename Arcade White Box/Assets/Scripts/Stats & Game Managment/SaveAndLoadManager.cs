@@ -193,6 +193,26 @@ public class SaveAndLoadManager : MonoBehaviour
     }
 
     /// <summary>
+    /// Same as LoadStats, only used at level creation.
+    /// </summary>
+    /// <param name="saveFileName"></param>
+    /// <returns></returns>
+    public void LoadBaseStats(string saveFileName)
+    {
+        string fullFilePath = SavePath + saveFileName + FILE_EXTENSION;
+        if (File.Exists(fullFilePath))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            FileStream saveFile = File.Open(fullFilePath, FileMode.Open);
+            saveData.stats = (GameData)formatter.Deserialize(saveFile);
+            AssignBaseValues(saveData);
+            saveFile.Close();
+        }
+        else
+            Debug.Log("Save file " + fullFilePath + " does not exist!");
+    }
+
+    /// <summary>
     /// Saves the current instantiation of the SaveableData class. This will contain all the stats of the player, 
     /// every PlaceableObject object placed in the current scene and every customer as well.
     /// @param The name of the file that is being saved to disk.
@@ -432,6 +452,18 @@ public class SaveAndLoadManager : MonoBehaviour
         _timeAndCalendarLink.CurrentHour = data.stats.currentHour;
 
         _economyManagerLink.CurrentCash = data.stats.playerMoney;
+        _playerManagerLink.PlayerName = data.stats.playerName;
+        _playerManagerLink.ArcadeName = data.stats.arcadeName;
+    }
+
+    /// <summary>
+    /// Same as Assign
+    /// @param the data class that has been loaded from file
+    /// </summary>
+    /// <param name="data"></param>
+    private void AssignBaseValues(SaveableData data)
+    {
+        //_economyManagerLink.CurrentCash = data.stats.playerMoney;
         _playerManagerLink.PlayerName = data.stats.playerName;
         _playerManagerLink.ArcadeName = data.stats.arcadeName;
     }

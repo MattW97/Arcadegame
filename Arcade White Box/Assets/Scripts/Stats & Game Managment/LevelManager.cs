@@ -55,18 +55,21 @@ public class LevelManager : MonoBehaviour {
         if (CheckCustomerSpawnParameters())
         {
             customerManager.InvokeRepeating("SpawnCustomer", customerSpawnRate, customerSpawnRate);
+            spawningCustomers = true;
         }
         
 
         if (customerManager.GetNumberOfCustomers() >= MAXCUSTOMERS)
         {
             customerManager.CancelInvoke("SpawnCustomer");
+            spawningCustomers = false;
+            print("STOPPED!");
         }
     }
 
     public bool CheckCustomerSpawnParameters()
     {
-        if (AllGameMachines.Count > 0 && AllToilets.Count > 0 && AllFoodStalls.Count > 0 && !spawningCustomers)
+        if (AllGameMachines.Count > 0 && AllToilets.Count > 0 && AllFoodStalls.Count > 0 && !spawningCustomers && mainDoors.doorOpen)
         {
             spawningCustomers = true;
             //customerManager.InvokeRepeating("SpawnCustomer", customerSpawnRate, customerSpawnRate);
@@ -79,7 +82,7 @@ public class LevelManager : MonoBehaviour {
     {
         if (_timeLink.GetCurrentTime() == preOpeningTime && !preOpenBool)
         {
-            _timeLink.StopTimer();
+            _timeLink.StartTimer();
             preOpenBool = true;
             // create UI stuff to show next day
         }

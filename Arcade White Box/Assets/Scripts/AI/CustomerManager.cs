@@ -50,6 +50,7 @@ public class CustomerManager : MonoBehaviour
                     {
                         currentCustomers[i].LeaveArcade();
                         currentCustomers.RemoveAt(i);
+                        currentCustomers.TrimExcess();
                         continue;
                     }
 
@@ -64,8 +65,7 @@ public class CustomerManager : MonoBehaviour
                                 currentCustomers[i].SetCurrentCustomerState(Customer.CustomerStates.GotTarget);
 
                                 availableMachine.InUse = true;
-                                currentCustomers[i].HappinessStat += 10.0f;
-                                currentCustomers[i].BladderStat -= 25.0f;
+                                currentCustomers[i].BladderStat = 25.0f;
                                 currentCustomers[i].TirednessStat += 5.0f;
                                 currentCustomers[i].SetNewTarget(availableMachine);
                             }
@@ -84,8 +84,7 @@ public class CustomerManager : MonoBehaviour
                                 currentCustomers[i].SetCurrentCustomerState(Customer.CustomerStates.GotTarget);
 
                                 availableMachine.InUse = true;
-                                currentCustomers[i].HappinessStat += 10.0f;
-                                currentCustomers[i].HungerStat -= 25.0f;
+                                currentCustomers[i].HungerStat = 25.0f;
                                 currentCustomers[i].TirednessStat += 5.0f;
                                 currentCustomers[i].SetNewTarget(availableMachine);
                             }
@@ -104,8 +103,14 @@ public class CustomerManager : MonoBehaviour
                                 currentCustomers[i].SetCurrentCustomerState(Customer.CustomerStates.GotTarget);
 
                                 availableMachine.InUse = true;
-                                currentCustomers[i].HappinessStat += 10.0f;
                                 currentCustomers[i].TirednessStat += 5.0f;
+
+                                if(availableMachine is GameMachine)
+                                {
+                                    float hap = availableMachine.GetComponent<GameMachine>().TotalHappiness();
+                                    currentCustomers[i].HappinessStat += hap;
+                                }
+
                                 currentCustomers[i].SetNewTarget(availableMachine);
                             }
                             else
@@ -116,8 +121,6 @@ public class CustomerManager : MonoBehaviour
                         }
                     }
                 }
-
-                currentCustomers[i].CustomerUpdate();
             }
         }
     }
@@ -185,6 +188,7 @@ public class CustomerManager : MonoBehaviour
         }
 
         currentCustomers.Clear();
+        currentCustomers.TrimExcess();
     }
 
     public void ClearCustomerParent()

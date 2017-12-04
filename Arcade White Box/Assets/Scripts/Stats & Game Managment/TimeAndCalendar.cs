@@ -37,11 +37,14 @@ public class TimeAndCalendar : MonoBehaviour {
         timeText = GameObject.Find("NewUIInGame/Bottom Bar/Date And Time/Text").GetComponent<Text>();
         StartTimer();
         CreateCalendar();
+
     }
 
 
     // Update is called once per frame
     void Update () {
+        
+
 
         UpdateTime();
 
@@ -138,7 +141,7 @@ public class TimeAndCalendar : MonoBehaviour {
 
     private void SetTimeMultiplier(float option)
     {
-        timeMultiplier = Mathf.Round(1 / option);
+        timeMultiplier = option;
         secondsMultiplier = option;
     }
 
