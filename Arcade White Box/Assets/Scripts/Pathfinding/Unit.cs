@@ -39,8 +39,6 @@ public class Unit : MonoBehaviour
     public void GetRandomNewPath()
     {
         ReachedTarget = false;
-
-
     }
 
     public void OnPathFound(Vector3[] waypoints, bool pathSuccessful)
@@ -88,15 +86,17 @@ public class Unit : MonoBehaviour
     private IEnumerator FollowPath()
     {
         FollowingPath = true;
+        ReachedTarget = false;
+        int pathIndex = 0;
 
         if (path.finishLineIndex == 0 || path.lookPoints.Length == 0)
         {
             ReachedTarget = true;
             FollowingPath = false;
+            print("UNIT WAS ALREADY AT TARGET LOCATION");
             yield break;
         }
 
-        int pathIndex = 0;
         unitTransform.LookAt(path.lookPoints[0]);
 
         while (FollowingPath)

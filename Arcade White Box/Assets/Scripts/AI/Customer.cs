@@ -40,11 +40,11 @@ public class Customer : BaseAI
         customerTransform = GetComponent<Transform>();
 
         // INITIALISE ALL STATS, FIND WEAKNESS AND AJUST WEAKNESS VALUES -----------------
-        bladderStat = new CustomerStat(CustomerStat.Stats.Bladder, 50.0f, 0.0f);
-        happinessStat = new CustomerStat(CustomerStat.Stats.Happiness, 50.0f, 0.0f);
-        hungerStat = new CustomerStat(CustomerStat.Stats.Hunger, 50.0f, 0.0f);
-        tirednessStat = new CustomerStat(CustomerStat.Stats.Tiredness, 50.0f, 0.0f);
-        queasinessStat = new CustomerStat(CustomerStat.Stats.Queasiness, 50.0f, 0.0f);
+        bladderStat = new CustomerStat(CustomerStat.Stats.Bladder,          50.0f, 0.0f);
+        happinessStat = new CustomerStat(CustomerStat.Stats.Happiness,      50.0f, 0.0f);
+        hungerStat = new CustomerStat(CustomerStat.Stats.Hunger,            50.0f, 0.0f);
+        tirednessStat = new CustomerStat(CustomerStat.Stats.Tiredness,      50.0f, 0.0f);
+        queasinessStat = new CustomerStat(CustomerStat.Stats.Queasiness,    50.0f, 0.0f);
 
         customerStats = new List<CustomerStat>();
         customerStats.Add(bladderStat);
@@ -68,12 +68,15 @@ public class Customer : BaseAI
         currentState = CustomerStates.Idle;
     }
 
-    void Update()
+    public void CustomerUpdate()
     {
         unitController.SpeedFactor = speedFactor;
 
         if (currentState == CustomerStates.GotTarget)
         {
+            print("GOT TARGET");
+
+            unitController.StopCurrentPathing();
             unitController.SetTarget(currentTarget.GetUsePosition());
             unitController.GetNewPath();
             currentState = CustomerStates.Moving;
@@ -82,6 +85,8 @@ public class Customer : BaseAI
         {
             if (unitController.ReachedTarget)
             {
+                print("REACHED FACILITY");
+
                 currentState = CustomerStates.UsingFacility;
                 usingFacilityWait = UsingFacilityWait(currentTarget.UseTime);
                 StartCoroutine(usingFacilityWait);
@@ -91,6 +96,8 @@ public class Customer : BaseAI
         {
             if (unitController.ReachedTarget)
             {
+                print("LEFT");
+
                 Destroy(gameObject);
             }
         }
@@ -107,7 +114,7 @@ public class Customer : BaseAI
         }
     }
 
-    public void StatDecayTick()
+    public void StatTick()
     {
         statCounter += Time.deltaTime * speedFactor;
 
@@ -116,6 +123,9 @@ public class Customer : BaseAI
             if(happinessStat.StatValue > 0)
             {
                 happinessStat.StatValue -= STAT_TICK_AMOUNT;
+                tirednessStat.StatValue += STAT_TICK_AMOUNT;
+                bladderStat.StatValue += STAT_TICK_AMOUNT;
+                hungerStat.StatValue += STAT_TICK_AMOUNT;
             }
 
             statCounter = 0.0f;
@@ -124,21 +134,23 @@ public class Customer : BaseAI
 
     public void SetNewTarget(Machine newTarget)
     {
-        currentState = CustomerStates.GotTarget;
-        print("TARGET SET");
         this.currentTarget = newTarget;
     }
 
     public void LeaveArcade()
     {
-        if (currentState == CustomerStates.UsingFacility)
+        if(currentState == CustomerStates.UsingFacility)
         {
             StopCoroutine(usingFacilityWait);
+
+            print("STOPPED USING FACILITY");
         }
 
         unitController.StopCurrentPathing();
         unitController.SetTarget(spawnLocation);
         unitController.GetNewPath();
+
+        print("IS SET FOR LEAVING");
 
         currentState = CustomerStates.Leaving;
     }
@@ -185,6 +197,18 @@ public class Customer : BaseAI
         }
     }
 
+    public bool WantsToLeave()
+    {
+        if(happinessStat.StatValue <= 0.0f || tirednessStat.StatValue >= 100.0f)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     private Tile GetTileBelow()
     {
         RaycastHit hitInfo;
@@ -210,6 +234,8 @@ public class Customer : BaseAI
 
     private IEnumerator UsingFacilityWait(float waitTime)
     {
+        print("USING FACILITY");
+
         if (currentTarget is GameMachine)
         {
             GameMachine machine = (GameMachine)currentTarget;
@@ -233,6 +259,8 @@ public class Customer : BaseAI
         }
 
         currentState = CustomerStates.Idle;
+
+        print("FINISHED USING FACILITY");
     }
 
     public void SetCustomerNeeds(float bladder, float happiness, float hunger, float tiredness, float queasiness, int weakStat)
@@ -253,19 +281,19 @@ public class Customer : BaseAI
         customerStats[weakStat].Susceptibility = 15.0f;
     }
 
-    public void SetSpawnLocation(Transform spawnLocation) { this.spawnLocation = spawnLocation; }
-
-    public float SpeedFactor { get { return speedFactor; } set { speedFactor = value; } }
-
     public float BladderStat        { get { return bladderStat.StatValue; } set { bladderStat.StatValue = value; } }
     public float HappinessStat      { get { return happinessStat.StatValue; } set { happinessStat.StatValue = value; } }
     public float HungerStat         { get { return hungerStat.StatValue; } set { hungerStat.StatValue = value; } }
     public float TirednessStat      { get { return tirednessStat.StatValue; } set { tirednessStat.StatValue = value; } }
     public float QueasinessStat     { get { return queasinessStat.StatValue; } set { queasinessStat.StatValue = value; } }
 
-    public List<CustomerStat> GetCustomerStats() { return customerStats; }
-    public CustomerStates GetCurrentCustomerState() { return currentState; }
-    public void SetCurrentCustomerState(CustomerStates newState) { currentState = newState; } 
+    public List<CustomerStat> GetCustomerStats()                    { return customerStats; }
+    public CustomerStates GetCurrentCustomerState()                 { return currentState; }
+    public Unit GetUnitController()                                 { return unitController;  }
+
+    public void SetCurrentCustomerState(CustomerStates newState)    { currentState = newState; }
+    public void SetSpawnLocation(Transform spawnLocation)           { this.spawnLocation = spawnLocation; }
+    public float SpeedFactor                                        { get { return speedFactor; } set { speedFactor = value; } }
 
     private CustomerSaveable GetCustomerSaveable()
     {
@@ -283,7 +311,7 @@ public class Customer : BaseAI
         customerSave.PosY = this.customerTransform.position.y;
         customerSave.PosZ = this.customerTransform.position.z;
 
-        customerSave.RotX = this.customerTransform.rotation.x;
+        customerSave.RotX = this.customerTransform.rotation.x;w
         customerSave.RotY = this.customerTransform.rotation.y;
         customerSave.RotZ = this.customerTransform.rotation.z;
 

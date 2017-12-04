@@ -55,7 +55,7 @@ public class LevelManager : MonoBehaviour {
         }
         
 
-        if (customerManager.GetCustomerNumber() >= MAXCUSTOMERS)
+        if (customerManager.GetNumberOfCustomers() >= MAXCUSTOMERS)
         {
             customerManager.CancelInvoke("SpawnCustomer");
         }

@@ -29,16 +29,6 @@ public class CustomerManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.L))
-        {
-            MassLeave();
-        }
-
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            SpawnCustomers(1);
-        }
-
         if(foodFacilities.Count > 0 && toilets.Count > 0 && foodFacilities.Count > 0)
         {
             UpdateCustomers();
@@ -47,60 +37,87 @@ public class CustomerManager : MonoBehaviour
 
     private void UpdateCustomers()
     {
-        foreach(Customer customer in currentCustomers)
+        if(currentCustomers.Count > 0)
         {
-            if (customer.GetCurrentCustomerState() != Customer.CustomerStates.Leaving)
+            for(int i = currentCustomers.Count - 1; i >= 0; i--)
             {
-                customer.SpeedFactor = GetSpeedFactor();
-                customer.StatDecayTick();
-
-                if(customer.HappinessStat <= 0.0f || customer.TirednessStat >= 100.0f)
+                if (currentCustomers[i].GetCurrentCustomerState() != Customer.CustomerStates.Leaving)
                 {
-                    print("LEAVING");
-                    customer.LeaveArcade();
-                }
+                    currentCustomers[i].SpeedFactor = GetSpeedFactor();
+                    currentCustomers[i].StatTick();
 
-                if (!customer.IsBusy())
-                {
-                    if (customer.BladderStat >= 75.0f)
+                    if (currentCustomers[i].HappinessStat <= 0.0f || currentCustomers[i].TirednessStat >= 100.0f)
                     {
-                        Machine availableMachine = FindNearestFacility(toilets, customer.transform);
-                        
-                        if(availableMachine)
+                        currentCustomers[i].LeaveArcade();
+                        currentCustomers.RemoveAt(i);
+                        continue;
+                    }
+
+                    if (!currentCustomers[i].IsBusy())
+                    {
+                        if (currentCustomers[i].BladderStat >= 75.0f)
                         {
-                            availableMachine.InUse = true;
-                            customer.SetNewTarget(availableMachine);
-                            print("TARGET SENT");
+                            Machine availableMachine = FindNearestFacility(toilets, currentCustomers[i].transform);
+
+                            if (availableMachine)
+                            {
+                                currentCustomers[i].SetCurrentCustomerState(Customer.CustomerStates.GotTarget);
+
+                                availableMachine.InUse = true;
+                                currentCustomers[i].HappinessStat += 10.0f;
+                                currentCustomers[i].BladderStat -= 25.0f;
+                                currentCustomers[i].TirednessStat += 5.0f;
+                                currentCustomers[i].SetNewTarget(availableMachine);
+                            }
+                            else
+                            {
+                                currentCustomers[i].HappinessStat -= 25.0f;
+                                currentCustomers[i].SetCurrentCustomerState(Customer.CustomerStates.BeginningWander);
+                            }
+                        }
+                        else if (currentCustomers[i].HungerStat >= 75.0f)
+                        {
+                            Machine availableMachine = FindNearestFacility(foodFacilities, currentCustomers[i].transform);
+
+                            if (availableMachine)
+                            {
+                                currentCustomers[i].SetCurrentCustomerState(Customer.CustomerStates.GotTarget);
+
+                                availableMachine.InUse = true;
+                                currentCustomers[i].HappinessStat += 10.0f;
+                                currentCustomers[i].HungerStat -= 25.0f;
+                                currentCustomers[i].TirednessStat += 5.0f;
+                                currentCustomers[i].SetNewTarget(availableMachine);
+                            }
+                            else
+                            {
+                                currentCustomers[i].HappinessStat -= 25.0f;
+                                currentCustomers[i].SetCurrentCustomerState(Customer.CustomerStates.BeginningWander);
+                            }
                         }
                         else
                         {
-                            customer.HappinessStat -= 25.0f;
-                            customer.SetCurrentCustomerState(Customer.CustomerStates.BeginningWander);
-                            print("WANDERING");
-                        }
-                    }
-                    else if(customer.HungerStat >= 75.0f)
-                    {
-                        Machine availableMachine = FindNearestFacility(foodFacilities, customer.transform);
+                            Machine availableMachine = FindNearestFacility(gameMachines, currentCustomers[i].transform);
 
-                        if (availableMachine)
-                        {
-                            availableMachine.InUse = true;
-                            customer.SetNewTarget(availableMachine);
-                            print("TARGET SENT");
-                        }
-                        else
-                        {
-                            customer.HappinessStat -= 25.0f;
-                            customer.SetCurrentCustomerState(Customer.CustomerStates.BeginningWander);
-                            print("WANDERING");
+                            if (availableMachine)
+                            {
+                                currentCustomers[i].SetCurrentCustomerState(Customer.CustomerStates.GotTarget);
+
+                                availableMachine.InUse = true;
+                                currentCustomers[i].HappinessStat += 10.0f;
+                                currentCustomers[i].TirednessStat += 5.0f;
+                                currentCustomers[i].SetNewTarget(availableMachine);
+                            }
+                            else
+                            {
+                                currentCustomers[i].HappinessStat -= 25.0f;
+                                currentCustomers[i].SetCurrentCustomerState(Customer.CustomerStates.BeginningWander);
+                            }
                         }
                     }
                 }
-                else
-                {
 
-                }
+                currentCustomers[i].CustomerUpdate();
             }
         }
     }
@@ -178,24 +195,12 @@ public class CustomerManager : MonoBehaviour
         }
     }
 
-    public float GetSpeedFactor()
-    {
-        return gameTime.timeMultiplier;
-    }
-
-    public int GetCustomerNumber()
-    {
-        return currentCustomers.Count;
-    }
+    public float GetSpeedFactor()       { return gameTime.timeMultiplier; }
+    public int GetNumberOfCustomers()   { return currentCustomers.Count; }
 
     public void SetToilets(List<Machine> toilets)           { this.toilets = toilets; }
     public void SetFoodStalls(List<Machine> foodFacilities) { this.foodFacilities = foodFacilities; }
     public void SetGameMachines(List<Machine> gameMachines) { this.gameMachines = gameMachines; }
-
-    public int NumberOfCurrentCustomers()
-    {
-        return currentCustomers.Count;
-    }
 
     public void LoadClearLists()
     {

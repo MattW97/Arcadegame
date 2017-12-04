@@ -18,7 +18,7 @@ public class MainDoorUIController : MonoBehaviour {
         {
             startButton.SetActive(true);
         }
-        else if (!GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>().CheckCustomerSpawnParameters() && GameManager.Instance.ScriptHolderLink.GetComponent<CustomerManager>().NumberOfCurrentCustomers() == 0)
+        else if (!GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>().CheckCustomerSpawnParameters() && GameManager.Instance.ScriptHolderLink.GetComponent<CustomerManager>().GetNumberOfCustomers() == 0)
         {
             startButton.SetActive(false);
         }
