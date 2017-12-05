@@ -49,7 +49,6 @@ public class MainDoorController : MonoBehaviour {
         {
             anim.SetTrigger("Play");
             doorOpen = true;
-            print("opemn");
         }
         
     }

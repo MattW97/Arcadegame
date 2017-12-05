@@ -63,7 +63,6 @@ public class LevelManager : MonoBehaviour {
         {
             customerManager.CancelInvoke("SpawnCustomer");
             spawningCustomers = false;
-            print("STOPPED!");
         }
     }
 

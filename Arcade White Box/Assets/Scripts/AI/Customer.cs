@@ -8,7 +8,7 @@ public class Customer : BaseAI
 
     public string prefabName;
 
-    public enum CustomerStates { Idle, GotTarget, Moving, UsingFacility, Leaving, Wandering, BeginningWander}
+    public enum CustomerStates { Idle, GotTarget, Moving, UsingFacility, Leaving, Left, Wandering, BeginningWander}
 
     private int weakStat;
     private float speedFactor, statCounter;
@@ -68,14 +68,12 @@ public class Customer : BaseAI
         currentState = CustomerStates.Idle;
     }
 
-    void Update()
+    public void UpdateCustomer()
     {
         unitController.SpeedFactor = speedFactor;
 
         if (currentState == CustomerStates.GotTarget)
         {
-            //print("GOT TARGET");
-
             unitController.StopCurrentPathing();
             unitController.SetTarget(currentTarget.GetUsePosition());
             unitController.GetNewPath();
@@ -85,8 +83,6 @@ public class Customer : BaseAI
         {
             if (unitController.ReachedTarget)
             {
-                //print("REACHED FACILITY");
-
                 currentState = CustomerStates.UsingFacility;
                 usingFacilityWait = UsingFacilityWait(currentTarget.UseTime);
                 StartCoroutine(usingFacilityWait);
@@ -94,11 +90,12 @@ public class Customer : BaseAI
         }
         else if (currentState == CustomerStates.Leaving)
         {
+            print("WHY WONT YOU LEAVE!");
+
+
             if (unitController.ReachedTarget)
             {
-                //print("LEFT");
-
-                Destroy(gameObject);
+                currentState = CustomerStates.Left;
             }
         }
         else if (currentState == CustomerStates.BeginningWander)
@@ -142,15 +139,12 @@ public class Customer : BaseAI
         if(currentState == CustomerStates.UsingFacility)
         {
             StopCoroutine(usingFacilityWait);
-
-            //print("STOPPED USING FACILITY");
+            currentTarget.InUse = false;
         }
 
         unitController.StopCurrentPathing();
         unitController.SetTarget(spawnLocation);
         unitController.GetNewPath();
-
-        //print("IS SET FOR LEAVING");
 
         currentState = CustomerStates.Leaving;
     }
@@ -171,23 +165,39 @@ public class Customer : BaseAI
         {
             return true;
         }
-        else if(currentState == CustomerStates.GotTarget)
+        else if (currentState == CustomerStates.GotTarget)
         {
             return true;
         }
-        else if(currentState == CustomerStates.UsingFacility)
+        else if (currentState == CustomerStates.UsingFacility)
         {
             return true;
         }
-        else if(currentState == CustomerStates.Moving)
+        else if (currentState == CustomerStates.Moving)
         {
             return true;
         }
-        else if(currentState == CustomerStates.Wandering)
+        else if (currentState == CustomerStates.Wandering)
         {
             return true;
         }
-        else if(currentState == CustomerStates.BeginningWander)
+        else if (currentState == CustomerStates.BeginningWander)
+        {
+            return true;
+        }
+        else if(currentState == CustomerStates.Left)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool IsLeaving()
+    {
+        if(currentState == CustomerStates.Leaving || currentState == CustomerStates.Left)
         {
             return true;
         }
@@ -234,15 +244,12 @@ public class Customer : BaseAI
 
     private IEnumerator UsingFacilityWait(float waitTime)
     {
-        //print("USING FACILITY");
-
         if (currentTarget is GameMachine)
         {
             GameMachine machine = (GameMachine)currentTarget;
             machine.IncreaseCurrentNumberOfPlayers();
         }
 
-        currentTarget.InUse = true;
         currentTarget.OnUse();
 
         customerTransform.LookAt(currentTarget.transform);
@@ -250,17 +257,15 @@ public class Customer : BaseAI
 
         yield return new WaitForSeconds(waitTime / speedFactor);
 
-        currentTarget.InUse = false;
-
         if (currentTarget is GameMachine)
         {
             GameMachine machine = (GameMachine)currentTarget;
             machine.DecreaseCurrentNumberOfPlayers();
         }
 
-        currentState = CustomerStates.Idle;
+        currentTarget.InUse = false;
 
-        //print("FINISHED USING FACILITY");
+        currentState = CustomerStates.Idle;
     }
 
     public void SetCustomerNeeds(float bladder, float happiness, float hunger, float tiredness, float queasiness, int weakStat)
