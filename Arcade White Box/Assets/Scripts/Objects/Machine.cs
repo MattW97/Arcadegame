@@ -15,9 +15,12 @@ public class Machine : PlaceableObject {
     [SerializeField] private float failurePercentageIncrease;               // How much the failurePercentage increases by each IncreaseFailurePercentage() call.
     [SerializeField] [Range(0.0f, 100.0f)]protected float statAdjustment;   // Customer stat boost OnUse() (Stat increased dependent on the machine this is attached to)b 
 
-    private MachineStatus machineStatus;
+    public MachineStatus machineStatus;
     private bool inUse;
     private float baseFailurePercentage;
+
+    public float dailyRevenue, allTimeRevenue, dailyExpenses, allTimeExpenses;
+    public int dailyCustomers, allTimeCustomers, noOfBreakdowns;
 
     private void IncreaseFailurePercentage()
     {
@@ -29,6 +32,10 @@ public class Machine : PlaceableObject {
     /// </summary>
     public virtual void OnUse()
     {
+        dailyRevenue += UseCost;
+        allTimeRevenue += UseCost;
+        dailyCustomers++;
+        allTimeCustomers++;
         int roll = Random.Range(1, 100);
         if (roll <= failurePercentage)
         {
@@ -44,16 +51,27 @@ public class Machine : PlaceableObject {
     /// <summary>
     /// When the machine is repaired
     /// </summary>
-    protected void OnRepair()
+    public void OnRepair()
     {
-        GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().OnMachineBreakdown(this);
-        machineStatus = MachineStatus.Working;
-        failurePercentage = baseFailurePercentage;
+        if (GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().CheckCanAfford(maintenanceCost))
+        {
+            GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().OnMachineBreakdown(this);
+            dailyExpenses += maintenanceCost;
+            allTimeExpenses += maintenanceCost;
+            machineStatus = MachineStatus.Working;
+            failurePercentage = baseFailurePercentage;
+        }
+        else
+        { 
+         //return some kind of error, idk what, tell the player they are poor af
+        }
     }
 
     protected virtual void DailyReset()
     {
-
+        dailyExpenses = 0;
+        dailyRevenue = 0;
+        dailyCustomers = 0;
     }
 
     protected override void Awake()
@@ -77,6 +95,7 @@ public class Machine : PlaceableObject {
     protected void OnMachineBreak()
     {
         // play broken animation stuff
+        noOfBreakdowns++;
     }
     protected bool IncreaseUseCost()
     {

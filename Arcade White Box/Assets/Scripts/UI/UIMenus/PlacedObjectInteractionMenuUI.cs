@@ -12,7 +12,10 @@ public class PlacedObjectInteractionMenuUI : MonoBehaviour {
     private Image icon;
 
     [SerializeField]
-    private GameObject interactableMachineMenu, minusButton, plusButton;
+    private GameObject interactableMachineMenu, minusButton, plusButton, statsObject;
+
+    [SerializeField]
+    private Button showStatsButton, repairButton; 
 
 
     private Animator placedAnimation;
@@ -21,7 +24,6 @@ public class PlacedObjectInteractionMenuUI : MonoBehaviour {
     void Start () {
 
         placedAnimation = this.GetComponent<Animator>();
-
     }
 	
 	// Update is called once per frame
@@ -61,6 +63,39 @@ public class PlacedObjectInteractionMenuUI : MonoBehaviour {
         interactableMachineMenu.SetActive(false);
         objectName.text = currentObject.Name1;
         icon.sprite = currentObject.Icon;
+    }
+
+    public void RepairButtonActive(bool needsRepair)
+    {
+        if (needsRepair)
+        {
+            repairButton.interactable = true;
+            repairButton.GetComponentInChildren<Text>().color = new Color32(0xFF, 0xFF, 0xFF, 0xFF);
+        }
+        else
+        {
+            repairButton.interactable = false;
+            repairButton.GetComponentInChildren<Text>().color = new Color32(0x7E, 0x78, 0x78, 0xFF);
+        }
+    }
+
+    public void RepairButtonPressed(Machine currentObject)
+    {
+        currentObject.OnRepair();
+    }
+
+    public void StatsButtonPressed()
+    {
+        if (!statsObject.activeInHierarchy)
+        {
+            statsObject.SetActive(true);
+            showStatsButton.GetComponentInChildren<Text>().text = "Hide Stats";
+        }
+        else
+        {
+            statsObject.SetActive(false);
+            showStatsButton.GetComponentInChildren<Text>().text = "Show Stats";
+        }
     }
 
     public void SellButtonPressed()

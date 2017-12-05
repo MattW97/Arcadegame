@@ -42,6 +42,15 @@ public class EconomyManager : MonoBehaviour {
 		
 	}
 
+    public bool CheckCanAfford(float cost)
+    {
+        if (0 < (CurrentCash -= cost))
+            return true;
+        else
+            return false;
+        
+    }
+
 
 
     public List<float> GetExpensesArray()
@@ -97,6 +106,7 @@ public class EconomyManager : MonoBehaviour {
         {
             expensesFoodStallsMaintenance += brokenMachine.MaintenanceCost;
         }
+        CurrentCash -= brokenMachine.MaintenanceCost;
     }
 
     public void OnMachinePurchase(Machine purchase)
@@ -160,14 +170,14 @@ public class EconomyManager : MonoBehaviour {
         expensesFoodStallsMaintenance = 0;
     }
 
-    public bool CheckCanAfford(float price)
-    {
-        if (CurrentCash - price > -1)
-            return true;
+    //public bool CheckCanAfford(float price)
+    //{
+    //    if (CurrentCash - price > -1)
+    //        return true;
 
-        else
-            return false;
-    }
+    //    else
+    //        return false;
+    //}
 
     public void MoneyEarnedFromArcade(Machine objectSpentOn)
     {

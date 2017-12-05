@@ -34,7 +34,7 @@ public class TimeAndCalendar : MonoBehaviour {
 
         seconds = 0;
 
-        timeText = GameObject.Find("NewUIInGame/Bottom Bar/Date And Time/Text").GetComponent<Text>();
+        timeText = GameObject.Find("UIInGame/Bottom Bar/Date And Time/Text").GetComponent<Text>();
         StartTimer();
         CreateCalendar();
 

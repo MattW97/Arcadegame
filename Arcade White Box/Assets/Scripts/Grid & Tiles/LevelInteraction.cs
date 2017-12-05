@@ -18,6 +18,7 @@ public class LevelInteraction : MonoBehaviour
     private List<GameObject> tileHighlighterList;
     private Renderer highlighterRenderer;
     private PlaceableObject currentSelectedObject;
+    private BaseAI currentSelectedAI;
     private InteractionState currentState;
     private Ray interactionRay;
     private Tile placedOnTile;
@@ -52,6 +53,8 @@ public class LevelInteraction : MonoBehaviour
         }
 
         CurrentSelectedObject = null;
+        CurrentSelectedAI = null;
+
         ObjectToPlace = null;
 
         tileHighlighter.SetActive(false);
@@ -130,6 +133,17 @@ public class LevelInteraction : MonoBehaviour
                         CurrentSelectedObject.Selected = true;
                     }
                 }
+
+                else if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "AI") == 0)
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        NullSelectedObject();
+                        currentSelectedAI = hitInfo.collider.gameObject.GetComponent<BaseAI>();
+                        print(currentSelectedAI);
+                    }
+                }
+
                 else
                 {
                     if (Input.GetMouseButtonDown(0) && currentSelectedObject)
@@ -157,7 +171,6 @@ public class LevelInteraction : MonoBehaviour
                         tileHighlighter.SetActive(true);
 
                     Vector3 highlighterPosition = hitInfo.collider.transform.position;
-                    //highlighterPosition.y = highlighterPosition.y + 0.5f;
                     highlighterTransform.position = highlighterPosition;
                     if (placedOnTile.GetTileType() == Tile.TileType.Passable)
                     {
@@ -369,6 +382,10 @@ public class LevelInteraction : MonoBehaviour
             CurrentSelectedObject.Selected = false;
             CurrentSelectedObject = null;
         }
+        if(CurrentSelectedAI)
+        {
+            CurrentSelectedAI = null;
+        }
     }
 
     private bool CheckIfMachineOrPlaceable(Entity objectToTest)
@@ -461,6 +478,19 @@ public class LevelInteraction : MonoBehaviour
         set
         {
             currentState = value;
+        }
+    }
+
+    public BaseAI CurrentSelectedAI
+    {
+        get
+        {
+            return currentSelectedAI;
+        }
+
+        set
+        {
+            currentSelectedAI = value;
         }
     }
 }
