@@ -42,7 +42,12 @@ public class Unit : MonoBehaviour
         {
             path = newPath;
             targetIndex = 0;
-            StopCoroutine("FollowPath");
+
+            if(followingPath)
+            {
+                StopCoroutine("FollowPath");
+            }
+            
             StartCoroutine("FollowPath");
         }
 	}
@@ -50,7 +55,7 @@ public class Unit : MonoBehaviour
     public void StopCurrentPathing()
     {
         if(FollowingPath)
-        {
+        {   
             StopCoroutine("FollowPath");
             FollowingPath = false;
             ReachedTarget = false;

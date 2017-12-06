@@ -62,8 +62,6 @@ public class CustomerManager : MonoBehaviour
 
                             if(availableMachine)
                             {
-                                customer.SetCurrentCustomerState(Customer.CustomerStates.GotTarget);
-
                                 availableMachine.InUse = true;
                                 customer.BladderStat = 25.0f;
                                 customer.TirednessStat += 5.0f;
@@ -81,8 +79,6 @@ public class CustomerManager : MonoBehaviour
 
                             if (availableMachine)
                             {
-                                customer.SetCurrentCustomerState(Customer.CustomerStates.GotTarget);
-
                                 availableMachine.InUse = true;
                                 customer.HungerStat = 25.0f;
                                 customer.TirednessStat += 5.0f;
@@ -100,8 +96,6 @@ public class CustomerManager : MonoBehaviour
 
                             if (availableMachine)
                             {
-                                customer.SetCurrentCustomerState(Customer.CustomerStates.GotTarget);
-
                                 availableMachine.InUse = true;
                                 customer.TirednessStat += 5.0f;
 
@@ -126,7 +120,6 @@ public class CustomerManager : MonoBehaviour
 
                 if(customer.GetCurrentCustomerState() == Customer.CustomerStates.Left)
                 {
-                    print("DESTROY");
                     Destroy(customer.gameObject);
                     currentCustomers.RemoveAt(i);
                     currentCustomers.TrimExcess();

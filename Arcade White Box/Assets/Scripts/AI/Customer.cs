@@ -90,9 +90,6 @@ public class Customer : BaseAI
         }
         else if (currentState == CustomerStates.Leaving)
         {
-            print("WHY WONT YOU LEAVE!");
-
-
             if (unitController.ReachedTarget)
             {
                 currentState = CustomerStates.Left;
@@ -132,6 +129,7 @@ public class Customer : BaseAI
     public void SetNewTarget(Machine newTarget)
     {
         this.currentTarget = newTarget;
+        currentState = CustomerStates.GotTarget;
     }
 
     public void LeaveArcade()
@@ -139,6 +137,10 @@ public class Customer : BaseAI
         if(currentState == CustomerStates.UsingFacility)
         {
             StopCoroutine(usingFacilityWait);
+        }
+
+        if(currentTarget)
+        {
             currentTarget.InUse = false;
         }
 
