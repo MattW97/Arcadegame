@@ -226,6 +226,7 @@ public class LevelInteraction : MonoBehaviour
                 }
             }
         }
+        ObjectInteraction();
     }
 
     private void WallPlacing()
@@ -375,7 +376,7 @@ public class LevelInteraction : MonoBehaviour
         }
     }
 
-    private void NullSelectedObject()
+    public void NullSelectedObject()
     {
         if (CurrentSelectedObject)
         {
@@ -386,6 +387,11 @@ public class LevelInteraction : MonoBehaviour
         {
             CurrentSelectedAI = null;
         }
+    }
+
+    public void ClearObjectToPlace()
+    {
+        ObjectToPlace = null;
     }
 
     private bool CheckIfMachineOrPlaceable(Entity objectToTest)

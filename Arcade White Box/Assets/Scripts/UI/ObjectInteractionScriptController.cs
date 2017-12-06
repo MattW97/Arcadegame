@@ -86,4 +86,9 @@ public class ObjectInteractionScriptController : MonoBehaviour {
         }
     }
 
+    public void OnCancelPlacingButtonPressed()
+    {
+        _tileInteractionLink.ClearObjectToPlace();
+    }
+
 }

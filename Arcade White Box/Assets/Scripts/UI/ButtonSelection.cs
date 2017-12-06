@@ -37,9 +37,11 @@ public class ButtonSelection : MonoBehaviour {
                 _tileInteractionLink.SwitchTileHighlighterMesh(theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton);
                 _objectUILink.SetActive(true);
                 _objectUILink.GetComponent<PlacingObjectInteractionMenuUI>().GetCurrentObject(theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton);
+
+                _tileInteractionLink.NullSelectedObject();
             }
         }
-
+        
         //this.gameObject.SetActive(false);
     }
 }

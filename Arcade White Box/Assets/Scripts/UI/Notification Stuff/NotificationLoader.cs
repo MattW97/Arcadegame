@@ -61,14 +61,9 @@ public class NotificationLoader : MonoBehaviour {
         specArray = splitStrings(specText);
     }
 
-    void Update()
-    {
-    }
-
     private string[] splitStrings(string stringToSplit)
     {
        string[] array = stringToSplit.Split('\n');
-        //PrintAllNotifications(array);
         return array;
     }
 
