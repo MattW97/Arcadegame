@@ -5,14 +5,16 @@ using UnityEngine;
 public class ArcadeManagementUI : MonoBehaviour {
 
     [SerializeField]
-    private GameObject statsMain, staffMain, customerMain, arcadeItemsMain, statsHalfTab, staffHalfTab, customerHalfTab, arcadeItemsHalfTab, statsFullTab, staffFullTab, customerFullTab, arcadeItemsFullTab;
+    private GameObject statsMain, staffMain, customerMain, arcadeItemsMain;
+
+    [SerializeField] private GameObject statsUnselected, staffUnselected, customerUnselected, arcadeItemsUnselected, closedUnselected, statsSelected, staffSelected, customerSelected, arcadeItemsSelected, closeSelected;
 
     public void Start() {
 
-        statsFullTab.SetActive(false);
-        staffFullTab.SetActive(false);
-        customerFullTab.SetActive(false);
-        arcadeItemsFullTab.SetActive(false);
+        statsSelected.SetActive(false);
+        staffSelected.SetActive(false);
+        customerSelected.SetActive(false);
+        arcadeItemsSelected.SetActive(false);
 
     }
 
@@ -26,19 +28,19 @@ public class ArcadeManagementUI : MonoBehaviour {
         customerMain.SetActive(false);
         arcadeItemsMain.SetActive(false);
 
-        //////////////////// Half Tabs /////////////////////////////
+        //////////////////// Unselected /////////////////////////////
 
-        statsHalfTab.SetActive(false);
-        staffHalfTab.SetActive(true);
-        customerHalfTab.SetActive(true);
-        arcadeItemsHalfTab.SetActive(true);
+        statsUnselected.SetActive(false);
+        staffUnselected.SetActive(true);
+        customerUnselected.SetActive(true);
+        arcadeItemsUnselected.SetActive(true);
 
-        //////////////////// Full Tabs /////////////////////////////
+        //////////////////// Selected /////////////////////////////
 
-        statsFullTab.SetActive(true);
-        staffFullTab.SetActive(false);
-        customerFullTab.SetActive(false);
-        arcadeItemsFullTab.SetActive(false);
+        statsSelected.SetActive(true);
+        staffSelected.SetActive(false);
+        customerSelected.SetActive(false);
+        arcadeItemsSelected.SetActive(false);
 
     }
 
@@ -51,19 +53,19 @@ public class ArcadeManagementUI : MonoBehaviour {
         customerMain.SetActive(false);
         arcadeItemsMain.SetActive(false);
 
-        //////////////////// Half Tabs /////////////////////////////
+        //////////////////// Unselected /////////////////////////////
 
-        statsHalfTab.SetActive(true);
-        staffHalfTab.SetActive(false);
-        customerHalfTab.SetActive(true);
-        arcadeItemsHalfTab.SetActive(true);
+        statsUnselected.SetActive(true);
+        staffUnselected.SetActive(false);
+        customerUnselected.SetActive(true);
+        arcadeItemsUnselected.SetActive(true);
 
-        //////////////////// Full Tabs /////////////////////////////
+        //////////////////// Selected /////////////////////////////
 
-        statsFullTab.SetActive(false);
-        staffFullTab.SetActive(true);
-        customerFullTab.SetActive(false);
-        arcadeItemsFullTab.SetActive(false);
+        statsSelected.SetActive(false);
+        staffSelected.SetActive(true);
+        customerSelected.SetActive(false);
+        arcadeItemsSelected.SetActive(false);
 
 
     }
@@ -77,19 +79,19 @@ public class ArcadeManagementUI : MonoBehaviour {
         customerMain.SetActive(true);
         arcadeItemsMain.SetActive(false);
 
-        //////////////////// Half Tabs /////////////////////////////
+        //////////////////// Unselected /////////////////////////////
 
-        statsHalfTab.SetActive(true);
-        staffHalfTab.SetActive(true);
-        customerHalfTab.SetActive(false);
-        arcadeItemsHalfTab.SetActive(true);
+        statsUnselected.SetActive(true);
+        staffUnselected.SetActive(true);
+        customerUnselected.SetActive(false);
+        arcadeItemsUnselected.SetActive(true);
 
-        //////////////////// Full Tabs /////////////////////////////
+        //////////////////// Selected /////////////////////////////
 
-        statsFullTab.SetActive(false);
-        staffFullTab.SetActive(false);
-        customerFullTab.SetActive(true);
-        arcadeItemsFullTab.SetActive(false);
+        statsSelected.SetActive(false);
+        staffSelected.SetActive(false);
+        customerSelected.SetActive(true);
+        arcadeItemsSelected.SetActive(false);
 
     }
 
@@ -102,19 +104,19 @@ public class ArcadeManagementUI : MonoBehaviour {
         customerMain.SetActive(false);
         arcadeItemsMain.SetActive(true);
 
-        //////////////////// Half Tabs /////////////////////////////
+        //////////////////// Unselected /////////////////////////////
 
-        statsHalfTab.SetActive(true);
-        staffHalfTab.SetActive(true);
-        customerHalfTab.SetActive(true);
-        arcadeItemsHalfTab.SetActive(false);
+        statsUnselected.SetActive(true);
+        staffUnselected.SetActive(true);
+        customerUnselected.SetActive(true);
+        arcadeItemsUnselected.SetActive(false);
 
-        //////////////////// Full Tabs /////////////////////////////
+        //////////////////// Selected /////////////////////////////
 
-        statsFullTab.SetActive(false);
-        staffFullTab.SetActive(false);
-        customerFullTab.SetActive(false);
-        arcadeItemsFullTab.SetActive(true);
+        statsSelected.SetActive(false);
+        staffSelected.SetActive(false);
+        customerSelected.SetActive(false);
+        arcadeItemsSelected.SetActive(true);
 
     }
 }
