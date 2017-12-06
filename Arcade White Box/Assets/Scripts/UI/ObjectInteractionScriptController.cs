@@ -47,7 +47,6 @@ public class ObjectInteractionScriptController : MonoBehaviour {
         if (_tileInteractionLink.CurrentSelectedAI == null)
         {
             customerInfoMenu.SetActive(false);
-            print("nothing");
         }
         else
         {
