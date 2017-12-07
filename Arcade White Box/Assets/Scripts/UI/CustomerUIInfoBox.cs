@@ -17,6 +17,6 @@ public class CustomerUIInfoBox : MonoBehaviour {
         hungerBar.fillAmount = currentCustomer.HungerStat / 100;
         fatigueBar.fillAmount = currentCustomer.TirednessStat / 100;
         bladderBar.fillAmount = currentCustomer.BladderStat / 100;
-        //name as well;
+        name.text = currentCustomer.CustomerName;
     }
 }

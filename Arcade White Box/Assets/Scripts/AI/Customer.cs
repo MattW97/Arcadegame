@@ -30,6 +30,8 @@ public class Customer : BaseAI
     private const float STAT_TICK_AMOUNT = 0.1f;        //THE AMOUNT THE STAT IS AFFECTED EACH TICK
     private const float STAT_TICK_RATE = 0.5f;          //HOW OFTEN THE STAT TICKS (IN SECONDS)
 
+    private string customerName;
+
     void OnEnable() { EventManager.Save += OnSave; }
 
     void OnDisable() { EventManager.Save -= OnSave; }
@@ -66,6 +68,7 @@ public class Customer : BaseAI
 
         statCounter = 0.0f;
         currentState = CustomerStates.Idle;
+        CustomerName = GameManager.Instance.GetComponent<NameGenerator>().GenerateName();
     }
 
     public void UpdateCustomer()
@@ -301,6 +304,19 @@ public class Customer : BaseAI
     public void SetCurrentCustomerState(CustomerStates newState)    { currentState = newState; }
     public void SetSpawnLocation(Transform spawnLocation)           { this.spawnLocation = spawnLocation; }
     public float SpeedFactor                                        { get { return speedFactor; } set { speedFactor = value; } }
+
+    public string CustomerName
+    {
+        get
+        {
+            return customerName;
+        }
+
+        set
+        {
+            customerName = value;
+        }
+    }
 
     private CustomerSaveable GetCustomerSaveable()
     {
