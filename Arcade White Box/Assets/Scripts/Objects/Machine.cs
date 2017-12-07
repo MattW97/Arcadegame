@@ -120,6 +120,18 @@ public class Machine : PlaceableObject {
             return false;
     }
 
+    public bool IsUsable()
+    {
+        if (!inUse && machineStatus != MachineStatus.Broken)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     #region Getters/Setters
 
     public float GetStatAdjustment()
