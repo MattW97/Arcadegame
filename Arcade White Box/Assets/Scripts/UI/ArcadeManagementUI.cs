@@ -5,16 +5,28 @@ using UnityEngine;
 public class ArcadeManagementUI : MonoBehaviour {
 
     [SerializeField]
-    private GameObject statsMain, staffMain, customerMain, arcadeItemsMain;
+    private GameObject statsMain, staffMain, customerMain, arcadeItemsMain, playerImage;
 
-    [SerializeField] private GameObject statsUnselected, staffUnselected, customerUnselected, arcadeItemsUnselected, closedUnselected, statsSelected, staffSelected, customerSelected, arcadeItemsSelected, closeSelected;
+    [SerializeField]
+    private GameObject statsUnselected, staffUnselected, customerUnselected, arcadeItemsUnselected, closedUnselected, statsSelected, staffSelected, customerSelected, arcadeItemsSelected, closeSelected;
 
     public void Start() {
 
+        playerImage.SetActive(false);
+        statsMain.SetActive(false);
+        staffMain.SetActive(false);
+        customerMain.SetActive(false);
+        arcadeItemsMain.SetActive(false);
+        statsUnselected.SetActive(false);
+        staffUnselected.SetActive(false);
+        customerUnselected.SetActive(false);
+        arcadeItemsUnselected.SetActive(false);
+        closedUnselected.SetActive(false);
         statsSelected.SetActive(false);
         staffSelected.SetActive(false);
         customerSelected.SetActive(false);
         arcadeItemsSelected.SetActive(false);
+        closeSelected.SetActive(false);
 
     }
 
@@ -23,6 +35,7 @@ public class ArcadeManagementUI : MonoBehaviour {
     {
         ////////////////////// Panels ///////////////////////////////
 
+        playerImage.SetActive(true);
         statsMain.SetActive(true);
         staffMain.SetActive(false);
         customerMain.SetActive(false);
@@ -42,12 +55,17 @@ public class ArcadeManagementUI : MonoBehaviour {
         customerSelected.SetActive(false);
         arcadeItemsSelected.SetActive(false);
 
+        //////////////////// Close /////////////////////////////
+
+        closedUnselected.SetActive(true);
+
     }
 
     public void StaffMain()
     {
         ////////////////////// Panels ///////////////////////////////
 
+        playerImage.SetActive(true);
         statsMain.SetActive(false);
         staffMain.SetActive(true);
         customerMain.SetActive(false);
@@ -67,6 +85,9 @@ public class ArcadeManagementUI : MonoBehaviour {
         customerSelected.SetActive(false);
         arcadeItemsSelected.SetActive(false);
 
+        //////////////////// Close /////////////////////////////
+
+        closedUnselected.SetActive(true);
 
     }
 
@@ -74,6 +95,7 @@ public class ArcadeManagementUI : MonoBehaviour {
     {
         ////////////////////// Panels ///////////////////////////////
 
+        playerImage.SetActive(true);
         statsMain.SetActive(false);
         staffMain.SetActive(false);
         customerMain.SetActive(true);
@@ -93,12 +115,17 @@ public class ArcadeManagementUI : MonoBehaviour {
         customerSelected.SetActive(true);
         arcadeItemsSelected.SetActive(false);
 
+        //////////////////// Close /////////////////////////////
+
+        closedUnselected.SetActive(true);
+
     }
 
     public void ArcadeItems()
     {
         ////////////////////// Panels ///////////////////////////////
 
+        playerImage.SetActive(true);
         statsMain.SetActive(false);
         staffMain.SetActive(false);
         customerMain.SetActive(false);
@@ -117,6 +144,29 @@ public class ArcadeManagementUI : MonoBehaviour {
         staffSelected.SetActive(false);
         customerSelected.SetActive(false);
         arcadeItemsSelected.SetActive(true);
+
+        //////////////////// Close /////////////////////////////
+
+        closedUnselected.SetActive(true);
+
+    }
+    public void CloseAll()
+    {
+        playerImage.SetActive(false);
+        statsMain.SetActive(false);
+        staffMain.SetActive(false);
+        customerMain.SetActive(false);
+        arcadeItemsMain.SetActive(false);
+        statsUnselected.SetActive(false);
+        staffUnselected.SetActive(false);
+        customerUnselected.SetActive(false);
+        arcadeItemsUnselected.SetActive(false);
+        closedUnselected.SetActive(false);
+        statsSelected.SetActive(false);
+        staffSelected.SetActive(false);
+        customerSelected.SetActive(false);
+        arcadeItemsSelected.SetActive(false);
+        closeSelected.SetActive(false);
 
     }
 }
