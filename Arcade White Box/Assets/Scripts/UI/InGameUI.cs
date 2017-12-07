@@ -13,6 +13,9 @@ public class InGameUI : MonoBehaviour
                        decorationHalfTab, decorationFullTab, placeholder, gameMain, serviceMain, constructionMain, decorationMain;
 
     [SerializeField]
+    private GameObject gameScroll, serviceScroll, constructionScroll, decorationScroll;
+
+    [SerializeField]
     private GameObject placingObject, placedObject;
 
     private bool tabOpen;
