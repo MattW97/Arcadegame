@@ -62,6 +62,7 @@ public class Customer : BaseAI
                 customerStats[i].StatValue = 100.0f;
                 customerStats[i].Susceptibility = 15.0f;
                 weakStat = i;
+                //SEND NUDES
             }
         }
         // -------------------------------------------------------------------------------
@@ -73,6 +74,9 @@ public class Customer : BaseAI
 
     public void UpdateCustomer()
     {
+        int i = 0;
+        i++;
+        print("I");
         unitController.SpeedFactor = speedFactor;
 
         if (currentState == CustomerStates.GotTarget)
@@ -164,6 +168,30 @@ public class Customer : BaseAI
 
     }
 
+    public bool IsLeaving()
+    {
+        if(currentState == CustomerStates.Leaving || currentState == CustomerStates.Left)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool WantsToLeave()
+    {
+        if(happinessStat.StatValue <= 0.0f || tirednessStat.StatValue >= 100.0f)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
     public bool IsBusy()
     {
         if (currentState == CustomerStates.Leaving)
@@ -190,31 +218,7 @@ public class Customer : BaseAI
         {
             return true;
         }
-        else if(currentState == CustomerStates.Left)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public bool IsLeaving()
-    {
-        if(currentState == CustomerStates.Leaving || currentState == CustomerStates.Left)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    public bool WantsToLeave()
-    {
-        if(happinessStat.StatValue <= 0.0f || tirednessStat.StatValue >= 100.0f)
+        else if (currentState == CustomerStates.Left)
         {
             return true;
         }
