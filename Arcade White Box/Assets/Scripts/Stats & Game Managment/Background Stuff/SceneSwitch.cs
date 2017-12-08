@@ -7,7 +7,7 @@ public class SceneSwitch : MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Main Menu 1");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Main Menu");
 
     }
 	
