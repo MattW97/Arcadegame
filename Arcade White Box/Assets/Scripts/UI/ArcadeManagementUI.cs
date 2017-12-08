@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ArcadeManagementUI : MonoBehaviour {
 
@@ -8,7 +9,19 @@ public class ArcadeManagementUI : MonoBehaviour {
     private GameObject statsMain, staffMain, customerMain, arcadeItemsMain, playerImage;
 
     [SerializeField]
-    private GameObject statsUnselected, staffUnselected, customerUnselected, arcadeItemsUnselected, closedUnselected, statsSelected, staffSelected, customerSelected, arcadeItemsSelected, closeSelected;
+    private GameObject statsUnselected, staffUnselected, customerUnselected, arcadeItemsUnselected, closedUnselected,
+                       statsSelected, staffSelected, customerSelected, arcadeItemsSelected, closeSelected;
+
+    [SerializeField]
+    private GameObject workerDescription, technicianDescription, chefDescription, janitorDescription;
+
+    [SerializeField]
+    private Image happinessBar, fatigueBar, hungerBar, bladderBar, queasinessBar;
+
+    [SerializeField]
+    private Text totalSpeciesText;
+
+    private CustomerManager customerManager;
 
     public void Start() {
 
@@ -27,9 +40,15 @@ public class ArcadeManagementUI : MonoBehaviour {
         customerSelected.SetActive(false);
         arcadeItemsSelected.SetActive(false);
         closeSelected.SetActive(false);
+        workerDescription.SetActive(false);
+        technicianDescription.SetActive(false);
+        chefDescription.SetActive(false);
+        janitorDescription.SetActive(false);
 
+        customerManager = GameManager.Instance.ScriptHolderLink.GetComponent<CustomerManager>();
     }
 
+    #region Show On Button Selection Methods
 
     public void StatsMain()
     {
@@ -93,6 +112,7 @@ public class ArcadeManagementUI : MonoBehaviour {
 
     public void CustomerMain()
     {
+
         ////////////////////// Panels ///////////////////////////////
 
         playerImage.SetActive(true);
@@ -118,7 +138,7 @@ public class ArcadeManagementUI : MonoBehaviour {
         //////////////////// Close /////////////////////////////
 
         closedUnselected.SetActive(true);
-
+            
     }
 
     public void ArcadeItems()
@@ -149,7 +169,37 @@ public class ArcadeManagementUI : MonoBehaviour {
 
         closedUnselected.SetActive(true);
 
+    } 
+
+    public void WorkerDescription()
+    {
+        workerDescription.SetActive(true);
+        technicianDescription.SetActive(false);
+        chefDescription.SetActive(false);
+        janitorDescription.SetActive(false);
     }
+    public void TechnicianDescription()
+    {
+        workerDescription.SetActive(false);
+        technicianDescription.SetActive(true);
+        chefDescription.SetActive(false);
+        janitorDescription.SetActive(false);
+    }
+    public void ChefDescription()
+    {
+        workerDescription.SetActive(false);
+        technicianDescription.SetActive(false);
+        chefDescription.SetActive(true);
+        janitorDescription.SetActive(false);
+    }
+    public void JanitorDescription()
+    {
+        workerDescription.SetActive(false);
+        technicianDescription.SetActive(false);
+        chefDescription.SetActive(false);
+        janitorDescription.SetActive(true);
+    }
+
     public void CloseAll()
     {
         playerImage.SetActive(false);
@@ -169,4 +219,23 @@ public class ArcadeManagementUI : MonoBehaviour {
         closeSelected.SetActive(false);
 
     }
+
+    #endregion
+
+    #region  Stat Bar Update Methods
+
+    public void Update()
+    {
+        if (customerMain.activeSelf == true)
+        {
+            totalSpeciesText.text = customerManager.GetNumberOfCustomers().ToString();
+            happinessBar.fillAmount = customerManager.GetAverageCustomerHappiness() / 1000;
+            hungerBar.fillAmount = customerManager.GetAverageCustomerHunger() / 100;
+            fatigueBar.fillAmount = customerManager.GetAverageCustomerTiredness() / 100;
+            bladderBar.fillAmount = customerManager.GetAverageCustomerBladder() / 100;
+            queasinessBar.fillAmount = customerManager.GetAverageCustomerQueasiness() / 100;
+        }
+    }
+
+    #endregion
 }

@@ -229,7 +229,7 @@ public class CustomerManager : MonoBehaviour
             average += customer.HappinessStat;
         }
 
-        return average;
+        return average / currentCustomers.Count;
     }
 
     public float GetAverageCustomerBladder()
@@ -241,7 +241,7 @@ public class CustomerManager : MonoBehaviour
             average += customer.BladderStat;
         }
 
-        return average;
+        return average / currentCustomers.Count;
     }
 
     public float GetAverageCustomerHunger()
@@ -253,7 +253,7 @@ public class CustomerManager : MonoBehaviour
             average += customer.HungerStat;
         }
 
-        return average;
+        return average / currentCustomers.Count;
     }
 
     public float GetAverageCustomerTiredness()
@@ -265,7 +265,7 @@ public class CustomerManager : MonoBehaviour
             average += customer.TirednessStat;
         }
 
-        return average;
+        return average / currentCustomers.Count;
     }
 
     public float GetAverageCustomerQueasiness()
@@ -277,7 +277,7 @@ public class CustomerManager : MonoBehaviour
             average += customer.QueasinessStat;
         }
 
-        return average;
+        return average / currentCustomers.Count;
     }
 
     // ---------------------------------------------------------------------------------------------
