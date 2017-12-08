@@ -4,11 +4,6 @@ using System.Collections;
 public class Unit : MonoBehaviour 
 {
     [SerializeField] [MinMaxRange(1.0f, 20.0f)] private MinMaxRange movementSpeed;
-    [SerializeField] private float turnDistance;
-    [SerializeField] private float turnSpeed;
-
-    const float PATH_UPDATE_THRESHOLD = 0.5f;
-    const float MIN_PATH_UPDATE_TIME = 0.2f;
 
     private bool reachedTarget, followingPath;
     private float speedFactor, realSpeed;

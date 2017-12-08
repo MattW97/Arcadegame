@@ -35,6 +35,37 @@ public class CustomerManager : MonoBehaviour
         }
     }
 
+
+    private void NewCustomersUpdate()
+    {
+        if (currentCustomers.Count > 0)
+        {
+            for (int i = currentCustomers.Count - 1; i >= 0; i--)
+            {
+                Customer customer = currentCustomers[i];
+                Customer.CustomerStates currentCustomerState = customer.GetCurrentCustomerState();
+
+                if (currentCustomerState == Customer.CustomerStates.Idle)
+                {
+                    if(customer.BladderStat >= 80.0f)
+                    {
+
+                    }
+                    else if(customer.HungerStat >= 80.0f)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                }
+
+                customer.UpdateCustomer();
+            }
+        }
+    }
+
     private void UpdateCustomers()
     {
         if(currentCustomers.Count > 0)
@@ -149,21 +180,6 @@ public class CustomerManager : MonoBehaviour
         }
 
         return nearest;
-    }
-
-    private CustomerStat GetHighestStat(List<CustomerStat> customerStats)
-    {
-        CustomerStat highestStat = new CustomerStat();
-
-        foreach (CustomerStat stat in customerStats)
-        {
-            if (stat.StatValue > highestStat.StatValue)
-            {
-                highestStat = stat;
-            }
-        }
-
-        return highestStat;
     }
 
     public void SpawnCustomers(int amount)
