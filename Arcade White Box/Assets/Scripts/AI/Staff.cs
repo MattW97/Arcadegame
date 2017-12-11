@@ -16,7 +16,7 @@ public class Staff : BaseAI
     protected virtual void Awake()
     {
         unitController = GetComponent<Unit>();
-        staffManager = GameManager.Instance.SceneManagerLink.GetComponent<StaffManager>();
+        staffManager = GameManager.Instance.ScriptHolderLink.GetComponent<StaffManager>();
     }
 
     protected virtual void Update()
