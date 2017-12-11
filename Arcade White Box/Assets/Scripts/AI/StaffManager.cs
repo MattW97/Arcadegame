@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StaffManager : MonoBehaviour
 {
+    [SerializeField] private Transform spawnLocation;
     [SerializeField] private Janitor janitor;
 
     private float levelSpeedFactor;
@@ -21,7 +22,7 @@ public class StaffManager : MonoBehaviour
 
     void Start()
     {
-        gameTime = GameManager.Instance.SceneManagerLink.GetComponent<TimeAndCalendar>();
+        gameTime = GameManager.Instance.ScriptHolderLink.GetComponent<TimeAndCalendar>();
     }
 
     void Update()
