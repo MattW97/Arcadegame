@@ -11,6 +11,9 @@ public class MainMenu : MonoBehaviour {
                        loadMenu, optionsMenu, soundOptions, visualOptions, arcadeName;
 
     [SerializeField]
+    private GameObject mainCamera, idleCamera;
+
+    [SerializeField]
     private Text arcadeNameTextField;    
 
     public Object sceneToSwitchTo;
@@ -23,6 +26,9 @@ public class MainMenu : MonoBehaviour {
 
     public string newName;
 
+    public float idleTime = 10.0f; // Time till idle in seconds
+    private float timeOutTimer = 0.0f;
+
     void Start()
     {
         startMenu.SetActive(true);
@@ -33,6 +39,31 @@ public class MainMenu : MonoBehaviour {
         optionsMenu.SetActive(false);
         visualOptions.SetActive(false);
         soundOptions.SetActive(false);
+    }
+
+    public void Update()
+    {
+        timeOutTimer += Time.deltaTime;
+        CameraIdle();
+    }
+
+    public void CameraIdle()
+    {
+        if (!Input.anyKey && !(Input.GetAxis("Mouse X") > 0) && !(Input.GetAxis("Mouse Y") > 0))
+        {
+            if (timeOutTimer > idleTime)
+            {
+                idleCamera.SetActive(true);
+                mainCamera.SetActive(false);
+            }
+            
+        }
+        else
+        {
+            timeOutTimer = 0.0f;
+            idleCamera.SetActive(false);
+            mainCamera.SetActive(true);
+        }
     }
 
     public void Play()

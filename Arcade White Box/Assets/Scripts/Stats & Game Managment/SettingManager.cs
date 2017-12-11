@@ -14,8 +14,16 @@ public class SettingManager : MonoBehaviour
         gameSettings = new GameSettings();
 
         resolutions = Screen.resolutions;
-
-        LoadSettings();
+        if (File.Exists(Application.persistentDataPath + "/gameSettings.json"))
+        {
+            LoadSettings();
+        }
+        else
+        {
+            string jsonData = JsonUtility.ToJson(gameSettings, true);
+            File.WriteAllText(Application.persistentDataPath + "/gameSettings.json", jsonData);
+        }
+        
     }
 
     public void SaveSettings()
