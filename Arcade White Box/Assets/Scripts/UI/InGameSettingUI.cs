@@ -10,7 +10,7 @@ public class InGameSettingUI : MonoBehaviour
     private Slider masterSlider, musicSlider, sfxSlider;
 
     [SerializeField]
-    private Toggle fullscreen;
+    private Toggle fullscreen, musicMuteToggle;
 
     [SerializeField]
     private Dropdown resolutionDropDown, textureQualityDropdown, antialiasingDropdown, vSyncDropdown;
@@ -19,8 +19,13 @@ public class InGameSettingUI : MonoBehaviour
     public AudioSource gameAudioSource;
 
     private SoundManager soundManager;
-    
+
+    private float masterValue;
     private float musicValue;
+    private float sfxValue;
+    private bool masterMute;
+    private bool musicMute;
+    private bool sfxMute;
     private bool fullscreenOn;
     private int resolutionOption;
     private int textureOption;
@@ -40,6 +45,33 @@ public class InGameSettingUI : MonoBehaviour
         }
     }
 
+    public Slider MasterSlider
+    {
+        get
+        {
+            return masterSlider;
+        }
+
+        set
+        {
+            masterSlider = value;
+        }
+    }
+
+    public Slider SfxSlider
+    {
+        get
+        {
+            return sfxSlider;
+        }
+
+        set
+        {
+            sfxSlider = value;
+        }
+    }
+       
+
     void Awake()
     {
         soundManager = GameManager.Instance.SoundManager;
@@ -50,10 +82,17 @@ public class InGameSettingUI : MonoBehaviour
         //StartCoroutine(GameManager.Instance.SoundManager.InGameMusic());
         //GameManager.Instance.SoundManager.InGameMusic();
 
+        MasterSlider.value = GameManager.Instance.SettingManager.GetMasterVolume();
         MusicSlider.value = GameManager.Instance.SettingManager.GetMusicVolume();
+        SfxSlider.value = GameManager.Instance.SettingManager.GetSfxVolume();
         gameAudioSource.volume = MusicSlider.value;
+
+        musicMuteToggle.isOn = GameManager.Instance.SettingManager.GetMusicMute();
+        musicMuteToggle.isOn = musicMuteToggle.isOn;
+        
         fullscreen.isOn = GameManager.Instance.SettingManager.GetIfFullscreen();
         fullscreen.isOn = fullscreen.isOn;
+
         resolutionDropDown.value = GameManager.Instance.SettingManager.GetResolutionIndex();
         textureQualityDropdown.value = GameManager.Instance.SettingManager.GetTextureQuality();
         antialiasingDropdown.value = GameManager.Instance.SettingManager.GetAnitaliasing();
@@ -74,7 +113,6 @@ public class InGameSettingUI : MonoBehaviour
 
     void OnEnable()
     {
-
         GameManager.Instance.SettingManager.LoadSettings();
 
         resolutionDropDown.RefreshShownValue();
@@ -85,11 +123,38 @@ public class InGameSettingUI : MonoBehaviour
         //GameManager.Instance.SoundManager.InGameMusic();
         StartCoroutine(GameManager.Instance.SoundManager.InGameMusic());
     }
+    public void ChangeMasterVolume()
+    {
+       //Master Vol here
+    }
 
     public void ChangeMusicVolume()
     {
         GameManager.Instance.SettingManager.SetMusicVolume(MusicSlider.value);
         gameAudioSource.volume = MusicSlider.value;
+    }
+
+    public void MusicMute()
+    {
+        GameManager.Instance.SettingManager.SetMusicMute(musicMuteToggle.isOn);
+
+        if (musicMuteToggle.isOn)
+        {
+            musicSlider.interactable = false;
+            gameAudioSource.volume = 0;
+        }
+
+        else
+        {
+            musicSlider.interactable = true;
+            gameAudioSource.volume = musicSlider.value;
+        }
+    }
+
+    public void ChangeSfxVolume()
+    {
+        GameManager.Instance.SettingManager.SetSfxVolume(SfxSlider.value);
+        //gameAudioSource.volume = MusicSlider.value;
     }
 
     public void Fullscreen()
@@ -127,19 +192,26 @@ public class InGameSettingUI : MonoBehaviour
     {
         GameManager.Instance.SettingManager.SaveSettings();
     }
+
     public void CancelSettings()
     {
+        MasterSlider.value = masterValue;
         MusicSlider.value = musicValue;
+        SfxSlider.value = sfxValue;
+        musicMuteToggle.isOn = musicMute;
         fullscreen.isOn = fullscreenOn;
         resolutionDropDown.value = resolutionOption;
         textureQualityDropdown.value = textureOption;
         antialiasingDropdown.value = antialiasingOption;
         vSyncDropdown.value = vSyncOption;
-
     }
+
     public void DefaultSettings()
     {
+        masterValue = GameManager.Instance.SettingManager.GetMasterVolume();
         musicValue = GameManager.Instance.SettingManager.GetMusicVolume();
+        sfxValue = GameManager.Instance.SettingManager.GetSfxVolume();
+        musicMute = GameManager.Instance.SettingManager.GetMusicMute();
         fullscreenOn = GameManager.Instance.SettingManager.GetIfFullscreen();
         resolutionOption = GameManager.Instance.SettingManager.GetResolutionIndex();
         textureOption = GameManager.Instance.SettingManager.GetTextureQuality();

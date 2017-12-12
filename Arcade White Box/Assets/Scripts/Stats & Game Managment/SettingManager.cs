@@ -45,10 +45,34 @@ public class SettingManager : MonoBehaviour
     }
 
     /////////////////////// - Sets - ////////////////////////////////
+    public void SetMasterVolume(float newMasterVolume)
+    {
+        gameSettings.masterVolume = newMasterVolume;
+    }
 
     public void SetMusicVolume(float newMusicVolume)
     {
         gameSettings.musicVolume = newMusicVolume;
+    }
+
+    public void SetSfxVolume(float newSfxVolume)
+    {
+        gameSettings.sfxVolume = newSfxVolume;
+    }
+
+    public void SetMasterMute (bool newMasterMute)
+    {
+        gameSettings.masterMute = newMasterMute;
+    }
+
+    public void SetMusicMute (bool newMusicMute)
+    {
+        gameSettings.musicMute = newMusicMute;
+    }
+
+    public void SetSfxMute (bool newSfxMute)
+    {
+        gameSettings.sfxMute = newSfxMute;
     }
 
     public void SetMenuEffectsVolume(float newSoundEffectVolume)
@@ -80,10 +104,35 @@ public class SettingManager : MonoBehaviour
     }
 
     /////////////////////// - Gets - ////////////////////////////////
-    
+
+    public float GetMasterVolume()
+    {
+        return gameSettings.masterVolume;
+    }
+
     public float GetMusicVolume()
     {
         return gameSettings.musicVolume;
+    }
+
+    public float GetSfxVolume()
+    {
+        return gameSettings.sfxVolume;
+    }
+
+    public bool GetMasterMute()
+    {
+        return gameSettings.masterMute;
+    }
+
+    public bool GetMusicMute()
+    {
+        return gameSettings.musicMute;
+    }
+
+    public bool GetSfxMute()
+    {
+        return gameSettings.sfxMute;
     }
 
     public int GetResolutionIndex()
