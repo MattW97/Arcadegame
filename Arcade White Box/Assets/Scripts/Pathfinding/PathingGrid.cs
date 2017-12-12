@@ -42,7 +42,7 @@ public class PathingGrid : MonoBehaviour
 	public List<Node> GetNeighbours(Node node)
 	{
 		List<Node> neighbours = new List<Node>();
-
+         
 		for(int x = -1; x <= 1; x++)
 		{
 			for(int y = -1; y <= 1; y++)
@@ -105,7 +105,7 @@ public class PathingGrid : MonoBehaviour
                 foreach (Node n in grid)
                 {
                     Gizmos.color = (n.GetWalkable()) ? Color.white : Color.red;
-                    Gizmos.DrawWireCube(n.GetWorldPosition(), Vector3.one * (nodeDiameter - 0.1f));
+                    Gizmos.DrawWireCube(n.GetWorldPosition(), Vector3.one * (nodeDiameter));
                 }
             }
         }

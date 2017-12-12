@@ -1,64 +1,69 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Unit : MonoBehaviour 
+public class Unit : MonoBehaviour
 {
-    [SerializeField] [MinMaxRange(1.0f, 20.0f)] private MinMaxRange movementSpeed;
+    [SerializeField]
+    [MinMaxRange(1.0f, 20.0f)]
+    private MinMaxRange movementSpeed;
 
     private bool reachedTarget, followingPath;
     private float speedFactor, realSpeed;
-	private Transform target, unitTransform;
+    private Transform target, unitTransform;
     private Vector3[] path;
-	private int targetIndex;
+    private int targetIndex;
 
     void Awake()
-	{
+    {
         unitTransform = GetComponent<Transform>();
 
         ReachedTarget = false;
         realSpeed = movementSpeed.GetRandomValue();
     }
 
-	public void SetTarget(Transform target)
-	{
-		this.target = target;
-	}
+    public void SetTarget(Transform target)
+    {
+        this.target = target;
+    }
 
-	public void GetNewPath()
-	{
+    public void GetNewPath()
+    {
         ReachedTarget = false;
 
         PathManager.RequestPath(unitTransform.position, target.position, OnPathFound);
-	}
+    }
 
     public void OnPathFound(Vector3[] newPath, bool pathSuccessful)
     {
         if (pathSuccessful)
         {
+            print("NEW PATH FOUND");
+
             path = newPath;
             targetIndex = 0;
 
-            if(followingPath)
-            {
-                StopCoroutine("FollowPath");
-            }
-            
+            StopCoroutine("FollowPath");
             StartCoroutine("FollowPath");
         }
-	}
+        else
+        {
+            print("NO PATH FOUND");
+        }
+    }
 
     public void StopCurrentPathing()
     {
-        if(FollowingPath)
-        {   
-            StopCoroutine("FollowPath");
-            FollowingPath = false;
-            ReachedTarget = false;
-        }
+        StopCoroutine("FollowPath");
+        FollowingPath = false;
+        ReachedTarget = false;
+
+        print("CURRENT PATHING STOPPED");
     }
 
     private IEnumerator FollowPath()
     {
+        print("FOLLOWING PATH");
+
         FollowingPath = true;
         ReachedTarget = false;
         Vector3 currentWaypoint = Vector3.zero;
@@ -74,7 +79,7 @@ public class Unit : MonoBehaviour
             currentWaypoint = path[0];
         }
 
-        while(FollowingPath)
+        while (FollowingPath)
         {
             if (unitTransform.position == currentWaypoint)
             {
@@ -95,42 +100,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public bool ReachedTarget
-    {
-        get
-        {
-            return reachedTarget;
-        }
-
-        set
-        {
-            reachedTarget = value;
-        }
-    }
-
-    public bool FollowingPath
-    {
-        get
-        {
-            return followingPath;
-        }
-
-        set
-        {
-            followingPath = value;
-        }
-    }
-
-    public float SpeedFactor
-    {
-        get
-        {
-            return speedFactor;
-        }
-
-        set
-        {
-            speedFactor = value;
-        }
-    }
+    public bool ReachedTarget { get { return reachedTarget; } set { reachedTarget = value; } }
+    public bool FollowingPath { get { return followingPath; } set { followingPath = value; } }
+    public float SpeedFactor { get { return speedFactor; } set { speedFactor = value; } }
 }

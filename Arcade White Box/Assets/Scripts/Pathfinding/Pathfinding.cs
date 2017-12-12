@@ -77,6 +77,10 @@ public class Pathfinding : MonoBehaviour
 				}
 			}
 		}
+        else
+        {
+            print("NO WALKABLE: STARTNODE- " + startNode.GetWalkable() + " TARGET NODE- " + targetNode.GetWalkable());
+        }
 
 		yield return null;
 
@@ -84,6 +88,10 @@ public class Pathfinding : MonoBehaviour
 		{
 			wayPoints = RetracePath(startNode, targetNode);
 		}
+        else
+        {
+            print("PATHING WASN'T SUCCESSFUL");
+        }
 
 		pathManager.FinishedProcessingPath(wayPoints, pathSuccess);
 	}
