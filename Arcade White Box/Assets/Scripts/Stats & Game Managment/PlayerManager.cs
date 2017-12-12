@@ -94,37 +94,10 @@ public class PlayerManager : MonoBehaviour {
 	}
 	
 	void Update () {
-
-        if (_economyLink.CurrentCash < 0)
-        {
-            //Bankruptcy();
-        }
 		
 	}
 
-    //private void Bankruptcy()
-    //{
-    //    if (BeenBankrupt)
-    //    {
-    //        //game over
-    //        // switch to cutscene scene showing out of business 
-    //        // explain to the player why they have failed
-    //    }
-    //    else
-    //    {
-    //        // set advisor note about bank giving you a loan 
-    //        print("The bank has bailed you out. They will not do so again this year, if you go bankrupt again, you will lose your arcade!");
-    //        amountOwedBank = CurrentCash;
-    //        print("The bank has covered your expenses of " + -CurrentCash + " They have also credited you with " + bankLoanAmount + " ");
-    //        amountOwedBank = -amountOwedBank;
-    //        amountOwedBank += bankLoanAmount;
-    //        print("You must pay the bank " + amountOwedBank);
-    //        CurrentCash = 0;
-    //        CurrentCash += bankLoanAmount;
-    //        BeenBankrupt = true;
-    //    }
 
-    //}
 
     private void DeductBankPayment()
     {
