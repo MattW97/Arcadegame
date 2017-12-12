@@ -79,14 +79,17 @@ public class LevelManager : MonoBehaviour {
 
     private void OpenClose()
     {
+        // pre open time
         if (_timeLink.GetCurrentTime() == preOpeningTime && !preOpenBool)
         {
             _timeLink.StartTimer();
             preOpenBool = true;
             // create UI stuff to show next day
         }
+        //open time
         else if (_timeLink.CurrentHour == openingHour && !openOnce)
         {
+           
             arcadeStatus = ArcadeOpeningStatus.Open;
             mainDoors.OpenDoor();
            // _timeLink.StopTimer();
@@ -95,8 +98,15 @@ public class LevelManager : MonoBehaviour {
             closedOnce = false;
             
         }
+        //close time
         else if (_timeLink.CurrentHour == closingHour && !closedOnce)
         {
+            if (_economyLink.Bankrupt == true)
+            {
+                _timeLink.StopTimer();
+                _economyLink.bankruptcyUI.SetActive(true);
+                _economyLink.bankruptcyUI.GetComponent<BankruptcyUIController>().Bankrupt();
+            }
             arcadeStatus = ArcadeOpeningStatus.Closed;
             mainDoors.CloseDoor();
             // _timeLink.StopTimer();

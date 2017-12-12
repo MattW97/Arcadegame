@@ -8,12 +8,15 @@ public class EconomyManager : MonoBehaviour {
     private PlayerManager _playerLink;
     private LevelManager _levelLink;
     private CustomerManager _customerLink;
+    private TimeAndCalendar _timeAndCalendarLink;
 
     private float currentCash;
     private float rentCost;
     private float profitEntranceFees, profitDailyGamesMachines, profitDailyFoodStalls, profitDailyOther;
     private float expensesTodaysPurchases, expensesStaffWages, expensesGamesMachineDailyCost, expensesGamesMachineMaintenance, expensesFoodStallsDailyCost, expensesFoodStallsMaintenance, expensesServiceMachineDailyCost, expensesServiceMachineMaintenanceCost;
 
+    private bool bankrupt;
+    public GameObject bankruptcyUI;
     public float CurrentCash
     {
         get
@@ -27,24 +30,55 @@ public class EconomyManager : MonoBehaviour {
         }
     }
 
+    public bool Bankrupt
+    {
+        get
+        {
+            return bankrupt;
+        }
+
+        set
+        {
+            bankrupt = value;
+        }
+    }
+
     // Use this for initialization
     void Start () {
         rentCost = GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>().RentCost;
         _playerLink = this.GetComponent<PlayerManager>();
         _levelLink = GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>();
         _customerLink = GameManager.Instance.ScriptHolderLink.GetComponent<CustomerManager>();
+        _timeAndCalendarLink = GameManager.Instance.ScriptHolderLink.GetComponent<TimeAndCalendar>();
         CurrentCash = _levelLink.StartingCash;
+        Bankrupt = false;
+        bankruptcyUI = GameObject.Find("UIInGame/Bankruptcy");
+        bankruptcyUI.SetActive(false);
         
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+        if (currentCash <= 0 && !Bankrupt)
+        {
+            bankruptcyUI.SetActive(true);
+            bankruptcyUI.GetComponent<BankruptcyUIController>().Warning();
+            print("Bankrupt");
+            _timeAndCalendarLink.StopTimer();
+            Bankrupt = true;
+        }
+        else if(currentCash > 0)
+        {
+            Bankrupt = false;
+        }
 		
 	}
 
     public bool CheckCanAfford(float cost)
     {
-        if (0 < (CurrentCash -= cost))
+        float a = currentCash;
+        if (0 <= (a -= cost))
             return true;
         else
             return false;

@@ -337,7 +337,7 @@ public class LevelInteraction : MonoBehaviour
         pathingGridSetup.UpdateGrid();
         if (CheckIfMachineOrPlaceable(ObjectToPlace))
             economyManager.OnMachinePurchase(ObjectToPlace as Machine);
-        else if (!CheckIfMachineOrPlaceable(ObjectToPlace))
+        else
             economyManager.OnBuildingPartPurchase(ObjectToPlace);
         PlaceableObject newPlaceableObject = newObject.GetComponent<PlaceableObject>();
         newPlaceableObject.PlacedOnTile = objectTile;
