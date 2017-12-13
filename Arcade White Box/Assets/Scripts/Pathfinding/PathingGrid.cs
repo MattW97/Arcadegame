@@ -104,7 +104,7 @@ public class PathingGrid : MonoBehaviour
             {
                 foreach (Node n in grid)
                 {
-                    Gizmos.color = (n.GetWalkable()) ? Color.white : Color.red;
+                    Gizmos.color = (n.GetWalkable()) ? new Color(1.0f, 1.0f, 1.0f, 0.5f) : Color.red;
                     Gizmos.DrawWireCube(n.GetWorldPosition(), Vector3.one * (nodeDiameter));
                 }
             }

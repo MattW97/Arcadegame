@@ -49,7 +49,7 @@ public class StaffManager : MonoBehaviour
 
     public void SpawnJanitor()
     {
-        Janitor newJanitor = Instantiate(janitor, new Vector3(0, 0, 0), janitor.transform.rotation);
+        Janitor newJanitor = Instantiate(janitor, spawnLocation.position, janitor.transform.rotation);
         spawnedJanitors.Add(newJanitor);
         spawnedStaff.Add(newJanitor);
     }
