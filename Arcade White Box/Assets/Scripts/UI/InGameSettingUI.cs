@@ -89,6 +89,7 @@ public class InGameSettingUI : MonoBehaviour
 
         musicMuteToggle.isOn = GameManager.Instance.SettingManager.GetMusicMute();
         musicMuteToggle.isOn = musicMuteToggle.isOn;
+        MusicMute();
         
         fullscreen.isOn = GameManager.Instance.SettingManager.GetIfFullscreen();
         fullscreen.isOn = fullscreen.isOn;
