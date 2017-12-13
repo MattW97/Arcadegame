@@ -53,13 +53,18 @@ public class CustomerManager : MonoBehaviour
                     customer.SetCurrentCustomerState(Customer.CustomerStates.Leaving);
                 }
 
+                if(Random.Range(0, 1000) <= 1)
+                {
+                    customer.DropTrash();
+                }
+
                 switch (currentState)
                 {
                     case Customer.CustomerStates.Idle:
 
                         if (customer.HungerStat >= 100.0f)
                         {
-                            Machine chosenFacility = FindNearestFacility(foodFacilities, customerTransform);
+                            Machine chosenFacility = FindNearestFacility(foodFacilities, customerTransform, customer);
                             if (chosenFacility)
                             {
                                 chosenFacility.InUse = true;
@@ -72,7 +77,7 @@ public class CustomerManager : MonoBehaviour
                         }
                         else if (customer.BladderStat >= 100.0f)
                         {
-                            Machine chosenFacility = FindNearestFacility(toilets, customerTransform);
+                            Machine chosenFacility = FindNearestFacility(toilets, customerTransform, customer);
                             if (chosenFacility)
                             {
                                 chosenFacility.InUse = true;
@@ -85,7 +90,7 @@ public class CustomerManager : MonoBehaviour
                         }
                         else
                         {
-                            Machine chosenFacility = FindNearestFacility(gameMachines, customerTransform);
+                            Machine chosenFacility = FindNearestFacility(gameMachines, customerTransform, customer);
                             if (chosenFacility)
                             {
                                 chosenFacility.InUse = true;
@@ -133,7 +138,7 @@ public class CustomerManager : MonoBehaviour
         }
     }
 
-    private Machine FindNearestFacility(List<Machine> facilities, Transform customerTransform)
+    private Machine FindNearestFacility(List<Machine> facilities, Transform customerTransform, Customer currentCustomer)
     {
         Machine nearest = null;
 
@@ -146,7 +151,7 @@ public class CustomerManager : MonoBehaviour
 
         foreach (Machine facility in facilities)
         {
-            if (facility.IsUsable())
+            if (facility.IsUsable() && !currentCustomer.RepeatTarget(facility))
             {
                 nearest = facility;
                 break;

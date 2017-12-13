@@ -21,6 +21,7 @@ public class Customer : BaseAI
     private Unit unitController;
     private Machine currentTarget, lastTarget;
     private List<CustomerStat> customerStats;
+    private StaffManager staffManager; 
 
     private CustomerStat bladderStat;
     private CustomerStat happinessStat;
@@ -40,6 +41,8 @@ public class Customer : BaseAI
     {
         unitController = GetComponent<Unit>();
         customerTransform = GetComponent<Transform>();
+
+        staffManager = GameManager.Instance.ScriptHolderLink.GetComponent<StaffManager>();
 
         bladderStat = new CustomerStat(CustomerStat.Stats.Bladder, 50.0f, 0.0f);
         happinessStat = new CustomerStat(CustomerStat.Stats.Happiness, 50.0f, 0.0f);
@@ -123,7 +126,13 @@ public class Customer : BaseAI
 
     public void DropTrash()
     {
+        Tile newTile = GetTileBelow();
 
+        if(newTile)
+        {
+            newTile.AddToTrash();
+            staffManager.AddToTrashTiles(newTile);
+        }
     }
 
     public void Puke()
@@ -186,6 +195,18 @@ public class Customer : BaseAI
     public bool ReachedTarget()
     {
         return unitController.ReachedTarget;
+    }
+
+    public bool RepeatTarget(Machine facility)
+    {
+        if (facility == currentTarget)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private Tile GetTileBelow()
