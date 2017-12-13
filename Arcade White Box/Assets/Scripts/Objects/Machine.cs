@@ -42,10 +42,6 @@ public class Machine : PlaceableObject {
             machineStatus = MachineStatus.Broken;
             OnMachineBreak();
         }
-        else
-        {
-            IncreaseFailurePercentage();
-        }
     }
 
     /// <summary>
@@ -67,11 +63,12 @@ public class Machine : PlaceableObject {
         }
     }
 
-    protected virtual void DailyReset()
+    public virtual void DailyReset()
     {
         dailyExpenses = 0;
         dailyRevenue = 0;
         dailyCustomers = 0;
+        IncreaseFailurePercentage();
     }
 
     protected override void Awake()

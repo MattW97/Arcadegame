@@ -111,6 +111,7 @@ public class LevelManager : MonoBehaviour {
             mainDoors.CloseDoor();
             // _timeLink.StopTimer();
             // enable UI element to show data of the day
+            customerManager.MassLeave();
 
             closedOnce = true;
             openOnce = false;
@@ -165,6 +166,14 @@ public class LevelManager : MonoBehaviour {
             customerManager.SetGameMachines(AllGameMachines);
             customerManager.SetFoodStalls(AllFoodStalls);
             customerManager.SetToilets(AllToilets);
+        }
+    }
+
+    public void MachineDailyReset()
+    {
+        foreach (Machine mach in AllMachineObjects)
+        {
+            mach.DailyReset();
         }
     }
 

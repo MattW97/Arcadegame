@@ -24,6 +24,7 @@ public class TimeAndCalendar : MonoBehaviour {
     private float secondsMultiplier;
     private float seconds;
 
+    private LevelManager _levelManagerLink;
     void Start ()
     {
         CurrentHour = startHour;
@@ -31,9 +32,8 @@ public class TimeAndCalendar : MonoBehaviour {
         CurrentYear = startYear;
         CurrentMonth = startMonth;
         CurrentDay = startDay;
-
         seconds = 0;
-
+        _levelManagerLink = this.gameObject.GetComponent<LevelManager>();
         timeText = GameObject.Find("UIInGame/Bottom Bar/Date And Time/Text").GetComponent<Text>();
         StartTimer();
         CreateCalendar();
@@ -99,6 +99,7 @@ public class TimeAndCalendar : MonoBehaviour {
 
     private void DayIncrement()
     {
+        _levelManagerLink.MachineDailyReset();
         if (CurrentDay == 29)
         {
             CurrentDay = 0;

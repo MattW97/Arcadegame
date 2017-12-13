@@ -72,6 +72,10 @@ public class EconomyManager : MonoBehaviour {
         {
             Bankrupt = false;
         }
+        if (currentCash % 1 != 0)
+        {
+            currentCash = Mathf.RoundToInt(currentCash);
+        }
 		
 	}
 

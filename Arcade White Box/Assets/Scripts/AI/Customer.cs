@@ -69,6 +69,7 @@ public class Customer : BaseAI
         CustomerName = GameManager.Instance.GetComponent<NameGenerator>().GenerateName();
     }
 
+
     public void StatTick()
     {
         statCounter += Time.deltaTime * speedFactor;
@@ -230,7 +231,7 @@ public class Customer : BaseAI
             GameMachine machine = (GameMachine)currentTarget;
             machine.DecreaseCurrentNumberOfPlayers();
         }
-
+   
         currentTarget.InUse = false;
         currentState = CustomerStates.Idle;
     }
