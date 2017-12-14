@@ -53,7 +53,7 @@ public class CustomerManager : MonoBehaviour
                     customer.SetCurrentCustomerState(Customer.CustomerStates.Leaving);
                 }
 
-                if(Random.Range(0, 1000) <= 1)
+                if(Random.Range(0, 2000) <= 1)
                 {
                     customer.DropTrash();
                 }
