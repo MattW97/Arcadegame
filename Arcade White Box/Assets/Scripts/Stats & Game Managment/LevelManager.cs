@@ -22,12 +22,12 @@ public class LevelManager : MonoBehaviour {
 
     [SerializeField] private float customerSpawnRate, rentCost, startingCash;
     [SerializeField] private int MAXCUSTOMERS; 
-    [SerializeField] private int openingHour, closingHour;
-    [SerializeField] private int preOpeningTime;
+    [SerializeField] private int openingHour, closingHour, preOpeningHour;
+    //[SerializeField] private int preOpeningTime;
     [SerializeField] private MainDoorController mainDoors;
 
     private int numOfCustomers;
-    private bool openOnce, closedOnce, spawningCustomers, preOpenBool;
+    private bool openOnce, closedOnce, spawningCustomers, preOpenBool, doorAnimBool;
 
     void Start () {
 
@@ -37,7 +37,8 @@ public class LevelManager : MonoBehaviour {
         customerManager = this.GetComponent<CustomerManager>();
         openOnce = false;
         closedOnce = false;
-        preOpenBool = false; 
+        preOpenBool = false;
+        doorAnimBool = false; 
 
         AllMachineObjects = new List<Machine>();
         AllGameMachines = new List<Machine>();
@@ -64,6 +65,13 @@ public class LevelManager : MonoBehaviour {
             customerManager.CancelInvoke("SpawnCustomer");
             spawningCustomers = false;
         }
+
+        if (arcadeStatus == ArcadeOpeningStatus.Closed && customerManager.GetNumberOfCustomers() == 0 && doorAnimBool)
+        {
+            mainDoors.CloseDoor();
+            //_timeLink.StartTimerX10();
+            doorAnimBool = false;
+        }
     }
 
     public bool CheckCustomerSpawnParameters()
@@ -80,23 +88,27 @@ public class LevelManager : MonoBehaviour {
     private void OpenClose()
     {
         // pre open time
-        if (_timeLink.GetCurrentTime() == preOpeningTime && !preOpenBool)
+        if (_timeLink.GetCurrentTime() == preOpeningHour && !preOpenBool)
         {
+            _timeLink.StopTimer();
             _timeLink.StartTimer();
             preOpenBool = true;
+            
             // create UI stuff to show next day
         }
+
         //open time
         else if (_timeLink.CurrentHour == openingHour && !openOnce)
         {
            
             arcadeStatus = ArcadeOpeningStatus.Open;
             mainDoors.OpenDoor();
-           // _timeLink.StopTimer();
 
             openOnce = true;
+            preOpenBool = false;
             closedOnce = false;
-            
+            doorAnimBool = true;
+
         }
         //close time
         else if (_timeLink.CurrentHour == closingHour && !closedOnce)
@@ -107,15 +119,14 @@ public class LevelManager : MonoBehaviour {
                 _economyLink.bankruptcyUI.SetActive(true);
                 _economyLink.bankruptcyUI.GetComponent<BankruptcyUIController>().Bankrupt();
             }
-            arcadeStatus = ArcadeOpeningStatus.Closed;
-            mainDoors.CloseDoor();
-            // _timeLink.StopTimer();
-            // enable UI element to show data of the day
             customerManager.MassLeave();
+            arcadeStatus = ArcadeOpeningStatus.Closed;
+            // enable UI element to show data of the day
 
             closedOnce = true;
             openOnce = false;
             _economyLink.ClosingTime();
+            
         }
     }
 
@@ -177,6 +188,7 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
+    #region Getters/Setters
     public float StartingCash
     {
         get
@@ -262,4 +274,19 @@ public class LevelManager : MonoBehaviour {
             allBrokenMachines = value;
         }
     }
+
+    public int PreOpeningHour
+    {
+        get
+        {
+            return preOpeningHour;
+        }
+
+        set
+        {
+            preOpeningHour = value;
+        }
+    }
+
+    #endregion Getters/Setters
 }

@@ -17,22 +17,22 @@ public class ButtonControllerScript : MonoBehaviour {
         timeAndCalendarLink.StopTimer();
     }
 
-    public void startTimer()
+    public void BaseSpeed()
     {
         timeAndCalendarLink.StartTimer();
     }
 
-    public void doubleSpeed()
+    public void SecondSpeedOption()
     {
         timeAndCalendarLink.StartTimerX2();
     }
 
-    public void tripleSpeed()
+    public void ThirdSpeedOption()
     {
         timeAndCalendarLink.StartTimerX3();
     }
 
-    public void maxSpeed()
+    public void MaxSpeexOption()
     {
         timeAndCalendarLink.StartTimerX10();
     }

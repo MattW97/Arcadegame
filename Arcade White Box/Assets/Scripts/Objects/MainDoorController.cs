@@ -6,11 +6,14 @@ public class MainDoorController : MonoBehaviour {
 
     public bool doorOpen;
     private Animator anim;
+    private TimeAndCalendar _timeLink;
 
     void Start()
     {
         anim = this.GetComponent<Animator>();
         doorOpen = false;
+        _timeLink = GameManager.Instance.ScriptHolderLink.GetComponent<TimeAndCalendar>();
+        anim.speed = _timeLink.timeMultiplier;
     }
 
     void Update()

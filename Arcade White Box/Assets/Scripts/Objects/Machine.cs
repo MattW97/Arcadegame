@@ -14,6 +14,7 @@ public class Machine : PlaceableObject {
     [SerializeField] private float failurePercentage;                       // The chance the machine has to break on use
     [SerializeField] private float failurePercentageIncrease;               // How much the failurePercentage increases by each IncreaseFailurePercentage() call.
     [SerializeField] [Range(0.0f, 100.0f)]protected float statAdjustment;   // Customer stat boost OnUse() (Stat increased dependent on the machine this is attached to)b 
+    [SerializeField] private GameObject repairIcon;
 
     public MachineStatus machineStatus;
     private bool inUse;
@@ -40,6 +41,7 @@ public class Machine : PlaceableObject {
         if (roll <= failurePercentage)
         {
             machineStatus = MachineStatus.Broken;
+            repairIcon.SetActive(true);
             OnMachineBreak();
         }
     }
@@ -56,6 +58,7 @@ public class Machine : PlaceableObject {
             allTimeExpenses += maintenanceCost;
             machineStatus = MachineStatus.Working;
             failurePercentage = baseFailurePercentage;
+            repairIcon.SetActive(false);
         }
         else
         { 
@@ -80,13 +83,14 @@ public class Machine : PlaceableObject {
     void Start()
     {
         baseFailurePercentage = failurePercentage;
+        repairIcon.SetActive(false);
     }
 
 
     protected override void Update()
     {
         base.Update();
-        
+        repairIcon.transform.Rotate(0, 1, 0);
     }
 
     protected void OnMachineBreak()
