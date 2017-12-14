@@ -6,7 +6,7 @@ public class Staff : BaseAI
 {
     public enum StaffType { Tech, Janitor, Worker, Chef}
 
-    [SerializeField] private StaffType staffType;
+    [SerializeField] public StaffType staffType;
     [SerializeField] private float hireCost, wageCost;
 
     protected float speedFactor;

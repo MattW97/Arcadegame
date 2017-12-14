@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ArcadeManagementUI : MonoBehaviour {
 
     [SerializeField]
-    private GameObject statsMain, staffMain, customerMain, arcadeItemsMain, playerImage;
+    private GameObject statsMain, staffMain, customerMain, arcadeItemsMain, playerImage, staffTest, contentParent;
 
     [SerializeField]
     private GameObject statsUnselected, staffUnselected, customerUnselected, arcadeItemsUnselected, closedUnselected,
@@ -238,4 +238,14 @@ public class ArcadeManagementUI : MonoBehaviour {
     }
 
     #endregion
+
+
+    public void ListTest()
+    {
+        Janitor newjanitor = GameManager.Instance.ScriptHolderLink.GetComponent<StaffManager>().SpawnJanitor();
+
+        GameObject newObject = Instantiate(staffTest, staffTest.transform.position, staffTest.transform.rotation);
+        newObject.transform.SetParent(contentParent.transform, false);
+        newObject.GetComponent<StaffDetails>().AssignStaffMember(newjanitor);
+    }
 }

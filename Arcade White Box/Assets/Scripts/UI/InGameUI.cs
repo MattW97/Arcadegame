@@ -181,4 +181,5 @@ public class InGameUI : MonoBehaviour
             anim.SetBool("Open", true);
             tabOpen = true;
     }
+        
 }

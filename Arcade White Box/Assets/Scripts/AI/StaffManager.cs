@@ -13,6 +13,8 @@ public class StaffManager : MonoBehaviour
     private List<Janitor> spawnedJanitors;
     private List<Tile> currentTrashTiles;
 
+    private StaffDetails staffDetails;
+
     void Awake()
     {
         spawnedStaff = new List<Staff>();
@@ -24,6 +26,7 @@ public class StaffManager : MonoBehaviour
     {
         gameTime = GameManager.Instance.ScriptHolderLink.GetComponent<TimeAndCalendar>();
     }
+
 
     void Update()
     {
@@ -47,11 +50,13 @@ public class StaffManager : MonoBehaviour
         }
     }
 
-    public void SpawnJanitor()
+    public Janitor SpawnJanitor()
     {
         Janitor newJanitor = Instantiate(janitor, spawnLocation.position, janitor.transform.rotation);
         spawnedJanitors.Add(newJanitor);
         spawnedStaff.Add(newJanitor);
+
+        return newJanitor;
     }
 
     public float GetSpeedFactor()
