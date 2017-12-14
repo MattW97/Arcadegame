@@ -72,6 +72,11 @@ public class Customer : BaseAI
         CustomerName = GameManager.Instance.GetComponent<NameGenerator>().GenerateName();
     }
 
+    void Update()
+    {
+        this.GetComponent<Animator>().speed = speedFactor;
+    }
+
 
     public void StatTick()
     {
@@ -238,6 +243,7 @@ public class Customer : BaseAI
         {
             GameMachine machine = (GameMachine)currentTarget;
             machine.IncreaseCurrentNumberOfPlayers();
+            this.GetComponent<Animator>().SetTrigger("Sit");
         }
 
         currentTarget.OnUse();
@@ -251,6 +257,7 @@ public class Customer : BaseAI
         {
             GameMachine machine = (GameMachine)currentTarget;
             machine.DecreaseCurrentNumberOfPlayers();
+            this.GetComponent<Animator>().SetTrigger("Get Up");
         }
    
         currentTarget.InUse = false;

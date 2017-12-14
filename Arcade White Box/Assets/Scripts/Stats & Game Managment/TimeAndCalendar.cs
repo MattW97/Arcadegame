@@ -43,13 +43,8 @@ public class TimeAndCalendar : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        
-
-
         UpdateTime();
-
         Seconds();
-
     }
 
     #region Time
@@ -154,7 +149,6 @@ public class TimeAndCalendar : MonoBehaviour {
 
     public void StopTimer()
     {
-        //CancelInvoke();
         secondsMultiplier = 0;
         timeMultiplier = 0;
     }
@@ -174,7 +168,7 @@ public class TimeAndCalendar : MonoBehaviour {
     public void StartTimerX10()
     {
         StopTimer();
-        SetTimeMultiplier(speedOption4);
+        SetTimeMultiplier(speedOption5);
     }
 
     private string LeadingZero(int n)
