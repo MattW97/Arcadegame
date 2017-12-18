@@ -151,13 +151,18 @@ public class CustomerManager : MonoBehaviour
 
         foreach (Machine facility in facilities)
         {
+            print(facility.name + facility.IsUsable());
+
             if (facility.IsUsable() && !currentCustomer.RepeatTarget(facility))
             {
                 nearest = facility;
+                //nearest = facilities[Random.Range(0, facilities.Count)];
                 break;
             }
         }
 
+
+        print(nearest);
         return nearest;
     }
 
@@ -254,10 +259,12 @@ public class CustomerManager : MonoBehaviour
     public float GetAverageCustomerTiredness()
     {
         float average = 0.0f;
-
+        
         foreach (Customer customer in currentCustomers)
         {
             average += customer.TirednessStat;
+            float randomIncrease = Random.Range(0, 50);
+            average += randomIncrease;
         }
 
         return average / currentCustomers.Count;

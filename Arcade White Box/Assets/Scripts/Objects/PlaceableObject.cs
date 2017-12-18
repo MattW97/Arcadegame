@@ -70,9 +70,6 @@ public class PlaceableObject : Entity {
 
     public float returnAmount()
     {
-        print(BuyCost);
-        print(percentReturnedUponSold);
-        print(((buyCost - percentReturnedUponSold) / buyCost) * 100);
         return (((buyCost - percentReturnedUponSold) / buyCost) * 100);
     }
 

@@ -20,7 +20,7 @@ public class GameMachine : Machine {
         if (CheckIfMachineIsFull())
         {
             base.OnUse();
-            GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().MoneyEarnedFromArcade(this);
+            GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().MoneyEarned(this);
             // Give Happiness, TotalHappiness()
         }
     }

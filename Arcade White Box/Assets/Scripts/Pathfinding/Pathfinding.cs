@@ -80,6 +80,7 @@ public class Pathfinding : MonoBehaviour
         else
         {
             print("NO WALKABLE: STARTNODE- " + startNode.GetWalkable() + " TARGET NODE- " + targetNode.GetWalkable());
+
         }
 
 		yield return null;

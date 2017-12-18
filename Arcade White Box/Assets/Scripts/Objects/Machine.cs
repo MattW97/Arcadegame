@@ -41,7 +41,6 @@ public class Machine : PlaceableObject {
         if (roll <= failurePercentage)
         {
             machineStatus = MachineStatus.Broken;
-            repairIcon.SetActive(true);
             OnMachineBreak();
         }
     }
@@ -96,6 +95,7 @@ public class Machine : PlaceableObject {
     protected void OnMachineBreak()
     {
         // play broken animation stuff
+        repairIcon.SetActive(true);
         noOfBreakdowns++;
     }
     protected bool IncreaseUseCost()

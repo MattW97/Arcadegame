@@ -23,7 +23,6 @@ public class LevelManager : MonoBehaviour {
     [SerializeField] private float customerSpawnRate, rentCost, startingCash;
     [SerializeField] private int MAXCUSTOMERS; 
     [SerializeField] private int openingHour, closingHour, preOpeningHour;
-    //[SerializeField] private int preOpeningTime;
     [SerializeField] private MainDoorController mainDoors;
 
     private int numOfCustomers;

@@ -17,31 +17,8 @@ public class EconomyManager : MonoBehaviour {
 
     private bool bankrupt;
     public GameObject bankruptcyUI;
-    public float CurrentCash
-    {
-        get
-        {
-            return currentCash;
-        }
+    public GameObject UI;
 
-        set
-        {
-            currentCash = value;
-        }
-    }
-
-    public bool Bankrupt
-    {
-        get
-        {
-            return bankrupt;
-        }
-
-        set
-        {
-            bankrupt = value;
-        }
-    }
 
     // Use this for initialization
     void Start () {
@@ -52,6 +29,7 @@ public class EconomyManager : MonoBehaviour {
         _timeAndCalendarLink = GameManager.Instance.ScriptHolderLink.GetComponent<TimeAndCalendar>();
         CurrentCash = _levelLink.StartingCash;
         Bankrupt = false;
+        UI = GameObject.Find("UIInGame");
         bankruptcyUI = GameObject.Find("UIInGame/Bankruptcy");
         bankruptcyUI.SetActive(false);
         
@@ -144,12 +122,11 @@ public class EconomyManager : MonoBehaviour {
         {
             expensesFoodStallsMaintenance += brokenMachine.MaintenanceCost;
         }
-        CurrentCash -= brokenMachine.MaintenanceCost;
     }
 
     public void OnMachinePurchase(Machine purchase)
     {
-        CurrentCash -= purchase.BuyCost;
+        MoneySpent(purchase.BuyCost);
         expensesTodaysPurchases += purchase.BuyCost;
         if (purchase is GameMachine)
         {
@@ -167,7 +144,7 @@ public class EconomyManager : MonoBehaviour {
 
     public void OnBuildingPartPurchase(PlaceableObject purchase)
     {
-        CurrentCash -= purchase.BuyCost;
+        MoneySpent(purchase.BuyCost);
         expensesTodaysPurchases += purchase.BuyCost;
     }
 
@@ -208,16 +185,8 @@ public class EconomyManager : MonoBehaviour {
         expensesFoodStallsMaintenance = 0;
     }
 
-    //public bool CheckCanAfford(float price)
-    //{
-    //    if (CurrentCash - price > -1)
-    //        return true;
 
-    //    else
-    //        return false;
-    //}
-
-    public void MoneyEarnedFromArcade(Machine objectSpentOn)
+    public void MoneyEarned(Machine objectSpentOn)
     {
         float num = objectSpentOn.UseCost;
         if (objectSpentOn is GameMachine)
@@ -233,6 +202,44 @@ public class EconomyManager : MonoBehaviour {
             profitDailyOther += num;
         }
         CurrentCash += num;
+        UI.GetComponent<ScrollingMoneyTextController>().CreatePositiveText(num);
+    }
+    public void MoneyEarned(float amount)
+    {
+        currentCash -= amount;
+        UI.GetComponent<ScrollingMoneyTextController>().CreatePositiveText(amount);
+    }
+
+    public void MoneySpent(float amount)
+    {
+        CurrentCash -= amount;
+        UI.GetComponent<ScrollingMoneyTextController>().CreateNegativeText(amount);
+    }
+
+    public float CurrentCash
+    {
+        get
+        {
+            return currentCash;
+        }
+
+        set
+        {
+            currentCash = value;
+        }
+    }
+
+    public bool Bankrupt
+    {
+        get
+        {
+            return bankrupt;
+        }
+
+        set
+        {
+            bankrupt = value;
+        }
     }
 
 }
