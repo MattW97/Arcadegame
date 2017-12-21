@@ -53,7 +53,7 @@ public class CustomerManager : MonoBehaviour
                     customer.SetCurrentCustomerState(Customer.CustomerStates.Leaving);
                 }
 
-                if(Random.Range(0, 2000) <= 1)
+                if(Random.Range(0, 10000) <= 1)
                 {
                     customer.DropTrash();
                 }
@@ -222,14 +222,21 @@ public class CustomerManager : MonoBehaviour
 
     public float GetAverageCustomerHappiness()
     {
-        float average = 0.0f;
-
-        foreach (Customer customer in currentCustomers)
+        if (currentCustomers.Count != 0)
         {
-            average += customer.HappinessStat;
-        }
+            float average = 0.0f;
 
-        return average / currentCustomers.Count;
+            foreach (Customer customer in currentCustomers)
+            {
+                average += customer.HappinessStat;
+            }
+
+            return average / currentCustomers.Count;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     public float GetAverageCustomerBladder()

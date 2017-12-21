@@ -8,8 +8,11 @@ public class ScrollingMoneyTextController : MonoBehaviour {
     [SerializeField] private GameObject parent;
     [SerializeField] private Text scrollingText;
 
-	// Use this for initialization
-	void Start () {
+    [SerializeField] [Range(0.0f, 10000.0f)] private float minimumEarningsToShow;
+    [SerializeField] [Range(0.0f, 10000.0f)] private float minimumExpensesToShow;
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -23,15 +26,21 @@ public class ScrollingMoneyTextController : MonoBehaviour {
 
     public void CreatePositiveText(float amount)
     {
-        Text newText = Instantiate(scrollingText, scrollingText.transform.position, scrollingText.transform.rotation) as Text;
-        newText.transform.SetParent(parent.transform, false);
-        newText.GetComponent<MoneyScrollingText>().AssignText(amount, true);
+        if (amount >= minimumEarningsToShow)
+        {
+            Text newText = Instantiate(scrollingText, scrollingText.transform.position, scrollingText.transform.rotation) as Text;
+            newText.transform.SetParent(parent.transform, false);
+            newText.GetComponent<MoneyScrollingText>().AssignText(amount, true);
+        }
     }
 
     public void CreateNegativeText(float amount)
     {
-        //GameObject newText = Instantiate(scrollingTextPrefab, scrollingTextPrefab.transform.position, scrollingTextPrefab.transform.rotation);
-        //newText.transform.SetParent(parent.transform, false);
-        //newText.GetComponent<MoneyScrollingText>().AssignText(amount, false);
+        if (amount >= minimumExpensesToShow)
+        {
+            Text newText = Instantiate(scrollingText, scrollingText.transform.position, scrollingText.transform.rotation) as Text;
+            newText.transform.SetParent(parent.transform, false);
+            newText.GetComponent<MoneyScrollingText>().AssignText(amount, false);
+        }
     }
 }

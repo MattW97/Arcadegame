@@ -114,7 +114,7 @@ public class InGameSettingUI : MonoBehaviour
 
     void OnEnable()
     {
-        GameManager.Instance.SettingManager.LoadSettings();
+        //GameManager.Instance.SettingManager.LoadSettings();
 
         resolutionDropDown.RefreshShownValue();
     }

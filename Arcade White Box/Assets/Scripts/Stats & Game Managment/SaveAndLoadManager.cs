@@ -29,6 +29,21 @@ public class SaveAndLoadManager : MonoBehaviour
     public Scene openScene;
 
 
+    /// <summary>
+    /// Class initialisiation. Assigns all the links and starts autosaving if enabled.
+    /// </summary>
+    public void Initialise()
+    {
+        _timeAndCalendarLink = GameManager.Instance.ScriptHolderLink.GetComponent<TimeAndCalendar>();
+        _playerManagerLink = GameManager.Instance.SceneManagerLink.GetComponent<PlayerManager>();
+        _economyManagerLink = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();
+        _objectManager = GameManager.Instance.SceneManagerLink.GetComponent<ObjectManager>();
+        if (autosaveOn)
+        {
+            AutoSaveHandler(true);
+        }
+    }
+
     private string savePath;
     public string SavePath
     {
@@ -261,6 +276,11 @@ public class SaveAndLoadManager : MonoBehaviour
                 {
                     InstantiateNewObject(_objectManager.AllPlaceableObjects[i], new Vector3(obj.PosX, obj.PosY, obj.PosZ), Quaternion.Euler(new Vector3(obj.RotX, obj.RotY, obj.RotZ)), FindTileFromID(obj.tile_ID));
                 }
+                else
+                {
+                    print("Tried to create an object that is not inside the object manager script. Please add it to Object Manager for it to be created on Load().");
+                    print("The object you tried to create has the name " + obj.prefabName);
+                }
             }
         }
         //placeableSaveList.Clear();
@@ -274,11 +294,11 @@ public class SaveAndLoadManager : MonoBehaviour
     {
         foreach (CustomerSaveable cust in saveData.customerSaveList)
         {
-            for (int i = 0; i < GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>().customers.Length; i++)
+            for (int i = 0; i < GameManager.Instance.ScriptHolderLink.GetComponent<CustomerManager>().customers.Length; i++)
             {
-                if (cust.prefabName == GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>().customers[i].name)
+                if (cust.prefabName == GameManager.Instance.ScriptHolderLink.GetComponent<CustomerManager>().customers[i].name)
                 {
-                       InstantiateNewCustomer(GameManager.Instance.SceneManagerLink.GetComponent<CustomerManager>().customers[i], cust, 
+                       InstantiateNewCustomer(GameManager.Instance.ScriptHolderLink.GetComponent<CustomerManager>().customers[i], cust, 
                         new Vector3(cust.PosX, cust.PosY, cust.PosZ),
                         Quaternion.Euler(new Vector3(cust.RotX, cust.RotY, cust.RotZ)));
                 }
@@ -383,6 +403,7 @@ public class SaveAndLoadManager : MonoBehaviour
     /// <returns></returns>
     private IEnumerator<UnityEngine.WaitForSeconds> AutoSave(float delay)
     {
+        print("Autosaved at " + DateTime.Now.TimeOfDay.ToString());
         SaveScene(autoSaveName);
         yield return new WaitForSeconds(delay);
         StartCoroutine(AutoSave(delay));
@@ -423,20 +444,7 @@ public class SaveAndLoadManager : MonoBehaviour
         saveData.customerSaveList.Clear();
     }
 
-    /// <summary>
-    /// Class initialisiation. Assigns all the links and starts autosaving if enabled.
-    /// </summary>
-    public void Initialise()
-    {
-        _timeAndCalendarLink = GameManager.Instance.ScriptHolderLink.GetComponent<TimeAndCalendar>();
-        _playerManagerLink = GameManager.Instance.SceneManagerLink.GetComponent<PlayerManager>();
-        _economyManagerLink = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();
-        _objectManager = GameManager.Instance.SceneManagerLink.GetComponent<ObjectManager>();
-        if (autosaveOn)
-        {
-            AutoSaveHandler(true);
-        }
-    }
+   
 
     /// <summary>
     /// Assigns data after it has been loaded from file. 

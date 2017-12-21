@@ -9,15 +9,17 @@ public class MoneyScrollingText : MonoBehaviour {
     [SerializeField] private Text text;
     [SerializeField] private float fadeTime;
 
-    private Color fadedColour;
+    private Color fadedGreenColour, fadedRedColour;
     private IEnumerator fadeOut;
 
 	// Use this for initialization
 	void Start () {
-        fadeOut = FadeOut();
+        
         StartCoroutine(fadeOut);
-        fadedColour = Color.green;
-        fadedColour.a = 0;
+        fadedGreenColour = Color.green;
+        fadedGreenColour.a = 0;
+        fadedRedColour = Color.green;
+        fadedRedColour.a = 0;
 	}
 	
 	// Update is called once per frame
@@ -29,19 +31,25 @@ public class MoneyScrollingText : MonoBehaviour {
 
     public void AssignText(float amount, bool positive)
     {
-        text.text = amount.ToString();
         if (positive)
+        {
+            text.text = "+$" + amount.ToString();
             text.color = Color.green;
+            fadeOut = FadeOut(fadedGreenColour);
+        }
         else
-            text.color = Color.black;
+        {
+            text.text = "-$" + amount.ToString();
+            text.color = Color.red;
+            fadeOut = FadeOut(fadedRedColour);
+        }
     }
 
-    private IEnumerator FadeOut()
+    private IEnumerator FadeOut(Color color)
     {
-        //ugly while, Update would be ideal
         while (text.color.a > 0)
         {
-            text.color = Color.Lerp(text.color, fadedColour, fadeTime * Time.deltaTime);
+            text.color = Color.Lerp(text.color, color, fadeTime * Time.deltaTime);
             yield return null;
         }
         Destroy(this.gameObject);

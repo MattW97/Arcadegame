@@ -20,6 +20,8 @@ public class PlaceableObject : Entity {
     private string prefabName;
     private int tile_ID;
 
+    public bool prePlaced;
+
     protected virtual void Awake()
     {
         selectionTransform = selectionMesh.GetComponent<Transform>();
@@ -39,6 +41,19 @@ public class PlaceableObject : Entity {
     void OnDisable()
     {
         EventManager.Save -= OnSave;
+    }
+
+    protected virtual void Start()
+    {
+        //Commented for wall placing later on.
+        //if (prePlaced)
+        //{
+        //    RaycastHit hit;
+        //    if (Physics.Raycast(this.position, Vector3.down, out hit))
+        //    {
+        //        placedOnTile = hit.transform.gameObject.GetComponent<Tile>();
+        //    }
+        //}
     }
 
     protected virtual void Update()
@@ -85,7 +100,6 @@ public class PlaceableObject : Entity {
         save.RotX = tempTran.rotation.eulerAngles.x;
         save.RotY = tempTran.rotation.eulerAngles.y;
         save.RotZ = tempTran.rotation.eulerAngles.z;
-
         return save;
     }
 

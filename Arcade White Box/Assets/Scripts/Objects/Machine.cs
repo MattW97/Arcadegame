@@ -52,7 +52,7 @@ public class Machine : PlaceableObject {
     {
         if (GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().CheckCanAfford(maintenanceCost))
         {
-            GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().OnMachineBreakdown(this);
+            GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().OnMachineRepair(this);
             dailyExpenses += maintenanceCost;
             allTimeExpenses += maintenanceCost;
             machineStatus = MachineStatus.Working;

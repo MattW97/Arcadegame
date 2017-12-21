@@ -196,8 +196,8 @@ public class LevelInteraction : MonoBehaviour
                 }
                 else if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Object") == 0)
                 {
-                    if(hitInfo.collider.gameObject.name != "Top")
-                    placedOnTile = GetNearestTile(hitInfo.collider);
+                    if (hitInfo.collider.gameObject.name != "Top")
+                        placedOnTile = GetNearestTile(hitInfo.collider);
                     if (!tileHighlighter.activeSelf)
                         tileHighlighter.SetActive(true);
                     Vector3 highlighterPosition = placedOnTile.transform.position;
@@ -210,7 +210,6 @@ public class LevelInteraction : MonoBehaviour
                         {
                             NullSelectedObject();
 
-                            //CurrentState = InteractionState.WallPlacing;
 
                             if (economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
                             {
@@ -223,6 +222,39 @@ public class LevelInteraction : MonoBehaviour
                     {
                         highlighterRenderer.material = cantPlace;
                     }
+                }
+                else if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Wall") == 0)
+                {
+                    if (hitInfo.collider.gameObject.name != "Top")
+                        placedOnTile = GetNearestTileWallVersion(hitInfo.collider);
+                    if (!tileHighlighter.activeSelf)
+                        tileHighlighter.SetActive(true);
+                    Vector3 highlighterPosition = placedOnTile.transform.position;
+                    highlighterTransform.position = highlighterPosition;
+                    if (placedOnTile.GetTileType() == Tile.TileType.Passable)
+                    {
+                        highlighterRenderer.material = canPlace;
+
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            NullSelectedObject();
+
+
+                            if (economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
+                            {
+                                InstantiateNewObject(ObjectToPlace, highlighterPosition, highlighterTransform.rotation, placedOnTile);
+                                ObjectToPlace = null;
+                            }
+                        }
+                    }
+                    else if (placedOnTile.GetTileType() == Tile.TileType.Impassable)
+                    {
+                        highlighterRenderer.material = cantPlace;
+                    }
+                }
+                else
+                {
+                    highlighterTransform.gameObject.SetActive(false);
                 }
             }
         }
@@ -310,7 +342,7 @@ public class LevelInteraction : MonoBehaviour
     private Tile GetNearestTile(Collider col)
     {
         Tile tile = null;
-        Collider[] colliders = Physics.OverlapSphere(col.transform.position, 1000.0f);
+        Collider[] colliders = Physics.OverlapSphere(col.transform.position, 10.0f);
         Collider closestCol = null;
         Tile ownTile = col.gameObject.GetComponentInParent<PlaceableObject>().PlacedOnTile;
         foreach (Collider hit in colliders)
@@ -324,6 +356,24 @@ public class LevelInteraction : MonoBehaviour
                 if (Vector3.Distance(col.transform.position, hit.transform.position) <= Vector3.Distance(col.transform.position, closestCol.transform.position))
                     closestCol = hit;
             }
+            tile = closestCol.gameObject.GetComponent<Tile>();
+        }
+        return tile;
+    }
+
+    private Tile GetNearestTileWallVersion(Collider col)
+    {
+        Tile tile = null;
+        Collider[] colliders = Physics.OverlapSphere(col.transform.position, 10.0f);
+        Collider closestCol = null;
+        foreach (Collider hit in colliders)
+        {
+            if (hit == col.GetComponent<Collider>() || hit.gameObject.tag != "Tile")
+                continue;
+            if (closestCol == null)
+                closestCol = hit;
+            if (Vector3.Distance(col.transform.position, hit.transform.position) <= Vector3.Distance(col.transform.position, closestCol.transform.position))
+                closestCol = hit;
             tile = closestCol.gameObject.GetComponent<Tile>();
         }
         return tile;

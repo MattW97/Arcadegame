@@ -106,8 +106,9 @@ public class EconomyManager : MonoBehaviour {
         expensesStaffWages -= staffMember.WageCost;
     }
 
-    public void OnMachineBreakdown(Machine brokenMachine)
+    public void OnMachineRepair(Machine brokenMachine)
     {
+        MoneySpent(brokenMachine.MaintenanceCost);
         if (brokenMachine is GameMachine)
         {
             expensesGamesMachineMaintenance += brokenMachine.MaintenanceCost;
