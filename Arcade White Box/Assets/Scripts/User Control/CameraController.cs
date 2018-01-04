@@ -1,56 +1,100 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
-public class CameraController : MonoBehaviour {
+public class CameraController : MonoBehaviour 
+{
+    public enum CameraMode { FreeCamera, RotationLock }
+    
+    [SerializeField] private float movementSpeed;
+    [SerializeField] private float boostSpeed;
+    [SerializeField] private float rotationSpeed;
+    [SerializeField] private float rotationSensitivity;
+    [SerializeField] private float scrollSpeed;
+    [SerializeField] private float scrollSensitivity;
+    [SerializeField] private float yMin;
+    [SerializeField] private float yMax;
+    [SerializeField] private float minScrollAngle;
+    [SerializeField] private float maxScrollAngle;
+    [SerializeField] private Transform cameraTransform;
 
-    public float panSpeed = 20f;
-    public float panBorderThickness = 10f;
-
-    public Vector2 panLimit;
-
-    public float scrollSpeed = 20f;
-    public float minY = 20f;
-    public float maxY = 300f;
-
-	// Update is called once per frame
-	void Update ()
-    {
-        CameraControls();
+    private float scrollValue, scrollAngle, rotationAngle;
+    private Vector3 movement;
+	private Transform parentTransform;
+	private CursorLockMode cursorMode;
+	private CameraMode cameraMode;
+    
+	void Awake()
+	{
+		parentTransform = GetComponent<Transform>();
 	}
+	
+    void Start()
+	{
+	    cursorMode = CursorLockMode.None;
+	    Cursor.lockState = cursorMode;
 
-    void CameraControls()
+        scrollValue = parentTransform.position.y;
+        movement = parentTransform.position;
+    }
+
+    void Update()
     {
-        Vector3 pos = transform.position;
+        GetUserInput();
+    }
 
-        if (Input.GetKey("w"))
+	void LateUpdate()
+	{
+        CameraScroll();
+        CameraMovement();
+        CameraRotation();
+    }
+
+
+    private void GetUserInput()
+    {
+        float xValue = Input.GetAxis("Horizontal");
+        float zValue = Input.GetAxis("Vertical");
+
+        movement = new Vector3(xValue, 0.0f, zValue);
+
+        scrollValue -= Input.GetAxis("Mouse ScrollWheel") * scrollSensitivity;
+        scrollAngle -= Input.GetAxis("Mouse ScrollWheel") * scrollSensitivity;
+        rotationAngle += Input.GetAxis("Camera Rotation") * rotationSensitivity;
+
+        scrollValue = Mathf.Clamp(scrollValue, yMin, yMax);
+        scrollAngle = Mathf.Clamp(scrollAngle, minScrollAngle, maxScrollAngle);
+    }
+
+    private void CameraMovement()
+    {   
+        if(Input.GetButton("Camera Boost"))
         {
-            pos.z += panSpeed * Time.deltaTime;
+            parentTransform.Translate(movement * Time.deltaTime * boostSpeed);
         }
-
-        if (Input.GetKey("s"))
+        else
         {
-            pos.z -= panSpeed * Time.deltaTime;
+            parentTransform.Translate(movement * Time.deltaTime * movementSpeed);
         }
+        
+    }
 
-        if (Input.GetKey("d"))
-        {
-            pos.x += panSpeed * Time.deltaTime;
-        }
+    private void CameraScroll()
+    {
+        Vector3 newPosition = parentTransform.position;
+        newPosition.y = Mathf.Lerp(newPosition.y, scrollValue, Time.deltaTime * scrollSpeed);
 
-        if (Input.GetKey("a"))
-        {
-            pos.x -= panSpeed * Time.deltaTime;
-        }
+        Vector3 newRotation = cameraTransform.rotation.eulerAngles;
+        newRotation.x = Mathf.LerpAngle(newRotation.x, scrollAngle, Time.deltaTime * scrollSpeed);
 
+        cameraTransform.rotation = Quaternion.Euler(newRotation);
+        parentTransform.position = newPosition;
+    }
 
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        pos.y -= scroll * scrollSpeed * 100f * Time.deltaTime;
+    private void CameraRotation()
+    {
+        Vector3 newRotation = parentTransform.rotation.eulerAngles;
+        newRotation.y = Mathf.LerpAngle(newRotation.y, rotationAngle, Time.deltaTime * rotationSpeed);
 
-        pos.x = Mathf.Clamp(pos.x, -panLimit.x, panLimit.x);
-        pos.y = Mathf.Clamp(pos.y, minY, maxY);
-        pos.z = Mathf.Clamp(pos.z, -panLimit.y, panLimit.y);
-
-
-        transform.position = pos;
+        parentTransform.rotation = Quaternion.Euler(newRotation);
     }
 }

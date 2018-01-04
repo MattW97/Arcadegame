@@ -3,9 +3,7 @@ using System.Collections;
 
 public class Unit : MonoBehaviour
 {
-    [SerializeField]
-    [MinMaxRange(1.0f, 20.0f)]
-    private MinMaxRange movementSpeed;
+    [SerializeField] [MinMaxRange(1.0f, 20.0f)] private MinMaxRange movementSpeed;
 
     private bool reachedTarget, followingPath;
     private float speedFactor, realSpeed;
