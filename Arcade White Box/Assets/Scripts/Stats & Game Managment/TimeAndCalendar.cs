@@ -12,7 +12,8 @@ public class TimeAndCalendar : MonoBehaviour {
 
     [SerializeField] private float speedOption1, speedOption2, speedOption3, speedOption4, speedOption5;
 
-
+    public GameObject sun;
+    //private float sec;
     public Day starterDay = new Day();
     private List<Day> listOfDays;
     private Text timeText, dateText;
@@ -23,6 +24,13 @@ public class TimeAndCalendar : MonoBehaviour {
 
     private float secondsMultiplier;
     private float seconds;
+    private float lightMinute; // for use with light rotation
+    private float oldRot; // for use with light rotation
+
+    private const float secondsPerDay = 1440;
+    private const float degreePerSeconds = 360f / secondsPerDay;
+
+    private IEnumerator<WaitForSeconds> coroutine;
 
     private LevelManager _levelManagerLink;
     void Start ()
@@ -38,6 +46,12 @@ public class TimeAndCalendar : MonoBehaviour {
         StartTimer();
         CreateCalendar();
 
+        sun.transform.rotation = Quaternion.Euler(timeMultiplier / 200, 0, 0);
+
+        print(degreePerSeconds);
+        //sun.transform.Rotate(new Vector3(degreePerSeconds, 0, 0) * (Time.deltaTime) * timeMultiplier);
+        //coroutine = LightRotationHolder();
+        //StartCoroutine(coroutine);
     }
 
 
@@ -45,6 +59,8 @@ public class TimeAndCalendar : MonoBehaviour {
     void Update () {
         UpdateTime();
         Seconds();
+        //LightRotation();
+        AssignLightRotation();
     }
 
     #region Time
@@ -63,11 +79,15 @@ public class TimeAndCalendar : MonoBehaviour {
         {
             seconds = 0;
             MinuteIncrement();
+            
         }
     }
 
     private void MinuteIncrement()
     {
+        lightMinute++;
+        if (lightMinute == 1440)
+            lightMinute = 0;
         if (CurrentMinute == 59)
         {
             CurrentMinute = 0;
@@ -75,7 +95,7 @@ public class TimeAndCalendar : MonoBehaviour {
         }
         else
         {
-            CurrentMinute++;
+            CurrentMinute++;          
         }
     }
 
@@ -188,6 +208,24 @@ public class TimeAndCalendar : MonoBehaviour {
         string day = LeadingZero(CurrentDay);
         string month = LeadingZero(CurrentMonth);
         dateText.text = ("" + day + "/" + month + "/" + CurrentYear + "");
+    }
+
+    private void LightRotation()
+    {
+        sun.transform.Rotate((new Vector3(degreePerSeconds, 0, 0) * ((Time.deltaTime) / 60 )) * timeMultiplier);
+        //sun.transform.Rotate((Vector3.right / 19f) * timeMultiplier);
+    }
+
+    private void AssignLightRotation()
+    {
+        //float vel = 0.0f;
+        //float newRot = lightMinute / 4;
+        //float test = Mathf.SmoothDampAngle(sun.transform.eulerAngles.x, newRot, ref vel, Time.deltaTime * 10);
+        //oldRot = newRot;
+        //sun.transform.eulerAngles = new Vector3(test, 0, 0);
+
+        sun.transform.eulerAngles = new Vector3(Mathf.Lerp(sun.transform.eulerAngles.x, 359.0f, 1440 * timeMultiplier), 0, 0);
+
     }
 
     #endregion Time
