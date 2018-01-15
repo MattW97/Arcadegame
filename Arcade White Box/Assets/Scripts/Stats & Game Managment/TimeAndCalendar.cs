@@ -63,6 +63,24 @@ public class TimeAndCalendar : MonoBehaviour {
         AssignLightRotation();
     }
 
+    private void LightRotation()
+    {
+        sun.transform.Rotate((new Vector3(degreePerSeconds, 0, 0) * ((Time.deltaTime) / 60)) * timeMultiplier);
+        //sun.transform.Rotate((Vector3.right / 19f) * timeMultiplier);
+    }
+
+    private void AssignLightRotation()
+    {
+        //float vel = 0.0f;
+        //float newRot = lightMinute / 4;
+        //float test = Mathf.SmoothDampAngle(sun.transform.eulerAngles.x, newRot, ref vel, Time.deltaTime * 10);
+        //oldRot = newRot;
+        //sun.transform.eulerAngles = new Vector3(test, 0, 0);
+
+        sun.transform.eulerAngles = new Vector3(Mathf.Lerp(sun.transform.eulerAngles.x, 359.0f, 1440 * timeMultiplier), 0, 0);
+
+    }
+
     #region Time
 
     public int GetCurrentTime()
@@ -208,25 +226,7 @@ public class TimeAndCalendar : MonoBehaviour {
         string day = LeadingZero(CurrentDay);
         string month = LeadingZero(CurrentMonth);
         dateText.text = ("" + day + "/" + month + "/" + CurrentYear + "");
-    }
-
-    private void LightRotation()
-    {
-        sun.transform.Rotate((new Vector3(degreePerSeconds, 0, 0) * ((Time.deltaTime) / 60 )) * timeMultiplier);
-        //sun.transform.Rotate((Vector3.right / 19f) * timeMultiplier);
-    }
-
-    private void AssignLightRotation()
-    {
-        //float vel = 0.0f;
-        //float newRot = lightMinute / 4;
-        //float test = Mathf.SmoothDampAngle(sun.transform.eulerAngles.x, newRot, ref vel, Time.deltaTime * 10);
-        //oldRot = newRot;
-        //sun.transform.eulerAngles = new Vector3(test, 0, 0);
-
-        sun.transform.eulerAngles = new Vector3(Mathf.Lerp(sun.transform.eulerAngles.x, 359.0f, 1440 * timeMultiplier), 0, 0);
-
-    }
+    }    
 
     #endregion Time
 
