@@ -24,15 +24,36 @@ public class TimeAndCalendar : MonoBehaviour {
     private float secondsMultiplier;
     private float seconds;
 
+    [SerializeField, Range(0, 1)]
+    private float fCurrentTime;
+
+    [SerializeField]
+    private float fSecondsInADay;
+
+    [SerializeField]
+    private int _iStartHour;
+
+    private float _fStartingHour;
+
+    private float fCurrentHour;
+    private float fCurrentMinute;
+    private const float ONEHOURLENGTH = 1.0f / 24.0f;
+
     private LevelManager _levelManagerLink;
     void Start ()
     {
-        CurrentHour = startHour;
-        CurrentMinute = startMinute;
-        CurrentYear = startYear;
-        CurrentMonth = startMonth;
-        CurrentDay = startDay;
-        seconds = 0;
+        fCurrentMinute = 0.0f;
+        fCurrentHour = 0.0f;
+        _fStartingHour = ONEHOURLENGTH * (float)_iStartHour;
+        fCurrentTime = _fStartingHour;
+
+
+        //CurrentHour = startHour;
+        //CurrentMinute = startMinute;
+        //CurrentYear = startYear;
+        //CurrentMonth = startMonth;
+        //CurrentDay = startDay;
+        //seconds = 0;
         _levelManagerLink = this.gameObject.GetComponent<LevelManager>();
         timeText = GameObject.Find("UIInGame/Bottom Bar/Date And Time/Text").GetComponent<Text>();
         StartTimer();
@@ -43,16 +64,33 @@ public class TimeAndCalendar : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        UpdateSun();
+        fCurrentTime += (Time.deltaTime / fSecondsInADay) * timeMultiplier;
+        fCurrentHour = 24 * fCurrentTime;
+        fCurrentMinute = 60 * (fCurrentHour - Mathf.Floor(fCurrentHour));
+        if (fCurrentTime >= 1.0f)
+        {
+            fCurrentTime = 0.0f;
+            // next day
+        }
+        print(fCurrentTime);
         UpdateTime();
-        Seconds();
+        //Seconds();
     }
 
     #region Time
 
+    private void UpdateSun()
+    {
+        //sun.transform.localRotation = Quaternion.Euler((fCurrentTime * 360) - 270, 170, 0);
+    }
+
+    #region Unused
+
     public int GetCurrentTime()
     {
         int time = 0;
-        time = int.Parse(currentHour.ToString() + CurrentMinute.ToString());
+        time = int.Parse(fCurrentHour.ToString() + fCurrentMinute.ToString());
         return time;
     }
 
@@ -122,7 +160,6 @@ public class TimeAndCalendar : MonoBehaviour {
     }
 
 
-
     private void YearIncrement()
     {
         //do year stuff
@@ -134,6 +171,8 @@ public class TimeAndCalendar : MonoBehaviour {
     {
         print("Current time is " + CurrentHour + ":" + CurrentMinute + ".");
     }
+
+    #endregion Unused
 
     private void SetTimeMultiplier(float option)
     {
@@ -178,8 +217,8 @@ public class TimeAndCalendar : MonoBehaviour {
 
     private void UpdateTime()
     {
-        string min = LeadingZero(CurrentMinute);
-        string hour = LeadingZero(CurrentHour);
+        string min = LeadingZero(Mathf.FloorToInt(fCurrentMinute));
+        string hour = LeadingZero(Mathf.FloorToInt(fCurrentHour));
         timeText.text = ("" + hour + ":" + min + "");
     }
 
