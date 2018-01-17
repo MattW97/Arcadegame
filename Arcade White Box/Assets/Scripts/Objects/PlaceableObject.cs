@@ -5,9 +5,10 @@ using UnityEngine;
 public class PlaceableObject : Entity {
 
     [SerializeField] protected float buyCost; // how much the object costs to buy.
-    [SerializeField] protected GameObject selectionMesh; // the mesh that will flash when the player selects this object in the world.
+    [SerializeField] private GameObject selectionMesh; // the mesh that will flash when the player selects this object in the world.
     [SerializeField] protected int percentReturnedUponSold; //PERCENTAGE amount returned upon being sold back to the manufacturer. 
     [SerializeField] protected string description; // description of the machine Optional
+    [SerializeField] private GameObject ghost; // Object ghost????????????
 
      
     protected bool selected;
@@ -132,6 +133,11 @@ public class PlaceableObject : Entity {
         }
     }
 
+    public GameObject GetGhost()
+    {
+        return ghost;
+    }
+
     public Tile PlacedOnTile
     {
         get
@@ -181,6 +187,19 @@ public class PlaceableObject : Entity {
         set
         {
             prefabName = value;
+        }
+    }
+
+    public GameObject SelectionMesh
+    {
+        get
+        {
+            return selectionMesh;
+        }
+
+        set
+        {
+            selectionMesh = value;
         }
     }
     #endregion Getters/Setters

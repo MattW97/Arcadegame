@@ -79,7 +79,7 @@ public class Pathfinding : MonoBehaviour
 		}
         else
         {
-            print("NO WALKABLE: STARTNODE- " + startNode.GetWalkable() + " TARGET NODE- " + targetNode.GetWalkable());
+            print(gameObject.name + " NO WALKABLE: STARTNODE- " + startNode.GetWalkable() + " TARGET NODE- " + targetNode.GetWalkable());
 
         }
 

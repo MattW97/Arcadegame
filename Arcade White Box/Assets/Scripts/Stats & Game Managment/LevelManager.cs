@@ -97,7 +97,7 @@ public class LevelManager : MonoBehaviour {
         }
 
         //open time
-        else if (_timeLink.CurrentHour == openingHour && !openOnce)
+        else if (_timeLink.FCurrentHour == openingHour && !openOnce)
         {
            
             arcadeStatus = ArcadeOpeningStatus.Open;
@@ -110,7 +110,7 @@ public class LevelManager : MonoBehaviour {
 
         }
         //close time
-        else if (_timeLink.CurrentHour == closingHour && !closedOnce)
+        else if (_timeLink.FCurrentHour == closingHour && !closedOnce)
         {
             if (_economyLink.Bankrupt == true)
             {

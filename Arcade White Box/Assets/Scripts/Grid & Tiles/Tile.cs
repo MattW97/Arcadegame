@@ -36,6 +36,11 @@ public class Tile : MonoBehaviour
         return tileCoordinates;
     }
 
+    public bool GetIsPlacedOn()
+    {
+        return placedOn;
+    }
+
     public void SetID(int id)
     {
         this.id = id;

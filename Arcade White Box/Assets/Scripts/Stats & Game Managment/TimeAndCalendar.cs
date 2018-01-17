@@ -73,7 +73,6 @@ public class TimeAndCalendar : MonoBehaviour {
             fCurrentTime = 0.0f;
             // next day
         }
-        print(fCurrentTime);
         UpdateTime();
         //Seconds();
     }
@@ -90,7 +89,7 @@ public class TimeAndCalendar : MonoBehaviour {
     public int GetCurrentTime()
     {
         int time = 0;
-        time = int.Parse(fCurrentHour.ToString() + fCurrentMinute.ToString());
+        time = int.Parse(Mathf.FloorToInt(fCurrentHour).ToString() + Mathf.FloorToInt(fCurrentMinute).ToString());
         return time;
     }
 
@@ -460,6 +459,19 @@ public class TimeAndCalendar : MonoBehaviour {
         set
         {
             currentDay = value;
+        }
+    }
+
+    public float FCurrentHour
+    {
+        get
+        {
+            return Mathf.FloorToInt(fCurrentHour);
+        }
+
+        set
+        {
+            fCurrentHour = value;
         }
     }
     #endregion Getters/Setters

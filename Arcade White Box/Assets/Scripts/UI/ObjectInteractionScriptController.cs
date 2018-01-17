@@ -26,7 +26,7 @@ public class ObjectInteractionScriptController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (_tileInteractionLink.CurrentSelectedObject == null)
+        if (_tileInteractionLink.PlacedSelectedObject == null)
         {
             placedAnim.SetBool("Placed", false);
             objectStatUIMenu.SetActive(false);
@@ -35,11 +35,11 @@ public class ObjectInteractionScriptController : MonoBehaviour {
         {
             placingAnim.SetBool("Placing", false);
             placedAnim.SetBool("Placed", true);
-            PlacedObjectInteractionMenu.GetComponent<PlacedObjectInteractionMenuUI>().UpdateUIBase(_tileInteractionLink.CurrentSelectedObject);
-            if (_tileInteractionLink.CurrentSelectedObject.GetComponent<Machine>())
+            PlacedObjectInteractionMenu.GetComponent<PlacedObjectInteractionMenuUI>().UpdateUIBase(_tileInteractionLink.PlacedSelectedObject);
+            if (_tileInteractionLink.PlacedSelectedObject.GetComponent<Machine>())
             {
-                objectStatUIMenu.GetComponent<ObjectStatUIController>().UpdateUI(_tileInteractionLink.CurrentSelectedObject as Machine);
-                CheckMachineNeedsRepair(_tileInteractionLink.CurrentSelectedObject as Machine);
+                objectStatUIMenu.GetComponent<ObjectStatUIController>().UpdateUI(_tileInteractionLink.PlacedSelectedObject as Machine);
+                CheckMachineNeedsRepair(_tileInteractionLink.PlacedSelectedObject as Machine);
             }
 
         }
@@ -61,17 +61,17 @@ public class ObjectInteractionScriptController : MonoBehaviour {
 
     public void OnAddButtonPressed()
     {
-        PlacedObjectInteractionMenu.GetComponent<PlacedObjectInteractionMenuUI>().AddUseCostButtonPressed(_tileInteractionLink.CurrentSelectedObject as Machine);
+        PlacedObjectInteractionMenu.GetComponent<PlacedObjectInteractionMenuUI>().AddUseCostButtonPressed(_tileInteractionLink.PlacedSelectedObject as Machine);
     }
 
     public void OnDeductButtonPressed()
     {
-        PlacedObjectInteractionMenu.GetComponent<PlacedObjectInteractionMenuUI>().DeductUseCostButtonPressed(_tileInteractionLink.CurrentSelectedObject as Machine);
+        PlacedObjectInteractionMenu.GetComponent<PlacedObjectInteractionMenuUI>().DeductUseCostButtonPressed(_tileInteractionLink.PlacedSelectedObject as Machine);
     }
 
     public void OnRepairButtonPressed()
     {
-        PlacedObjectInteractionMenu.GetComponent<PlacedObjectInteractionMenuUI>().RepairButtonPressed(_tileInteractionLink.CurrentSelectedObject as Machine);
+        PlacedObjectInteractionMenu.GetComponent<PlacedObjectInteractionMenuUI>().RepairButtonPressed(_tileInteractionLink.PlacedSelectedObject as Machine);
     }
 
     private void CheckMachineNeedsRepair(Machine currentObject)
