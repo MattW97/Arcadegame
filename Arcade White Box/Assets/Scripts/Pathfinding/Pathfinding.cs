@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System;
 
-public class Pathfinding : MonoBehaviour 
+public class Pathfinding2 : MonoBehaviour 
 {	
 	private PathingGrid grid;
 	private PathManager pathManager;
