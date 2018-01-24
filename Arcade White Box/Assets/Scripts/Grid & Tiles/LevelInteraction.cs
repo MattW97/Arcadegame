@@ -93,6 +93,7 @@ public class LevelInteraction : MonoBehaviour
         {
             CurrentState = InteractionState.SelectionMode;
         }
+        
     }
 
     //private void Initialise()
@@ -180,8 +181,8 @@ public class LevelInteraction : MonoBehaviour
                         placingObject.GetComponent<Animator>().SetBool("Placing", false);
                         if (economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
                         {
-                            InstantiateNewObject(ObjectToPlace, hitInfo.collider.gameObject.transform.position, objectGhost.transform.rotation, placedOnTile);
-                            objectGhost.GetComponentInChildren<ObjectGhost>().OnPlaced();
+                            GameObject temp = InstantiateNewObject(ObjectToPlace, hitInfo.collider.gameObject.transform.position, objectGhost.transform.rotation, placedOnTile);
+                            objectGhost.GetComponentInChildren<ObjectGhost>().OnPlaced(temp);
                             ObjectToPlace = null;
                         }
                     }
@@ -203,11 +204,15 @@ public class LevelInteraction : MonoBehaviour
 
                 if (Input.GetMouseButtonDown(0))
                 {
-                    NullSelectedObject();
-                    if (economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
+                    if (objectGhost.GetComponentInChildren<ObjectGhost>().IsPlaceable())
                     {
-                        InstantiateNewObject(ObjectToPlace, objectGhost.transform.position, objectGhost.transform.rotation, placedOnTile);
-                        ObjectToPlace = null;
+                        NullSelectedObject();
+                        if (economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
+                        {
+                            GameObject temp = InstantiateNewObject(ObjectToPlace, objectGhost.transform.position, objectGhost.transform.rotation, placedOnTile);
+                            objectGhost.GetComponentInChildren<ObjectGhost>().OnPlaced(temp);
+                            ObjectToPlace = null;
+                        }
                     }
                 }
             }
@@ -220,11 +225,15 @@ public class LevelInteraction : MonoBehaviour
                 objectGhost.transform.position = placedOnTile.transform.position;
                 if (Input.GetMouseButtonDown(0))
                 {
-                    NullSelectedObject();
-                    if (economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
+                    if (objectGhost.GetComponentInChildren<ObjectGhost>().IsPlaceable())
                     {
-                        InstantiateNewObject(ObjectToPlace, objectGhost.transform.position, objectGhost.transform.rotation, placedOnTile);
-                        ObjectToPlace = null;
+                        NullSelectedObject();
+                        if (economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
+                        {
+                            GameObject temp = InstantiateNewObject(ObjectToPlace, objectGhost.transform.position, objectGhost.transform.rotation, placedOnTile);
+                            objectGhost.GetComponentInChildren<ObjectGhost>().OnPlaced(temp);
+                            ObjectToPlace = null;
+                        }
                     }
                 }
             }
@@ -235,6 +244,7 @@ public class LevelInteraction : MonoBehaviour
             else
             {
                 objectGhost.SetActive(false);
+                objectGhost.gameObject.GetComponentInChildren<ObjectGhost>().ClearAll();
             }
         }
         ObjectInteraction();
@@ -360,7 +370,7 @@ public class LevelInteraction : MonoBehaviour
     }
     
 
-    private void InstantiateNewObject(PlaceableObject objectToPlace, Vector3 position, Quaternion rotation, Tile objectTile)
+    private GameObject InstantiateNewObject(PlaceableObject objectToPlace, Vector3 position, Quaternion rotation, Tile objectTile)
     {
         GameObject newObject = Instantiate(objectToPlace.gameObject, position, rotation, objectParent);
         levelManager.AddObjectToLists(newObject);
@@ -373,6 +383,7 @@ public class LevelInteraction : MonoBehaviour
         newPlaceableObject.PlacedOnTile = objectTile;
         newPlaceableObject.PrefabName = objectToPlace.name;
         objectTile.SetIfPlacedOn(true);
+        return newObject;
     }
 
     private void ObjectInteraction()
@@ -447,7 +458,10 @@ public class LevelInteraction : MonoBehaviour
 
     public void DestroyCurrentlySelectedObject()
     {
-        PlacedSelectedObject.PlacedOnTile.SetTileType(Tile.TileType.Passable);
+        foreach (Tile tile in PlacedSelectedObject.GetComponent<PlaceableObject>().OccupiedTiles)
+        {
+            tile.SetIfPlacedOn(false);
+        }
 
         GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>().RemoveObjectFromLists(PlacedSelectedObject.gameObject);
 

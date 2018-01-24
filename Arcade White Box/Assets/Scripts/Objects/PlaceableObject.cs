@@ -18,6 +18,8 @@ public class PlaceableObject : Entity {
     protected Vector3 position;
     protected Vector3 rotation;
 
+    protected List<Tile> occupiedTiles;
+
     private string prefabName;
     private int tile_ID;
 
@@ -200,6 +202,19 @@ public class PlaceableObject : Entity {
         set
         {
             selectionMesh = value;
+        }
+    }
+
+    public List<Tile> OccupiedTiles
+    {
+        get
+        {
+            return occupiedTiles;
+        }
+
+        set
+        {
+            occupiedTiles = value;
         }
     }
     #endregion Getters/Setters
