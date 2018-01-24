@@ -6,12 +6,15 @@ public class StaffManager : MonoBehaviour
 {
     [SerializeField] private Transform spawnLocation;
     [SerializeField] private Janitor janitor;
+    [SerializeField] private Worker worker;
 
     private float levelSpeedFactor;
     private TimeAndCalendar gameTime;
     private List<Staff> spawnedStaff;
     private List<Janitor> spawnedJanitors;
-    private List<Tile> currentTrashTiles;
+    private List<Worker> spawnedWorkers;
+    private List<Tile> availableJanitorJobs;
+    private List<WorkerJob> availableWorkerJobs;
 
     private StaffDetails staffDetails;
 
@@ -19,7 +22,9 @@ public class StaffManager : MonoBehaviour
     {
         spawnedStaff = new List<Staff>();
         spawnedJanitors = new List<Janitor>();
-        currentTrashTiles = new List<Tile>();
+        spawnedWorkers = new List<Worker>();
+        availableJanitorJobs = new List<Tile>();
+        availableWorkerJobs = new List<WorkerJob>();
     }
 
     void Start()
@@ -42,10 +47,21 @@ public class StaffManager : MonoBehaviour
     {
         foreach(Janitor janitor in spawnedJanitors)
         {
-            if(!janitor.HasJob() && (currentTrashTiles.Count > 0))
+            if(!janitor.HasJob() && (availableJanitorJobs.Count > 0))
             {
-                janitor.SetNewTarget(currentTrashTiles[0]);
-                currentTrashTiles.RemoveAt(0);
+                janitor.SetNewTarget(availableJanitorJobs[0]);
+                availableJanitorJobs.RemoveAt(0);
+            }
+        }
+    }
+
+    private void AssignWorkerJobs()
+    {
+        foreach(Worker worker in spawnedWorkers)
+        {
+            if(!worker.HasJob() && (availableWorkerJobs.Count > 0))
+            {
+
             }
         }
     }
@@ -59,6 +75,15 @@ public class StaffManager : MonoBehaviour
         return newJanitor;
     }
 
+    public Worker SpawnWorker()
+    {
+        Worker newWorker = Instantiate(worker, spawnLocation.position, worker.transform.rotation);
+        spawnedWorkers.Add(newWorker);
+        spawnedStaff.Add(newWorker);
+
+        return newWorker;
+    }
+
     public float GetSpeedFactor()
     {
         return gameTime.timeMultiplier;
@@ -66,9 +91,9 @@ public class StaffManager : MonoBehaviour
 
     public void AddToTrashTiles(Tile trashTile)
     {   
-        if(!currentTrashTiles.Contains(trashTile))
+        if(!availableJanitorJobs.Contains(trashTile))
         {
-            currentTrashTiles.Add(trashTile);
+            availableJanitorJobs.Add(trashTile);
         }
     }
 }

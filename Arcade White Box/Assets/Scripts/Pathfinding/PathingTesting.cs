@@ -9,11 +9,11 @@ public class PathingTesting : MonoBehaviour
     [SerializeField] private PathingGrid grid;
 
     private PathManager manager;
-    private Pathfinding pathfinding;
+    private Pathfinding2 pathfinding;
 
     void Start()
     {
-        pathfinding = GetComponent<Pathfinding>();
+        pathfinding = GetComponent<Pathfinding2>();
         manager = GetComponent<PathManager>();
 
         pathfinding.SetGrid(grid);

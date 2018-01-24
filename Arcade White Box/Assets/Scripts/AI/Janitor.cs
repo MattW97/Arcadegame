@@ -6,11 +6,11 @@ public class Janitor : Staff
 {
     [SerializeField] private float cleanTime;
        
-    private enum JanitorSate {Idle, GotTarget, Moving, Cleaning}
+    private enum JanitorSate {Idle, HasJob, Moving, Cleaning}
 
     private bool hasJob;
-    private JanitorSate currentState;
     private Tile currentTile;
+    private JanitorSate currentState;
     private IEnumerator cleaningUp;
 
     protected override void Awake()
@@ -23,7 +23,7 @@ public class Janitor : Staff
 
     protected override void Update()
     {   
-        if(currentState == JanitorSate.GotTarget)
+        if(currentState == JanitorSate.HasJob)
         {
             unitController.SetTarget(currentTile.transform);
             unitController.GetNewPath();
@@ -53,11 +53,9 @@ public class Janitor : Staff
     {
         currentTile = newTile;
         hasJob = true;
-        currentState = JanitorSate.GotTarget;
+        currentState = JanitorSate.HasJob;
     }
 
-    public bool HasJob()
-    {
-        return hasJob;
-    }
+    public bool HasJob() { return hasJob; }
 }
+ 
