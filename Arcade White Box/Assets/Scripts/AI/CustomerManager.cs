@@ -44,7 +44,7 @@ public class CustomerManager : MonoBehaviour
                 Customer.CustomerStates currentState = customer.GetCurrentCustomerState();
                 Transform customerTransform = customer.GetCustomerTransform();
 
-                customer.SetSpeedFactor(GetSpeedFactor());
+                //customer.SetSpeedFactor(GetSpeedFactor());
                 customer.StatTick();
 
                 if(customer.WantsToLeave() && !customer.IsLeaving())
