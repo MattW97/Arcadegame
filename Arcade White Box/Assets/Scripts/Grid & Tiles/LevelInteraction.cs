@@ -2,17 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System;
 
 public class LevelInteraction : MonoBehaviour
 {
-    [SerializeField] private GameObject wallHighlighter;
+    [SerializeField] private GameObject wallHighlighter, roomScaler;
     [SerializeField] private Material canPlace, cantPlace;
     [SerializeField] private int noOfTileHighlighters, wallLengthLimit;
     [SerializeField] private LayerMask wallLayerMask;
     [SerializeField] private GameObject objectGhostPrefab;
 
-    public enum InteractionState {SelectionMode, PlacingMode, WallPlacingMode, IdleMode}
+    public enum InteractionState {SelectionMode, PlacingMode, WallPlacingMode, RoomPlacing, IdleMode}
 
     private Transform objectParent;
     private List<GameObject> tileHighlighterList;
@@ -33,10 +32,12 @@ public class LevelInteraction : MonoBehaviour
     private GameObject wallHighligherParent;
     private PlacingObjectInteractionMenuUI placingObject;
     private GameObject objectGhost;
+    private GameObject startTile, endTile;
+
     void Awake()
     {
         objectGhost = Instantiate(objectGhostPrefab, Vector3.zero, Quaternion.identity);
-
+        roomScaler = Instantiate(roomScaler, Vector3.zero, roomScaler.transform.rotation);
 
         wallHighlighters = new List<GameObject>();
         wallHighligherParent = new GameObject();
@@ -52,7 +53,8 @@ public class LevelInteraction : MonoBehaviour
         PlacedSelectedObject = null;
         CurrentSelectedAI = null;
         ObjectToPlace = null;
-        CurrentState = InteractionState.SelectionMode; 
+
+        CurrentState = InteractionState.RoomPlacing; 
     }
 
     void Start()
@@ -85,14 +87,18 @@ public class LevelInteraction : MonoBehaviour
         {
             WallPlacing();
         }
+        else if(CurrentState == InteractionState.RoomPlacing)
+        {
+            RoomPlacing();
+        }
 
         if(ObjectToPlace)
         {
-            CurrentState = InteractionState.PlacingMode;
+            //CurrentState = InteractionState.PlacingMode;
         }
         else
         {
-            CurrentState = InteractionState.SelectionMode;
+            //CurrentState = InteractionState.SelectionMode;
         }
         
     }
@@ -118,14 +124,6 @@ public class LevelInteraction : MonoBehaviour
 
         if (OverUI())
         {
-            try
-            {
-                objectGhost.gameObject.GetComponentInChildren<ObjectGhost>().ClearAll();
-            }
-            catch(Exception e)
-            {
-                //Debug.LogException(e, this);
-            }
             return;
         }
 
@@ -163,7 +161,66 @@ public class LevelInteraction : MonoBehaviour
         }
     }
 
+    private void RoomPlacing()
+    {
+        interactionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+        if (Physics.Raycast(interactionRay, out hitInfo))
+        {
+            if (!startTile)
+            {
+                if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Tile") == 0)
+                {
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        roomScaler.transform.localScale = new Vector3(1, 1, 1);
+
+                        startTile = hitInfo.collider.gameObject;
+
+                        roomScaler.SetActive(true);
+                        roomScaler.transform.position = startTile.transform.position;
+                    }
+                }
+            }
+            else if (startTile)
+            {
+                if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Tile") == 0)
+                {
+                    endTile = hitInfo.collider.gameObject;
+
+                    if (endTile != startTile)
+                    {
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            startTile = null;
+                            endTile = null;
+                            roomScaler.SetActive(false);
+                        }
+                        else
+                        {
+                            Vector3 startPosition = startTile.transform.position;
+                            Vector3 endPosition = endTile.transform.position;
+                            Vector3 centrePoint = ((startPosition + endPosition) / 2) - new Vector3(0.5f, 0, 0.5f);
+                            Vector3 newScale = roomScaler.transform.localScale;
+                            //Vector3 newPosition = roomScaler.transform.position;
+
+                            //newPosition.x = Mathf.Lerp(newPosition.x, centrePoint.x, Time.deltaTime * 5.0f);
+                            //newPosition.y = Mathf.Lerp(newPosition.y, centrePoint.y, Time.deltaTime * 5.0f);
+
+                            newScale.x = Mathf.Lerp(newScale.x, Mathf.Abs(startPosition.x - endPosition.x), Time.deltaTime * 25.0f);
+                            newScale.y = Mathf.Lerp(newScale.y, Mathf.Abs(startPosition.z - endPosition.z), Time.deltaTime * 25.0f);
+
+                            //newScale.x = Mathf.Abs(startPosition.x - endPosition.x);
+                            //newScale.y = Mathf.Abs(startPosition.z - endPosition.z);
+
+                            roomScaler.transform.position = centrePoint;
+                            roomScaler.transform.localScale = newScale;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     private void PlacingMode()
     {
@@ -383,7 +440,9 @@ public class LevelInteraction : MonoBehaviour
     {
         GameObject newObject = Instantiate(objectToPlace.gameObject, position, rotation, objectParent);
         levelManager.AddObjectToLists(newObject);
+
         //pathingGridSetup.UpdateGrid();
+
         if (CheckIfMachineOrPlaceable(ObjectToPlace))
             economyManager.OnMachinePurchase(ObjectToPlace as Machine);
         else
@@ -425,6 +484,8 @@ public class LevelInteraction : MonoBehaviour
             }
         }
     }
+
+
 
     public void NullSelectedObject()
     {

@@ -5,23 +5,32 @@ using Pathfinding;
 
 public class Pather : MonoBehaviour
 {
-    [SerializeField] private Transform target;
-    [SerializeField] private float speed;
+    [SerializeField] [MinMaxRange(1.0f, 20.0f)] private MinMaxRange movementSpeed;
 
-    private Seeker seeker;
-    private Path path;
     private AIPath aiPath;
-
-    private const float MAX_WAYPOINT_DISTANCE = 0.5f;
 
     private void Awake()
     {
         aiPath = GetComponent<AIPath>();
-        seeker = GetComponent<Seeker>();
     }
 
     private void Start()
     {
+        aiPath.maxSpeed = movementSpeed.GetRandomValue();
+    }
+    
+    public void SetTarget(Transform target)
+    {
         aiPath.destination = target.position;
+    }
+    
+    public void SetSpeedFactor(float speedFactor)
+    {
+        
+    }
+
+    public bool ReachedTarget()
+    {
+        return aiPath.reachedEndOfPath; 
     }
 }

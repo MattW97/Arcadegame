@@ -18,7 +18,7 @@ public class Customer : BaseAI
     private IEnumerator usingFacilityWait;
     private Transform customerTransform;
     private Transform spawnLocation;
-    private Unit unitController;
+    private Pather pather;
     private Machine currentTarget, lastTarget;
     private List<CustomerStat> customerStats;
     private StaffManager staffManager; 
@@ -39,7 +39,7 @@ public class Customer : BaseAI
 
     void Awake()
     {
-        unitController = GetComponent<Unit>();
+        pather = GetComponent<Pather>();
         customerTransform = GetComponent<Transform>();
 
         staffManager = GameManager.Instance.ScriptHolderLink.GetComponent<StaffManager>();
@@ -100,9 +100,11 @@ public class Customer : BaseAI
     {
         if (currentTarget)
         {
-            unitController.StopCurrentPathing();
-            unitController.SetTarget(currentTarget.GetUsePosition());
-            unitController.GetNewPath();
+            pather.SetTarget(currentTarget.GetUsePosition());
+
+            //unitController.StopCurrentPathing();
+            //unitController.SetTarget(currentTarget.GetUsePosition());
+            //unitController.GetNewPath();
         }
     }  
 
@@ -124,9 +126,11 @@ public class Customer : BaseAI
             currentTarget.InUse = false;
         }
 
-        unitController.StopCurrentPathing();
-        unitController.SetTarget(spawnLocation);
-        unitController.GetNewPath();
+        pather.SetTarget(spawnLocation);
+
+        //unitController.StopCurrentPathing();
+        //unitController.SetTarget(spawnLocation);
+        //unitController.GetNewPath();
     }
 
     public void DropTrash()
@@ -199,7 +203,9 @@ public class Customer : BaseAI
 
     public bool ReachedTarget()
     {
-        return unitController.ReachedTarget;
+        //return unitController.ReachedTarget;
+
+        return pather.ReachedTarget();
     }
 
     public bool RepeatTarget(Machine facility)
@@ -282,7 +288,7 @@ public class Customer : BaseAI
 
         customerStats[weakStat].Susceptibility = 15.0f;
     }
-    public void SetSpeedFactor(float speedFactor) { unitController.SpeedFactor = speedFactor; this.speedFactor = speedFactor; }
+    //public void SetSpeedFactor(float speedFactor) { unitController.SpeedFactor = speedFactor; this.speedFactor = speedFactor; 
     public void SetCurrentCustomerState(CustomerStates newState) { currentState = newState; }
     public void SetSpawnLocation(Transform spawnLocation) { this.spawnLocation = spawnLocation; }
     public void SetNewTarget(Machine newTarget) { lastTarget = currentTarget; this.currentTarget = newTarget; }
@@ -291,7 +297,7 @@ public class Customer : BaseAI
     public CustomerStates GetCurrentCustomerState() { return currentState; }
     public List<CustomerStat> GetCustomerStats() { return customerStats; }
     public Transform GetCustomerTransform() { return customerTransform; }
-    public Unit GetUnitController() { return unitController; }
+    //public Unit GetUnitController() { return unitController; }
     public Machine GetLastTarget() { return lastTarget; }
 
     // Properties--------------------------------------------------------------------------------------------------------------
