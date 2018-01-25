@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 
 public class LevelInteraction : MonoBehaviour
 {
@@ -58,7 +59,7 @@ public class LevelInteraction : MonoBehaviour
     {
         economyManager = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();
         levelManager = GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>();
-        pathingGridSetup = GameManager.Instance.PathingGridManagerLink.GetComponent<PathingGridSetup>();
+        //pathingGridSetup = GameManager.Instance.PathingGridManagerLink.GetComponent<PathingGridSetup>();
         placingObject = GameManager.Instance.ObjectInfoBox.GetComponent<PlacingObjectInteractionMenuUI>();
 
 
@@ -117,6 +118,14 @@ public class LevelInteraction : MonoBehaviour
 
         if (OverUI())
         {
+            try
+            {
+                objectGhost.gameObject.GetComponentInChildren<ObjectGhost>().ClearAll();
+            }
+            catch(Exception e)
+            {
+                //Debug.LogException(e, this);
+            }
             return;
         }
 
@@ -374,7 +383,7 @@ public class LevelInteraction : MonoBehaviour
     {
         GameObject newObject = Instantiate(objectToPlace.gameObject, position, rotation, objectParent);
         levelManager.AddObjectToLists(newObject);
-        pathingGridSetup.UpdateGrid();
+        //pathingGridSetup.UpdateGrid();
         if (CheckIfMachineOrPlaceable(ObjectToPlace))
             economyManager.OnMachinePurchase(ObjectToPlace as Machine);
         else

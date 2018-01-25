@@ -110,5 +110,9 @@ public class ObjectGhost : MonoBehaviour {
         print("You are not occupying the required amount of tiles!");
         return false;
     }
+    //public Bounds GetBounds()
+    //{
+
+    //}
 
 }
