@@ -140,7 +140,7 @@ public class MainMenu : MonoBehaviour {
         yield return new WaitForSeconds(2);
         GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.stats.arcadeName = arcadeNameTextField.text;
         GameManager.Instance.GetComponent<SaveAndLoadManager>().CreateBaseSave();
-        SceneManager.LoadScene("Level 2");
+        SceneManager.LoadScene("Level 3");
     }
 
     //public void SandboxBuild()

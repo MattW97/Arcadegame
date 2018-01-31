@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class PlaceableObject : Entity {
 
-    [SerializeField] protected float buyCost; // how much the object costs to buy.
-    [SerializeField] protected GameObject selectionMesh; // the mesh that will flash when the player selects this object in the world.
+    [SerializeField] protected float buyCost;               // how much the object costs to buy.
+    [SerializeField] private GameObject selectionMesh;      // the mesh that will flash when the player selects this object in the world.
     [SerializeField] protected int percentReturnedUponSold; //PERCENTAGE amount returned upon being sold back to the manufacturer. 
-    [SerializeField] protected string description; // description of the machine Optional
-
+    [SerializeField] protected string description;          // description of the machine Optional
+    [SerializeField] private GameObject ghost;              // Object ghost????????????
+    [SerializeField] private BoxCollider objectBounds;      // The object bounds used to update the AI pathing graph.
      
     protected bool selected;
     protected Tile placedOnTile;
@@ -16,6 +17,8 @@ public class PlaceableObject : Entity {
 
     protected Vector3 position;
     protected Vector3 rotation;
+
+    protected List<Tile> occupiedTiles;
 
     private string prefabName;
     private int tile_ID;
@@ -132,6 +135,11 @@ public class PlaceableObject : Entity {
         }
     }
 
+    public GameObject GetGhost()
+    {
+        return ghost;
+    }
+
     public Tile PlacedOnTile
     {
         get
@@ -183,6 +191,38 @@ public class PlaceableObject : Entity {
             prefabName = value;
         }
     }
+
+    public GameObject SelectionMesh
+    {
+        get
+        {
+            return selectionMesh;
+        }
+
+        set
+        {
+            selectionMesh = value;
+        }
+    }
+
+    public List<Tile> OccupiedTiles
+    {
+        get
+        {
+            return occupiedTiles;
+        }
+
+        set
+        {
+            occupiedTiles = value;
+        }
+    }
+
+    public Bounds GetObjectBounds()
+    {
+        return objectBounds.bounds;
+    }
+
     #endregion Getters/Setters
 }
 

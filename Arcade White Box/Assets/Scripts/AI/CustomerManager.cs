@@ -127,6 +127,7 @@ public class CustomerManager : MonoBehaviour
 
                         if (customer.ReachedTarget())
                         {
+                            print("LEFT");
                             currentCustomers.RemoveAt(i);
                             currentCustomers.TrimExcess();
                             Destroy(customer.gameObject);
@@ -190,8 +191,8 @@ public class CustomerManager : MonoBehaviour
             currentCustomers[i].LeaveArcade();
         }
 
-        currentCustomers.Clear();
-        currentCustomers.TrimExcess();
+        //currentCustomers.Clear();
+        //currentCustomers.TrimExcess();
     }
 
     public void ClearCustomerParent()
