@@ -9,9 +9,6 @@ public class EventManager : MonoBehaviour {
 
     public delegate void SaveNotification();
     public static event SaveNotification Save;
-
-    public delegate void RepairNotification();
-    public static event RepairNotification Repair;
     
 
     public void SongSwitch()
@@ -22,10 +19,5 @@ public class EventManager : MonoBehaviour {
     public void SaveObject()
     {
         Save();
-    }
-
-    public void RepairNeeded()
-    {
-        Repair();
     }
 }

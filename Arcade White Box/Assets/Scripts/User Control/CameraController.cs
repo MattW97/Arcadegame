@@ -2,7 +2,9 @@
 using System.Collections;
 
 public class CameraController : MonoBehaviour 
-{    
+{
+    public enum CameraMode { FreeCamera, RotationLock }
+    
     [SerializeField] private float movementSpeed;
     [SerializeField] private float boostSpeed;
     [SerializeField] private float rotationSpeed;
@@ -13,35 +15,26 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float yMax;
     [SerializeField] private float minScrollAngle;
     [SerializeField] private float maxScrollAngle;
-    [SerializeField] private float dragSpeed;
-    [SerializeField] private float resetSpeed;
-    [SerializeField] private GameObject mainCamera;
+    [SerializeField] private Transform cameraTransform;
 
-    private bool lockForPlacing, dragging;
     private float scrollValue, scrollAngle, rotationAngle;
-    private Vector3 movement, dragMovement, resetPosition;
-    private Quaternion resetRotation;
-	private Transform parentTransform, cameraTransform;
-    private Camera cameraComponent;
+    private Vector3 movement;
+	private Transform parentTransform;
 	private CursorLockMode cursorMode;
+	private CameraMode cameraMode;
     
 	void Awake()
 	{
 		parentTransform = GetComponent<Transform>();
-        cameraTransform = mainCamera.GetComponent<Transform>();
-        cameraComponent = mainCamera.GetComponent<Camera>();
-    }
+	}
 	
     void Start()
 	{
 	    cursorMode = CursorLockMode.None;
 	    Cursor.lockState = cursorMode;
 
-        resetPosition = parentTransform.position;
-        resetRotation = parentTransform.rotation;
         scrollValue = parentTransform.position.y;
         movement = parentTransform.position;
-        lockForPlacing = false;
     }
 
     void Update()
@@ -53,13 +46,9 @@ public class CameraController : MonoBehaviour
 	{
         CameraScroll();
         CameraMovement();
-
-        if(!lockForPlacing)
-        {
-            CameraRotation();
-            CameraMouseDragging();
-        }
+        CameraRotation();
     }
+
 
     private void GetUserInput()
     {
@@ -70,44 +59,23 @@ public class CameraController : MonoBehaviour
 
         scrollValue -= Input.GetAxis("Mouse ScrollWheel") * scrollSensitivity;
         scrollAngle -= Input.GetAxis("Mouse ScrollWheel") * scrollSensitivity;
-
-        if(!lockForPlacing)
-        {
-            rotationAngle -= Input.GetAxis("Camera Rotation") * rotationSensitivity;
-        }
+        rotationAngle += Input.GetAxis("Camera Rotation") * rotationSensitivity;
 
         scrollValue = Mathf.Clamp(scrollValue, yMin, yMax);
         scrollAngle = Mathf.Clamp(scrollAngle, minScrollAngle, maxScrollAngle);
-
-        if(Input.GetMouseButton(2))
-        {
-            dragging = true;
-
-            dragMovement = parentTransform.position;
-            dragMovement.x -= Input.GetAxis("Mouse X") * (dragSpeed * parentTransform.position.y) * Time.deltaTime;
-            dragMovement.z -= Input.GetAxis("Mouse Y") * (dragSpeed * parentTransform.position.y) * Time.deltaTime;
-        }
-        else
-        {
-            dragging = false;
-        }
-
-        if(Input.GetButtonDown("Camera Reset"))
-        {
-            ResetTransform(false);
-        }
     }
 
     private void CameraMovement()
     {   
         if(Input.GetButton("Camera Boost"))
         {
-            parentTransform.Translate(movement * Time.deltaTime * (boostSpeed + parentTransform.position.y));
+            parentTransform.Translate(movement * Time.deltaTime * boostSpeed);
         }
         else
         {
-            parentTransform.Translate(movement * Time.deltaTime * (movementSpeed + parentTransform.position.y));
+            parentTransform.Translate(movement * Time.deltaTime * movementSpeed);
         }
+        
     }
 
     private void CameraScroll()
@@ -116,7 +84,7 @@ public class CameraController : MonoBehaviour
         newPosition.y = Mathf.Lerp(newPosition.y, scrollValue, Time.deltaTime * scrollSpeed);
 
         Vector3 newRotation = cameraTransform.rotation.eulerAngles;
-        newRotation.x = Mathf.Lerp(newRotation.x, scrollAngle, Time.deltaTime * scrollSpeed);
+        newRotation.x = Mathf.LerpAngle(newRotation.x, scrollAngle, Time.deltaTime * scrollSpeed);
 
         cameraTransform.rotation = Quaternion.Euler(newRotation);
         parentTransform.position = newPosition;
@@ -125,31 +93,8 @@ public class CameraController : MonoBehaviour
     private void CameraRotation()
     {
         Vector3 newRotation = parentTransform.rotation.eulerAngles;
-        newRotation.y = rotationAngle * rotationSpeed;
+        newRotation.y = Mathf.LerpAngle(newRotation.y, rotationAngle, Time.deltaTime * rotationSpeed);
 
-        parentTransform.rotation = Quaternion.Lerp(parentTransform.rotation, Quaternion.Euler(newRotation), Time.deltaTime * rotationSpeed);
+        parentTransform.rotation = Quaternion.Euler(newRotation);
     }
-
-    private void CameraMouseDragging()
-    {   
-        if(dragging)
-        {
-            parentTransform.position = dragMovement;
-        }
-    }
-
-    private void ResetTransform(bool lerp)
-    {
-        if(!lerp)
-        {
-            parentTransform.position = resetPosition;
-            parentTransform.rotation = resetRotation;
-        }
-        else
-        {
-
-        }
-    }
-
-    public void SetRotationLock(bool lockRotation) { this.lockForPlacing = lockRotation; }
 }

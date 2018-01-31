@@ -1,0 +1,535 @@
+fileFormatVersion: 2
+guid: b8b1eff6f1d93e544bf98be0a1719dff
+timeCreated: 1516720714
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Base HumanHead
+    100002: Base HumanLCalf
+    100004: Base HumanLCollarbone
+    100006: Base HumanLFoot
+    100008: Base HumanLForearm
+    100010: Base HumanLPalm
+    100012: Base HumanLPlatform
+    100014: Base HumanLThigh
+    100016: Base HumanLUpperarm
+    100018: Base HumanNeck1
+    100020: Base HumanNeck2
+    100022: Base HumanPelvis
+    100024: Base HumanRCalf
+    100026: Base HumanRCollarbone
+    100028: Base HumanRFoot
+    100030: Base HumanRForearm
+    100032: Base HumanRibcage
+    100034: Base HumanRPalm
+    100036: Base HumanRPlatform
+    100038: Base HumanRThigh
+    100040: Base HumanRUpperarm
+    100042: Base HumanSpine1
+    100044: Base HumanSpine2
+    100046: Base HumanSpine3
+    100048: Base HumanSpine4
+    100050: Bone001
+    100052: Bone002
+    100054: Bone005
+    100056: Bone006
+    100058: Bone007
+    100060: Bone008
+    100062: Bone009
+    100064: Bone010
+    100066: Bone011
+    100068: Bone012
+    100070: Bottom
+    100072: Bowl
+    100074: Bowl_Water
+    100076: Box002
+    100078: Box003
+    100080: Box004
+    100082: Box005
+    100084: Box006
+    100086: Box008
+    100088: Box009
+    100090: Box010
+    100092: Box012
+    100094: Box014
+    100096: Box016
+    100098: Box017
+    100100: Box018
+    100102: Box019
+    100104: Box020
+    100106: Box021
+    100108: Box022
+    100110: Box023
+    100112: Box024
+    100114: Box025
+    100116: Cylinder001
+    100118: Cylinder002
+    100120: Cylinder003
+    100122: Cylinder004
+    100124: Cylinder005
+    100126: Cylinder006
+    100128: Cylinder007
+    100130: Cylinder008
+    100132: Fin
+    100134: Hoody
+    100136: Idle
+    100138: Object001
+    100140: Pinball
+    100142: Plane001
+    100144: RubberRing
+    100146: Shark
+    100148: //RootNode
+    100150: Sphere001
+    100152: TShirt
+    400000: Base HumanHead
+    400002: Base HumanLCalf
+    400004: Base HumanLCollarbone
+    400006: Base HumanLFoot
+    400008: Base HumanLForearm
+    400010: Base HumanLPalm
+    400012: Base HumanLPlatform
+    400014: Base HumanLThigh
+    400016: Base HumanLUpperarm
+    400018: Base HumanNeck1
+    400020: Base HumanNeck2
+    400022: Base HumanPelvis
+    400024: Base HumanRCalf
+    400026: Base HumanRCollarbone
+    400028: Base HumanRFoot
+    400030: Base HumanRForearm
+    400032: Base HumanRibcage
+    400034: Base HumanRPalm
+    400036: Base HumanRPlatform
+    400038: Base HumanRThigh
+    400040: Base HumanRUpperarm
+    400042: Base HumanSpine1
+    400044: Base HumanSpine2
+    400046: Base HumanSpine3
+    400048: Base HumanSpine4
+    400050: Bone001
+    400052: Bone002
+    400054: Bone005
+    400056: Bone006
+    400058: Bone007
+    400060: Bone008
+    400062: Bone009
+    400064: Bone010
+    400066: Bone011
+    400068: Bone012
+    400070: Bottom
+    400072: Bowl
+    400074: Bowl_Water
+    400076: Box002
+    400078: Box003
+    400080: Box004
+    400082: Box005
+    400084: Box006
+    400086: Box008
+    400088: Box009
+    400090: Box010
+    400092: Box012
+    400094: Box014
+    400096: Box016
+    400098: Box017
+    400100: Box018
+    400102: Box019
+    400104: Box020
+    400106: Box021
+    400108: Box022
+    400110: Box023
+    400112: Box024
+    400114: Box025
+    400116: Cylinder001
+    400118: Cylinder002
+    400120: Cylinder003
+    400122: Cylinder004
+    400124: Cylinder005
+    400126: Cylinder006
+    400128: Cylinder007
+    400130: Cylinder008
+    400132: Fin
+    400134: Hoody
+    400136: Idle
+    400138: Object001
+    400140: Pinball
+    400142: Plane001
+    400144: RubberRing
+    400146: Shark
+    400148: //RootNode
+    400150: Sphere001
+    400152: TShirt
+    2300000: Box002
+    2300002: Box003
+    2300004: Box004
+    2300006: Box005
+    2300008: Box006
+    2300010: Box010
+    2300012: Box012
+    2300014: Box014
+    2300016: Box016
+    2300018: Box017
+    2300020: Box018
+    2300022: Box019
+    2300024: Box020
+    2300026: Box021
+    2300028: Box022
+    2300030: Box023
+    2300032: Box024
+    2300034: Box025
+    2300036: Cylinder004
+    2300038: Cylinder005
+    2300040: Cylinder006
+    2300042: Cylinder007
+    2300044: Cylinder008
+    2300046: Fin
+    2300048: Object001
+    2300050: Plane001
+    3300000: Box002
+    3300002: Box003
+    3300004: Box004
+    3300006: Box005
+    3300008: Box006
+    3300010: Box010
+    3300012: Box012
+    3300014: Box014
+    3300016: Box016
+    3300018: Box017
+    3300020: Box018
+    3300022: Box019
+    3300024: Box020
+    3300026: Box021
+    3300028: Box022
+    3300030: Box023
+    3300032: Box024
+    3300034: Box025
+    3300036: Cylinder004
+    3300038: Cylinder005
+    3300040: Cylinder006
+    3300042: Cylinder007
+    3300044: Cylinder008
+    3300046: Fin
+    3300048: Object001
+    3300050: Plane001
+    4300000: RubberRing
+    4300002: Hoody
+    4300004: Shark
+    4300006: Fin
+    4300008: TShirt
+    4300010: Bowl
+    4300012: Bowl_Water
+    4300014: Plane001
+    4300016: Object001
+    4300018: Box024
+    4300020: Sphere001
+    4300022: Cylinder001
+    4300024: Box009
+    4300026: Box012
+    4300028: Cylinder003
+    4300030: Cylinder002
+    4300032: Box008
+    4300034: Box025
+    4300036: Box003
+    4300038: Box022
+    4300040: Box010
+    4300042: Box023
+    4300044: Cylinder004
+    4300046: Cylinder005
+    4300048: Cylinder006
+    4300050: Box004
+    4300052: Cylinder007
+    4300054: Box016
+    4300056: Box005
+    4300058: Box019
+    4300060: Box021
+    4300062: Cylinder008
+    4300064: Box018
+    4300066: Box017
+    4300068: Box006
+    4300070: Box014
+    4300072: Box020
+    4300074: Box002
+    7400000: Take 001
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: Bowl
+    13700002: Bowl_Water
+    13700004: Box008
+    13700006: Box009
+    13700008: Cylinder001
+    13700010: Cylinder002
+    13700012: Cylinder003
+    13700014: Hoody
+    13700016: RubberRing
+    13700018: Shark
+    13700020: Sphere001
+    13700022: TShirt
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 330
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Idle
+        weight: 1
+      - path: Idle/Base HumanLPlatform
+        weight: 1
+      - path: Idle/Base HumanPelvis
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanLThigh
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanLThigh/Base HumanLCalf
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanLThigh/Base HumanLCalf/Base HumanLFoot
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanRThigh
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanRThigh/Base HumanRCalf
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanRThigh/Base HumanRCalf/Base HumanRFoot
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanLCollarbone
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanLCollarbone/Base HumanLUpperarm
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanLCollarbone/Base HumanLUpperarm/Base
+          HumanLForearm
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanLCollarbone/Base HumanLUpperarm/Base
+          HumanLForearm/Base HumanLPalm
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2/Base HumanHead
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanRCollarbone
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanRCollarbone/Base HumanRUpperarm
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanRCollarbone/Base HumanRUpperarm/Base
+          HumanRForearm
+        weight: 1
+      - path: Idle/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanRCollarbone/Base HumanRUpperarm/Base
+          HumanRForearm/Base HumanRPalm
+        weight: 1
+      - path: Idle/Base HumanPelvis/Bottom
+        weight: 1
+      - path: Idle/Base HumanPelvis/Fin
+        weight: 1
+      - path: Idle/Base HumanRPlatform
+        weight: 1
+      - path: Idle/Bowl
+        weight: 1
+      - path: Idle/Bowl/Bowl_Water
+        weight: 1
+      - path: Idle/Hoody
+        weight: 1
+      - path: Idle/RubberRing
+        weight: 1
+      - path: Idle/Shark
+        weight: 1
+      - path: Idle/TShirt
+        weight: 1
+      - path: Object001
+        weight: 1
+      - path: Pinball
+        weight: 1
+      - path: Pinball/Bone001
+        weight: 1
+      - path: Pinball/Bone001/Bone002
+        weight: 1
+      - path: Pinball/Bone005
+        weight: 1
+      - path: Pinball/Bone005/Bone006
+        weight: 1
+      - path: Pinball/Bone007
+        weight: 1
+      - path: Pinball/Bone007/Bone008
+        weight: 1
+      - path: Pinball/Bone009
+        weight: 1
+      - path: Pinball/Bone010
+        weight: 1
+      - path: Pinball/Bone010/Bone011
+        weight: 1
+      - path: Pinball/Bone012
+        weight: 1
+      - path: Pinball/Box002
+        weight: 1
+      - path: Pinball/Box003
+        weight: 1
+      - path: Pinball/Box004
+        weight: 1
+      - path: Pinball/Box005
+        weight: 1
+      - path: Pinball/Box006
+        weight: 1
+      - path: Pinball/Box008
+        weight: 1
+      - path: Pinball/Box009
+        weight: 1
+      - path: Pinball/Box010
+        weight: 1
+      - path: Pinball/Box012
+        weight: 1
+      - path: Pinball/Box014
+        weight: 1
+      - path: Pinball/Box016
+        weight: 1
+      - path: Pinball/Box017
+        weight: 1
+      - path: Pinball/Box018
+        weight: 1
+      - path: Pinball/Box019
+        weight: 1
+      - path: Pinball/Box020
+        weight: 1
+      - path: Pinball/Box021
+        weight: 1
+      - path: Pinball/Box022
+        weight: 1
+      - path: Pinball/Box023
+        weight: 1
+      - path: Pinball/Box024
+        weight: 1
+      - path: Pinball/Box025
+        weight: 1
+      - path: Pinball/Cylinder001
+        weight: 1
+      - path: Pinball/Cylinder002
+        weight: 1
+      - path: Pinball/Cylinder003
+        weight: 1
+      - path: Pinball/Cylinder004
+        weight: 1
+      - path: Pinball/Cylinder005
+        weight: 1
+      - path: Pinball/Cylinder006
+        weight: 1
+      - path: Pinball/Cylinder007
+        weight: 1
+      - path: Pinball/Cylinder008
+        weight: 1
+      - path: Pinball/Sphere001
+        weight: 1
+      - path: Plane001
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

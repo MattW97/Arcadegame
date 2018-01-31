@@ -1,0 +1,840 @@
+fileFormatVersion: 2
+guid: e2350370c3ef5e24792aa6c3f6d44f0b
+timeCreated: 1516632606
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Allosaur001
+    100002: Allosaur001LArm1
+    100004: Allosaur001LArm21
+    100006: Allosaur001LArm22
+    100008: Allosaur001LArmCollarbone
+    100010: Allosaur001LArmPalm
+    100012: Allosaur001LLeg1
+    100014: Allosaur001LLeg2
+    100016: Allosaur001LLegPalm
+    100018: Allosaur001LLegPlatform
+    100020: Allosaur001PalmBone001
+    100022: Allosaur001PalmBone001 1
+    100024: Allosaur001Pelvis
+    100026: Allosaur001RArm1
+    100028: Allosaur001RArm21
+    100030: Allosaur001RArm22
+    100032: Allosaur001RArmCollarbone
+    100034: Allosaur001RArmPalm
+    100036: Allosaur001Ribcage
+    100038: Allosaur001RLeg1
+    100040: Allosaur001RLeg2
+    100042: Allosaur001RLegPalm
+    100044: Allosaur001RLegPlatform
+    100046: Allosaur001Spine1
+    100048: Allosaur001Spine2
+    100050: Allosaur001Spine3
+    100052: Allosaur001Spine4
+    100054: Allosaur001Spine5
+    100056: Allosaur001Spine6
+    100058: Allosaur001Spine7
+    100060: AllosaurearL
+    100062: AllosaurearR
+    100064: AllosaureyeL
+    100066: AllosaureyeR
+    100068: Allosaurhead
+    100070: Allosaurmouth
+    100072: Allosaurneck1
+    100074: Allosaurneck2
+    100076: Allosaurtail
+    100078: Base HumanHead
+    100080: Base HumanHeadBone001
+    100082: Base HumanHeadBone007
+    100084: Base HumanHeadBone008
+    100086: Base HumanHeadBone014
+    100088: Base HumanLCalf
+    100090: Base HumanLCalf001
+    100092: Base HumanLCollarbone
+    100094: Base HumanLFoot
+    100096: Base HumanLFoot001
+    100098: Base HumanLForearm
+    100100: Base HumanLPalm
+    100102: Base HumanLPlatform
+    100104: Base HumanLPlatform001
+    100106: Base HumanLThigh
+    100108: Base HumanLThigh001
+    100110: Base HumanLUpperarm
+    100112: Base HumanNeck1
+    100114: Base HumanNeck2
+    100116: Base HumanPelvis
+    100118: Base HumanRCalf
+    100120: Base HumanRCalf001
+    100122: Base HumanRCollarbone
+    100124: Base HumanRFoot
+    100126: Base HumanRFoot001
+    100128: Base HumanRForearm
+    100130: Base HumanRibcage
+    100132: Base HumanRPalm
+    100134: Base HumanRPlatform
+    100136: Base HumanRPlatform001
+    100138: Base HumanRThigh
+    100140: Base HumanRThigh001
+    100142: Base HumanRUpperarm
+    100144: Base HumanSpine1
+    100146: Base HumanSpine2
+    100148: Base HumanSpine3
+    100150: Base HumanSpine4
+    100152: body
+    100154: Bone001
+    100156: Bone002
+    100158: Bone003
+    100160: Bone004
+    100162: Bone005
+    100164: Box014
+    100166: Box016
+    100168: Box018
+    100170: Box019
+    100172: Box020
+    100174: Box024
+    100176: Box025
+    100178: Box026
+    100180: Box027
+    100182: Box028
+    100184: Box030
+    100186: Box031
+    100188: Box031 1
+    100190: Box032
+    100192: Box033
+    100194: Box034
+    100196: Coat
+    100198: Cylinder011
+    100200: Cylinder012
+    100202: Cylinder013
+    100204: Cylinder014
+    100206: Cylinder015
+    100208: Cylinder017
+    100210: Cylinder021
+    100212: Cylinder022
+    100214: Cylinder023
+    100216: Cylinder024
+    100218: Cylinder025
+    100220: Ears
+    100222: Eyes
+    100224: eyes
+    100226: Feet
+    100228: Group001
+    100230: Hands
+    100232: Hat
+    100234: Head
+    100236: Object002
+    100238: //RootNode
+    100240: Plane007
+    100242: Plane008
+    100244: Plane009
+    100246: Plane010
+    100248: Plane011
+    100250: Plane012
+    100252: Plane013
+    100254: Plane014
+    100256: Plane015
+    100258: shirt
+    100260: shorts
+    100262: t-shirt
+    100264: Tenticle Bone 002
+    100266: Tenticle Bone 003
+    100268: Tenticle Bone 004
+    100270: Tenticle Bone 005
+    100272: Tenticle Bone 006
+    100274: Tenticle Bone 1
+    400000: Allosaur001
+    400002: Allosaur001LArm1
+    400004: Allosaur001LArm21
+    400006: Allosaur001LArm22
+    400008: Allosaur001LArmCollarbone
+    400010: Allosaur001LArmPalm
+    400012: Allosaur001LLeg1
+    400014: Allosaur001LLeg2
+    400016: Allosaur001LLegPalm
+    400018: Allosaur001LLegPlatform
+    400020: Allosaur001PalmBone001
+    400022: Allosaur001PalmBone001 1
+    400024: Allosaur001Pelvis
+    400026: Allosaur001RArm1
+    400028: Allosaur001RArm21
+    400030: Allosaur001RArm22
+    400032: Allosaur001RArmCollarbone
+    400034: Allosaur001RArmPalm
+    400036: Allosaur001Ribcage
+    400038: Allosaur001RLeg1
+    400040: Allosaur001RLeg2
+    400042: Allosaur001RLegPalm
+    400044: Allosaur001RLegPlatform
+    400046: Allosaur001Spine1
+    400048: Allosaur001Spine2
+    400050: Allosaur001Spine3
+    400052: Allosaur001Spine4
+    400054: Allosaur001Spine5
+    400056: Allosaur001Spine6
+    400058: Allosaur001Spine7
+    400060: AllosaurearL
+    400062: AllosaurearR
+    400064: AllosaureyeL
+    400066: AllosaureyeR
+    400068: Allosaurhead
+    400070: Allosaurmouth
+    400072: Allosaurneck1
+    400074: Allosaurneck2
+    400076: Allosaurtail
+    400078: Base HumanHead
+    400080: Base HumanHeadBone001
+    400082: Base HumanHeadBone007
+    400084: Base HumanHeadBone008
+    400086: Base HumanHeadBone014
+    400088: Base HumanLCalf
+    400090: Base HumanLCalf001
+    400092: Base HumanLCollarbone
+    400094: Base HumanLFoot
+    400096: Base HumanLFoot001
+    400098: Base HumanLForearm
+    400100: Base HumanLPalm
+    400102: Base HumanLPlatform
+    400104: Base HumanLPlatform001
+    400106: Base HumanLThigh
+    400108: Base HumanLThigh001
+    400110: Base HumanLUpperarm
+    400112: Base HumanNeck1
+    400114: Base HumanNeck2
+    400116: Base HumanPelvis
+    400118: Base HumanRCalf
+    400120: Base HumanRCalf001
+    400122: Base HumanRCollarbone
+    400124: Base HumanRFoot
+    400126: Base HumanRFoot001
+    400128: Base HumanRForearm
+    400130: Base HumanRibcage
+    400132: Base HumanRPalm
+    400134: Base HumanRPlatform
+    400136: Base HumanRPlatform001
+    400138: Base HumanRThigh
+    400140: Base HumanRThigh001
+    400142: Base HumanRUpperarm
+    400144: Base HumanSpine1
+    400146: Base HumanSpine2
+    400148: Base HumanSpine3
+    400150: Base HumanSpine4
+    400152: body
+    400154: Bone001
+    400156: Bone002
+    400158: Bone003
+    400160: Bone004
+    400162: Bone005
+    400164: Box014
+    400166: Box016
+    400168: Box018
+    400170: Box019
+    400172: Box020
+    400174: Box024
+    400176: Box025
+    400178: Box026
+    400180: Box027
+    400182: Box028
+    400184: Box030
+    400186: Box031
+    400188: Box031 1
+    400190: Box032
+    400192: Box033
+    400194: Box034
+    400196: Coat
+    400198: Cylinder011
+    400200: Cylinder012
+    400202: Cylinder013
+    400204: Cylinder014
+    400206: Cylinder015
+    400208: Cylinder017
+    400210: Cylinder021
+    400212: Cylinder022
+    400214: Cylinder023
+    400216: Cylinder024
+    400218: Cylinder025
+    400220: Ears
+    400222: Eyes
+    400224: eyes
+    400226: Feet
+    400228: Group001
+    400230: Hands
+    400232: Hat
+    400234: Head
+    400236: Object002
+    400238: //RootNode
+    400240: Plane007
+    400242: Plane008
+    400244: Plane009
+    400246: Plane010
+    400248: Plane011
+    400250: Plane012
+    400252: Plane013
+    400254: Plane014
+    400256: Plane015
+    400258: shirt
+    400260: shorts
+    400262: t-shirt
+    400264: Tenticle Bone 002
+    400266: Tenticle Bone 003
+    400268: Tenticle Bone 004
+    400270: Tenticle Bone 005
+    400272: Tenticle Bone 006
+    400274: Tenticle Bone 1
+    2300000: Box014
+    2300002: Box016
+    2300004: Box018
+    2300006: Box019
+    2300008: Box020
+    2300010: Box024
+    2300012: Box026
+    2300014: Box027
+    2300016: Box028
+    2300018: Box030
+    2300020: Box031
+    2300022: Box031 1
+    2300024: Box032
+    2300026: Box033
+    2300028: Box034
+    2300030: Cylinder011
+    2300032: Cylinder012
+    2300034: Cylinder013
+    2300036: Cylinder014
+    2300038: Cylinder015
+    2300040: Cylinder017
+    2300042: Cylinder021
+    2300044: Cylinder022
+    2300046: Cylinder023
+    2300048: Cylinder024
+    2300050: Cylinder025
+    2300052: Ears
+    2300054: Eyes
+    2300056: Hat
+    2300058: Object002
+    2300060: Plane007
+    2300062: Plane008
+    2300064: Plane009
+    2300066: Plane010
+    2300068: Plane011
+    2300070: Plane012
+    2300072: Plane013
+    2300074: Plane014
+    2300076: Plane015
+    3300000: Box014
+    3300002: Box016
+    3300004: Box018
+    3300006: Box019
+    3300008: Box020
+    3300010: Box024
+    3300012: Box026
+    3300014: Box027
+    3300016: Box028
+    3300018: Box030
+    3300020: Box031
+    3300022: Box031 1
+    3300024: Box032
+    3300026: Box033
+    3300028: Box034
+    3300030: Cylinder011
+    3300032: Cylinder012
+    3300034: Cylinder013
+    3300036: Cylinder014
+    3300038: Cylinder015
+    3300040: Cylinder017
+    3300042: Cylinder021
+    3300044: Cylinder022
+    3300046: Cylinder023
+    3300048: Cylinder024
+    3300050: Cylinder025
+    3300052: Ears
+    3300054: Eyes
+    3300056: Hat
+    3300058: Object002
+    3300060: Plane007
+    3300062: Plane008
+    3300064: Plane009
+    3300066: Plane010
+    3300068: Plane011
+    3300070: Plane012
+    3300072: Plane013
+    3300074: Plane014
+    3300076: Plane015
+    4300000: t-shirt
+    4300002: shirt
+    4300004: shorts
+    4300006: eyes
+    4300008: body
+    4300010: Head
+    4300012: Hat
+    4300014: Eyes
+    4300016: Ears
+    4300018: Hands
+    4300020: Feet
+    4300022: Coat
+    4300024: Plane014
+    4300026: Plane015
+    4300028: Plane009
+    4300030: Cylinder013
+    4300032: Plane010
+    4300034: Cylinder011
+    4300036: Plane008
+    4300038: Cylinder012
+    4300040: Cylinder014
+    4300042: Plane013
+    4300044: Box031
+    4300046: Cylinder024
+    4300048: Plane007
+    4300050: Box014
+    4300052: Box026
+    4300054: Object002
+    4300056: Box033
+    4300058: Cylinder025
+    4300060: Box034
+    4300062: Box028
+    4300064: Cylinder021
+    4300066: Box025
+    4300068: Plane011
+    4300070: Box020
+    4300072: Box019
+    4300074: Box018
+    4300076: Cylinder017
+    4300078: Cylinder023
+    4300080: Box030
+    4300082: Box016
+    4300084: Box024
+    4300086: Box027
+    4300088: Box032
+    4300090: Cylinder015
+    4300092: Cylinder022
+    4300094: Plane012
+    4300096: Box031
+    7400000: Take 001
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: body
+    13700002: Box025
+    13700004: Coat
+    13700006: eyes
+    13700008: Feet
+    13700010: Hands
+    13700012: Head
+    13700014: shirt
+    13700016: shorts
+    13700018: t-shirt
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 160
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Allosaur001
+        weight: 1
+      - path: Allosaur001LLegPlatform
+        weight: 1
+      - path: Allosaur001Pelvis
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001LLeg1
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001LLeg1/Allosaur001LLeg2
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001LLeg1/Allosaur001LLeg2/Allosaur001LLegPalm
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001LLeg1/Allosaur001LLeg2/Allosaur001LLegPalm/Allosaur001PalmBone001
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001RLeg1
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001RLeg1/Allosaur001RLeg2
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001RLeg1/Allosaur001RLeg2/Allosaur001RLegPalm
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001RLeg1/Allosaur001RLeg2/Allosaur001RLegPalm/Allosaur001PalmBone001
+          1
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001LArmCollarbone
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001LArmCollarbone/Allosaur001LArm1
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001LArmCollarbone/Allosaur001LArm1/Allosaur001LArm21
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001LArmCollarbone/Allosaur001LArm1/Allosaur001LArm21/Allosaur001LArm22
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001LArmCollarbone/Allosaur001LArm1/Allosaur001LArm21/Allosaur001LArm22/Allosaur001LArmPalm
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001RArmCollarbone
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001RArmCollarbone/Allosaur001RArm1
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001RArmCollarbone/Allosaur001RArm1/Allosaur001RArm21
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001RArmCollarbone/Allosaur001RArm1/Allosaur001RArm21/Allosaur001RArm22
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001RArmCollarbone/Allosaur001RArm1/Allosaur001RArm21/Allosaur001RArm22/Allosaur001RArmPalm
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1/Allosaurneck2
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1/Allosaurneck2/Allosaurhead
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1/Allosaurneck2/Allosaurhead/AllosaurearL
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1/Allosaurneck2/Allosaurhead/AllosaurearR
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1/Allosaurneck2/Allosaurhead/AllosaureyeL
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1/Allosaurneck2/Allosaurhead/AllosaureyeR
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1/Allosaurneck2/Allosaurhead/Allosaurmouth
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaurtail
+        weight: 1
+      - path: Allosaur001RLegPlatform
+        weight: 1
+      - path: body
+        weight: 1
+      - path: Bone001
+        weight: 1
+      - path: Bone001/Bone002
+        weight: 1
+      - path: Bone001/Bone002/Bone003
+        weight: 1
+      - path: Bone001/Bone002/Bone003/Bone004
+        weight: 1
+      - path: Bone005
+        weight: 1
+      - path: Bone005/Box031 1
+        weight: 1
+      - path: Box014
+        weight: 1
+      - path: Box016
+        weight: 1
+      - path: Box018
+        weight: 1
+      - path: Box019
+        weight: 1
+      - path: Box020
+        weight: 1
+      - path: Box024
+        weight: 1
+      - path: Box025
+        weight: 1
+      - path: Box026
+        weight: 1
+      - path: Box027
+        weight: 1
+      - path: Box028
+        weight: 1
+      - path: Box030
+        weight: 1
+      - path: Box031
+        weight: 1
+      - path: Box032
+        weight: 1
+      - path: Box033
+        weight: 1
+      - path: Box034
+        weight: 1
+      - path: Cylinder011
+        weight: 1
+      - path: Cylinder012
+        weight: 1
+      - path: Cylinder013
+        weight: 1
+      - path: Cylinder014
+        weight: 1
+      - path: Cylinder015
+        weight: 1
+      - path: Cylinder017
+        weight: 1
+      - path: Cylinder021
+        weight: 1
+      - path: Cylinder022
+        weight: 1
+      - path: Cylinder023
+        weight: 1
+      - path: Cylinder024
+        weight: 1
+      - path: Cylinder025
+        weight: 1
+      - path: eyes
+        weight: 1
+      - path: Group001
+        weight: 1
+      - path: Group001/Base HumanLPlatform
+        weight: 1
+      - path: Group001/Base HumanLPlatform001
+        weight: 1
+      - path: Group001/Base HumanPelvis
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanLThigh
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanLThigh/Base HumanLCalf
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanLThigh/Base HumanLCalf/Base HumanLFoot
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanLThigh001
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanLThigh001/Base HumanLCalf001
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanLThigh001/Base HumanLCalf001/Base
+          HumanLFoot001
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanRThigh
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanRThigh/Base HumanRCalf
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanRThigh/Base HumanRCalf/Base HumanRFoot
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanRThigh001
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanRThigh001/Base HumanRCalf001
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanRThigh001/Base HumanRCalf001/Base
+          HumanRFoot001
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanLCollarbone
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanLCollarbone/Base HumanLUpperarm
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanLCollarbone/Base HumanLUpperarm/Base
+          HumanLForearm
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanLCollarbone/Base HumanLUpperarm/Base
+          HumanLForearm/Base HumanLPalm
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2/Base HumanHead
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2/Base HumanHead/Base
+          HumanHeadBone001
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2/Base HumanHead/Base
+          HumanHeadBone007
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2/Base HumanHead/Base
+          HumanHeadBone008
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2/Base HumanHead/Base
+          HumanHeadBone014
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2/Base HumanHead/Ears
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2/Base HumanHead/Eyes
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2/Base HumanHead/Hat
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2/Base HumanHead/Tenticle
+          Bone 1
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2/Base HumanHead/Tenticle
+          Bone 002
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2/Base HumanHead/Tenticle
+          Bone 003
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2/Base HumanHead/Tenticle
+          Bone 004
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2/Base HumanHead/Tenticle
+          Bone 005
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanNeck1/Base HumanNeck2/Base HumanHead/Tenticle
+          Bone 006
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanRCollarbone
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanRCollarbone/Base HumanRUpperarm
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanRCollarbone/Base HumanRUpperarm/Base
+          HumanRForearm
+        weight: 1
+      - path: Group001/Base HumanPelvis/Base HumanSpine1/Base HumanSpine2/Base HumanSpine3/Base
+          HumanSpine4/Base HumanRibcage/Base HumanRCollarbone/Base HumanRUpperarm/Base
+          HumanRForearm/Base HumanRPalm
+        weight: 1
+      - path: Group001/Base HumanRPlatform
+        weight: 1
+      - path: Group001/Base HumanRPlatform001
+        weight: 1
+      - path: Group001/Coat
+        weight: 1
+      - path: Group001/Feet
+        weight: 1
+      - path: Group001/Hands
+        weight: 1
+      - path: Group001/Head
+        weight: 1
+      - path: Object002
+        weight: 1
+      - path: Plane007
+        weight: 1
+      - path: Plane008
+        weight: 1
+      - path: Plane009
+        weight: 1
+      - path: Plane010
+        weight: 1
+      - path: Plane011
+        weight: 1
+      - path: Plane012
+        weight: 1
+      - path: Plane013
+        weight: 1
+      - path: Plane014
+        weight: 1
+      - path: Plane015
+        weight: 1
+      - path: shirt
+        weight: 1
+      - path: shorts
+        weight: 1
+      - path: t-shirt
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

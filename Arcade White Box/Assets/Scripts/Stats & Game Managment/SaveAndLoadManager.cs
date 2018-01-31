@@ -259,7 +259,7 @@ public class SaveAndLoadManager : MonoBehaviour
         instantiatedCustomerParent = GameObject.Find("Customers");
         CreateObjects();
         CreateCustomers();
-        //GameManager.Instance.PathingGridManagerLink.GetComponent<PathingGridSetup>().UpdateGrid();
+        GameManager.Instance.PathingGridManagerLink.GetComponent<PathingGridSetup>().UpdateGrid();
     }
 
     /// <summary>
@@ -270,48 +270,20 @@ public class SaveAndLoadManager : MonoBehaviour
     {
         foreach (PlaceableObjectSaveable obj in saveData.placeableSaveList)
         {
-            if(_objectManager.PlaceableObjectNames.Contains(obj.prefabName))
+            for (int i = 0; i < _objectManager.AllPlaceableObjects.Count; i++)
             {
-                int index = _objectManager.PlaceableObjectNames.FindIndex(x => x == obj.prefabName);
-                InstantiateNewObject(_objectManager.AllPlaceableObjects[index], new Vector3(obj.PosX, obj.PosY, obj.PosZ), Quaternion.Euler(new Vector3(obj.RotX, obj.RotY, obj.RotZ)), FindTileFromID(obj.tile_ID));
+                if (obj.prefabName == _objectManager.AllPlaceableObjects[i].name)
+                {
+                    InstantiateNewObject(_objectManager.AllPlaceableObjects[i], new Vector3(obj.PosX, obj.PosY, obj.PosZ), Quaternion.Euler(new Vector3(obj.RotX, obj.RotY, obj.RotZ)), FindTileFromID(obj.tile_ID));
+                }
+                else
+                {
+                    print("Tried to create an object that is not inside the object manager script. Please add it to Object Manager for it to be created on Load().");
+                    print("The object you tried to create has the name " + obj.prefabName);
+                }
             }
-            else
-            {
-                print("Tried to create an object that is not inside the object manager script. Please add it to Object Manager for it to be created on Load().");
-                print("The object you tried to create has the name " + obj.prefabName);
-            }
-            print(obj.prefabName);
         }
-        foreach (MachineSaveable obj in saveData.machineSaveList)
-        {
-            if (_objectManager.PlaceableObjectNames.Contains(obj.prefabName))
-            {
-                int index = _objectManager.PlaceableObjectNames.FindIndex(x => x == obj.prefabName);
-                InstantiateNewObject(_objectManager.AllPlaceableObjects[index], new Vector3(obj.PosX, obj.PosY, obj.PosZ), Quaternion.Euler(new Vector3(obj.RotX, obj.RotY, obj.RotZ)), FindTileFromID(obj.tile_ID));
-            }
-            else
-            {
-                print("Tried to create an object that is not inside the object manager script. Please add it to Object Manager for it to be created on Load().");
-                print("The object you tried to create has the name " + obj.prefabName);
-            }
-            print(obj.prefabName);
-        }
-        //foreach (MachineSaveable obj in saveData.machineSaveList)
-        //{
-        //    for (int i = 0; i < _objectManager.AllPlaceableObjects.Count; i++)
-        //    {
-        //        if (obj.prefabName == _objectManager.AllPlaceableObjects[i].name)
-        //        {
-        //            InstantiateNewMachine(_objectManager.AllPlaceableObjects[i] as Machine, new Vector3(obj.PosX, obj.PosY, obj.PosZ), Quaternion.Euler(new Vector3(obj.RotX, obj.RotY, obj.RotZ)), FindTileFromID(obj.tile_ID));
-        //        }
-        //        else
-        //        {
-        //            print("Tried to create an object that is not inside the object manager script. Please add it to Object Manager for it to be created on Load().");
-        //            print("The object you tried to create has the name " + obj.prefabName);
-        //        }
-        //        print(saveData.machineSaveList[i]);
-        //    }
-        //}
+        //placeableSaveList.Clear();
     }
 
     /// <summary>
@@ -367,24 +339,6 @@ public class SaveAndLoadManager : MonoBehaviour
         objectTile.SetIfPlacedOn(true);
     }
 
-    private void InstantiateNewMachine(Machine machineToPlace, Vector3 position, Quaternion rotation, Tile objectTile)
-    {
-        GameObject newObject = Instantiate(machineToPlace.gameObject, position, rotation, instantiatedObjectParent.transform);
-        GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>().AddObjectToLists(newObject);
-
-        Machine newMachine = newObject.GetComponent<Machine>();
-        newMachine.PlacedOnTile = objectTile;
-        newMachine.PrefabName = machineToPlace.name;
-        newMachine.dailyCustomers = machineToPlace.dailyCustomers;
-        newMachine.dailyExpenses = machineToPlace.dailyExpenses;
-        newMachine.dailyRevenue = machineToPlace.dailyRevenue;
-        newMachine.allTimeCustomers = machineToPlace.allTimeCustomers;
-        newMachine.allTimeExpenses = machineToPlace.allTimeExpenses;
-        newMachine.allTimeRevenue = machineToPlace.allTimeRevenue;
-        newMachine.FailurePercentage = machineToPlace.FailurePercentage; 
-        objectTile.SetIfPlacedOn(true);
-    }
-
     /// <summary>
     /// Customer instantiation method. Called from CreateCustomers(). 
     /// @param The customer model to load, the customer saveable class to load data from, a Vector3 containing position, a Quaternion containing rotation.
@@ -394,7 +348,6 @@ public class SaveAndLoadManager : MonoBehaviour
         Customer newCustomer = Instantiate(cust, position, rotation, instantiatedCustomerParent.transform) as Customer;
         newCustomer.SetCustomerNeeds(custSave.bladderStat, custSave.happinessStat, custSave.hungerStat, custSave.tirednessStat, custSave.queasinessStat, custSave.weakStat);
         newCustomer.prefabName = custSave.prefabName;
-        newCustomer.SetCurrentCustomerState(Customer.CustomerStates.Idle);
     }
 
     /// <summary>
@@ -489,7 +442,6 @@ public class SaveAndLoadManager : MonoBehaviour
     {
         saveData.placeableSaveList.Clear();
         saveData.customerSaveList.Clear();
-        saveData.machineSaveList.Clear();
     }
 
    
@@ -593,6 +545,6 @@ public class SaveableData
     public GameData stats;
     public List<CustomerSaveable> customerSaveList;
     public List<PlaceableObjectSaveable> placeableSaveList;
-    public List<MachineSaveable> machineSaveList;
+
 }
 

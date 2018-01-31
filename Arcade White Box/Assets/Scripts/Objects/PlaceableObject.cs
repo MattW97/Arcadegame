@@ -5,10 +5,9 @@ using UnityEngine;
 public class PlaceableObject : Entity {
 
     [SerializeField] protected float buyCost; // how much the object costs to buy.
-    [SerializeField] private GameObject selectionMesh; // the mesh that will flash when the player selects this object in the world.
+    [SerializeField] protected GameObject selectionMesh; // the mesh that will flash when the player selects this object in the world.
     [SerializeField] protected int percentReturnedUponSold; //PERCENTAGE amount returned upon being sold back to the manufacturer. 
     [SerializeField] protected string description; // description of the machine Optional
-    [SerializeField] private GameObject ghost; // Object ghost????????????
 
      
     protected bool selected;
@@ -17,8 +16,6 @@ public class PlaceableObject : Entity {
 
     protected Vector3 position;
     protected Vector3 rotation;
-
-    protected List<Tile> occupiedTiles;
 
     private string prefabName;
     private int tile_ID;
@@ -108,11 +105,7 @@ public class PlaceableObject : Entity {
 
     private void OnSave()
     {
-        if(gameObject.GetComponent<PlaceableObject>())
-        {
-            GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.placeableSaveList.Add(GetPlaceableObjectSaveable());
-            print("Placeable Object");
-        }
+        GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.placeableSaveList.Add(GetPlaceableObjectSaveable());
     }
 
     #region Getters/Setters
@@ -137,11 +130,6 @@ public class PlaceableObject : Entity {
                 selectionMesh.SetActive(true);
             }
         }
-    }
-
-    public GameObject GetGhost()
-    {
-        return ghost;
     }
 
     public Tile PlacedOnTile
@@ -193,32 +181,6 @@ public class PlaceableObject : Entity {
         set
         {
             prefabName = value;
-        }
-    }
-
-    public GameObject SelectionMesh
-    {
-        get
-        {
-            return selectionMesh;
-        }
-
-        set
-        {
-            selectionMesh = value;
-        }
-    }
-
-    public List<Tile> OccupiedTiles
-    {
-        get
-        {
-            return occupiedTiles;
-        }
-
-        set
-        {
-            occupiedTiles = value;
         }
     }
     #endregion Getters/Setters

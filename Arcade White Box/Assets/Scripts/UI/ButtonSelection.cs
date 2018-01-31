@@ -34,8 +34,7 @@ public class ButtonSelection : MonoBehaviour {
             if (buttonList[i] == theButton)
             {
                 _tileInteractionLink.ObjectToPlace = theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton;
-                _tileInteractionLink.ReassignObjectGhost(theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton);
-                //_tileInteractionLink.SwitchTileHighlighterMesh(theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton);
+                _tileInteractionLink.SwitchTileHighlighterMesh(theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton);
                 _objectUILink.SetActive(true);
                 _objectUILink.GetComponent<PlacingObjectInteractionMenuUI>().GetCurrentObject(theButton.GetComponent<ButtonStorage>().ObjectAssignedToThisButton);
 

@@ -1,0 +1,217 @@
+fileFormatVersion: 2
+guid: d874980db10def347990ed7212a504b1
+timeCreated: 1517317371
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Base
+    100002: Bone002
+    100004: Bone004
+    100006: Bone006
+    100008: Bone_TEXT
+    100010: Button
+    100012: Button001
+    100014: Cylinder002
+    100016: Cylinder003
+    100018: Cylinder004
+    100020: Cylinder006
+    100022: Cylinder007
+    100024: Cylinder008
+    100026: FIN003
+    100028: GeoSphere001
+    100030: Letter Defects
+    100032: Object001
+    100034: //RootNode
+    100036: Sphere002
+    400000: Base
+    400002: Bone002
+    400004: Bone004
+    400006: Bone006
+    400008: Bone_TEXT
+    400010: Button
+    400012: Button001
+    400014: Cylinder002
+    400016: Cylinder003
+    400018: Cylinder004
+    400020: Cylinder006
+    400022: Cylinder007
+    400024: Cylinder008
+    400026: FIN003
+    400028: GeoSphere001
+    400030: Letter Defects
+    400032: Object001
+    400034: //RootNode
+    400036: Sphere002
+    2300000: Base
+    2300002: Button001
+    2300004: Cylinder002
+    2300006: Cylinder004
+    2300008: Cylinder006
+    2300010: Cylinder008
+    2300012: Sphere002
+    3300000: Base
+    3300002: Button001
+    3300004: Cylinder002
+    3300006: Cylinder004
+    3300008: Cylinder006
+    3300010: Cylinder008
+    3300012: Sphere002
+    4300000: Cylinder002
+    4300002: Object001
+    4300004: Sphere002
+    4300006: Base
+    4300008: FIN003
+    4300010: Letter Defects
+    4300012: Cylinder003
+    4300014: GeoSphere001
+    4300016: Cylinder004
+    4300018: Cylinder006
+    4300020: Button
+    4300022: Cylinder008
+    4300024: Button001
+    7400000: Take 001
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: Button
+    13700002: Cylinder003
+    13700004: FIN003
+    13700006: GeoSphere001
+    13700008: Letter Defects
+    13700010: Object001
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 180
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Base
+        weight: 1
+      - path: Bone002
+        weight: 1
+      - path: Bone004
+        weight: 1
+      - path: Bone006
+        weight: 1
+      - path: Bone_TEXT
+        weight: 1
+      - path: Button
+        weight: 1
+      - path: Button001
+        weight: 1
+      - path: Cylinder002
+        weight: 1
+      - path: Cylinder003
+        weight: 1
+      - path: Cylinder004
+        weight: 1
+      - path: Cylinder006
+        weight: 1
+      - path: Cylinder007
+        weight: 1
+      - path: Cylinder008
+        weight: 1
+      - path: FIN003
+        weight: 1
+      - path: GeoSphere001
+        weight: 1
+      - path: Letter Defects
+        weight: 1
+      - path: Object001
+        weight: 1
+      - path: Sphere002
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

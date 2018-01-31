@@ -5,7 +5,6 @@ using UnityEngine;
 public class ObjectManager : MonoBehaviour
 {
     [SerializeField] private List<PlaceableObject> allPlaceableObjects;
-    private List<string> placeableObjectNames;
 
     private GameObject tileParent;
     private Tile[] allTiles;
@@ -14,7 +13,6 @@ public class ObjectManager : MonoBehaviour
     {
         tileParent = GameObject.Find("Level/Tiles");
         allTiles = tileParent.GetComponentsInChildren<Tile>();
-        CreateNameList();
     }
 
     public List<PlaceableObject> AllPlaceableObjects
@@ -40,28 +38,6 @@ public class ObjectManager : MonoBehaviour
         set
         {
             allTiles = value;
-        }
-    }
-
-    public List<string> PlaceableObjectNames
-    {
-        get
-        {
-            return placeableObjectNames;
-        }
-
-        set
-        {
-            placeableObjectNames = value;
-        }
-    }
-
-    private void CreateNameList()
-    {
-        placeableObjectNames = new List<string>();
-        foreach (PlaceableObject obj in allPlaceableObjects)
-        {
-            placeableObjectNames.Add(obj.PrefabName);
         }
     }
 }

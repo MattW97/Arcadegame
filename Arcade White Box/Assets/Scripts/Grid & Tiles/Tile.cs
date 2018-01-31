@@ -10,17 +10,11 @@ public class Tile : MonoBehaviour
     [SerializeField] private MeshFilter trashMesh;
     [SerializeField] private GameObject trashParticles;
     [SerializeField] private Mesh[] trashLevels;
-    [SerializeField] private GameObject tileHighlight;
-    [SerializeField] private List<Color> tileHighlighterColours;
 
     private int id, trashLevel;
     private bool placedOn;
     private Vector2 tileCoordinates;
 
-    void Awake()
-    {
-        
-    }
     void Start()
     {
         trashParticles.SetActive(false);
@@ -30,7 +24,6 @@ public class Tile : MonoBehaviour
         Vector3 newRotation = trashMesh.transform.rotation.eulerAngles;
         newRotation.y = Random.Range(0, 360);
         trashMesh.transform.rotation = Quaternion.Euler(newRotation);
-        
     }
 
     public TileType GetTileType()
@@ -41,11 +34,6 @@ public class Tile : MonoBehaviour
     public Vector2 GetCoordinates()
     {
         return tileCoordinates;
-    }
-
-    public bool GetIsPlacedOn()
-    {
-        return placedOn;
     }
 
     public void SetID(int id)
@@ -106,16 +94,6 @@ public class Tile : MonoBehaviour
         trashLevel = 0;
         trashMesh.mesh = null;
         trashParticles.SetActive(false);
-    }
-
-    public void ToggleHighlighter(bool onOrOff)
-    {
-        tileHighlight.SetActive(onOrOff);
-    }
-
-    public void ChangeHighlighterColour(int id)
-    {
-        tileHighlight.GetComponent<Renderer>().material.color = tileHighlighterColours[id];
     }
 }
 

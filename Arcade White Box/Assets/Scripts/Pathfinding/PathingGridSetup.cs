@@ -8,13 +8,13 @@ public class PathingGridSetup : MonoBehaviour
  
     private PathingGrid pathingGrid;
     private PathManager pathManager;
-    private Pathfinding2 pathFinding;
+    private Pathfinding pathFinding;
 
     void Start()
     {
         pathingGrid = GetComponent<PathingGrid>();
         pathManager = GetComponent<PathManager>();
-        pathFinding = GetComponent<Pathfinding2>();
+        pathFinding = GetComponent<Pathfinding>();
 
         InitialiseGrid();
     }

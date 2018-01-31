@@ -1,0 +1,198 @@
+fileFormatVersion: 2
+guid: a2323f130c3d63040936292585a7cb94
+timeCreated: 1516634454
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Base HumanHead
+    100002: Base HumanHeadBone001
+    100004: Base HumanHeadBone007
+    100006: Base HumanHeadBone008
+    100008: Base HumanHeadBone014
+    100010: Base HumanLCalf
+    100012: Base HumanLCalf001
+    100014: Base HumanLCollarbone
+    100016: Base HumanLFoot
+    100018: Base HumanLFoot001
+    100020: Base HumanLForearm
+    100022: Base HumanLPalm
+    100024: Base HumanLPlatform
+    100026: Base HumanLPlatform001
+    100028: Base HumanLThigh
+    100030: Base HumanLThigh001
+    100032: Base HumanLUpperarm
+    100034: Base HumanNeck1
+    100036: Base HumanNeck2
+    100038: Base HumanPelvis
+    100040: Base HumanRCalf
+    100042: Base HumanRCalf001
+    100044: Base HumanRCollarbone
+    100046: Base HumanRFoot
+    100048: Base HumanRFoot001
+    100050: Base HumanRForearm
+    100052: Base HumanRibcage
+    100054: Base HumanRPalm
+    100056: Base HumanRPlatform
+    100058: Base HumanRPlatform001
+    100060: Base HumanRThigh
+    100062: Base HumanRThigh001
+    100064: Base HumanRUpperarm
+    100066: Base HumanSpine1
+    100068: Base HumanSpine2
+    100070: Base HumanSpine3
+    100072: Base HumanSpine4
+    100074: Coat
+    100076: Ears
+    100078: Eyes
+    100080: Feet
+    100082: Hands
+    100084: Hat
+    100086: Head
+    100088: //RootNode
+    100090: Tenticle Bone 002
+    100092: Tenticle Bone 003
+    100094: Tenticle Bone 004
+    100096: Tenticle Bone 005
+    100098: Tenticle Bone 006
+    100100: Tenticle Bone 1
+    400000: Base HumanHead
+    400002: Base HumanHeadBone001
+    400004: Base HumanHeadBone007
+    400006: Base HumanHeadBone008
+    400008: Base HumanHeadBone014
+    400010: Base HumanLCalf
+    400012: Base HumanLCalf001
+    400014: Base HumanLCollarbone
+    400016: Base HumanLFoot
+    400018: Base HumanLFoot001
+    400020: Base HumanLForearm
+    400022: Base HumanLPalm
+    400024: Base HumanLPlatform
+    400026: Base HumanLPlatform001
+    400028: Base HumanLThigh
+    400030: Base HumanLThigh001
+    400032: Base HumanLUpperarm
+    400034: Base HumanNeck1
+    400036: Base HumanNeck2
+    400038: Base HumanPelvis
+    400040: Base HumanRCalf
+    400042: Base HumanRCalf001
+    400044: Base HumanRCollarbone
+    400046: Base HumanRFoot
+    400048: Base HumanRFoot001
+    400050: Base HumanRForearm
+    400052: Base HumanRibcage
+    400054: Base HumanRPalm
+    400056: Base HumanRPlatform
+    400058: Base HumanRPlatform001
+    400060: Base HumanRThigh
+    400062: Base HumanRThigh001
+    400064: Base HumanRUpperarm
+    400066: Base HumanSpine1
+    400068: Base HumanSpine2
+    400070: Base HumanSpine3
+    400072: Base HumanSpine4
+    400074: Coat
+    400076: Ears
+    400078: Eyes
+    400080: Feet
+    400082: Hands
+    400084: Hat
+    400086: Head
+    400088: //RootNode
+    400090: Tenticle Bone 002
+    400092: Tenticle Bone 003
+    400094: Tenticle Bone 004
+    400096: Tenticle Bone 005
+    400098: Tenticle Bone 006
+    400100: Tenticle Bone 1
+    2300000: Ears
+    2300002: Eyes
+    2300004: Hat
+    3300000: Ears
+    3300002: Eyes
+    3300004: Hat
+    4300000: Head
+    4300002: Hat
+    4300004: Eyes
+    4300006: Ears
+    4300008: Hands
+    4300010: Feet
+    4300012: Coat
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Coat
+    13700002: Feet
+    13700004: Hands
+    13700006: Head
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

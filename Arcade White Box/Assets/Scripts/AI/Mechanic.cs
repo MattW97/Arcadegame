@@ -6,12 +6,12 @@ public class Mechanic : Staff
 {
     [SerializeField] private float repairTime;
 
-
     private enum MechanicState {Idle, GotTarget, Moving, Repairing}
 
     private bool hasJob;
     private MechanicState currentState;
     private Machine currentMachine;
+    private IEnumerator repairing;
 
     protected override void Awake()
     {
@@ -23,9 +23,9 @@ public class Mechanic : Staff
 
     protected override void Update()
     {
-        if (currentState == MechanicState.GotTarget)
+        if(currentState == MechanicState.GotTarget)
         {
-            unitController.SetTarget(currentMachine.GetUsePosition());
+            unitController.SetTarget(currentMachine.transform);
             unitController.GetNewPath();
             currentState = MechanicState.Moving;
         }
@@ -33,40 +33,16 @@ public class Mechanic : Staff
         {
             if (unitController.ReachedTarget)
             {
-                StartCoroutine("RepairMachine", currentMachine);
+                StartCoroutine("repairing");
             }
         }
 
         base.Update();
     }
 
-    private IEnumerator RepairMachine(Machine brokenMachine)
+    private IEnumerator Repairing()
     {
         currentState = MechanicState.Repairing;
-        brokenMachine.OnRepair();
         yield return new WaitForSeconds(repairTime);
-        currentState = MechanicState.Idle;
-    }
-
-
-    public void AssignMachine(Machine newMachine)
-    {
-        currentMachine = newMachine;
-        currentState = MechanicState.GotTarget;
-    }
-
-
-
-    public bool HasJob
-    {
-        get
-        {
-            return hasJob;
-        }
-
-        set
-        {
-            hasJob = value;
-        }
     }
 }

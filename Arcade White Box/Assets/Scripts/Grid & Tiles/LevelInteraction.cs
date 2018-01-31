@@ -5,15 +5,16 @@ using UnityEngine.EventSystems;
 
 public class LevelInteraction : MonoBehaviour
 {
-    [SerializeField] private GameObject wallHighlighter, roomScaler;
+    [SerializeField] private GameObject tileHighlighterPrefab, wallHighlighter;
     [SerializeField] private Material canPlace, cantPlace;
     [SerializeField] private int noOfTileHighlighters, wallLengthLimit;
     [SerializeField] private LayerMask wallLayerMask;
-    [SerializeField] private GameObject objectGhostPrefab;
 
-    public enum InteractionState {SelectionMode, PlacingMode, WallPlacingMode, RoomPlacing, IdleMode}
+    public enum InteractionState {SelectionMode, PlacingMode, WallPlacingMode, IdleMode}
 
-    private Transform objectParent;
+    private bool rotatingObject;
+    private GameObject tileHighlighter;
+    private Transform highlighterTransform, objectParent;
     private List<GameObject> tileHighlighterList;
     private Renderer highlighterRenderer;
     private PlaceableObject currentSelectedObject;
@@ -30,14 +31,15 @@ public class LevelInteraction : MonoBehaviour
     private PathingGridSetup pathingGridSetup;
     private List<GameObject> wallHighlighters;
     private GameObject wallHighligherParent;
+
     private PlacingObjectInteractionMenuUI placingObject;
-    private GameObject objectGhost;
-    private GameObject startTile, endTile;
+    
 
     void Awake()
     {
-        objectGhost = Instantiate(objectGhostPrefab, Vector3.zero, Quaternion.identity);
-        roomScaler = Instantiate(roomScaler, Vector3.zero, roomScaler.transform.rotation);
+        tileHighlighter = Instantiate(tileHighlighterPrefab, Vector3.zero, Quaternion.identity);
+        highlighterTransform = tileHighlighter.GetComponent<Transform>();
+        highlighterRenderer = tileHighlighter.GetComponent<Renderer>();
 
         wallHighlighters = new List<GameObject>();
         wallHighligherParent = new GameObject();
@@ -50,10 +52,12 @@ public class LevelInteraction : MonoBehaviour
             wallHighlighters.Add(newHighlighter);
         }
 
-        PlacedSelectedObject = null;
+        CurrentSelectedObject = null;
         CurrentSelectedAI = null;
+
         ObjectToPlace = null;
 
+        tileHighlighter.SetActive(false);
         CurrentState = InteractionState.SelectionMode; 
     }
 
@@ -61,11 +65,10 @@ public class LevelInteraction : MonoBehaviour
     {
         economyManager = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();
         levelManager = GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>();
-        //pathingGridSetup = GameManager.Instance.PathingGridManagerLink.GetComponent<PathingGridSetup>();
+        pathingGridSetup = GameManager.Instance.PathingGridManagerLink.GetComponent<PathingGridSetup>();
         placingObject = GameManager.Instance.ObjectInfoBox.GetComponent<PlacingObjectInteractionMenuUI>();
-
-
-        //Initialise();
+        
+        Initialise();
 
         objectParent = GameObject.Find("Level/Placed Objects").transform;
 
@@ -87,10 +90,6 @@ public class LevelInteraction : MonoBehaviour
         {
             WallPlacing();
         }
-        else if(CurrentState == InteractionState.RoomPlacing)
-        {
-            RoomPlacing();
-        }
 
         if(ObjectToPlace)
         {
@@ -100,221 +99,163 @@ public class LevelInteraction : MonoBehaviour
         {
             CurrentState = InteractionState.SelectionMode;
         }
-        
     }
 
-    //private void Initialise()
-    //{
-    //    tileHighlighterList = new List<GameObject>();
-    //    for (int i = 0; i < noOfTileHighlighters; i++)
-    //    {
-    //        GameObject newTileHighlighter = Instantiate(tileHighlighterPrefab);
-    //        tileHighlighterList.Add(newTileHighlighter);
-    //        newTileHighlighter.SetActive(false);
-    //    }
-    //}
+    private void Initialise()
+    {
+        tileHighlighterList = new List<GameObject>();
+        for (int i = 0; i < noOfTileHighlighters; i++)
+        {
+            GameObject newTileHighlighter = Instantiate(tileHighlighterPrefab);
+            tileHighlighterList.Add(newTileHighlighter);
+            newTileHighlighter.SetActive(false);
+        }
+    }
 
     private void SelectionMode()
     {
-
-        if (objectGhost != null && objectGhost.gameObject.activeSelf)
+        if (tileHighlighter.activeSelf == true)
         {
-            objectGhost.gameObject.SetActive(false);
+            tileHighlighter.SetActive(false);
         }
-
-        if (OverUI())
+        if (!OverUI())
         {
-            return;
-        }
+            interactionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        interactionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(interactionRay, out hitInfo))
-        {
-            if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Object") == 0)
+            if (Physics.Raycast(interactionRay, out hitInfo))
             {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    NullSelectedObject();
-                    PlacedSelectedObject = hitInfo.collider.gameObject.GetComponentInParent<PlaceableObject>();
-                    PlacedSelectedObject.Selected = true;
-                }
-            }
-
-            else if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "AI") == 0)
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    NullSelectedObject();
-                    currentSelectedAI = hitInfo.collider.gameObject.GetComponent<BaseAI>();
-                }
-            }
-            else
-            {
-                if (Input.GetMouseButtonDown(0) && currentSelectedObject)
-                {
-                    currentSelectedObject.Selected = false;
-                    NullSelectedObject();
-                }
-            }
-            ObjectInteraction();
-        }
-    }
-
-    private void RoomPlacing()
-    {
-        interactionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-        if (Physics.Raycast(interactionRay, out hitInfo))
-        {
-            if (!startTile)
-            {
-                if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Tile") == 0)
+                if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Object") == 0)
                 {
                     if (Input.GetMouseButtonDown(0))
                     {
-                        roomScaler.transform.localScale = new Vector3(1, 1, 1);
-
-                        startTile = hitInfo.collider.gameObject;
-
-                        roomScaler.SetActive(true);
-                        roomScaler.transform.position = startTile.transform.position;
+                        NullSelectedObject();
+                        CurrentSelectedObject = hitInfo.collider.gameObject.GetComponentInParent<PlaceableObject>();
+                        CurrentSelectedObject.Selected = true;
                     }
                 }
-            }
-            else if (startTile)
-            {
-                if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Tile") == 0)
+
+                else if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "AI") == 0)
                 {
-                    endTile = hitInfo.collider.gameObject;
-
-                    if (endTile != startTile)
+                    if (Input.GetMouseButtonDown(0))
                     {
-                        if (Input.GetMouseButtonDown(0))
-                        {
-                            startTile = null;
-                            endTile = null;
-                            roomScaler.SetActive(false);
-                        }
-                        else
-                        {
-                            Vector3 startPosition = startTile.transform.position;
-                            Vector3 endPosition = endTile.transform.position;
-                            Vector3 centrePoint = ((startPosition + endPosition) / 2) - new Vector3(0.5f, 0, 0.5f);
-                            Vector3 newScale = roomScaler.transform.localScale;
-                            //Vector3 newPosition = roomScaler.transform.position;
+                        NullSelectedObject();
+                        currentSelectedAI = hitInfo.collider.gameObject.GetComponent<BaseAI>();
+                        print(currentSelectedAI);
+                    }
+                }
 
-                            //newPosition.x = Mathf.Lerp(newPosition.x, centrePoint.x, Time.deltaTime * 5.0f);
-                            //newPosition.y = Mathf.Lerp(newPosition.y, centrePoint.y, Time.deltaTime * 5.0f);
-
-                            newScale.x = Mathf.Lerp(newScale.x, Mathf.Abs(startPosition.x - endPosition.x), Time.deltaTime * 25.0f);
-                            newScale.y = Mathf.Lerp(newScale.y, Mathf.Abs(startPosition.z - endPosition.z), Time.deltaTime * 25.0f);
-
-                            //newScale.x = Mathf.Abs(startPosition.x - endPosition.x);
-                            //newScale.y = Mathf.Abs(startPosition.z - endPosition.z);
-
-                            roomScaler.transform.position = centrePoint;
-                            roomScaler.transform.localScale = newScale;
-                        }
+                else
+                {
+                    if (Input.GetMouseButtonDown(0) && currentSelectedObject)
+                    {
+                        currentSelectedObject.Selected = false;
+                        NullSelectedObject();
                     }
                 }
             }
         }
+        ObjectInteraction();
     }
 
     private void PlacingMode()
     {
-        if (OverUI())
+        if (!OverUI())
         {
-            return;
-        }
-        interactionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(interactionRay, out hitInfo))
-        {
-            if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Tile") == 0)
+            interactionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(interactionRay, out hitInfo))
             {
-                placedOnTile = hitInfo.collider.gameObject.GetComponent<Tile>();
-
-                if (!objectGhost.activeSelf)
-                    objectGhost.SetActive(true);
-                objectGhost.transform.position = hitInfo.collider.transform.position;
-
-                if (Input.GetMouseButtonDown(0))
+                if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Tile") == 0)
                 {
-                    if (objectGhost.GetComponentInChildren<ObjectGhost>().IsPlaceable())
+                    placedOnTile = hitInfo.collider.gameObject.GetComponent<Tile>();
+                    if (!tileHighlighter.activeSelf)
+                        tileHighlighter.SetActive(true);
+
+                    Vector3 highlighterPosition = hitInfo.collider.transform.position;
+                    highlighterTransform.position = highlighterPosition;
+                    if (placedOnTile.GetTileType() == Tile.TileType.Passable)
                     {
-                        NullSelectedObject();
-                        placingObject.GetComponent<Animator>().SetBool("Placing", false);
-                        if (economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
+                        highlighterRenderer.material = canPlace;
+                        if (Input.GetMouseButtonDown(0))
                         {
-                            GameObject temp = InstantiateNewObject(ObjectToPlace, hitInfo.collider.gameObject.transform.position, objectGhost.transform.rotation, placedOnTile);
-                            objectGhost.GetComponentInChildren<ObjectGhost>().OnPlaced(temp);
-                            ObjectToPlace = null;
+                            NullSelectedObject();
+                            placingObject.GetComponent<Animator>().SetBool("Placing", false);
+
+                            //CurrentState = InteractionState.WallPlacing;
+
+                            if (economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
+                            {
+                                InstantiateNewObject(ObjectToPlace, hitInfo.collider.gameObject.transform.position, highlighterTransform.rotation, placedOnTile);
+                                ObjectToPlace = null;
+                            }
                         }
                     }
-                    else
+                    else if (placedOnTile.GetTileType() == Tile.TileType.Impassable)
                     {
-                        print("Something is blocking this tile!");
+                        highlighterRenderer.material = cantPlace;
                     }
                 }
-
-            }
-            else if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Object") == 0)
-            {
-
-                if (hitInfo.collider.gameObject.name != "Top")
-                    placedOnTile = GetNearestTile(hitInfo.collider);
-                if (!objectGhost.activeSelf)
-                    objectGhost.SetActive(true);
-                objectGhost.transform.position = placedOnTile.transform.position;
-
-                if (Input.GetMouseButtonDown(0))
+                else if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Object") == 0)
                 {
-                    if (objectGhost.GetComponentInChildren<ObjectGhost>().IsPlaceable())
+                    if (hitInfo.collider.gameObject.name != "Top")
+                        placedOnTile = GetNearestTile(hitInfo.collider);
+                    if (!tileHighlighter.activeSelf)
+                        tileHighlighter.SetActive(true);
+                    Vector3 highlighterPosition = placedOnTile.transform.position;
+                    highlighterTransform.position = highlighterPosition;
+                    if (placedOnTile.GetTileType() == Tile.TileType.Passable)
                     {
-                        NullSelectedObject();
-                        if (economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
+                        highlighterRenderer.material = canPlace;
+
+                        if (Input.GetMouseButtonDown(0))
                         {
-                            GameObject temp = InstantiateNewObject(ObjectToPlace, objectGhost.transform.position, objectGhost.transform.rotation, placedOnTile);
-                            objectGhost.GetComponentInChildren<ObjectGhost>().OnPlaced(temp);
-                            ObjectToPlace = null;
+                            NullSelectedObject();
+
+
+                            if (economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
+                            {
+                                InstantiateNewObject(ObjectToPlace, highlighterPosition, highlighterTransform.rotation, placedOnTile);
+                                ObjectToPlace = null;
+                            }
                         }
                     }
-                }
-            }
-            else if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Wall") == 0)
-            {
-                if (hitInfo.collider.gameObject.name != "Top")
-                    placedOnTile = GetNearestTileWallVersion(hitInfo.collider);
-                if (!objectGhost.activeSelf)
-                    objectGhost.SetActive(true);
-                objectGhost.transform.position = placedOnTile.transform.position;
-                if (Input.GetMouseButtonDown(0))
-                {
-                    if (objectGhost.GetComponentInChildren<ObjectGhost>().IsPlaceable())
+                    else if (placedOnTile.GetTileType() == Tile.TileType.Impassable)
                     {
-                        NullSelectedObject();
-                        if (economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
-                        {
-                            GameObject temp = InstantiateNewObject(ObjectToPlace, objectGhost.transform.position, objectGhost.transform.rotation, placedOnTile);
-                            objectGhost.GetComponentInChildren<ObjectGhost>().OnPlaced(temp);
-                            ObjectToPlace = null;
-                        }
+                        highlighterRenderer.material = cantPlace;
                     }
                 }
-            }
-            else if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Ghost") == 0)
-            {
-                print("Touching ghost! This shouldn't happen!");
-            }
-            else
-            {
-                objectGhost.SetActive(false);
-                foreach (Tile tile in GameManager.Instance.SceneManagerLink.GetComponent<ObjectManager>().AllTiles)
+                else if (string.CompareOrdinal(hitInfo.collider.gameObject.tag, "Wall") == 0)
                 {
-                    tile.ToggleHighlighter(false);
+                    if (hitInfo.collider.gameObject.name != "Top")
+                        placedOnTile = GetNearestTileWallVersion(hitInfo.collider);
+                    if (!tileHighlighter.activeSelf)
+                        tileHighlighter.SetActive(true);
+                    Vector3 highlighterPosition = placedOnTile.transform.position;
+                    highlighterTransform.position = highlighterPosition;
+                    if (placedOnTile.GetTileType() == Tile.TileType.Passable)
+                    {
+                        highlighterRenderer.material = canPlace;
+
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            NullSelectedObject();
+
+
+                            if (economyManager.CheckCanAfford(ObjectToPlace.BuyCost))
+                            {
+                                InstantiateNewObject(ObjectToPlace, highlighterPosition, highlighterTransform.rotation, placedOnTile);
+                                ObjectToPlace = null;
+                            }
+                        }
+                    }
+                    else if (placedOnTile.GetTileType() == Tile.TileType.Impassable)
+                    {
+                        highlighterRenderer.material = cantPlace;
+                    }
                 }
-                objectGhost.gameObject.GetComponentInChildren<ObjectGhost>().collidedTiles.Clear();
+                else
+                {
+                    highlighterTransform.gameObject.SetActive(false);
+                }
             }
         }
         ObjectInteraction();
@@ -431,7 +372,6 @@ public class LevelInteraction : MonoBehaviour
                 continue;
             if (closestCol == null)
                 closestCol = hit;
-            
             if (Vector3.Distance(col.transform.position, hit.transform.position) <= Vector3.Distance(col.transform.position, closestCol.transform.position))
                 closestCol = hit;
             tile = closestCol.gameObject.GetComponent<Tile>();
@@ -440,13 +380,11 @@ public class LevelInteraction : MonoBehaviour
     }
     
 
-    private GameObject InstantiateNewObject(PlaceableObject objectToPlace, Vector3 position, Quaternion rotation, Tile objectTile)
+    private void InstantiateNewObject(PlaceableObject objectToPlace, Vector3 position, Quaternion rotation, Tile objectTile)
     {
         GameObject newObject = Instantiate(objectToPlace.gameObject, position, rotation, objectParent);
         levelManager.AddObjectToLists(newObject);
-
-        //pathingGridSetup.UpdateGrid();
-
+        pathingGridSetup.UpdateGrid();
         if (CheckIfMachineOrPlaceable(ObjectToPlace))
             economyManager.OnMachinePurchase(ObjectToPlace as Machine);
         else
@@ -455,12 +393,11 @@ public class LevelInteraction : MonoBehaviour
         newPlaceableObject.PlacedOnTile = objectTile;
         newPlaceableObject.PrefabName = objectToPlace.name;
         objectTile.SetIfPlacedOn(true);
-        return newObject;
     }
 
     private void ObjectInteraction()
     {
-        if (PlacedSelectedObject)
+        if (CurrentSelectedObject)
         {
             if (Input.GetKeyDown(KeyCode.Delete))
             {
@@ -469,34 +406,32 @@ public class LevelInteraction : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.E))
             {
-                PlacedSelectedObject.transform.eulerAngles += new Vector3(0.0f, 90.0f, 0.0f);
+                CurrentSelectedObject.transform.eulerAngles += new Vector3(0.0f, 90.0f, 0.0f);
             }
             else if (Input.GetKeyDown(KeyCode.Q))
             {
-                PlacedSelectedObject.transform.eulerAngles += new Vector3(0.0f, -90.0f, 0.0f);
+                CurrentSelectedObject.transform.eulerAngles += new Vector3(0.0f, -90.0f, 0.0f);
             }
         }
         else
         {
             if (Input.GetKeyDown(KeyCode.E))
             {
-                objectGhost.transform.eulerAngles += new Vector3(0.0f, 90.0f, 0.0f);
+                tileHighlighter.transform.eulerAngles += new Vector3(0.0f, 90.0f, 0.0f);
             }
             else if (Input.GetKeyDown(KeyCode.Q))
             {
-                objectGhost.transform.eulerAngles += new Vector3(0.0f, -90.0f, 0.0f);
+                tileHighlighter.transform.eulerAngles += new Vector3(0.0f, -90.0f, 0.0f);
             }
         }
     }
 
-
-
     public void NullSelectedObject()
     {
-        if (PlacedSelectedObject)
+        if (CurrentSelectedObject)
         {
-            PlacedSelectedObject.Selected = false;
-            PlacedSelectedObject = null;
+            CurrentSelectedObject.Selected = false;
+            CurrentSelectedObject = null;
         }
         if(CurrentSelectedAI)
         {
@@ -521,7 +456,7 @@ public class LevelInteraction : MonoBehaviour
     {
         if (EventSystem.current.IsPointerOverGameObject())
         {
-            objectGhost.SetActive(false);
+            tileHighlighter.SetActive(false);
             return true;
         }
         else
@@ -532,25 +467,22 @@ public class LevelInteraction : MonoBehaviour
 
     public void DestroyCurrentlySelectedObject()
     {
-        foreach (Tile tile in PlacedSelectedObject.GetComponent<PlaceableObject>().OccupiedTiles)
+        CurrentSelectedObject.PlacedOnTile.SetTileType(Tile.TileType.Passable);
+
+        GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>().RemoveObjectFromLists(CurrentSelectedObject.gameObject);
+
+        Destroy(CurrentSelectedObject.gameObject);
+
+        if (CheckIfMachineOrPlaceable(CurrentSelectedObject))
         {
-            tile.SetIfPlacedOn(false);
+            GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().CurrentCash += CurrentSelectedObject.returnAmount();
+        }
+        else if (!CheckIfMachineOrPlaceable(CurrentSelectedObject))
+        {
+            GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().CurrentCash += CurrentSelectedObject.returnAmount();
         }
 
-        GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>().RemoveObjectFromLists(PlacedSelectedObject.gameObject);
-
-        Destroy(PlacedSelectedObject.gameObject);
-
-        if (CheckIfMachineOrPlaceable(PlacedSelectedObject))
-        {
-            GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().CurrentCash += PlacedSelectedObject.returnAmount();
-        }
-        else if (!CheckIfMachineOrPlaceable(PlacedSelectedObject))
-        {
-            GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>().CurrentCash += PlacedSelectedObject.returnAmount();
-        }
-
-        PlacedSelectedObject = null;
+        CurrentSelectedObject = null;
     }
 
     public void ClearObjectParent()
@@ -561,21 +493,13 @@ public class LevelInteraction : MonoBehaviour
         }
     }
 
-
-    public void ReassignObjectGhost(PlaceableObject obj)
+    public void SwitchTileHighlighterMesh(PlaceableObject objectToDrawMeshFrom)
     {
-        foreach (Transform child in objectGhost.transform)
-        {
-            GameObject.Destroy(child.gameObject);
-        }
-        ObjectGhost newGhost = Instantiate(obj.GetGhost().GetComponent<ObjectGhost>());
-        newGhost.transform.SetParent(objectGhost.transform);
-        newGhost.transform.position = objectGhost.transform.position;
-        newGhost.transform.rotation = objectGhost.transform.rotation;
-        newGhost.gameObject.SetActive(true);
+        Mesh newMesh = objectToDrawMeshFrom.GetComponentInChildren<MeshFilter>().sharedMesh;
+        tileHighlighter.GetComponent<MeshFilter>().sharedMesh = newMesh;
     }
 
-    public PlaceableObject PlacedSelectedObject
+    public PlaceableObject CurrentSelectedObject
     {
         get
         {

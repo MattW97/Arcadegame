@@ -1,0 +1,326 @@
+fileFormatVersion: 2
+guid: f11be7b9c31749044acc5c7d819c4d00
+timeCreated: 1516634348
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: Allosaur001
+    100002: Allosaur001LArm1
+    100004: Allosaur001LArm21
+    100006: Allosaur001LArm22
+    100008: Allosaur001LArmCollarbone
+    100010: Allosaur001LArmPalm
+    100012: Allosaur001LLeg1
+    100014: Allosaur001LLeg2
+    100016: Allosaur001LLegPalm
+    100018: Allosaur001LLegPlatform
+    100020: Allosaur001PalmBone001
+    100022: Allosaur001PalmBone001 1
+    100024: Allosaur001Pelvis
+    100026: Allosaur001RArm1
+    100028: Allosaur001RArm21
+    100030: Allosaur001RArm22
+    100032: Allosaur001RArmCollarbone
+    100034: Allosaur001RArmPalm
+    100036: Allosaur001Ribcage
+    100038: Allosaur001RLeg1
+    100040: Allosaur001RLeg2
+    100042: Allosaur001RLegPalm
+    100044: Allosaur001RLegPlatform
+    100046: Allosaur001Spine1
+    100048: Allosaur001Spine2
+    100050: Allosaur001Spine3
+    100052: Allosaur001Spine4
+    100054: Allosaur001Spine5
+    100056: Allosaur001Spine6
+    100058: Allosaur001Spine7
+    100060: AllosaurearL
+    100062: AllosaurearR
+    100064: AllosaureyeL
+    100066: AllosaureyeR
+    100068: Allosaurhead
+    100070: Allosaurmouth
+    100072: Allosaurneck1
+    100074: Allosaurneck2
+    100076: Allosaurtail
+    100078: body
+    100080: Bone001
+    100082: Bone002
+    100084: Box017
+    100086: Cylinder008
+    100088: //RootNode
+    100090: eyes
+    100092: OilTank002
+    100094: shirt
+    100096: shorts
+    100098: t-shirt
+    400000: Allosaur001
+    400002: Allosaur001LArm1
+    400004: Allosaur001LArm21
+    400006: Allosaur001LArm22
+    400008: Allosaur001LArmCollarbone
+    400010: Allosaur001LArmPalm
+    400012: Allosaur001LLeg1
+    400014: Allosaur001LLeg2
+    400016: Allosaur001LLegPalm
+    400018: Allosaur001LLegPlatform
+    400020: Allosaur001PalmBone001
+    400022: Allosaur001PalmBone001 1
+    400024: Allosaur001Pelvis
+    400026: Allosaur001RArm1
+    400028: Allosaur001RArm21
+    400030: Allosaur001RArm22
+    400032: Allosaur001RArmCollarbone
+    400034: Allosaur001RArmPalm
+    400036: Allosaur001Ribcage
+    400038: Allosaur001RLeg1
+    400040: Allosaur001RLeg2
+    400042: Allosaur001RLegPalm
+    400044: Allosaur001RLegPlatform
+    400046: Allosaur001Spine1
+    400048: Allosaur001Spine2
+    400050: Allosaur001Spine3
+    400052: Allosaur001Spine4
+    400054: Allosaur001Spine5
+    400056: Allosaur001Spine6
+    400058: Allosaur001Spine7
+    400060: AllosaurearL
+    400062: AllosaurearR
+    400064: AllosaureyeL
+    400066: AllosaureyeR
+    400068: Allosaurhead
+    400070: Allosaurmouth
+    400072: Allosaurneck1
+    400074: Allosaurneck2
+    400076: Allosaurtail
+    400078: body
+    400080: Bone001
+    400082: Bone002
+    400084: Box017
+    400086: Cylinder008
+    400088: //RootNode
+    400090: eyes
+    400092: OilTank002
+    400094: shirt
+    400096: shorts
+    400098: t-shirt
+    2300000: Box017
+    3300000: Box017
+    4300000: t-shirt
+    4300002: shirt
+    4300004: shorts
+    4300006: eyes
+    4300008: body
+    4300010: Box017
+    4300012: OilTank002
+    4300014: Cylinder008
+    7400000: Take 001
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: body
+    13700002: Cylinder008
+    13700004: eyes
+    13700006: OilTank002
+    13700008: shirt
+    13700010: shorts
+    13700012: t-shirt
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Take 001
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 80
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Allosaur001
+        weight: 1
+      - path: Allosaur001LLegPlatform
+        weight: 1
+      - path: Allosaur001Pelvis
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001LLeg1
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001LLeg1/Allosaur001LLeg2
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001LLeg1/Allosaur001LLeg2/Allosaur001LLegPalm
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001LLeg1/Allosaur001LLeg2/Allosaur001LLegPalm/Allosaur001PalmBone001
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001RLeg1
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001RLeg1/Allosaur001RLeg2
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001RLeg1/Allosaur001RLeg2/Allosaur001RLegPalm
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001RLeg1/Allosaur001RLeg2/Allosaur001RLegPalm/Allosaur001PalmBone001
+          1
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001LArmCollarbone
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001LArmCollarbone/Allosaur001LArm1
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001LArmCollarbone/Allosaur001LArm1/Allosaur001LArm21
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001LArmCollarbone/Allosaur001LArm1/Allosaur001LArm21/Allosaur001LArm22
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001LArmCollarbone/Allosaur001LArm1/Allosaur001LArm21/Allosaur001LArm22/Allosaur001LArmPalm
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001RArmCollarbone
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001RArmCollarbone/Allosaur001RArm1
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001RArmCollarbone/Allosaur001RArm1/Allosaur001RArm21
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001RArmCollarbone/Allosaur001RArm1/Allosaur001RArm21/Allosaur001RArm22
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaur001RArmCollarbone/Allosaur001RArm1/Allosaur001RArm21/Allosaur001RArm22/Allosaur001RArmPalm
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1/Allosaurneck2
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1/Allosaurneck2/Allosaurhead
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1/Allosaurneck2/Allosaurhead/AllosaurearL
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1/Allosaurneck2/Allosaurhead/AllosaurearR
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1/Allosaurneck2/Allosaurhead/AllosaureyeL
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1/Allosaurneck2/Allosaurhead/AllosaureyeR
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaur001Spine1/Allosaur001Spine2/Allosaur001Spine3/Allosaur001Spine4/Allosaur001Spine5/Allosaur001Spine6/Allosaur001Spine7/Allosaur001Ribcage/Allosaurneck1/Allosaurneck2/Allosaurhead/Allosaurmouth
+        weight: 1
+      - path: Allosaur001Pelvis/Allosaurtail
+        weight: 1
+      - path: Allosaur001RLegPlatform
+        weight: 1
+      - path: body
+        weight: 1
+      - path: Bone001
+        weight: 1
+      - path: Bone002
+        weight: 1
+      - path: Box017
+        weight: 1
+      - path: Cylinder008
+        weight: 1
+      - path: eyes
+        weight: 1
+      - path: OilTank002
+        weight: 1
+      - path: shirt
+        weight: 1
+      - path: shorts
+        weight: 1
+      - path: t-shirt
+        weight: 1
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

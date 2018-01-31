@@ -7,12 +7,6 @@ public class LevelManager : MonoBehaviour {
     public enum ArcadeOpeningStatus { Open, Closed }
     private ArcadeOpeningStatus arcadeStatus = ArcadeOpeningStatus.Closed;
 
-    [SerializeField] private float customerSpawnRate, rentCost, startingCash;
-    [SerializeField] private int MAXCUSTOMERS;
-    [SerializeField] private int openingHour, closingHour, preOpeningHour;
-    [SerializeField] private MainDoorController mainDoors;
-    [SerializeField] private CameraController levelCamera;
-
     private List<Machine> allMachineObjects;
     private List<Machine> allGameMachines;
     private List<Machine> allToilets;
@@ -25,6 +19,11 @@ public class LevelManager : MonoBehaviour {
     private PlayerManager _playerLink;
     private CustomerManager customerManager;
     private EconomyManager _economyLink;
+
+    [SerializeField] private float customerSpawnRate, rentCost, startingCash;
+    [SerializeField] private int MAXCUSTOMERS; 
+    [SerializeField] private int openingHour, closingHour, preOpeningHour;
+    [SerializeField] private MainDoorController mainDoors;
 
     private int numOfCustomers;
     private bool openOnce, closedOnce, spawningCustomers, preOpenBool, doorAnimBool;
@@ -45,6 +44,7 @@ public class LevelManager : MonoBehaviour {
         AllToilets = new List<Machine>();
         AllFoodStalls = new List<Machine>();
         AllBrokenMachines = new List<Machine>();
+        
 
         spawningCustomers = false;
     }
@@ -99,7 +99,6 @@ public class LevelManager : MonoBehaviour {
         //open time
         else if (_timeLink.FCurrentHour == openingHour && !openOnce)
         {
-           
             arcadeStatus = ArcadeOpeningStatus.Open;
             mainDoors.OpenDoor();
 
@@ -188,19 +187,104 @@ public class LevelManager : MonoBehaviour {
     }
 
     #region Getters/Setters
+    public float StartingCash
+    {
+        get
+        {
+            return startingCash;
+        }
 
-    public CameraController GetLevelCamera() { return levelCamera;  }
+        set
+        {
+            startingCash = value;
+        }
+    }
+    public float RentCost
+    {
+        get
+        {
+            return rentCost;
+        }
 
-    public float StartingCash { get { return startingCash; } set { startingCash = value; } }
-    public float RentCost { get { return rentCost; } set { rentCost = value; } }
+        set
+        {
+            rentCost = value;
+        }
+    }
+    public List<Machine> AllMachineObjects
+    {
+        get
+        {
+            return allMachineObjects;
+        }
 
-    public List<Machine> AllMachineObjects { get { return allMachineObjects; } set { allMachineObjects = value; } }
-    public List<Machine> AllGameMachines { get { return allGameMachines; } set { allGameMachines = value; } }
-    public List<Machine> AllToilets { get { return allToilets; } set { allToilets = value; } }
-    public List<Machine> AllFoodStalls { get { return allFoodStalls; } set { allFoodStalls = value; } }
-    public List<Machine> AllBrokenMachines { get { return allBrokenMachines; } set { allBrokenMachines = value; } }
+        set
+        {
+            allMachineObjects = value;
+        }
+    }
+    public List<Machine> AllGameMachines
+    {
+        get
+        {
+            return allGameMachines;
+        }
 
-    public int PreOpeningHour { get { return preOpeningHour; } set { preOpeningHour = value; } }
+        set
+        {
+            allGameMachines = value;
+        }
+    }
+    public List<Machine> AllToilets
+    {
+        get
+        {
+            return allToilets;
+        }
+
+        set
+        {
+            allToilets = value;
+        }
+    }
+    public List<Machine> AllFoodStalls
+    {
+        get
+        {
+            return allFoodStalls;
+        }
+
+        set
+        {
+            allFoodStalls = value;
+        }
+    }
+
+    public List<Machine> AllBrokenMachines
+    {
+        get
+        {
+            return allBrokenMachines;
+        }
+
+        set
+        {
+            allBrokenMachines = value;
+        }
+    }
+
+    public int PreOpeningHour
+    {
+        get
+        {
+            return preOpeningHour;
+        }
+
+        set
+        {
+            preOpeningHour = value;
+        }
+    }
 
     #endregion Getters/Setters
 }

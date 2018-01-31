@@ -3,15 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TimeAndCalendar : MonoBehaviour {
+public class TimeAndCalendar : MonoBehaviour
+{
 
     public enum DayNames { Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday }
     public int startHour, startMinute;
     public int startYear, startMonth, startDay;
     public float timeMultiplier;
 
-    [SerializeField] private float speedOption1, speedOption2, speedOption3, speedOption4, speedOption5;
+    [SerializeField]
+    private float speedOption1, speedOption2, speedOption3, speedOption4, speedOption5;
 
+    public Light sun;
+    public Light moon;
+
+    private float sunMinPoint = -0.2f;
+    private float minPoint = -2f;
+
+    private float tRangeSun;
+    private float dotSun;
+    private float sunInt;
+
+    private float tRangeMoon;
+    private float dotMoon;
+    private float moonInt;
 
     public Day starterDay = new Day();
     private List<Day> listOfDays;
@@ -40,7 +55,7 @@ public class TimeAndCalendar : MonoBehaviour {
     private const float ONEHOURLENGTH = 1.0f / 24.0f;
 
     private LevelManager _levelManagerLink;
-    void Start ()
+    void Start()
     {
         fCurrentMinute = 0.0f;
         fCurrentHour = 0.0f;
@@ -63,8 +78,8 @@ public class TimeAndCalendar : MonoBehaviour {
 
 
     // Update is called once per frame
-    void Update () {
-        UpdateSun();
+    void Update()
+    {
         fCurrentTime += (Time.deltaTime / fSecondsInADay) * timeMultiplier;
         fCurrentHour = 24 * fCurrentTime;
         fCurrentMinute = 60 * (fCurrentHour - Mathf.Floor(fCurrentHour));
@@ -74,6 +89,8 @@ public class TimeAndCalendar : MonoBehaviour {
             // next day
         }
         UpdateTime();
+        
+        UpdateSun();
         //Seconds();
     }
 
@@ -81,7 +98,31 @@ public class TimeAndCalendar : MonoBehaviour {
 
     private void UpdateSun()
     {
-        //sun.transform.localRotation = Quaternion.Euler((fCurrentTime * 360) - 270, 170, 0);
+        float sunMinIntensity = 0.3f;
+        float sunMaxIntensity = 1.0f;
+
+        float moonMinIntensity = 0.6f;
+        float moonMaxIntensity = 2.0f;
+
+        if (fCurrentHour > 5 && fCurrentHour < 18)
+        {
+            tRangeSun = 1 - minPoint;
+            dotSun = Mathf.Clamp01((Vector3.Dot(sun.transform.forward, Vector3.down) - minPoint) / tRangeSun);
+            sunInt = ((sunMaxIntensity - sunMinIntensity) * dotSun) + sunMinIntensity;
+
+            sun.intensity = sunInt;           
+
+        }
+        else
+        {
+            print("IVE RUN");
+            tRangeMoon = 1 - minPoint;
+            dotMoon = Mathf.Clamp01((Vector3.Dot(moon.transform.forward, Vector3.down) - minPoint) / tRangeMoon);
+            moonInt = ((moonMaxIntensity - moonMinIntensity) * dotMoon) + moonMinIntensity;
+
+            moon.intensity = moonInt;
+        }
+        sun.transform.localRotation = Quaternion.Euler((fCurrentTime * 360) - 90, 150, 0);
     }
 
     #region Unused
@@ -89,7 +130,11 @@ public class TimeAndCalendar : MonoBehaviour {
     public int GetCurrentTime()
     {
         int time = 0;
-        time = int.Parse(Mathf.FloorToInt(fCurrentHour).ToString() + Mathf.FloorToInt(fCurrentMinute).ToString());
+        int curHour = Mathf.FloorToInt(fCurrentHour);
+        int curMin = Mathf.FloorToInt(fCurrentMinute);
+        time = int.Parse(curHour.ToString() + curMin.ToString());
+
+        //print(time);
         return time;
     }
 
@@ -192,7 +237,7 @@ public class TimeAndCalendar : MonoBehaviour {
     }
 
     public void StartTimerX2()
-    {   
+    {
         StopTimer();
         SetTimeMultiplier(speedOption2);
     }
@@ -260,7 +305,7 @@ public class TimeAndCalendar : MonoBehaviour {
         newYear.yearNumber = yearNumber;
         for (int i = 0; i < 12; i++)
         {
-           newYear.monthsInYear.Add(CreateMonth(monthLengths[i], i, yearNumber));  
+            newYear.monthsInYear.Add(CreateMonth(monthLengths[i], i, yearNumber));
         }
         return newYear;
     }
@@ -289,23 +334,23 @@ public class TimeAndCalendar : MonoBehaviour {
         return newMonth;
     }
 
-/// <summary>
-/// Creates a singular Day.
-/// This is handled by CreateMonth(). Should have no reason to call this method on its own.
-/// @param previousDay - The previous day that has been created. Used to update values of the day each call will create.
-/// @param curMonthSTR - The month this day is attached to as a string. Done this way so we aren't unnecessarily trolling through a list.
-/// @param curDayINT - The day integer this day should be. NOTE: This value has been increased by 1, because the value originally draws from a list which 
-/// obviously starts at 0. As there isn't a "0ist" day, they have been increased by 1.
-/// @param curMonthINT - The month integer this day should belong to. NOTE: Read note above, also applies.
-/// @param curYearINT - The year integer this day should belong to.
-/// @return An instantiation of the Day class that has been created.
-/// </summary>
-/// <param name="previousDay"></param>
-/// <param name="curMonthSTR"></param>
-/// <param name="curDayINT"></param>
-/// <param name="curMonthINT"></param>
-/// <param name="curYearINT"></param>
-/// <returns></returns>
+    /// <summary>
+    /// Creates a singular Day.
+    /// This is handled by CreateMonth(). Should have no reason to call this method on its own.
+    /// @param previousDay - The previous day that has been created. Used to update values of the day each call will create.
+    /// @param curMonthSTR - The month this day is attached to as a string. Done this way so we aren't unnecessarily trolling through a list.
+    /// @param curDayINT - The day integer this day should be. NOTE: This value has been increased by 1, because the value originally draws from a list which 
+    /// obviously starts at 0. As there isn't a "0ist" day, they have been increased by 1.
+    /// @param curMonthINT - The month integer this day should belong to. NOTE: Read note above, also applies.
+    /// @param curYearINT - The year integer this day should belong to.
+    /// @return An instantiation of the Day class that has been created.
+    /// </summary>
+    /// <param name="previousDay"></param>
+    /// <param name="curMonthSTR"></param>
+    /// <param name="curDayINT"></param>
+    /// <param name="curMonthINT"></param>
+    /// <param name="curYearINT"></param>
+    /// <returns></returns>
     private Day CreateDay(Day previousDay, string curMonthSTR, int curDayINT, int curMonthINT, int curYearINT)
     {
         Day newDay = new Day();
@@ -466,7 +511,7 @@ public class TimeAndCalendar : MonoBehaviour {
     {
         get
         {
-            return Mathf.FloorToInt(fCurrentHour);
+            return Mathf.FloorToInt(fCurrentHour); ;
         }
 
         set
@@ -508,7 +553,7 @@ public class Calendar
     private Month currentMonth;
     private Year currentYear;
 
-   public void Start()
+    public void Start()
     {
         calendarYears = new List<Year>();
     }
