@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class ObjectGhost : MonoBehaviour {
 
-    private List<Tile> collidedTiles;
+    public List<Tile> collidedTiles;
     private ObjectManager _objectManagerList;
     [SerializeField] private int numberOfTiles;
+
+    void Awake()
+    {
+        collidedTiles = new List<Tile>();
+    }
 
 	// Use this for initialization
 	void Start () {

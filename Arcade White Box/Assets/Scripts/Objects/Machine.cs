@@ -23,6 +23,21 @@ public class Machine : PlaceableObject {
     public float dailyRevenue, allTimeRevenue, dailyExpenses, allTimeExpenses;
     public int dailyCustomers, allTimeCustomers, noOfBreakdowns;
 
+    void OnEnable()
+    {
+        EventManager.Save += OnSave;
+    }
+
+    void OnDisable()
+    {
+        EventManager.Save -= OnSave;
+    }
+
+    private void OnSave()
+    {
+        GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.machineSaveList.Add(GetMachineSaveable());
+        print("Machine");
+    }
     private void IncreaseFailurePercentage()
     {
         failurePercentage = failurePercentage + failurePercentageIncrease;
@@ -79,7 +94,7 @@ public class Machine : PlaceableObject {
         machineStatus = MachineStatus.Working;
     }
 
-    void Start()
+    protected override void Start()
     {
         baseFailurePercentage = failurePercentage;
         repairIcon.SetActive(false);
@@ -131,6 +146,27 @@ public class Machine : PlaceableObject {
         {
             return false;
         }
+    }
+    public virtual MachineSaveable GetMachineSaveable()
+    {
+        Transform tempTran = this.gameObject.GetComponent<Transform>();
+        MachineSaveable save = new MachineSaveable();
+        save.prefabName = this.PrefabName;
+        //save.tile_ID = tile_ID;
+        save.PosX = tempTran.position.x;
+        save.PosY = tempTran.position.y;
+        save.PosZ = tempTran.position.z;
+        save.RotX = tempTran.rotation.eulerAngles.x;
+        save.RotY = tempTran.rotation.eulerAngles.y;
+        save.RotZ = tempTran.rotation.eulerAngles.z;
+        save.allTimeCustomers = allTimeCustomers;
+        save.allTimeExpenses = allTimeExpenses;
+        save.allTimeRevenue = allTimeRevenue;
+        save.dailyCustomers = dailyCustomers;
+        save.dailyExpenses = dailyExpenses;
+        save.dailyRevenue = dailyRevenue;
+        save.failurePercentage = failurePercentage;
+        return save;
     }
 
     #region Getters/Setters
@@ -231,9 +267,29 @@ public class Machine : PlaceableObject {
         }
     }
 
+    public float FailurePercentage
+    {
+        get
+        {
+            return failurePercentage;
+        }
+
+        set
+        {
+            failurePercentage = value;
+        }
+    }
+
     public Transform GetUsePosition()
     {
         return usePosition;
     }
     #endregion Getters/Setters
+}
+
+[System.Serializable]
+public class MachineSaveable: PlaceableObjectSaveable
+{
+    public float dailyRevenue, allTimeRevenue, dailyExpenses, allTimeExpenses, failurePercentage;
+    public int dailyCustomers, allTimeCustomers, noOfBreakdowns;
 }

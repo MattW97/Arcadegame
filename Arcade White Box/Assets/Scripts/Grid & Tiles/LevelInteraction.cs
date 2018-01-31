@@ -54,7 +54,7 @@ public class LevelInteraction : MonoBehaviour
         CurrentSelectedAI = null;
         ObjectToPlace = null;
 
-        CurrentState = InteractionState.RoomPlacing; 
+        CurrentState = InteractionState.SelectionMode; 
     }
 
     void Start()
@@ -94,11 +94,11 @@ public class LevelInteraction : MonoBehaviour
 
         if(ObjectToPlace)
         {
-            //CurrentState = InteractionState.PlacingMode;
+            CurrentState = InteractionState.PlacingMode;
         }
         else
         {
-            //CurrentState = InteractionState.SelectionMode;
+            CurrentState = InteractionState.SelectionMode;
         }
         
     }
@@ -310,7 +310,11 @@ public class LevelInteraction : MonoBehaviour
             else
             {
                 objectGhost.SetActive(false);
-                objectGhost.gameObject.GetComponentInChildren<ObjectGhost>().ClearAll();
+                foreach (Tile tile in GameManager.Instance.SceneManagerLink.GetComponent<ObjectManager>().AllTiles)
+                {
+                    tile.ToggleHighlighter(false);
+                }
+                objectGhost.gameObject.GetComponentInChildren<ObjectGhost>().collidedTiles.Clear();
             }
         }
         ObjectInteraction();

@@ -108,7 +108,11 @@ public class PlaceableObject : Entity {
 
     private void OnSave()
     {
-        GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.placeableSaveList.Add(GetPlaceableObjectSaveable());
+        if(gameObject.GetComponent<PlaceableObject>())
+        {
+            GameManager.Instance.GetComponent<SaveAndLoadManager>().saveData.placeableSaveList.Add(GetPlaceableObjectSaveable());
+            print("Placeable Object");
+        }
     }
 
     #region Getters/Setters

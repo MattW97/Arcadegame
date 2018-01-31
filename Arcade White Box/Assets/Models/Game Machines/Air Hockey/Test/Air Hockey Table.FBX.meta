@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 084f4f52f6bec9f4d93cfcc98ca596bb
-timeCreated: 1516875795
+guid: d8b2dbebac7294f418be4ce59a2495c7
+timeCreated: 1517309487
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -31,12 +31,13 @@ ModelImporter:
     3300006: Cylinder001
     3300008: Cylinder002
     3300010: Cylinder003
-    4300000: Box002
-    4300002: Box001
-    4300004: Cylinder001
-    4300006: Box003
-    4300008: Cylinder003
-    4300010: Cylinder002
+    4300000: Box003
+    4300002: Cylinder003
+    4300004: Cylinder002
+    4300006: Cylinder001
+    4300008: Box002
+    4300010: Box001
+    7400000: Take 001
     9500000: //RootNode
   materials:
     importMaterials: 1
