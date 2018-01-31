@@ -27,7 +27,7 @@ public class LevelInteraction : MonoBehaviour
     private PlaceableObject objectToPlace;
     private EconomyManager economyManager;
     private LevelManager levelManager;
-    private PathingGridSetup pathingGridSetup;
+    private PathingGraphUpdate pathingGraph;
     private List<GameObject> wallHighlighters;
     private GameObject wallHighligherParent;
     private PlacingObjectInteractionMenuUI placingObject;
@@ -54,14 +54,14 @@ public class LevelInteraction : MonoBehaviour
         CurrentSelectedAI = null;
         ObjectToPlace = null;
 
-        CurrentState = InteractionState.RoomPlacing; 
+        CurrentState = InteractionState.SelectionMode; 
     }
 
     void Start()
     {
         economyManager = GameManager.Instance.SceneManagerLink.GetComponent<EconomyManager>();
         levelManager = GameManager.Instance.ScriptHolderLink.GetComponent<LevelManager>();
-        //pathingGridSetup = GameManager.Instance.PathingGridManagerLink.GetComponent<PathingGridSetup>();
+        pathingGraph = GameManager.Instance.ScriptHolderLink.GetComponent<PathingGraphUpdate>();
         placingObject = GameManager.Instance.ObjectInfoBox.GetComponent<PlacingObjectInteractionMenuUI>();
 
 
@@ -94,11 +94,11 @@ public class LevelInteraction : MonoBehaviour
 
         if(ObjectToPlace)
         {
-            //CurrentState = InteractionState.PlacingMode;
+            CurrentState = InteractionState.PlacingMode;
         }
         else
         {
-            //CurrentState = InteractionState.SelectionMode;
+            CurrentState = InteractionState.SelectionMode;
         }
         
     }
@@ -155,6 +155,7 @@ public class LevelInteraction : MonoBehaviour
                 {
                     currentSelectedObject.Selected = false;
                     NullSelectedObject();
+                    levelManager.GetLevelCamera().SetRotationLock(false);
                 }
             }
             ObjectInteraction();
@@ -224,10 +225,13 @@ public class LevelInteraction : MonoBehaviour
 
     private void PlacingMode()
     {
+        levelManager.GetLevelCamera().SetRotationLock(true);
+
         if (OverUI())
         {
             return;
         }
+
         interactionRay = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(interactionRay, out hitInfo))
         {
@@ -441,7 +445,7 @@ public class LevelInteraction : MonoBehaviour
         GameObject newObject = Instantiate(objectToPlace.gameObject, position, rotation, objectParent);
         levelManager.AddObjectToLists(newObject);
 
-        //pathingGridSetup.UpdateGrid();
+        //pathingGraph.UpdateGrapthBounds(objectToPlace.GetObjectBounds());
 
         if (CheckIfMachineOrPlaceable(ObjectToPlace))
             economyManager.OnMachinePurchase(ObjectToPlace as Machine);
@@ -451,41 +455,23 @@ public class LevelInteraction : MonoBehaviour
         newPlaceableObject.PlacedOnTile = objectTile;
         newPlaceableObject.PrefabName = objectToPlace.name;
         objectTile.SetIfPlacedOn(true);
+
+        levelManager.GetLevelCamera().SetRotationLock(false);
+
         return newObject;
     }
 
     private void ObjectInteraction()
     {
-        if (PlacedSelectedObject)
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            if (Input.GetKeyDown(KeyCode.Delete))
-            {
-                DestroyCurrentlySelectedObject();
-            }
-
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                PlacedSelectedObject.transform.eulerAngles += new Vector3(0.0f, 90.0f, 0.0f);
-            }
-            else if (Input.GetKeyDown(KeyCode.Q))
-            {
-                PlacedSelectedObject.transform.eulerAngles += new Vector3(0.0f, -90.0f, 0.0f);
-            }
+            objectGhost.transform.eulerAngles += new Vector3(0.0f, 90.0f, 0.0f);
         }
-        else
+        else if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                objectGhost.transform.eulerAngles += new Vector3(0.0f, 90.0f, 0.0f);
-            }
-            else if (Input.GetKeyDown(KeyCode.Q))
-            {
-                objectGhost.transform.eulerAngles += new Vector3(0.0f, -90.0f, 0.0f);
-            }
+            objectGhost.transform.eulerAngles += new Vector3(0.0f, -90.0f, 0.0f);
         }
     }
-
-
 
     public void NullSelectedObject()
     {

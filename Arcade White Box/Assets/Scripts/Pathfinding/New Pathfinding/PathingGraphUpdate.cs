@@ -1,19 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Pathfinding;
 using UnityEngine;
 
 public class PathingGraphUpdate : MonoBehaviour
 {   
-    private AstarPath aStarPathing;
+    [SerializeField] private AstarPath aStarPathing;
+    [SerializeField] private Collider box;
 
-    private void Awake()
-    {
-        aStarPathing = GetComponent<AstarPath>();
+    private void Update()
+    {   
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            UpdateGrapthBounds(box.bounds);
+        }
     }
 
     public void UpdateGrapthBounds(Bounds bounds)
     {
-        aStarPathing.UpdateGraphs(bounds);
+        AstarPath.active.UpdateGraphs(bounds);
+        //aStarPathing.Scan();
+        print("UPDATED AT BOUNDS: " + bounds);
     }
 
     public void RescanEntireGraph()

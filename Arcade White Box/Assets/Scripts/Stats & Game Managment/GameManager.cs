@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
     public static GameManager Instance;
 
     [SerializeField] private GameObject sceneManager, gridManager;
-    [SerializeField] Scene mainScene;
+    [SerializeField] private Scene mainScene;
 
     private GameObject sceneManagerLink, pathingGridManagerLink, scriptHolderLink, objectInfoBox;
     private SettingManager settingManager;
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour {
     void OnSceneLoaded(Scene mainScene, LoadSceneMode mode)
     {
         // MAIN SCENE LOADING
-        if (mainScene.name == "Level 2")
+        if (mainScene.name == "Level 3")
         {
             Initialise();
             this.gameObject.GetComponent<SaveAndLoadManager>().Initialise();

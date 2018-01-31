@@ -22,6 +22,7 @@ public class Pather : MonoBehaviour
     public void SetTarget(Transform target)
     {
         aiPath.destination = target.position;
+        aiPath.SearchPath();
     }
     
     public void SetSpeedFactor(float speedFactor)

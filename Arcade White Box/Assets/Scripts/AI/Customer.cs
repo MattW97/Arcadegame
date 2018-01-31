@@ -74,9 +74,8 @@ public class Customer : BaseAI
 
     void Update()
     {
-        this.GetComponent<Animator>().speed = speedFactor;
+        //this.GetComponent<Animator>().speed = speedFactor;
     }
-
 
     public void StatTick()
     {
@@ -101,10 +100,6 @@ public class Customer : BaseAI
         if (currentTarget)
         {
             pather.SetTarget(currentTarget.GetUsePosition());
-
-            //unitController.StopCurrentPathing();
-            //unitController.SetTarget(currentTarget.GetUsePosition());
-            //unitController.GetNewPath();
         }
     }  
 
@@ -127,10 +122,7 @@ public class Customer : BaseAI
         }
 
         pather.SetTarget(spawnLocation);
-
-        //unitController.StopCurrentPathing();
-        //unitController.SetTarget(spawnLocation);
-        //unitController.GetNewPath();
+        currentState = CustomerStates.Leaving;
     }
 
     public void DropTrash()
@@ -202,9 +194,7 @@ public class Customer : BaseAI
     }
 
     public bool ReachedTarget()
-    {
-        //return unitController.ReachedTarget;
-
+    {   
         return pather.ReachedTarget();
     }
 

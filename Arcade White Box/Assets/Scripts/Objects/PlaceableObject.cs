@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlaceableObject : Entity {
 
-    [SerializeField] protected float buyCost; // how much the object costs to buy.
-    [SerializeField] private GameObject selectionMesh; // the mesh that will flash when the player selects this object in the world.
+    [SerializeField] protected float buyCost;               // how much the object costs to buy.
+    [SerializeField] private GameObject selectionMesh;      // the mesh that will flash when the player selects this object in the world.
     [SerializeField] protected int percentReturnedUponSold; //PERCENTAGE amount returned upon being sold back to the manufacturer. 
-    [SerializeField] protected string description; // description of the machine Optional
-    [SerializeField] private GameObject ghost; // Object ghost????????????
-
+    [SerializeField] protected string description;          // description of the machine Optional
+    [SerializeField] private GameObject ghost;              // Object ghost????????????
+    [SerializeField] private BoxCollider objectBounds;      // The object bounds used to update the AI pathing graph.
      
     protected bool selected;
     protected Tile placedOnTile;
@@ -217,6 +217,12 @@ public class PlaceableObject : Entity {
             occupiedTiles = value;
         }
     }
+
+    public Bounds GetObjectBounds()
+    {
+        return objectBounds.bounds;
+    }
+
     #endregion Getters/Setters
 }
 
