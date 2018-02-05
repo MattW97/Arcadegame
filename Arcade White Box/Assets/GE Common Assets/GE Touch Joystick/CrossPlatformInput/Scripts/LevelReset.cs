@@ -1,18 +1,20 @@
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
+using UnityEngine.SceneManagement;  // Unity 5.3 or higher, see http://docs.unity3d.com/Manual/UpgradeGuide53.html and http://docs.unity3d.com/530/Documentation/ScriptReference/SceneManagement.SceneManager.html
 
-public class LevelReset :MonoBehaviour , IPointerClickHandler
+public class LevelReset : MonoBehaviour , IPointerClickHandler
 {
-    public void OnPointerClick(PointerEventData data)
-    {
-        // reload the scene
-        SceneManager.LoadScene(SceneManager.GetSceneAt(0).name);
-    }
 
+	public void OnPointerClick (PointerEventData data) {
 
-    private void Update()
-    {
-    }
+		// Reload the scene
+		// Unity 5.3 or higher uses SceneManager.LoadSceneAsync instead of Application.LoadLevelAsync,
+		// see http://docs.unity3d.com/Manual/UpgradeGuide53.html
+		// and http://docs.unity3d.com/530/Documentation/ScriptReference/SceneManagement.SceneManager.html
+		SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().name);
+	}
+
+	private void Update()
+	{
+	}
 }

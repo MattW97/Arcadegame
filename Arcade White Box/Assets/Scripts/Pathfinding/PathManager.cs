@@ -8,14 +8,14 @@ public class PathManager : MonoBehaviour
 	private bool isProcessingPath;
 	private Queue<PathRequest> pathRequestQueue = new Queue<PathRequest>();
 	private PathRequest currentPathRequest;
-	private Pathfinding pathfinding;
+	private Pathfinding2 pathfinding;
 
 	private static PathManager instance;
 
 	void Start()
 	{
 		instance = this;
-		pathfinding = GetComponent<Pathfinding>();
+		pathfinding = GetComponent<Pathfinding2>();
 	}
 
 	public static void RequestPath(Vector3 pathStart, Vector3 pathEnd, Action<Vector3[], bool> callback) 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System;
 
-public class Pathfinding : MonoBehaviour 
+public class Pathfinding2 : MonoBehaviour 
 {	
 	private PathingGrid grid;
 	private PathManager pathManager;
@@ -79,7 +79,7 @@ public class Pathfinding : MonoBehaviour
 		}
         else
         {
-            print("NO WALKABLE: STARTNODE- " + startNode.GetWalkable() + " TARGET NODE- " + targetNode.GetWalkable());
+            print(gameObject.name + " NO WALKABLE: STARTNODE- " + startNode.GetWalkable() + " TARGET NODE- " + targetNode.GetWalkable());
 
         }
 

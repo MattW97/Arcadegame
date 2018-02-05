@@ -10,7 +10,7 @@ public class GridGeneration : MonoBehaviour
     private List<Tile> gridTiles;
     private PathingGrid pathingGrid;
     private PathManager pathManager;
-    private Pathfinding pathFinding;
+    private Pathfinding2 pathFinding;
     private GameObject tileHolder;
 
     void Start()
@@ -18,7 +18,7 @@ public class GridGeneration : MonoBehaviour
         tileHolder = new GameObject("Grid Tiles");
         pathingGrid = GetComponent<PathingGrid>();
         pathManager = GetComponent<PathManager>();
-        pathFinding = GetComponent<Pathfinding>();
+        pathFinding = GetComponent<Pathfinding2>();
 
         gridTiles = new List<Tile>();
 

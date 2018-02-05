@@ -44,7 +44,7 @@ public class CustomerManager : MonoBehaviour
                 Customer.CustomerStates currentState = customer.GetCurrentCustomerState();
                 Transform customerTransform = customer.GetCustomerTransform();
 
-                customer.SetSpeedFactor(GetSpeedFactor());
+                //customer.SetSpeedFactor(GetSpeedFactor());
                 customer.StatTick();
 
                 if(customer.WantsToLeave() && !customer.IsLeaving())
@@ -152,7 +152,7 @@ public class CustomerManager : MonoBehaviour
 
         foreach (Machine facility in facilities)
         {
-            print(facility.name + facility.IsUsable());
+            //print(facility.name + facility.IsUsable());
 
             if (facility.IsUsable() && !currentCustomer.RepeatTarget(facility))
             {
@@ -163,7 +163,7 @@ public class CustomerManager : MonoBehaviour
         }
 
 
-        print(nearest);
+        //print(nearest);
         return nearest;
     }
 

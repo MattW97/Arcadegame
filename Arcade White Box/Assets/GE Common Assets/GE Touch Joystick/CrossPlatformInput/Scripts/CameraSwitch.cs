@@ -1,31 +1,30 @@
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class CameraSwitch : MonoBehaviour
-{
-    public GameObject[] objects;
-    public Text text;
+public class CameraSwitch : MonoBehaviour {
 
-    private int m_CurrentActiveObject;
+	public GameObject[] objects;
+	private int currentActiveObject;
 
-
-    private void OnEnable()
-    {
-        text.text = objects[m_CurrentActiveObject].name;
-    }
+	public Text text;
 
 
-    public void NextCamera()
-    {
-        int nextactiveobject = m_CurrentActiveObject + 1 >= objects.Length ? 0 : m_CurrentActiveObject + 1;
+	void OnEnable () {
+		text.text = objects[currentActiveObject].name;
+	}
 
-        for (int i = 0; i < objects.Length; i++)
-        {
-            objects[i].SetActive(i == nextactiveobject);
-        }
+	public void NextCamera()
+	{
 
-        m_CurrentActiveObject = nextactiveobject;
-        text.text = objects[m_CurrentActiveObject].name;
-    }
+		int nextactiveobject = currentActiveObject + 1 >= objects.Length ? 0 : currentActiveObject + 1;
+
+		for (int i = 0; i < objects.Length; i++)
+		{
+
+			objects[i].SetActive(i == nextactiveobject);
+		}
+
+		currentActiveObject = nextactiveobject;
+		text.text = objects[currentActiveObject].name;
+	}
 }
