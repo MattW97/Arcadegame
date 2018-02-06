@@ -47,7 +47,6 @@ public class ObjectGhost : MonoBehaviour {
             {
                 tile.ChangeHighlighterColour(0);
             }
-
         }
     }
 
